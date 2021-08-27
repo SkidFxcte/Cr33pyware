@@ -1,4 +1,4 @@
-ackage me.earth.phobos.util;
+package me.alpha432.oyvey.util;
 
 import org.lwjgl.BufferUtils;
 import org.lwjgl.util.glu.GLU;
