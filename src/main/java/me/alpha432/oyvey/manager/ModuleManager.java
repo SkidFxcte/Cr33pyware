@@ -10,6 +10,8 @@ import me.alpha432.oyvey.features.modules.Module;
 import me.alpha432.oyvey.features.modules.client.ClickGui;
 import me.alpha432.oyvey.features.modules.client.FontMod;
 import me.alpha432.oyvey.features.modules.client.HUD;
+import me.alpha432.oyvey.features.modules.client.GUIBlur;
+import me.alpha432.oyvey.features.modules.client.Colors;
 import me.alpha432.oyvey.features.modules.combat.*;
 import me.alpha432.oyvey.features.modules.misc.*;
 import me.alpha432.oyvey.features.modules.movement.*;
