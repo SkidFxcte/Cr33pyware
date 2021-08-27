@@ -18,7 +18,7 @@ import java.util.List;
 public class ModuleButton
         extends Button {
     private final Module module;
-    private final ResourceLocation logo = new ResourceLocation("textures/oyvey.png");
+    private final ResourceLocation logo = new ResourceLocation("textures/gear.png");
     private List<Item> items = new ArrayList<Item>();
     private boolean subOpen;
 
@@ -73,7 +73,7 @@ public class ModuleButton
     public void drawScreen(int mouseX, int mouseY, float partialTicks) {
         super.drawScreen(mouseX, mouseY, partialTicks);
         if (!this.items.isEmpty()) {
-            if (HUD.getInstance().magenDavid.getValue().booleanValue()) {
+            if (HUD.getInstance().fxcte.getValue().booleanValue()) {
                 mc.getTextureManager().bindTexture(this.logo);
                 ModuleButton.drawCompleteImage(this.x - 1.5f + (float) this.width - 7.4f, this.y - 2.2f - (float) OyVeyGui.getClickGui().getTextOffset(), 8, 8);
             }
