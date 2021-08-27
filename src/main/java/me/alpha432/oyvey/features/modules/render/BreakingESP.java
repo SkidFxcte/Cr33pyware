@@ -17,7 +17,7 @@ class BreakingESP
     public Setting< Mode > mode = this.register ( new Setting <> ( "Mode" , Mode.BAR ) );
 
     public
-    BreakESP ( ) {
+    BreakingESP ( ) {
         super ( "BreakingESP" , "Shows block breaking progress" , Module.Category.RENDER , true , false , false );
     }
 
