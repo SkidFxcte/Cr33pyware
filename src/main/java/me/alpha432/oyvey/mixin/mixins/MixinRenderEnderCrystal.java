@@ -1,109 +1,129 @@
 package me.alpha432.oyvey.mixin.mixins;
 
-import me.alpha432.oyvey.features.modules.client.ClickGui;
-import me.alpha432.oyvey.features.modules.render.Wireframe;
-import me.alpha432.oyvey.util.ColorUtil;
+import me.alpha432.oyvey.event.events.RenderEntityModelEvent;
+import me.alpha432.oyvey.features.modules.client.Colors;
+import me.alpha432.oyvey.features.modules.render.CrystalChams;
+import me.alpha432.oyvey.util.EntityUtil;
+import me.alpha432.oyvey.util.RenderUtil;
 import net.minecraft.client.model.ModelBase;
-import net.minecraft.client.model.ModelEnderCrystal;
 import net.minecraft.client.renderer.GlStateManager;
-import net.minecraft.client.renderer.entity.Render;
-import net.minecraft.client.renderer.entity.RenderDragon;
 import net.minecraft.client.renderer.entity.RenderEnderCrystal;
-import net.minecraft.client.renderer.entity.RenderManager;
-import net.minecraft.entity.item.EntityEnderCrystal;
+import net.minecraft.entity.Entity;
 import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.MathHelper;
 import org.lwjgl.opengl.GL11;
+import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
-import org.spongepowered.asm.mixin.Overwrite;
 import org.spongepowered.asm.mixin.Shadow;
+import org.spongepowered.asm.mixin.injection.At;
+import org.spongepowered.asm.mixin.injection.Redirect;
 
-import javax.annotation.Nullable;
+import java.awt.*;
 
-@Mixin({RenderEnderCrystal.class})
-public class MixinRenderEnderCrystal extends Render<EntityEnderCrystal> {
+@Mixin(value = {RenderEnderCrystal.class})
+public
+class MixinRenderEnderCrystal {
+    private static final ResourceLocation glint;
     @Shadow
-    private static final ResourceLocation ENDER_CRYSTAL_TEXTURES = new ResourceLocation("textures/entity/endercrystal/endercrystal.png");
+    @Final
+    private static ResourceLocation ENDER_CRYSTAL_TEXTURES;
 
-    @Shadow
-    private final ModelBase modelEnderCrystal = new ModelEnderCrystal(0.0F, true);
-
-    @Shadow
-    private final ModelBase modelEnderCrystalNoBase = new ModelEnderCrystal(0.0F, false);
-
-    protected MixinRenderEnderCrystal(RenderManager renderManager) {
-        super(renderManager);
+    static {
+        glint = new ResourceLocation ( "textures/glint.png" );
     }
 
-    @Overwrite
-    public void doRender(EntityEnderCrystal entity, double x, double y, double z, float entityYaw, float partialTicks) {
-        float f = entity.innerRotation + partialTicks;
-        GlStateManager.pushMatrix();
-        GlStateManager.translate((float) x, (float) y, (float) z);
-        bindTexture(ENDER_CRYSTAL_TEXTURES);
-        float f1 = MathHelper.sin(f * 0.2F) / 2.0F + 0.5F;
-        f1 += f1 * f1;
-        if (this.renderOutlines) {
-            GlStateManager.enableColorMaterial();
-            GlStateManager.enableOutlineMode(getTeamColor(entity));
+    @Redirect(method = {"doRender"}, at = @At(value = "INVOKE", target = "Lnet/minecraft/client/model/ModelBase;render(Lnet/minecraft/entity/Entity;FFFFFF)V"))
+    public
+    void renderModelBaseHook ( ModelBase model , Entity entity , float limbSwing , float limbSwingAmount , float ageInTicks , float netHeadYaw , float headPitch , float scale ) {
+        if ( CrystalChams.INSTANCE.isEnabled ( ) ) {
+            if ( CrystalChams.INSTANCE.animateScale.getValue ( ) && CrystalChams.INSTANCE.scaleMap.containsKey ( entity ) ) {
+                GlStateManager.scale ( CrystalChams.INSTANCE.scaleMap.get ( entity ) , CrystalChams.INSTANCE.scaleMap.get ( entity ) , CrystalChams.INSTANCE.scaleMap.get ( entity ) );
+            } else {
+                GlStateManager.scale ( CrystalChams.INSTANCE.scale.getValue ( ) , CrystalChams.INSTANCE.scale.getValue ( ) , CrystalChams.INSTANCE.scale.getValue ( ) );
+            }
         }
-        if (Wireframe.getINSTANCE().isOn() && (Wireframe.getINSTANCE()).crystals.getValue().booleanValue()) {
-            float red = (ClickGui.getInstance()).red.getValue().intValue() / 255.0F;
-            float green = (ClickGui.getInstance()).green.getValue().intValue() / 255.0F;
-            float blue = (ClickGui.getInstance()).blue.getValue().intValue() / 255.0F;
-            if ((Wireframe.getINSTANCE()).cMode.getValue().equals(Wireframe.RenderMode.WIREFRAME) && (Wireframe.getINSTANCE()).crystalModel.getValue().booleanValue())
-                this.modelEnderCrystalNoBase.render(entity, 0.0F, f * 3.0F, f1 * 0.2F, 0.0F, 0.0F, 0.0625F);
-            GlStateManager.pushMatrix();
-            GL11.glPushAttrib(1048575);
-            if ((Wireframe.getINSTANCE()).cMode.getValue().equals(Wireframe.RenderMode.WIREFRAME))
-                GL11.glPolygonMode(1032, 6913);
-            GL11.glDisable(3553);
-            GL11.glDisable(2896);
-            if ((Wireframe.getINSTANCE()).cMode.getValue().equals(Wireframe.RenderMode.WIREFRAME))
-                GL11.glEnable(2848);
-            GL11.glEnable(3042);
-            GL11.glBlendFunc(770, 771);
-            GL11.glDisable(2929);
-            GL11.glDepthMask(false);
-            GL11.glColor4f((ClickGui.getInstance()).rainbow.getValue().booleanValue() ? (ColorUtil.rainbow((ClickGui.getInstance()).rainbowHue.getValue().intValue()).getRed() / 255.0F) : red, (ClickGui.getInstance()).rainbow.getValue().booleanValue() ? (ColorUtil.rainbow((ClickGui.getInstance()).rainbowHue.getValue().intValue()).getGreen() / 255.0F) : green, (ClickGui.getInstance()).rainbow.getValue().booleanValue() ? (ColorUtil.rainbow((ClickGui.getInstance()).rainbowHue.getValue().intValue()).getBlue() / 255.0F) : blue, (Wireframe.getINSTANCE()).cAlpha.getValue().floatValue() / 255.0F);
-            if ((Wireframe.getINSTANCE()).cMode.getValue().equals(Wireframe.RenderMode.WIREFRAME))
-                GL11.glLineWidth((Wireframe.getINSTANCE()).crystalLineWidth.getValue().floatValue());
-            this.modelEnderCrystalNoBase.render(entity, 0.0F, f * 3.0F, f1 * 0.2F, 0.0F, 0.0F, 0.0625F);
-            GL11.glDisable(2896);
-            GL11.glEnable(2929);
-            GL11.glDepthMask(true);
-            GL11.glColor4f((ClickGui.getInstance()).rainbow.getValue().booleanValue() ? (ColorUtil.rainbow((ClickGui.getInstance()).rainbowHue.getValue().intValue()).getRed() / 255.0F) : red, (ClickGui.getInstance()).rainbow.getValue().booleanValue() ? (ColorUtil.rainbow((ClickGui.getInstance()).rainbowHue.getValue().intValue()).getGreen() / 255.0F) : green, (ClickGui.getInstance()).rainbow.getValue().booleanValue() ? (ColorUtil.rainbow((ClickGui.getInstance()).rainbowHue.getValue().intValue()).getBlue() / 255.0F) : blue, (Wireframe.getINSTANCE()).cAlpha.getValue().floatValue() / 255.0F);
-            if ((Wireframe.getINSTANCE()).cMode.getValue().equals(Wireframe.RenderMode.WIREFRAME))
-                GL11.glLineWidth((Wireframe.getINSTANCE()).crystalLineWidth.getValue().floatValue());
-            this.modelEnderCrystalNoBase.render(entity, 0.0F, f * 3.0F, f1 * 0.2F, 0.0F, 0.0F, 0.0625F);
-            GlStateManager.enableDepth();
-            GlStateManager.popAttrib();
-            GlStateManager.popMatrix();
+        if ( CrystalChams.INSTANCE.isEnabled ( ) && CrystalChams.INSTANCE.wireframe.getValue ( ) ) {
+            RenderEntityModelEvent event = new RenderEntityModelEvent ( 0 , model , entity , limbSwing , limbSwingAmount , ageInTicks , netHeadYaw , headPitch , scale );
+            CrystalChams.INSTANCE.onRenderModel ( event );
+        }
+        if ( CrystalChams.INSTANCE.isEnabled ( ) && CrystalChams.INSTANCE.chams.getValue ( ) ) {
+            GL11.glPushAttrib ( 1048575 );
+            GL11.glDisable ( 3008 );
+            GL11.glDisable ( 3553 );
+            GL11.glDisable ( 2896 );
+            GL11.glEnable ( 3042 );
+            GL11.glBlendFunc ( 770 , 771 );
+            GL11.glLineWidth ( 1.5f );
+            GL11.glEnable ( 2960 );
+            if ( CrystalChams.INSTANCE.rainbow.getValue ( ) ) {
+                Color rainbowColor1 = CrystalChams.INSTANCE.colorSync.getValue ( ) ? Colors.INSTANCE.getCurrentColor ( ) : new Color ( RenderUtil.getRainbow ( CrystalChams.INSTANCE.speed.getValue ( ) * 100 , 0 , (float) CrystalChams.INSTANCE.saturation.getValue ( ) / 100.0f , (float) CrystalChams.INSTANCE.brightness.getValue ( ) / 100.0f ) );
+                Color rainbowColor = EntityUtil.getColor ( entity , rainbowColor1.getRed ( ) , rainbowColor1.getGreen ( ) , rainbowColor1.getBlue ( ) , CrystalChams.INSTANCE.alpha.getValue ( ) , true );
+                if ( CrystalChams.INSTANCE.throughWalls.getValue ( ) ) {
+                    GL11.glDisable ( 2929 );
+                    GL11.glDepthMask ( false );
+                }
+                GL11.glEnable ( 10754 );
+                GL11.glColor4f ( (float) rainbowColor.getRed ( ) / 255.0f , (float) rainbowColor.getGreen ( ) / 255.0f , (float) rainbowColor.getBlue ( ) / 255.0f , (float) CrystalChams.INSTANCE.alpha.getValue ( ) / 255.0f );
+                model.render ( entity , limbSwing , limbSwingAmount , ageInTicks , netHeadYaw , headPitch , scale );
+                if ( CrystalChams.INSTANCE.throughWalls.getValue ( ) ) {
+                    GL11.glEnable ( 2929 );
+                    GL11.glDepthMask ( true );
+                }
+            } else if ( CrystalChams.INSTANCE.xqz.getValue ( ) && CrystalChams.INSTANCE.throughWalls.getValue ( ) ) {
+                Color visibleColor;
+                Color hiddenColor = CrystalChams.INSTANCE.colorSync.getValue ( ) ? EntityUtil.getColor ( entity , CrystalChams.INSTANCE.hiddenRed.getValue ( ) , CrystalChams.INSTANCE.hiddenGreen.getValue ( ) , CrystalChams.INSTANCE.hiddenBlue.getValue ( ) , CrystalChams.INSTANCE.hiddenAlpha.getValue ( ) , true ) : EntityUtil.getColor ( entity , CrystalChams.INSTANCE.hiddenRed.getValue ( ) , CrystalChams.INSTANCE.hiddenGreen.getValue ( ) , CrystalChams.INSTANCE.hiddenBlue.getValue ( ) , CrystalChams.INSTANCE.hiddenAlpha.getValue ( ) , true );
+                Color color = visibleColor = CrystalChams.INSTANCE.colorSync.getValue ( ) ? EntityUtil.getColor ( entity , CrystalChams.INSTANCE.red.getValue ( ) , CrystalChams.INSTANCE.green.getValue ( ) , CrystalChams.INSTANCE.blue.getValue ( ) , CrystalChams.INSTANCE.alpha.getValue ( ) , true ) : EntityUtil.getColor ( entity , CrystalChams.INSTANCE.red.getValue ( ) , CrystalChams.INSTANCE.green.getValue ( ) , CrystalChams.INSTANCE.blue.getValue ( ) , CrystalChams.INSTANCE.alpha.getValue ( ) , true );
+                if ( CrystalChams.INSTANCE.throughWalls.getValue ( ) ) {
+                    GL11.glDisable ( 2929 );
+                    GL11.glDepthMask ( false );
+                }
+                GL11.glEnable ( 10754 );
+                GL11.glColor4f ( (float) hiddenColor.getRed ( ) / 255.0f , (float) hiddenColor.getGreen ( ) / 255.0f , (float) hiddenColor.getBlue ( ) / 255.0f , (float) CrystalChams.INSTANCE.alpha.getValue ( ) / 255.0f );
+                model.render ( entity , limbSwing , limbSwingAmount , ageInTicks , netHeadYaw , headPitch , scale );
+                if ( CrystalChams.INSTANCE.throughWalls.getValue ( ) ) {
+                    GL11.glEnable ( 2929 );
+                    GL11.glDepthMask ( true );
+                }
+                GL11.glColor4f ( (float) visibleColor.getRed ( ) / 255.0f , (float) visibleColor.getGreen ( ) / 255.0f , (float) visibleColor.getBlue ( ) / 255.0f , (float) CrystalChams.INSTANCE.alpha.getValue ( ) / 255.0f );
+                model.render ( entity , limbSwing , limbSwingAmount , ageInTicks , netHeadYaw , headPitch , scale );
+            } else {
+                Color visibleColor;
+                Color color = visibleColor = CrystalChams.INSTANCE.colorSync.getValue ( ) ? Colors.INSTANCE.getCurrentColor ( ) : EntityUtil.getColor ( entity , CrystalChams.INSTANCE.red.getValue ( ) , CrystalChams.INSTANCE.green.getValue ( ) , CrystalChams.INSTANCE.blue.getValue ( ) , CrystalChams.INSTANCE.alpha.getValue ( ) , true );
+                if ( CrystalChams.INSTANCE.throughWalls.getValue ( ) ) {
+                    GL11.glDisable ( 2929 );
+                    GL11.glDepthMask ( false );
+                }
+                GL11.glEnable ( 10754 );
+                GL11.glColor4f ( (float) visibleColor.getRed ( ) / 255.0f , (float) visibleColor.getGreen ( ) / 255.0f , (float) visibleColor.getBlue ( ) / 255.0f , (float) CrystalChams.INSTANCE.alpha.getValue ( ) / 255.0f );
+                model.render ( entity , limbSwing , limbSwingAmount , ageInTicks , netHeadYaw , headPitch , scale );
+                if ( CrystalChams.INSTANCE.throughWalls.getValue ( ) ) {
+                    GL11.glEnable ( 2929 );
+                    GL11.glDepthMask ( true );
+                }
+            }
+            GL11.glEnable ( 3042 );
+            GL11.glEnable ( 2896 );
+            GL11.glEnable ( 3553 );
+            GL11.glEnable ( 3008 );
+            GL11.glPopAttrib ( );
+            if ( CrystalChams.INSTANCE.glint.getValue ( ) ) {
+                GL11.glDisable ( 2929 );
+                GL11.glDepthMask ( false );
+                GlStateManager.enableAlpha ( );
+                GlStateManager.color ( 1.0f , 0.0f , 0.0f , 0.13f );
+                model.render ( entity , limbSwing , limbSwingAmount , ageInTicks , netHeadYaw , headPitch , scale );
+                GlStateManager.disableAlpha ( );
+                GL11.glEnable ( 2929 );
+                GL11.glDepthMask ( true );
+            }
         } else {
-            this.modelEnderCrystalNoBase.render(entity, 0.0F, f * 3.0F, f1 * 0.2F, 0.0F, 0.0F, 0.0625F);
+            model.render ( entity , limbSwing , limbSwingAmount , ageInTicks , netHeadYaw , headPitch , scale );
         }
-        if (this.renderOutlines) {
-            GlStateManager.disableOutlineMode();
-            GlStateManager.disableColorMaterial();
+        if ( CrystalChams.INSTANCE.isEnabled ( ) ) {
+            if ( CrystalChams.INSTANCE.animateScale.getValue ( ) && CrystalChams.INSTANCE.scaleMap.containsKey ( entity ) ) {
+                GlStateManager.scale ( 1.0f / CrystalChams.INSTANCE.scaleMap.get ( entity ) , 1.0f / CrystalChams.INSTANCE.scaleMap.get ( entity ) , 1.0f / CrystalChams.INSTANCE.scaleMap.get ( entity ) );
+            } else {
+                GlStateManager.scale ( 1.0f / CrystalChams.INSTANCE.scale.getValue ( ) , 1.0f / CrystalChams.INSTANCE.scale.getValue ( ) , 1.0f / CrystalChams.INSTANCE.scale.getValue ( ) );
+            }
         }
-        GlStateManager.popMatrix();
-        BlockPos blockpos = entity.getBeamTarget();
-        if (blockpos != null) {
-            bindTexture(RenderDragon.ENDERCRYSTAL_BEAM_TEXTURES);
-            float f2 = blockpos.getX() + 0.5F;
-            float f3 = blockpos.getY() + 0.5F;
-            float f4 = blockpos.getZ() + 0.5F;
-            double d0 = f2 - entity.posX;
-            double d1 = f3 - entity.posY;
-            double d2 = f4 - entity.posZ;
-            RenderDragon.renderCrystalBeams(x + d0, y - 0.3D + (f1 * 0.4F) + d1, z + d2, partialTicks, f2, f3, f4, entity.innerRotation, entity.posX, entity.posY, entity.posZ);
-        }
-        super.doRender(entity, x, y, z, entityYaw, partialTicks);
-    }
-
-    @Nullable
-    protected ResourceLocation getEntityTexture(EntityEnderCrystal entityEnderCrystal) {
-        return null;
     }
 }
