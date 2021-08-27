@@ -100,7 +100,7 @@ public class ModuleManager
         this.modules.add(new ArrowESP());
         this.modules.add(new Aspect());
         this.modules.add(new BlockHighlight());
-        this.modules.add(new BreakESP());
+        this.modules.add(new BreakingESP());
         this.modules.add(new BurrowESP());
         this.modules.add(new Chams());
         this.modules.add(new CrystalChams());
