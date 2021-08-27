@@ -123,7 +123,7 @@ public class OyVey {
 
     @Mod.EventHandler
     public void init(FMLInitializationEvent event) {
-        Display.setTitle("Creepyware 0.1.2");
+        Display.setTitle("Creepyware | 0.1.2");
         OyVey.load();
     }
 }
