@@ -1,98 +1,103 @@
 package me.alpha432.oyvey.mixin.mixins;
 
-import com.google.common.base.Predicate;
-import java.util.ArrayList;
-import java.util.List;
-import javax.annotation.Nullable;
-import me.alpha432.oyvey.features.modules.player.Speedmine;
+import me.alpha432.oyvey.event.events.PerspectiveEvent;
+import me.alpha432.oyvey.features.Feature;
 import me.alpha432.oyvey.features.modules.render.NoRender;
-import net.minecraft.block.state.IBlockState;
+import me.alpha432.oyvey.features.modules.render.SmallShield;
+import me.alpha432.oyvey.features.modules.render.ViewModel;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.entity.EntityPlayerSP;
-import net.minecraft.client.multiplayer.WorldClient;
-import net.minecraft.client.renderer.ActiveRenderInfo;
-import net.minecraft.client.renderer.EntityRenderer;
-import net.minecraft.entity.Entity;
-import net.minecraft.init.Blocks;
-import net.minecraft.init.Items;
-import net.minecraft.item.ItemPickaxe;
+import net.minecraft.client.entity.AbstractClientPlayer;
+import net.minecraft.client.renderer.GlStateManager;
+import net.minecraft.client.renderer.ItemRenderer;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.math.AxisAlignedBB;
-import net.minecraft.world.World;
+import net.minecraft.util.EnumHand;
+import net.minecraftforge.common.MinecraftForge;
+import org.lwjgl.util.glu.Project;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
-import org.spongepowered.asm.mixin.injection.ModifyVariable;
 import org.spongepowered.asm.mixin.injection.Redirect;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
-@Mixin(value={EntityRenderer.class})
-public abstract class MixinEntityRenderer {
-    private boolean injection = true;
+@Mixin(value={ItemRenderer.class})
+public abstract class MixinItemRenderer {
+
     @Shadow
-    public ItemStack itemActivationItem;
-    @Shadow
+    public abstract void renderItemInFirstPerson(AbstractClientPlayer var1, float var2, float var3, EnumHand var4, float var5, ItemStack var6, float var7);
     @Final
     public Minecraft mc;
+    private boolean injection = true;
+    @Inject(method = {"renderItemInFirstPerson(Lnet/minecraft/client/entity/AbstractClientPlayer;FFLnet/minecraft/util/EnumHand;FLnet/minecraft/item/ItemStack;F)V"}, at = {@At(value = "HEAD")}, cancellable = true)
+    public void renderItemInFirstPersonHook(AbstractClientPlayer player, float p_187457_2_, float p_187457_3_, EnumHand hand, float p_187457_5_, ItemStack stack, float p_187457_7_, CallbackInfo info) {
+        if (this.injection) {
+            info.cancel();
+            SmallShield offset = SmallShield.getINSTANCE();
+            float xOffset = 0.0f;
+            float yOffset = 0.0f;
+            this.injection = false;
+            if (hand == EnumHand.MAIN_HAND) {
+                if (offset.isOn() && player.getHeldItemMainhand() != ItemStack.EMPTY) {
+                    xOffset = offset.mainX.getValue();
+                    yOffset = offset.mainY.getValue();
+                }
+            } else if (!offset.normalOffset.getValue() && offset.isOn() && player.getHeldItemOffhand() != ItemStack.EMPTY) {
+                xOffset = offset.offX.getValue();
+                yOffset = offset.offY.getValue();
+            }
+            this.renderItemInFirstPerson(player, p_187457_2_, p_187457_3_, hand, p_187457_5_ + xOffset, stack, p_187457_7_ + yOffset);
+            this.injection = true;
+        }
+        if (ViewModel.getINSTANCE().enabled.getValue() && Minecraft.getMinecraft().gameSettings.thirdPersonView == 0 && !Feature.fullNullCheck()) {
+            GlStateManager.scale(ViewModel.getINSTANCE().sizeX.getValue(), ViewModel.getINSTANCE().sizeY.getValue(), ViewModel.getINSTANCE().sizeZ.getValue());
+            GlStateManager.rotate(ViewModel.getINSTANCE().rotationX.getValue() * 360.0f, 1.0f, 0.0f, 0.0f);
+            GlStateManager.rotate(ViewModel.getINSTANCE().rotationY.getValue() * 360.0f, 0.0f, 1.0f, 0.0f);
+            GlStateManager.rotate(ViewModel.getINSTANCE().rotationZ.getValue() * 360.0f, 0.0f, 0.0f, 1.0f);
+            GlStateManager.translate(ViewModel.getINSTANCE().positionX.getValue(), ViewModel.getINSTANCE().positionY.getValue(), ViewModel.getINSTANCE().positionZ.getValue());
+        }
+    }
 
-    @Shadow
-    public abstract void getMouseOver(float var1);
+    @Redirect(method = {"renderArmFirstPerson"}, at = @At(value = "INVOKE", target = "Lnet/minecraft/client/renderer/GlStateManager;translate(FFF)V", ordinal = 0))
+    public void translateHook(float x, float y, float z) {
+        SmallShield offset = SmallShield.getINSTANCE();
+        boolean shiftPos = Minecraft.getMinecraft().player != null && Minecraft.getMinecraft().player.getHeldItemMainhand() != ItemStack.EMPTY && offset.isOn();
+        GlStateManager.translate((float) (x + (shiftPos ? offset.mainX.getValue().floatValue() : 0.0f)), (float) (y + (shiftPos ? offset.mainY.getValue().floatValue() : 0.0f)), (float) z);
+    }
 
-    @Inject(method={"renderItemActivation"}, at={@At(value="HEAD")}, cancellable=true)
-    public void renderItemActivationHook(CallbackInfo info) {
-        if (this.itemActivationItem != null && NoRender.getInstance().isOn() && NoRender.getInstance().totemPops.getValue().booleanValue() && this.itemActivationItem.getItem() == Items.TOTEM_OF_UNDYING) {
+
+    @Redirect(method = {"setupCameraTransform"}, at = @At(value = "INVOKE", target = "Lorg/lwjgl/util/glu/Project;gluPerspective(FFFF)V"))
+    private void onSetupCameraTransform(float f, float f2, float f3, float f4) {
+        PerspectiveEvent perspectiveEvent = new PerspectiveEvent((float) mc.displayWidth / (float) mc.displayHeight);
+        MinecraftForge.EVENT_BUS.post(perspectiveEvent);
+        Project.gluPerspective(f, perspectiveEvent.getAspect(), f3, f4);
+    }
+
+    @Redirect(method = {"renderWorldPass"}, at = @At(value = "INVOKE", target = "Lorg/lwjgl/util/glu/Project;gluPerspective(FFFF)V"))
+    private void onRenderWorldPass(float f, float f2, float f3, float f4) {
+        PerspectiveEvent perspectiveEvent = new PerspectiveEvent((float) mc.displayWidth / (float) mc.displayHeight);
+        MinecraftForge.EVENT_BUS.post(perspectiveEvent);
+        Project.gluPerspective(f, perspectiveEvent.getAspect(), f3, f4);
+    }
+
+    @Redirect(method = {"renderCloudsCheck"}, at = @At(value = "INVOKE", target = "Lorg/lwjgl/util/glu/Project;gluPerspective(FFFF)V"))
+    private void onRenderCloudsCheck(float f, float f2, float f3, float f4) {
+        PerspectiveEvent perspectiveEvent = new PerspectiveEvent((float) mc.displayWidth / (float) mc.displayHeight);
+        MinecraftForge.EVENT_BUS.post(perspectiveEvent);
+        Project.gluPerspective(f, perspectiveEvent.getAspect(), f3, f4);
+    }
+
+    @Inject(method = {"renderFireInFirstPerson"}, at = {@At(value = "HEAD")}, cancellable = true)
+    public void renderFireInFirstPersonHook(CallbackInfo info) {
+        if (NoRender.getInstance().isOn() && NoRender.getInstance().fire.getValue().booleanValue()) {
             info.cancel();
         }
     }
 
-    @Inject(method={"updateLightmap"}, at={@At(value="HEAD")}, cancellable=true)
-    private void updateLightmap(float partialTicks, CallbackInfo info) {
-        if (NoRender.getInstance().isOn() && (NoRender.getInstance().skylight.getValue() == NoRender.Skylight.ENTITY || NoRender.getInstance().skylight.getValue() == NoRender.Skylight.ALL)) {
-            info.cancel();
+    @Inject(method = {"renderSuffocationOverlay"}, at = {@At(value = "HEAD")}, cancellable = true)
+    public void renderSuffocationOverlay(CallbackInfo ci) {
+        if (NoRender.getInstance().isOn() && NoRender.getInstance().blocks.getValue().booleanValue()) {
+            ci.cancel();
         }
-    }
-
-    @Redirect(method={"setupCameraTransform"}, at=@At(value="FIELD", target="Lnet/minecraft/client/entity/EntityPlayerSP;prevTimeInPortal:F"))
-    public float prevTimeInPortalHook(EntityPlayerSP entityPlayerSP) {
-        if (NoRender.getInstance().isOn() && NoRender.getInstance().nausea.getValue().booleanValue()) {
-            return -3.4028235E38f;
-        }
-        return entityPlayerSP.prevTimeInPortal;
-    }
-
-    @Inject(method={"setupFog"}, at={@At(value="HEAD")}, cancellable=true)
-    public void setupFogHook(int startCoords, float partialTicks, CallbackInfo info) {
-        if (NoRender.getInstance().isOn() && NoRender.getInstance().fog.getValue() == NoRender.Fog.NOFOG) {
-            info.cancel();
-        }
-    }
-
-    @Redirect(method={"setupFog"}, at=@At(value="INVOKE", target="Lnet/minecraft/client/renderer/ActiveRenderInfo;getBlockStateAtEntityViewpoint(Lnet/minecraft/world/World;Lnet/minecraft/entity/Entity;F)Lnet/minecraft/block/state/IBlockState;"))
-    public IBlockState getBlockStateAtEntityViewpointHook(World worldIn, Entity entityIn, float p_186703_2_) {
-        if (NoRender.getInstance().isOn() && NoRender.getInstance().fog.getValue() == NoRender.Fog.AIR) {
-            return Blocks.AIR.defaultBlockState;
-        }
-        return ActiveRenderInfo.getBlockStateAtEntityViewpoint((World)worldIn, (Entity)entityIn, (float)p_186703_2_);
-    }
-
-    @Inject(method={"hurtCameraEffect"}, at={@At(value="HEAD")}, cancellable=true)
-    public void hurtCameraEffectHook(float ticks, CallbackInfo info) {
-        if (NoRender.getInstance().isOn() && NoRender.getInstance().hurtcam.getValue().booleanValue()) {
-            info.cancel();
-        }
-    }
-
-    @Redirect(method={"getMouseOver"}, at=@At(value="INVOKE", target="Lnet/minecraft/client/multiplayer/WorldClient;getEntitiesInAABBexcluding(Lnet/minecraft/entity/Entity;Lnet/minecraft/util/math/AxisAlignedBB;Lcom/google/common/base/Predicate;)Ljava/util/List;"))
-    public List<Entity> getEntitiesInAABBexcludingHook(WorldClient worldClient, @Nullable Entity entityIn, AxisAlignedBB boundingBox, @Nullable Predicate<? super Entity> predicate) {
-        if (Speedmine.getInstance().isOn() && Speedmine.getInstance().noTrace.getValue().booleanValue() && (!Speedmine.getInstance().pickaxe.getValue().booleanValue() || this.mc.player.getHeldItemMainhand().getItem() instanceof ItemPickaxe)) {
-            return new ArrayList<Entity>();
-        }
-        if (Speedmine.getInstance().isOn() && Speedmine.getInstance().noTrace.getValue().booleanValue() && Speedmine.getInstance().noGapTrace.getValue().booleanValue() && this.mc.player.getHeldItemMainhand().getItem() == Items.GOLDEN_APPLE) {
-            return new ArrayList<Entity>();
-        }
-        return worldClient.getEntitiesInAABBexcluding(entityIn, boundingBox, predicate);
     }
 }
-
