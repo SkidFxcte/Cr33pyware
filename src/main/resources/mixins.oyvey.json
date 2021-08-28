@@ -16,8 +16,10 @@
     "MixinModelPlayer",
     "MixinNetworkManager",
     "MixinPlayerControllerMP",
+    "MixinRender",
     "MixinRenderEnderCrystal",
     "MixinRenderLivingBase",
+    "MixinRenderPlayer",
     "MixinWorld"
   ]
 }
