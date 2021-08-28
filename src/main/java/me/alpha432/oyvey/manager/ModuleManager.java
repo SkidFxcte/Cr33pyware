@@ -98,6 +98,7 @@ public class ModuleManager
         this.modules.add(new TimerSpeed());
         this.modules.add(new TpsSync());
         this.modules.add(new Velocity());
+        this.modules.add(new EntityNotifier());
         //render
         this.modules.add(new ArrowESP());
         this.modules.add(new Aspect());
