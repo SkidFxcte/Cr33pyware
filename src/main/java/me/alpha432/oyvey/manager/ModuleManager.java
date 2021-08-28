@@ -118,6 +118,7 @@ public class ModuleManager
         this.modules.add(new SkyColor());
         this.modules.add(new SmallShield());
         this.modules.add(new Trajectories());
+        this.modules.add(new Trails());
         this.modules.add(new ViewModel());
     }
 
