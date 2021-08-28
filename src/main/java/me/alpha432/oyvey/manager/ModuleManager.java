@@ -104,6 +104,7 @@ public class ModuleManager
         this.modules.add(new EntityControl());
         this.modules.add(new BowSpam());
         this.modules.add(new CrystalAura());
+        this.modules.add(new EntityNotifier());
     }
 
     public Module getModuleByName(String name) {
