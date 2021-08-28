@@ -111,6 +111,7 @@ public class ModuleManager
         this.modules.add(new FullBright());
         this.modules.add(new HandChams());
         this.modules.add(new HoleESP());
+        this.modules.add(new NameTags());
         this.modules.add(new NoRender());
         this.modules.add(new OffhandSwing());
         this.modules.add(new PenisESP());
