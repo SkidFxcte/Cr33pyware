@@ -22,6 +22,7 @@ public class OyVey {
     public static HoleManager holeManager;
     public static InventoryManager inventoryManager;
     public static TimerManager timerManager;
+    public static TotemPopManager totemPopManager;
     public static PotionManager potionManager;
     public static RotationManager rotationManager;
     public static PositionManager positionManager;
@@ -58,6 +59,7 @@ public class OyVey {
         potionManager = new PotionManager();
         inventoryManager = new InventoryManager();
         timerManager = new TimerManager();
+        totemPopManager = new TotemPopManager();
         serverManager = new ServerManager();
         fileManager = new FileManager();
         colorManager = new ColorManager();
@@ -98,6 +100,7 @@ public class OyVey {
         moduleManager = null;
         textManager = null;
         timerManager = null;
+        totemPopManager = null;
         LOGGER.info("Creepyware unloaded!\n");
     }
 
