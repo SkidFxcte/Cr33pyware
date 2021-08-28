@@ -74,5 +74,28 @@ public abstract class MixinItemRenderer {
             ci.cancel();
         }
     }
+    @Redirect(method = {"setupCameraTransform"}, at = @At(value = "INVOKE", target = "Lorg/lwjgl/util/glu/Project;gluPerspective(FFFF)V"))
+    private
+    void onSetupCameraTransform ( float f , float f2 , float f3 , float f4 ) {
+        PerspectiveEvent perspectiveEvent = new PerspectiveEvent ( (float) mc.displayWidth / (float) mc.displayHeight );
+        MinecraftForge.EVENT_BUS.post ( perspectiveEvent );
+        Project.gluPerspective ( f , perspectiveEvent.getAspect ( ) , f3 , f4 );
+    }
+
+    @Redirect(method = {"renderWorldPass"}, at = @At(value = "INVOKE", target = "Lorg/lwjgl/util/glu/Project;gluPerspective(FFFF)V"))
+    private
+    void onRenderWorldPass ( float f , float f2 , float f3 , float f4 ) {
+        PerspectiveEvent perspectiveEvent = new PerspectiveEvent ( (float) mc.displayWidth / (float) mc.displayHeight );
+        MinecraftForge.EVENT_BUS.post ( perspectiveEvent );
+        Project.gluPerspective ( f , perspectiveEvent.getAspect ( ) , f3 , f4 );
+    }
+
+    @Redirect(method = {"renderCloudsCheck"}, at = @At(value = "INVOKE", target = "Lorg/lwjgl/util/glu/Project;gluPerspective(FFFF)V"))
+    private
+    void onRenderCloudsCheck ( float f , float f2 , float f3 , float f4 ) {
+        PerspectiveEvent perspectiveEvent = new PerspectiveEvent ( (float) mc.displayWidth / (float) mc.displayHeight );
+        MinecraftForge.EVENT_BUS.post ( perspectiveEvent );
+        Project.gluPerspective ( f , perspectiveEvent.getAspect ( ) , f3 , f4 );
+    }
 }
 

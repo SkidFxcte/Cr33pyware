@@ -926,6 +926,10 @@ public class RenderUtil
         EXTFramebufferObject.glFramebufferRenderbufferEXT(36160, 36128, 36161, stencilDepthBufferID);
         EXTFramebufferObject.glFramebufferRenderbufferEXT(36160, 36096, 36161, stencilDepthBufferID);
     }
+    public static int getRainbow ( int speed , int offset , float s , float b ) {
+        float hue = ( System.currentTimeMillis ( ) + (long) offset ) % (long) speed;
+        return Color.getHSBColor ( hue /= (float) speed , s , b ).getRGB ( );
+    }
 
     public static final class GeometryMasks {
         public static final HashMap FACEMAP = new HashMap();
