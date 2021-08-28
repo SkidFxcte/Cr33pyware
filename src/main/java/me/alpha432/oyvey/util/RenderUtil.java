@@ -1197,5 +1197,11 @@ public class RenderUtil
             RenderTesselator.drawBox(INSTANCE.getBuffer(), blockPos.getX(), blockPos.getY(), blockPos.getZ(), 1.0f, 0.5f, 1.0f, r, g, b, a, sides);
         }
     }
+    public static
+    void rotationHelper ( float xAngle , float yAngle , float zAngle ) {
+        GlStateManager.rotate ( yAngle , 0.0f , 1.0f , 0.0f );
+        GlStateManager.rotate ( zAngle , 0.0f , 0.0f , 1.0f );
+        GlStateManager.rotate ( xAngle , 1.0f , 0.0f , 0.0f );
+    }
 }
 
