@@ -1,7 +1,7 @@
 {
   "required": true,
   "compatibilityLevel": "JAVA_8",
-  "package": "me.alpha432.oyvey.mixin.mixins",
+  "package": "dev.fxcte.creepyware.mixin.mixins",
   "refmap": "mixins.oyvey.refmap.json",
   "mixins": [
     "MixinBlockLiquid",
