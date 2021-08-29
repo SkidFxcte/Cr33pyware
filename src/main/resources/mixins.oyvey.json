@@ -14,7 +14,6 @@
     "MixinGuiScreen",
     "MixinItemRenderer",
     "MixinMinecraft",
-    "MixinModelPlayer",
     "MixinNetworkManager",
     "MixinPlayerControllerMP",
     "MixinRender",
