@@ -1,6 +1,6 @@
-package dev.fxcte.creepyware;
+package me.alpha432.oyvey;
 
-import dev.fxcte.creepyware.manager.*;
+import me.alpha432.oyvey.manager.*;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
@@ -9,7 +9,7 @@ import org.apache.logging.log4j.Logger;
 import org.lwjgl.opengl.Display;
 
 @Mod(modid = "creepyware", name = "Creepyware", version = "b0.1.2")
-public class CreepyWare {
+public class OyVey {
     public static final String MODID = "creepyware";
     public static final String MODNAME = "Creepyware";
     public static final String MODVER = "b0.1.2";
@@ -21,6 +21,8 @@ public class CreepyWare {
     public static ColorManager colorManager;
     public static HoleManager holeManager;
     public static InventoryManager inventoryManager;
+    public static TimerManager timerManager;
+    public static TotemPopManager totemPopManager;
     public static PotionManager potionManager;
     public static RotationManager rotationManager;
     public static PositionManager positionManager;
@@ -32,7 +34,7 @@ public class CreepyWare {
     public static EventManager eventManager;
     public static TextManager textManager;
     @Mod.Instance
-    public static CreepyWare INSTANCE;
+    public static OyVey INSTANCE;
     private static boolean unloaded;
 
     static {
@@ -56,6 +58,8 @@ public class CreepyWare {
         speedManager = new SpeedManager();
         potionManager = new PotionManager();
         inventoryManager = new InventoryManager();
+        timerManager = new TimerManager();
+        totemPopManager = new TotemPopManager();
         serverManager = new ServerManager();
         fileManager = new FileManager();
         colorManager = new ColorManager();
@@ -79,7 +83,7 @@ public class CreepyWare {
             reloadManager = new ReloadManager();
             reloadManager.init(commandManager != null ? commandManager.getPrefix() : ".");
         }
-        CreepyWare.onUnload();
+        OyVey.onUnload();
         eventManager = null;
         friendManager = null;
         speedManager = null;
@@ -95,19 +99,21 @@ public class CreepyWare {
         inventoryManager = null;
         moduleManager = null;
         textManager = null;
+        timerManager = null;
+        totemPopManager = null;
         LOGGER.info("Creepyware unloaded!\n");
     }
 
     public static void reload() {
-        CreepyWare.unload(false);
-        CreepyWare.load();
+        OyVey.unload(false);
+        OyVey.load();
     }
 
     public static void onUnload() {
         if (!unloaded) {
             eventManager.onUnload();
             moduleManager.onUnload();
-            configManager.saveConfig(CreepyWare.configManager.config.replaceFirst("creepyware/", ""));
+            configManager.saveConfig(OyVey.configManager.config.replaceFirst("creepyware/", ""));
             moduleManager.onUnloadPost();
             unloaded = true;
         }
@@ -121,6 +127,7 @@ public class CreepyWare {
     @Mod.EventHandler
     public void init(FMLInitializationEvent event) {
         Display.setTitle("Creepyware | 0.1.2");
-        CreepyWare.load();
+        OyVey.load();
     }
 }
+

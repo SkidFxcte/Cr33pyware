@@ -39,6 +39,11 @@ public class DamageUtil
     public static int getItemDamage(ItemStack stack) {
         return stack.getMaxDamage() - stack.getItemDamage();
     }
+    public static
+    boolean hasDurability ( ItemStack stack ) {
+        Item item = stack.getItem ( );
+        return item instanceof ItemArmor || item instanceof ItemSword || item instanceof ItemTool || item instanceof ItemShield;
+    }
 
     public static boolean canTakeDamage(boolean suicide) {
         return !DamageUtil.mc.player.capabilities.isCreativeMode && !suicide;

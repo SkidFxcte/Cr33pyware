@@ -1,11 +1,13 @@
-package dev.fxcte.creepyware.mixin.mixins;
+package me.alpha432.oyvey.mixin.mixins;
 
 import com.google.common.base.Predicate;
 import java.util.ArrayList;
 import java.util.List;
 import javax.annotation.Nullable;
-import dev.fxcte.creepyware.features.modules.player.Speedmine;
-import dev.fxcte.creepyware.features.modules.render.NoRender;
+
+import me.alpha432.oyvey.event.events.PerspectiveEvent;
+import me.alpha432.oyvey.features.modules.player.Speedmine;
+import me.alpha432.oyvey.features.modules.render.NoRender;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.EntityPlayerSP;
@@ -19,6 +21,8 @@ import net.minecraft.item.ItemPickaxe;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.world.World;
+import net.minecraftforge.common.MinecraftForge;
+import org.lwjgl.util.glu.Project;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -82,6 +86,27 @@ public abstract class MixinEntityRenderer {
             info.cancel();
         }
     }
+    @Redirect(method = {"setupCameraTransform"}, at = @At(value = "INVOKE", target = "Lorg/lwjgl/util/glu/Project;gluPerspective(FFFF)V"))
+    private void onSetupCameraTransform(float f, float f2, float f3, float f4) {
+        PerspectiveEvent perspectiveEvent = new PerspectiveEvent((float) mc.displayWidth / (float) mc.displayHeight);
+        MinecraftForge.EVENT_BUS.post(perspectiveEvent);
+        Project.gluPerspective(f, perspectiveEvent.getAspect(), f3, f4);
+    }
+
+    @Redirect(method = {"renderWorldPass"}, at = @At(value = "INVOKE", target = "Lorg/lwjgl/util/glu/Project;gluPerspective(FFFF)V"))
+    private void onRenderWorldPass(float f, float f2, float f3, float f4) {
+        PerspectiveEvent perspectiveEvent = new PerspectiveEvent((float) mc.displayWidth / (float) mc.displayHeight);
+        MinecraftForge.EVENT_BUS.post(perspectiveEvent);
+        Project.gluPerspective(f, perspectiveEvent.getAspect(), f3, f4);
+    }
+
+    @Redirect(method = {"renderCloudsCheck"}, at = @At(value = "INVOKE", target = "Lorg/lwjgl/util/glu/Project;gluPerspective(FFFF)V"))
+    private void onRenderCloudsCheck(float f, float f2, float f3, float f4) {
+        PerspectiveEvent perspectiveEvent = new PerspectiveEvent((float) mc.displayWidth / (float) mc.displayHeight);
+        MinecraftForge.EVENT_BUS.post(perspectiveEvent);
+        Project.gluPerspective(f, perspectiveEvent.getAspect(), f3, f4);
+    }
+
     @Redirect(method={"getMouseOver"}, at=@At(value="INVOKE", target="Lnet/minecraft/client/multiplayer/WorldClient;getEntitiesInAABBexcluding(Lnet/minecraft/entity/Entity;Lnet/minecraft/util/math/AxisAlignedBB;Lcom/google/common/base/Predicate;)Ljava/util/List;"))
     public List<Entity> getEntitiesInAABBexcludingHook(WorldClient worldClient, @Nullable Entity entityIn, AxisAlignedBB boundingBox, @Nullable Predicate<? super Entity> predicate) {
         if (Speedmine.getInstance().isOn() && Speedmine.getInstance().noTrace.getValue().booleanValue() && (!Speedmine.getInstance().pickaxe.getValue().booleanValue() || this.mc.player.getHeldItemMainhand().getItem() instanceof ItemPickaxe)) {
@@ -92,6 +117,5 @@ public abstract class MixinEntityRenderer {
         }
         return worldClient.getEntitiesInAABBexcluding(entityIn, boundingBox, predicate);
     }
-
 }
 
