@@ -2,7 +2,6 @@ package dev.fxcte.creepyware.features.modules.render;
 
 import dev.fxcte.creepyware.event.events.PacketEvent;
 import dev.fxcte.creepyware.event.events.RenderEntityModelEvent;
-import dev.fxcte.creepyware.features.Feature;
 import dev.fxcte.creepyware.features.modules.Module;
 import dev.fxcte.creepyware.features.modules.client.ClientColors;
 import dev.fxcte.creepyware.features.setting.Setting;
@@ -22,32 +21,33 @@ public
 class CrystalChams
         extends Module {
     public static CrystalChams INSTANCE;
-    public Setting<Boolean> animateScale = this.register(new Setting<>("AnimateScale", false));
-    public Setting<Boolean> chams = this.register(new Setting<>("Chams", false));
-    public Setting<Boolean> throughWalls = this.register(new Setting<>("ThroughWalls", true));
-    public Setting<Boolean> wireframeThroughWalls = this.register(new Setting<>("WireThroughWalls", true));
-    public Setting<Boolean> glint = this.register(new Setting<Object>("Glint", Boolean.FALSE, v -> this.chams.getValue()));
-    public Setting<Boolean> wireframe = this.register(new Setting<>("Wireframe", false));
-    public Setting<Float> scale = this.register(new Setting<>("Scale", 1.0f, 0.1f, 10.0f));
-    public Setting<Float> lineWidth = this.register(new Setting<>("LineWidth", 1.0f, 0.1f, 3.0f));
-    public Setting<Boolean> colorSync = this.register(new Setting<>("Sync", false));
-    public Setting<Boolean> rainbow = this.register(new Setting<>("Rainbow", false));
-    public Setting<Integer> saturation = this.register(new Setting<Object>("Saturation", 50, 0, 100, v -> this.rainbow.getValue()));
-    public Setting<Integer> brightness = this.register(new Setting<Object>("Brightness", 100, 0, 100, v -> this.rainbow.getValue()));
-    public Setting<Integer> speed = this.register(new Setting<Object>("Speed", 40, 1, 100, v -> this.rainbow.getValue()));
-    public Setting<Boolean> xqz = this.register(new Setting<Object>("XQZ", Boolean.FALSE, v -> !this.rainbow.getValue() && this.throughWalls.getValue()));
-    public Setting<Integer> red = this.register(new Setting<Object>("Red", 0, 0, 255, v -> !this.rainbow.getValue()));
-    public Setting<Integer> green = this.register(new Setting<Object>("Green", 255, 0, 255, v -> !this.rainbow.getValue()));
-    public Setting<Integer> blue = this.register(new Setting<Object>("Blue", 0, 0, 255, v -> !this.rainbow.getValue()));
-    public Setting<Integer> alpha = this.register(new Setting<>("Alpha", 255, 0, 255));
-    public Setting<Integer> hiddenRed = this.register(new Setting<Object>("Hidden Red", 255, 0, 255, v -> this.xqz.getValue() && !this.rainbow.getValue()));
-    public Setting<Integer> hiddenGreen = this.register(new Setting<Object>("Hidden Green", 0, 0, 255, v -> this.xqz.getValue() && !this.rainbow.getValue()));
-    public Setting<Integer> hiddenBlue = this.register(new Setting<Object>("Hidden Blue", 255, 0, 255, v -> this.xqz.getValue() && !this.rainbow.getValue()));
-    public Setting<Integer> hiddenAlpha = this.register(new Setting<Object>("Hidden Alpha", 255, 0, 255, v -> this.xqz.getValue() && !this.rainbow.getValue()));
-    public Map<EntityEnderCrystal, Float> scaleMap = new ConcurrentHashMap<>();
+    public Setting< Boolean > animateScale = this.register ( new Setting <> ( "AnimateScale" , false ) );
+    public Setting < Boolean > chams = this.register ( new Setting <> ( "Chams" , false ) );
+    public Setting < Boolean > throughWalls = this.register ( new Setting <> ( "ThroughWalls" , true ) );
+    public Setting < Boolean > wireframeThroughWalls = this.register ( new Setting <> ( "WireThroughWalls" , true ) );
+    public Setting < Boolean > glint = this.register ( new Setting < Object > ( "Glint" , Boolean.FALSE , v -> this.chams.getValue ( ) ) );
+    public Setting < Boolean > wireframe = this.register ( new Setting <> ( "Wireframe" , false ) );
+    public Setting < Float > scale = this.register ( new Setting <> ( "Scale" , 1.0f , 0.1f , 10.0f ) );
+    public Setting < Float > lineWidth = this.register ( new Setting <> ( "LineWidth" , 1.0f , 0.1f , 3.0f ) );
+    public Setting < Boolean > colorSync = this.register ( new Setting <> ( "Sync" , false ) );
+    public Setting < Boolean > rainbow = this.register ( new Setting <> ( "Rainbow" , false ) );
+    public Setting < Integer > saturation = this.register ( new Setting < Object > ( "Saturation" , 50 , 0 , 100 , v -> this.rainbow.getValue ( ) ) );
+    public Setting < Integer > brightness = this.register ( new Setting < Object > ( "Brightness" , 100 , 0 , 100 , v -> this.rainbow.getValue ( ) ) );
+    public Setting < Integer > speed = this.register ( new Setting < Object > ( "Speed" , 40 , 1 , 100 , v -> this.rainbow.getValue ( ) ) );
+    public Setting < Boolean > xqz = this.register ( new Setting < Object > ( "XQZ" , Boolean.FALSE , v -> ! this.rainbow.getValue ( ) && this.throughWalls.getValue ( ) ) );
+    public Setting < Integer > red = this.register ( new Setting < Object > ( "Red" , 0 , 0 , 255 , v -> ! this.rainbow.getValue ( ) ) );
+    public Setting < Integer > green = this.register ( new Setting < Object > ( "Green" , 255 , 0 , 255 , v -> ! this.rainbow.getValue ( ) ) );
+    public Setting < Integer > blue = this.register ( new Setting < Object > ( "Blue" , 0 , 0 , 255 , v -> ! this.rainbow.getValue ( ) ) );
+    public Setting < Integer > alpha = this.register ( new Setting <> ( "Alpha" , 255 , 0 , 255 ) );
+    public Setting < Integer > hiddenRed = this.register ( new Setting < Object > ( "Hidden Red" , 255 , 0 , 255 , v -> this.xqz.getValue ( ) && ! this.rainbow.getValue ( ) ) );
+    public Setting < Integer > hiddenGreen = this.register ( new Setting < Object > ( "Hidden Green" , 0 , 0 , 255 , v -> this.xqz.getValue ( ) && ! this.rainbow.getValue ( ) ) );
+    public Setting < Integer > hiddenBlue = this.register ( new Setting < Object > ( "Hidden Blue" , 255 , 0 , 255 , v -> this.xqz.getValue ( ) && ! this.rainbow.getValue ( ) ) );
+    public Setting < Integer > hiddenAlpha = this.register ( new Setting < Object > ( "Hidden Alpha" , 255 , 0 , 255 , v -> this.xqz.getValue ( ) && ! this.rainbow.getValue ( ) ) );
+    public Map < EntityEnderCrystal, Float > scaleMap = new ConcurrentHashMap <> ( );
 
-    public CrystalChams() {
-        super("CrystalChams", "Modifies crystal rendering in different ways", Module.Category.RENDER, true, false, false);
+    public
+    CrystalChams ( ) {
+        super ( "CrystalChams" , "Modifies crystal rendering in different ways" , Module.Category.RENDER , true , false , false );
         INSTANCE = this;
     }
 

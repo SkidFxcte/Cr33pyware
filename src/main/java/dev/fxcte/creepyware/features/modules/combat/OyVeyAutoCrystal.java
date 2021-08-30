@@ -41,6 +41,7 @@ import java.util.stream.Collectors;
 
 public class OyVeyAutoCrystal
         extends Module {
+    public static EntityPlayer target = null;
     private final Timer placeTimer = new Timer();
     private final Timer breakTimer = new Timer();
     private final Timer preditTimer = new Timer();
@@ -87,7 +88,6 @@ public class OyVeyAutoCrystal
     private final Setting<Integer> cBlue = this.register(new Setting<Object>("OL-Blue", Integer.valueOf(255), Integer.valueOf(0), Integer.valueOf(255), v -> this.outline.getValue()));
     private final Setting<Integer> cAlpha = this.register(new Setting<Object>("OL-Alpha", Integer.valueOf(255), Integer.valueOf(0), Integer.valueOf(255), v -> this.outline.getValue()));
     EntityEnderCrystal crystal;
-    private EntityLivingBase target;
     private BlockPos pos;
     private int hotBarSlot;
     private boolean armor;
@@ -103,7 +103,7 @@ public class OyVeyAutoCrystal
     private boolean rotating = false;
 
     public OyVeyAutoCrystal() {
-        super("AutoCrystal", "BASED CA - CREEPY", Module.Category.COMBAT, true, false, false);
+        super("OyVeyAutoCrystal", "skitty ac best ac", Module.Category.COMBAT, true, false, false);
     }
 
     public static List<BlockPos> getSphere(BlockPos loc, float r, int h, boolean hollow, boolean sphere, int plus_y) {

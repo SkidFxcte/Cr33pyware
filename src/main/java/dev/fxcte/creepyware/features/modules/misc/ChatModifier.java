@@ -1,22 +1,33 @@
 package dev.fxcte.creepyware.features.modules.misc;
 
-import dev.fxcte.creepyware.CreepyWare;
 import dev.fxcte.creepyware.event.events.PacketEvent;
+import dev.fxcte.creepyware.features.command.Command;
 import dev.fxcte.creepyware.features.modules.Module;
 import dev.fxcte.creepyware.features.setting.Setting;
+import dev.fxcte.creepyware.util.Timer;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.network.play.client.CPacketChatMessage;
+import net.minecraft.util.math.Vec3i;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
 public class ChatModifier
         extends Module {
+    public Setting<Suffix> suffix = this.register(new Setting<Suffix>("Suffix", Suffix.NONE, "Your Suffix."));
+    public Setting<Boolean> clean = this.register(new Setting<Boolean>("CleanChat", Boolean.valueOf(false), "Cleans your chat"));
+    public Setting<Boolean> infinite = this.register(new Setting<Boolean>("Infinite", Boolean.valueOf(false), "Makes your chat infinite."));
+    public Setting<Boolean> autoQMain = this.register(new Setting<Boolean>("AutoQMain", Boolean.valueOf(false), "Spams AutoQMain"));
+    public Setting<Boolean> qNotification = this.register(new Setting<Object>("QNotification", Boolean.valueOf(false), v -> this.autoQMain.getValue()));
+    public Setting<Integer> qDelay = this.register(new Setting<Object>("QDelay", Integer.valueOf(9), Integer.valueOf(1), Integer.valueOf(90), v -> this.autoQMain.getValue()));
+    private final Timer timer = new Timer();
     private static ChatModifier INSTANCE = new ChatModifier();
-    public Setting<Boolean> clean = this.register(new Setting<Boolean>("NoChatBackground", Boolean.valueOf(false), "Cleans your chat"));
-    public Setting<Boolean> infinite = this.register(new Setting<Boolean>("InfiniteChat", Boolean.valueOf(false), "Makes your chat infinite."));
-    public boolean check;
 
     public ChatModifier() {
-        super("BetterChat", "Modifies your chat", Module.Category.MISC, true, false, false);
+        super("ChatModifier", "Modifies your chat", Module.Category.MISC, true, false, false);
         this.setInstance();
+    }
+
+    private void setInstance() {
+        INSTANCE = this;
     }
 
     public static ChatModifier getInstance() {
@@ -26,16 +37,60 @@ public class ChatModifier
         return INSTANCE;
     }
 
-    private void setInstance() {
-        INSTANCE = this;
+    @Override
+    public void onUpdate() {
+        if (this.autoQMain.getValue().booleanValue()) {
+            if (!this.shouldSendMessage((EntityPlayer)ChatModifier.mc.player)) {
+                return;
+            }
+            if (this.qNotification.getValue().booleanValue()) {
+                Command.sendMessage("<AutoQueueMain> Sending message: /queue main");
+            }
+            ChatModifier.mc.player.sendChatMessage("/queue main");
+            this.timer.reset();
+        }
     }
 
     @SubscribeEvent
     public void onPacketSend(PacketEvent.Send event) {
-        if (event.getPacket() instanceof CPacketChatMessage) {
-            String s = ((CPacketChatMessage) event.getPacket()).getMessage();
-            this.check = !s.startsWith(CreepyWare.commandManager.getPrefix());
+        if (event.getStage() == 0 && event.getPacket() instanceof CPacketChatMessage) {
+            CPacketChatMessage packet = (CPacketChatMessage)event.getPacket();
+            String s = packet.getMessage();
+            if (s.startsWith("/")) {
+                return;
+            }
+            switch (this.suffix.getValue()) {
+                case CREEPYWARE: {
+                    s = s + " 》CREEPYWARE";
+                    break;
+                }
+            }
+            if (s.length() >= 256) {
+                s = s.substring(0, 256);
+            }
+            packet.message = s;
         }
     }
-}
 
+
+
+
+
+
+
+    private boolean shouldSendMessage(EntityPlayer player) {
+        if (player.dimension != 1) {
+            return false;
+        }
+        if (!this.timer.passedS(this.qDelay.getValue().intValue())) {
+            return false;
+        }
+        return player.getPosition().equals((Object)new Vec3i(0, 240, 0));
+    }
+
+    public static enum Suffix {
+        NONE,
+        CREEPYWARE
+
+    }
+}

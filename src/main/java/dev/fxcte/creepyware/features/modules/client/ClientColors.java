@@ -26,7 +26,7 @@ class ClientColors
 
     public
     ClientColors ( ) {
-        super ( "Colors" , "Universal ClientColors." , Module.Category.CLIENT , true , false , true );
+        super ( "ClientColors" , "Universal ClientColors." , Module.Category.CLIENT , true , false , true );
         INSTANCE = this;
     }
 

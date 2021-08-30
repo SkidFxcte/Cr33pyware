@@ -195,12 +195,6 @@ public class MathUtil
         BlockPos pos2 = new BlockPos(vec3d2.x, vec3d1.y, vec3d2.z);
         return pos1.equals(pos2);
     }
-    public static
-    float[] calcAngleNoY ( Vec3d from , Vec3d to ) {
-        double difX = to.x - from.x;
-        double difZ = to.z - from.z;
-        return new float[]{(float) MathHelper.wrapDegrees ( Math.toDegrees ( Math.atan2 ( difZ , difX ) ) - 90.0 )};
-    }
 
     public static float[] calcAngle(Vec3d from, Vec3d to) {
         double difX = to.x - from.x;

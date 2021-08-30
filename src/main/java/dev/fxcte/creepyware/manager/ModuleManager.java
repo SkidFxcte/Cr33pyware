@@ -1,28 +1,22 @@
-package me.alpha432.oyvey.manager;
+package dev.fxcte.creepyware.manager;
 
 import com.mojang.realmsclient.gui.ChatFormatting;
-import me.alpha432.oyvey.OyVey;
-import me.alpha432.oyvey.event.events.Render2DEvent;
-import me.alpha432.oyvey.event.events.Render3DEvent;
-import me.alpha432.oyvey.features.Feature;
-import me.alpha432.oyvey.features.gui.OyVeyGui;
-import me.alpha432.oyvey.features.modules.Module;
-import me.alpha432.oyvey.features.modules.client.ClickGui;
-import me.alpha432.oyvey.features.modules.client.FontMod;
-import me.alpha432.oyvey.features.modules.client.HUD;
-import me.alpha432.oyvey.features.modules.client.GUIBlur;
-import me.alpha432.oyvey.features.modules.client.Colors;
-import me.alpha432.oyvey.features.modules.combat.*;
-import me.alpha432.oyvey.features.modules.misc.*;
-import me.alpha432.oyvey.features.modules.movement.*;
-import me.alpha432.oyvey.features.modules.player.*;
-import me.alpha432.oyvey.features.modules.render.*;
-import me.alpha432.oyvey.util.Util;
-import me.alpha432.oyvey.features.modules.movement.Speed;
+import dev.fxcte.creepyware.CreepyWare;
+import dev.fxcte.creepyware.event.events.Render2DEvent;
+import dev.fxcte.creepyware.event.events.Render3DEvent;
+import dev.fxcte.creepyware.features.Feature;
+import dev.fxcte.creepyware.features.gui.CreepyWareGui;
+import dev.fxcte.creepyware.features.modules.Module;
+import dev.fxcte.creepyware.features.modules.client.*;
+import dev.fxcte.creepyware.features.modules.combat.*;
+import dev.fxcte.creepyware.features.modules.misc.*;
+import dev.fxcte.creepyware.features.modules.movement.*;
+import dev.fxcte.creepyware.features.modules.player.*;
+import dev.fxcte.creepyware.features.modules.render.*;
+import dev.fxcte.creepyware.util.Util;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.eventhandler.EventBus;
 import org.lwjgl.input.Keyboard;
-import scala.reflect.internal.Phase;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -43,31 +37,28 @@ public class ModuleManager
     public void init() {
         //client
         this.modules.add(new ClickGui ());
-        this.modules.add(new Colors());
+        this.modules.add(new ClientColors());
         this.modules.add(new FontMod ());
         this.modules.add(new HUD ());
-        this.modules.add(new GUIBlur ());
+        this.modules.add(new GUIBlur());
         this.modules.add(new RPC ());
         //combat
         this.modules.add(new AutoArmor ());
-        this.modules.add(new AutoCrystal ());
-        this.modules.add(new AutoMinecart ());
+        this.modules.add(new OyVeyAutoCrystal ());
         this.modules.add(new AutoTrap ());
-        this.modules.add(new BowSpam());
-        this.modules.add(new Burrow ());
         this.modules.add(new Criticals ());
-        this.modules.add(new CrystalAura());
         this.modules.add(new HoleFiller ());
         this.modules.add(new Killaura ());
         this.modules.add(new Offhand ());
         this.modules.add(new Selftrap ());
         this.modules.add(new Surround ());
+        this.modules.add(new Burrow());
+        this.modules.add(new BowAim());
+        this.modules.add(new BowSpam());
         //misc
         this.modules.add(new AutoGG ());
         this.modules.add(new ChatModifier ());
-        this.modules.add(new ChatSuffix ());
         this.modules.add(new ExtraTab ());
-        this.modules.add(new GreenText ());
         this.modules.add(new MCF ());
         this.modules.add(new NoHandShake ());
         this.modules.add(new NoHitBox ());
@@ -75,52 +66,47 @@ public class ModuleManager
         this.modules.add(new PopCounter ());
         this.modules.add(new ToolTips ());
         this.modules.add(new Tracker ());
-        //movement
-        this.modules.add(new ElytraFlight());
-        this.modules.add(new EntityControl());
-        this.modules.add(new NoSlow());
+        this.modules.add(new KuroSexDupe());
+        //movement;
         this.modules.add(new NoVoid());
         this.modules.add(new PacketFly());
         this.modules.add(new ReverseStep());
         this.modules.add(new Scaffold());
         this.modules.add(new Speed());
-        this.modules.add(new Sprint());
         this.modules.add(new Step());
+        this.modules.add(new NoSlow());
+        this.modules.add(new Sprint());
+        this.modules.add(new Strafe());
+        this.modules.add(new Anchor());
         //player
         this.modules.add(new FakePlayer());
         this.modules.add(new FastPlace());
-        this.modules.add(new Freecam());
         this.modules.add(new LiquidInteract());
         this.modules.add(new MCP());
         this.modules.add(new MultiTask());
         this.modules.add(new Replenish());
         this.modules.add(new Speedmine());
-        this.modules.add(new TimerSpeed());
         this.modules.add(new TpsSync());
+        this.modules.add(new Freecam());
         this.modules.add(new Velocity());
         this.modules.add(new EntityNotifier());
+        this.modules.add(new SilentXP());
+        this.modules.add(new NoEntityTrace());
         //render
-        this.modules.add(new ArrowESP());
-        this.modules.add(new Aspect());
         this.modules.add(new BlockHighlight());
-        this.modules.add(new BreakingESP());
-        this.modules.add(new BurrowESP());
-        this.modules.add(new Chams());
         this.modules.add(new CrystalChams());
         this.modules.add(new ESP());
-        this.modules.add(new FullBright());
+        this.modules.add(new CameraClip());
         this.modules.add(new HandChams());
         this.modules.add(new HoleESP());
-        this.modules.add(new NameTags());
-        this.modules.add(new NoRender());
-        this.modules.add(new OffhandSwing());
-        this.modules.add(new PenisESP());
         this.modules.add(new Skeleton());
-        this.modules.add(new SkyColor());
         this.modules.add(new SmallShield());
         this.modules.add(new Trajectories());
-        this.modules.add(new Trails());
+        this.modules.add(new NoRender());
+        this.modules.add(new BurrowESP());
         this.modules.add(new ViewModel());
+        this.modules.add(new PenisESP());
+        this.modules.add(new PopChams());
     }
 
     public Module getModuleByName(String name) {
@@ -172,7 +158,7 @@ public class ModuleManager
         return module != null && module.isOn();
     }
 
-    public boolean isModuleEnabled(Class<Module> clazz) {
+    public boolean isModuleEnabled(Class<Freecam> clazz) {
         Module module = this.getModuleByClass(clazz);
         return module != null && module.isOn();
     }
@@ -267,7 +253,7 @@ public class ModuleManager
     }
 
     public void onKeyPressed(int eventKey) {
-        if (eventKey == 0 || !Keyboard.getEventKeyState() || ModuleManager.mc.currentScreen instanceof OyVeyGui) {
+        if (eventKey == 0 || !Keyboard.getEventKeyState() || ModuleManager.mc.currentScreen instanceof CreepyWareGui) {
             return;
         }
         this.modules.forEach(module -> {
@@ -312,7 +298,7 @@ public class ModuleManager
                 }
             } else {
                 for (String e : ModuleManager.this.sortedModulesABC) {
-                    Module module = OyVey.moduleManager.getModuleByName(e);
+                    Module module = CreepyWare.moduleManager.getModuleByName(e);
                     String text = module.getDisplayName() + ChatFormatting.GRAY + (module.getDisplayInfo() != null ? " [" + ChatFormatting.WHITE + module.getDisplayInfo() + ChatFormatting.GRAY + "]" : "");
                     module.offset = (float) ModuleManager.this.renderer.getStringWidth(text) / HUD.getInstance().animationHorizontalTime.getValue().floatValue();
                     module.vOffset = (float) ModuleManager.this.renderer.getFontHeight() / HUD.getInstance().animationVerticalTime.getValue().floatValue();

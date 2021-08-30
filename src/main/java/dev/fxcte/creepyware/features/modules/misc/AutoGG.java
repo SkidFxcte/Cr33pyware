@@ -1,124 +1,147 @@
 package dev.fxcte.creepyware.features.modules.misc;
 
-import dev.fxcte.creepyware.features.modules.Module;
-import dev.fxcte.creepyware.features.setting.Setting;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.network.play.client.CPacketChatMessage;
-import net.minecraftforge.event.entity.living.LivingDeathEvent;
-import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
-
-import java.util.Objects;
+import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.Random;
 import java.util.concurrent.ConcurrentHashMap;
+import dev.fxcte.creepyware.CreepyWare;
+import dev.fxcte.creepyware.event.events.DeathEvent;
+import dev.fxcte.creepyware.event.events.PacketEvent;
+import dev.fxcte.creepyware.features.command.Command;
+import dev.fxcte.creepyware.features.modules.Module;
+import dev.fxcte.creepyware.features.modules.combat.OyVeyAutoCrystal;
+import dev.fxcte.creepyware.features.setting.Setting;
+import dev.fxcte.creepyware.manager.FileManager;
+import dev.fxcte.creepyware.util.MathUtil;
+import dev.fxcte.creepyware.util.Timer;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.network.Packet;
+import net.minecraft.network.play.client.CPacketChatMessage;
+import net.minecraft.network.play.client.CPacketUseEntity;
+import net.minecraft.world.World;
+import net.minecraftforge.event.entity.player.AttackEntityEvent;
+import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
 public class AutoGG
         extends Module {
-    private static AutoGG INSTANCE = new AutoGG();
-    public Setting<String> custom = this.register(new Setting<String>("Custom", "Nigga-Hack.me"));
-    public Setting<String> test = this.register(new Setting<String>("Test", "null"));
-    private ConcurrentHashMap<String, Integer> targetedPlayers = null;
+    private final Setting<Boolean> onOwnDeath = this.register(new Setting<Boolean>("OwnDeath", false));
+    private final Setting<Boolean> greentext = this.register(new Setting<Boolean>("Greentext", false));
+    private final Setting<Boolean> loadFiles = this.register(new Setting<Boolean>("LoadFiles", false));
+    private final Setting<Integer> targetResetTimer = this.register(new Setting<Integer>("Reset", 30, 0, 90));
+    private final Setting<Integer> delay = this.register(new Setting<Integer>("Delay", 10, 0, 30));
+    private final Setting<Boolean> test = this.register(new Setting<Boolean>("Test", false));
+    public Map<EntityPlayer, Integer> targets = new ConcurrentHashMap<EntityPlayer, Integer>();
+    public List<String> messages = new ArrayList<String>();
+    public EntityPlayer cauraTarget;
+    private static final String path = "phobos/autogg.txt";
+    private Timer timer = new Timer();
+    private Timer cooldownTimer = new Timer();
+    private boolean cooldown;
 
     public AutoGG() {
-        super("AutoGG", "Sends msg after you kill someone", Module.Category.MISC, true, false, false);
-        this.setInstance();
-    }
-
-    public static AutoGG getINSTANCE() {
-        if (INSTANCE == null) {
-            INSTANCE = new AutoGG();
+        super("AutoGG", "Automatically GGs", Module.Category.MISC, true, false, false);
+        File file = new File(path);
+        if (!file.exists()) {
+            try {
+                file.createNewFile();
+            }
+            catch (Exception e) {
+                e.printStackTrace();
+            }
         }
-        return INSTANCE;
-    }
-
-    private void setInstance() {
-        INSTANCE = this;
     }
 
     @Override
     public void onEnable() {
-        this.targetedPlayers = new ConcurrentHashMap();
+        this.loadMessages();
+        this.timer.reset();
+        this.cooldownTimer.reset();
     }
 
     @Override
-    public void onDisable() {
-        this.targetedPlayers = null;
-    }
-
-    @Override
-    public void onUpdate() {
-        if (AutoGG.nullCheck()) {
-            return;
+    public void onTick() {
+        if (this.loadFiles.getValue().booleanValue()) {
+            this.loadMessages();
+            Command.sendMessage("<AutoGG> Loaded messages.");
+            this.loadFiles.setValue(false);
         }
-        if (this.targetedPlayers == null) {
-            this.targetedPlayers = new ConcurrentHashMap();
+        if (OyVeyAutoCrystal.target != null && this.cauraTarget != OyVeyAutoCrystal.target) {
+            this.cauraTarget = OyVeyAutoCrystal.target;
         }
-        for (Entity entity : AutoGG.mc.world.getLoadedEntityList()) {
-            String name2;
-            EntityPlayer player;
-            if (!(entity instanceof EntityPlayer) || (player = (EntityPlayer) entity).getHealth() > 0.0f || !this.shouldAnnounce(name2 = player.getName()))
-                continue;
-            this.doAnnounce(name2);
-            break;
+        if (this.test.getValue().booleanValue()) {
+            this.announceDeath((EntityPlayer)AutoGG.mc.player);
+            this.test.setValue(false);
         }
-        this.targetedPlayers.forEach((name, timeout) -> {
-            if (timeout <= 0) {
-                this.targetedPlayers.remove(name);
-            } else {
-                this.targetedPlayers.put(name, timeout - 1);
-            }
-        });
+        if (!this.cooldown) {
+            this.cooldownTimer.reset();
+        }
+        if (this.cooldownTimer.passedS(this.delay.getValue().intValue()) && this.cooldown) {
+            this.cooldown = false;
+            this.cooldownTimer.reset();
+        }
+        if (OyVeyAutoCrystal.target != null) {
+            this.targets.put(OyVeyAutoCrystal.target, (int)(this.timer.getPassedTimeMs() / 1000L));
+        }
+        this.targets.replaceAll((p, v) -> (int)(this.timer.getPassedTimeMs() / 1000L));
+        for (EntityPlayer player : this.targets.keySet()) {
+            if (this.targets.get(player) <= this.targetResetTimer.getValue()) continue;
+            this.targets.remove(player);
+            this.timer.reset();
+        }
     }
 
     @SubscribeEvent
-    public void onLeavingDeathEvent(LivingDeathEvent event) {
-        EntityLivingBase entity;
-        if (AutoGG.mc.player == null) {
-            return;
+    public void onEntityDeath(DeathEvent event) {
+        if (this.targets.containsKey(event.player) && !this.cooldown) {
+            this.announceDeath(event.player);
+            this.cooldown = true;
+            this.targets.remove(event.player);
         }
-        if (this.targetedPlayers == null) {
-            this.targetedPlayers = new ConcurrentHashMap();
+        if (event.player == this.cauraTarget && !this.cooldown) {
+            this.announceDeath(event.player);
+            this.cooldown = true;
         }
-        if ((entity = event.getEntityLiving()) == null) {
-            return;
-        }
-        if (!(entity instanceof EntityPlayer)) {
-            return;
-        }
-        EntityPlayer player = (EntityPlayer) entity;
-        if (player.getHealth() > 0.0f) {
-            return;
-        }
-        String name = player.getName();
-        if (this.shouldAnnounce(name)) {
-            this.doAnnounce(name);
+        if (event.player == AutoGG.mc.player && this.onOwnDeath.getValue().booleanValue()) {
+            this.announceDeath(event.player);
+            this.cooldown = true;
         }
     }
 
-    private boolean shouldAnnounce(String name) {
-        return this.targetedPlayers.containsKey(name);
-    }
-
-    private void doAnnounce(String name) {
-        this.targetedPlayers.remove(name);
-        AutoGG.mc.player.connection.sendPacket(new CPacketChatMessage(this.custom.getValue()));
-        int u = 0;
-        for (int i = 0; i < 10; ++i) {
-            ++u;
-        }
-        if (!this.test.getValue().equalsIgnoreCase("null")) {
-            AutoGG.mc.player.connection.sendPacket(new CPacketChatMessage(this.test.getValue()));
+    @SubscribeEvent
+    public void onAttackEntity(AttackEntityEvent event) {
+        if (event.getTarget() instanceof EntityPlayer && !CreepyWare.friendManager.isFriend(event.getEntityPlayer())) {
+            this.targets.put((EntityPlayer)event.getTarget(), 0);
         }
     }
 
-    public void addTargetedPlayer(String name) {
-        if (Objects.equals(name, AutoGG.mc.player.getName())) {
-            return;
+    @SubscribeEvent
+    public void onSendAttackPacket(PacketEvent.Send event) {
+        CPacketUseEntity packet;
+        if (event.getPacket() instanceof CPacketUseEntity && (packet = (CPacketUseEntity)event.getPacket()).getAction() == CPacketUseEntity.Action.ATTACK && packet.getEntityFromWorld((World)AutoGG.mc.world) instanceof EntityPlayer && !CreepyWare.friendManager.isFriend((EntityPlayer)packet.getEntityFromWorld((World)AutoGG.mc.world))) {
+            this.targets.put((EntityPlayer)packet.getEntityFromWorld((World)AutoGG.mc.world), 0);
         }
-        if (this.targetedPlayers == null) {
-            this.targetedPlayers = new ConcurrentHashMap();
+    }
+
+    public void loadMessages() {
+        this.messages = FileManager.readTextFileAllLines(path);
+    }
+
+    public String getRandomMessage() {
+        this.loadMessages();
+        Random rand = new Random();
+        if (this.messages.size() == 0) {
+            return "<player> is a noob hahaha fobus on tope";
         }
-        this.targetedPlayers.put(name, 20);
+        if (this.messages.size() == 1) {
+            return this.messages.get(0);
+        }
+        return this.messages.get(MathUtil.clamp(rand.nextInt(this.messages.size()), 0, this.messages.size() - 1));
+    }
+
+    public void announceDeath(EntityPlayer target) {
+        AutoGG.mc.player.connection.sendPacket((Packet)new CPacketChatMessage((this.greentext.getValue() != false ? ">" : "") + this.getRandomMessage().replaceAll("<player>", target.getDisplayNameString())));
     }
 }
 

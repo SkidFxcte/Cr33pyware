@@ -8,4 +8,3 @@ public class Flight
         super("Flight", "Flight.", Module.Category.MOVEMENT, true, false, false);
     }
 }
-

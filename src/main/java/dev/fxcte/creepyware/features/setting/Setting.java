@@ -3,7 +3,6 @@ package dev.fxcte.creepyware.features.setting;
 import dev.fxcte.creepyware.event.events.ClientEvent;
 import dev.fxcte.creepyware.features.Feature;
 import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.fml.common.eventhandler.Event;
 
 import java.util.function.Predicate;
 
@@ -15,7 +14,6 @@ public class Setting<T> {
     private T min;
     private T max;
     private boolean hasRestriction;
-    private boolean shouldRenderStringName;
     private Predicate<T> visibility;
     private String description;
     private Feature feature;
@@ -247,18 +245,6 @@ public class Setting<T> {
         this.visibility = visibility;
     }
 
-    public Setting<T> setRenderName(boolean renderName) {
-        this.shouldRenderStringName = renderName;
-        return this;
-    }
-
-    public boolean shouldRenderName() {
-        if (!this.isStringSetting()) {
-            return true;
-        }
-        return this.shouldRenderStringName;
-    }
-
     public boolean isVisible() {
         if (this.visibility == null) {
             return true;
@@ -266,3 +252,4 @@ public class Setting<T> {
         return this.visibility.test(this.getValue());
     }
 }
+

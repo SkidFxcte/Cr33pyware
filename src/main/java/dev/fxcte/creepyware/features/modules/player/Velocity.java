@@ -1,4 +1,4 @@
-package dev.fxcte.creepyware.features.modules.movement;
+package dev.fxcte.creepyware.features.modules.player;
 
 import dev.fxcte.creepyware.event.events.PacketEvent;
 import dev.fxcte.creepyware.event.events.PushEvent;
@@ -28,7 +28,7 @@ class Velocity
 
     public
     Velocity ( ) {
-        super ( "Velocity" , "Allows you to control your velocity" , Module.Category.MOVEMENT , true , false , false );
+        super ( "Velocity" , "Allows you to control your velocity" , Category.PLAYER , true , false , false );
         this.setInstance ( );
     }
 

@@ -11,7 +11,7 @@ import java.util.Random;
 import java.util.UUID;
 
 public class FakePlayer extends Module {
-    public Setting<Boolean> hollow = this.register(new Setting("Move Fakeplayer", false));
+    public Setting<Boolean> hollow = this.register(new Setting("Move", false));
 
     public FakePlayer() {
         super("FakePlayer", "Spawns fake player", Category.PLAYER, false, false, false);
@@ -69,7 +69,7 @@ public class FakePlayer extends Module {
             return;
         }
         if (otherPlayer == null) {
-            otherPlayer = new EntityOtherPlayerMP(mc.world, new GameProfile(UUID.randomUUID(), "Alpha432"));
+            otherPlayer = new EntityOtherPlayerMP(mc.world, new GameProfile(UUID.randomUUID(), "kuro_noob"));
             otherPlayer.copyLocationAndAnglesFrom(mc.player);
             otherPlayer.inventory.copyInventory(mc.player.inventory);
         }

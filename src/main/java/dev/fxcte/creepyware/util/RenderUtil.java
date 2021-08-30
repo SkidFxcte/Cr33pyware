@@ -121,7 +121,13 @@ public class RenderUtil
         GL11.glDisable(2848);
     }
 
-    public static void hexColor(int hexColor) {
+    public static
+    int getRainbow ( int speed , int offset , float s , float b ) {
+        float hue = ( System.currentTimeMillis ( ) + (long) offset ) % (long) speed;
+        return Color.getHSBColor ( hue / (float) speed , s , b ).getRGB ( );
+    }
+
+            public static void hexColor(int hexColor) {
         float red = (float) (hexColor >> 16 & 0xFF) / 255.0f;
         float green = (float) (hexColor >> 8 & 0xFF) / 255.0f;
         float blue = (float) (hexColor & 0xFF) / 255.0f;
@@ -905,10 +911,6 @@ public class RenderUtil
         GL11.glEnable(3008);
         GL11.glPopAttrib();
     }
-    public static int getRainbow ( int speed , int offset , float s , float b ) {
-        float hue = ( System.currentTimeMillis ( ) + (long) offset ) % (long) speed;
-        return Color.getHSBColor ( hue /= (float) speed , s , b ).getRGB ( );
-    }
 
     public static void setColor(Color color) {
         GL11.glColor4d((double) color.getRed() / 255.0, (double) color.getGreen() / 255.0, (double) color.getBlue() / 255.0, (double) color.getAlpha() / 255.0);
@@ -1196,12 +1198,6 @@ public class RenderUtil
         public static void drawHalfBox(BlockPos blockPos, int r, int g, int b, int a, int sides) {
             RenderTesselator.drawBox(INSTANCE.getBuffer(), blockPos.getX(), blockPos.getY(), blockPos.getZ(), 1.0f, 0.5f, 1.0f, r, g, b, a, sides);
         }
-    }
-    public static
-    void rotationHelper ( float xAngle , float yAngle , float zAngle ) {
-        GlStateManager.rotate ( yAngle , 0.0f , 1.0f , 0.0f );
-        GlStateManager.rotate ( zAngle , 0.0f , 0.0f , 1.0f );
-        GlStateManager.rotate ( xAngle , 1.0f , 0.0f , 0.0f );
     }
 }
 

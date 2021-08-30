@@ -26,7 +26,7 @@ public class Scaffold
     public Setting<Boolean> rotation = this.register(new Setting<Boolean>("Rotate", false));
 
     public Scaffold() {
-        super("Scaffold", "Places Blocks underneath you.", Module.Category.MOVEMENT, true, false, false);
+        super("Scaffold", "Places Blocks underneath you.", Module.Category.PLAYER, true, false, false);
     }
 
     @Override

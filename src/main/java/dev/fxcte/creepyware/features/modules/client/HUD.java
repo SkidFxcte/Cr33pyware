@@ -46,6 +46,8 @@ public class HUD extends Module {
     public Setting<TextUtil.Color> commandColor = register(new Setting("NameColor", TextUtil.Color.BLUE));
     public Setting<String> commandBracket = register(new Setting("Bracket", "<"));
     public Setting<String> commandBracket2 = register(new Setting("Bracket2", ">"));
+    public Setting<Boolean> potionIcons = this.register(new Setting<Boolean>("PotionIcons", Boolean.valueOf(true), "Draws Potion Icons."));
+    public Setting<Boolean> potions1 = this.register(new Setting<Object>("LevelPotions", Boolean.valueOf(false), v -> this.potions.getValue()));
     public Setting<Boolean> notifyToggles = register(new Setting("ChatNotify", Boolean.valueOf(false), "notifys in chat"));
     public Setting<Boolean> magenDavid = register(new Setting("MagenDavid", Boolean.valueOf(false), "draws magen david"));
     public Setting<Integer> animationHorizontalTime = register(new Setting("AnimationHTime", Integer.valueOf(500), Integer.valueOf(1), Integer.valueOf(1000), v -> this.arrayList.getValue().booleanValue()));

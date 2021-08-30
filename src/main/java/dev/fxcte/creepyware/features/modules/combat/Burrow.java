@@ -49,7 +49,7 @@ public class Burrow extends Module
                 this.returnBlock = Blocks.ENDER_CHEST;
                 break;
             }
-            case All: {
+            case EABypass: {
                 this.returnBlock = (Block)Blocks.CHEST;
                 break;
             }
@@ -80,7 +80,7 @@ public class Burrow extends Module
                 }
                 break;
             }
-            case All: {
+            case EABypass: {
                 if (BurrowUtil.findHotbarBlock(BlockChest.class) == -1) {
                     Command.sendMessage("Can't find chest in hotbar!");
                     this.disable();
@@ -121,6 +121,6 @@ public class Burrow extends Module
     {
         OBBY,
         ECHEST,
-        All;
+        EABypass;
     }
 }

@@ -4,7 +4,6 @@
   "package": "dev.fxcte.creepyware.mixin.mixins",
   "refmap": "mixins.oyvey.refmap.json",
   "mixins": [
-    "MixinAbstractHorse",
     "MixinBlockLiquid",
     "MixinEntityPlayer",
     "MixinEntityPlayerSP",
@@ -12,14 +11,16 @@
     "MixinGuiNewChat",
     "MixinGuiPlayerTabOverlay",
     "MixinGuiScreen",
+    "MixinGuiToast",
     "MixinItemRenderer",
+    "MixinLayerArmorBase",
     "MixinMinecraft",
+    "MixinModelBiped",
+    "MixinModelPlayer",
     "MixinNetworkManager",
     "MixinPlayerControllerMP",
-    "MixinRender",
     "MixinRenderEnderCrystal",
     "MixinRenderLivingBase",
-    "MixinRenderPlayer",
     "MixinWorld"
   ]
 }
