@@ -114,7 +114,7 @@ public class CreepyWare {
             unloaded = true;
         }
     }
-
+    
     @Mod.EventHandler
     public void preInit(FMLPreInitializationEvent event) {
         LOGGER.info("CREEPY IS THE BEST PVP IN 2021 - FXCTE");
@@ -122,7 +122,7 @@ public class CreepyWare {
 
     @Mod.EventHandler
     public void init(FMLInitializationEvent event) {
-        Display.setTitle("Creepyware | 0.1.2");
+        Display.setTitle("Creepyware | 0.1.6");
         CreepyWare.load();
     }
 }
