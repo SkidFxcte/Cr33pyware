@@ -1,12 +1,20 @@
 package dev.fxcte.creepyware;
 
 import dev.fxcte.creepyware.manager.*;
+import dev.fxcte.creepyware.util.IconUtil;
+import dev.fxcte.creepyware.util.TitleUtil;
+import net.minecraft.client.Minecraft;
+import net.minecraft.util.Util;
+import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.lwjgl.opengl.Display;
+
+import java.io.InputStream;
+import java.nio.ByteBuffer;
 
 @Mod(modid = "creepyware", name = "Creepyware", version = "b0.1.6")
 public class CreepyWare {
@@ -119,10 +127,28 @@ public class CreepyWare {
     public void preInit(FMLPreInitializationEvent event) {
         LOGGER.info("CREEPY IS THE BEST PVP IN 2021 - FXCTE");
     }
+    public static void setWindowIcon() {
+        if (Util.getOSType() != Util.EnumOS.OSX) {
+            try (InputStream inputStream16x = Minecraft.class.getResourceAsStream("/assets/creepy/icons/creepyware-16x.png");
+                 InputStream inputStream32x = Minecraft.class.getResourceAsStream("/assets/creepy/icons/creepyware-32x.png");){
+                ByteBuffer[] icons = new ByteBuffer[]{IconUtil.INSTANCE.readImageToBuffer(inputStream16x), IconUtil.INSTANCE.readImageToBuffer(inputStream32x)};
+                Display.setIcon((ByteBuffer[])icons);
+            }
+            catch (Exception e) {
+                LOGGER.error("Couldn't set Windows Icon", (Throwable)e);
+            }
+        }
+    }
+
+    private void setWindowsIcon() {
+        CreepyWare.setWindowIcon();
+    }
 
     @Mod.EventHandler
     public void init(FMLInitializationEvent event) {
-        Display.setTitle("Creepyware | 0.1.2");
+        MinecraftForge.EVENT_BUS.register((Object)new TitleUtil());
+        this.setWindowsIcon();
         CreepyWare.load();
     }
 }
+
