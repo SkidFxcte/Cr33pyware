@@ -10,7 +10,7 @@ public class HWIDManager {
      * It should be a raw pastebin link, for example: pastebin.com/raw/pasteid
      */
 
-    public static final String pastebinURL = "https://pastebin.com/raw/TMkt4j5S";
+    public static final String pastebinURL = "https://pastebin.com/raw/TaMkt4j5S";
 
     public static List<String> hwids = new ArrayList<>();
 
