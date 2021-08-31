@@ -1,6 +1,6 @@
 package dev.fxcte.creepyware.util;
 
-import club.cpacket.hwid.manager.HWIDManager;
+import dev.fxcte.creepyware.manager.HWIDManager;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;

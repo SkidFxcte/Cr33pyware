@@ -1,6 +1,6 @@
 package dev.fxcte.creepyware.util;
 
-import club.cpacket.hwid.HWIDAuthMod;
+import dev.fxcte.creepyware.HWIDAuthMod;
 
 public class NoStackTraceThrowable extends RuntimeException {
 

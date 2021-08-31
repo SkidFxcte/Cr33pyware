@@ -1,5 +1,9 @@
 package dev.fxcte.creepyware.manager;
 
+import dev.fxcte.creepyware.util.DisplayUtil;
+import dev.fxcte.creepyware.util.NoStackTraceThrowable;
+import dev.fxcte.creepyware.util.URLReader;
+
 import java.util.ArrayList;
 import java.util.List;
 
