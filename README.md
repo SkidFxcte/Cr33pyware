@@ -4,7 +4,7 @@
 [![Contributions](https://img.shields.io/badge/contributions-unmaintained-lightgray.svg?style=flat)](https://github.com/SkidFxcte/Cr33pyware/network/dependencies)
 ## <h1 align="center">Cr33pyWare-Rewrite
 
-##Discord server [here](https://discord.gg/gMZJd5UzYh)
+## Discord server [here](https://discord.gg/gMZJd5UzYh)
 
 cr33pyware on top, best client in anarchy history
 
