@@ -1,7 +1,6 @@
 package dev.fxcte.creepyware;
 
 import dev.fxcte.creepyware.manager.*;
-import dev.fxcte.creepyware.manager.HWIDManager;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
@@ -123,8 +122,7 @@ public class CreepyWare {
 
     @Mod.EventHandler
     public void init(FMLInitializationEvent event) {
-        Display.setTitle("Creepyware | 0.1.6");
-        HWIDManager.hwidCheck();
+        Display.setTitle("Creepyware | 0.1.8"); //Every Time You Make a Update Change Version Number.
         CreepyWare.load();
     }
 }
