@@ -5,9 +5,12 @@
   "refmap": "mixins.oyvey.refmap.json",
   "mixins": [
     "MixinBlockLiquid",
+    "MixinEntity",
+    "MixinEntityLivingBase",
     "MixinEntityPlayer",
     "MixinEntityPlayerSP",
     "MixinEntityRenderer",
+    "MixinGuiIngame",
     "MixinGuiNewChat",
     "MixinGuiPlayerTabOverlay",
     "MixinGuiScreen",

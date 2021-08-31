@@ -38,9 +38,9 @@ public class PopCounter
             int l_Count = TotemPopContainer.get(player.getName());
             TotemPopContainer.remove(player.getName());
             if (l_Count == 1) {
-                Command.sendMessage(ChatFormatting.RED + player.getName() + " died after popping " + ChatFormatting.GREEN + l_Count + ChatFormatting.RED + " Totem!");
+                Command.sendMessage(ChatFormatting.BOLD + player.getName() + " died after popping " + ChatFormatting.GREEN + l_Count + ChatFormatting.RED + " Totem!");
             } else {
-                Command.sendMessage(ChatFormatting.RED + player.getName() + " died after popping " + ChatFormatting.GREEN + l_Count + ChatFormatting.RED + " Totems!");
+                Command.sendMessage(ChatFormatting.BOLD + player.getName() + " died after popping " + ChatFormatting.GREEN + l_Count + ChatFormatting.RED + " Totems!");
             }
         }
     }
@@ -60,9 +60,9 @@ public class PopCounter
             TotemPopContainer.put(player.getName(), l_Count);
         }
         if (l_Count == 1) {
-            Command.sendMessage(ChatFormatting.RED + player.getName() + " popped " + ChatFormatting.GREEN + l_Count + ChatFormatting.RED + " Totem.");
+            Command.sendMessage(ChatFormatting.BOLD + player.getName() + " popped " + ChatFormatting.GREEN + l_Count + ChatFormatting.RED + " Totem.");
         } else {
-            Command.sendMessage(ChatFormatting.RED + player.getName() + " popped " + ChatFormatting.GREEN + l_Count + ChatFormatting.RED + " Totems.");
+            Command.sendMessage(ChatFormatting.BOLD + player.getName() + " popped " + ChatFormatting.GREEN + l_Count + ChatFormatting.RED + " Totems.");
         }
     }
 }

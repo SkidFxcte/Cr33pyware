@@ -185,8 +185,9 @@ public class Module
     public enum Category {
         COMBAT("Combat"),
         MISC("Misc"),
-        RENDER("Render"),
         MOVEMENT("Movement"),
+        RENDER("Render"),
+        Exploit("Exploit"),
         PLAYER("Player"),
         CLIENT("Client");
 

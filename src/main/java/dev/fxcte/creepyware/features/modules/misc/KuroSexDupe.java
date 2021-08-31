@@ -39,7 +39,7 @@ public class KuroSexDupe extends Module {
         }
 
         int total = count * itemStack.getCount();
-        player.sendChatMessage("I just made the Kuro Sex Dupe and got " + total + " " + itemStack.getDisplayName() + "thanks to creepyware");
+        player.sendChatMessage("I just made the Kuro Sex Dupe and got " + total + " " + itemStack.getDisplayName() + " thanks to creepyware");
         disable();
     }
 

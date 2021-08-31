@@ -32,7 +32,7 @@ public class Component
         super(name);
         this.x = x;
         this.y = y;
-        this.width = 88;
+        this.width = 93;
         this.height = 18;
         this.open = open;
         this.setupItems();
@@ -56,7 +56,8 @@ public class Component
         int color = ColorUtil.toARGB(ClickGui.getInstance().topRed.getValue(), ClickGui.getInstance().topGreen.getValue(), ClickGui.getInstance().topBlue.getValue(), 255);
         Gui.drawRect(this.x, this.y - 1, this.x + this.width, this.y + this.height - 6, ClickGui.getInstance().rainbow.getValue() != false ? ColorUtil.rainbow(ClickGui.getInstance().rainbowHue.getValue()).getRGB() : color);
         if (this.open) {
-            RenderUtil.drawRect(this.x, (float) this.y + 12.5f, this.x + this.width, (float) (this.y + this.height) + totalItemHeight, 0x77000000);
+            RenderUtil.drawRect((float)this.x, (float)this.y + 12.5F, (float)(this.x + this.width), (float)(this.y + this.height) + totalItemHeight, ColorUtil.toARGB(10, 10, 10, (Integer)ClickGui.getInstance().backgroundAlpha.getValue()));
+
         }
         CreepyWare.textManager.drawStringWithShadow(this.getName(), (float) this.x + 3.0f, (float) this.y - 4.0f - (float) CreepyWareGui.getClickGui().getTextOffset(), -1);
         if (this.open) {
@@ -176,4 +177,3 @@ public class Component
         return height;
     }
 }
-
