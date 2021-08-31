@@ -81,6 +81,7 @@ public class ModuleManager
         this.modules.add(new Strafe());
         this.modules.add(new Anchor());
         this.modules.add(new Velocity());
+        this.modules.add(new ElytraFlight());
         //Player
         this.modules.add(new FakePlayer());
         this.modules.add(new FastPlace());
