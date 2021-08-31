@@ -52,7 +52,6 @@ public class ModuleManager
         this.modules.add(new HoleFiller ());
         this.modules.add(new Offhand ());
         this.modules.add(new Selftrap ());
-        this.modules.add(new Surround ());
         this.modules.add(new Burrow());
         this.modules.add(new BowAim());
         this.modules.add(new BowSpam());
@@ -81,7 +80,6 @@ public class ModuleManager
         this.modules.add(new Anchor());
         this.modules.add(new Velocity());
         this.modules.add(new ElytraFlight());
-        this.modules.add(new IceSpeed());
         //Player
         this.modules.add(new FakePlayer());
         this.modules.add(new FastPlace());
