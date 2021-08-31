@@ -6,7 +6,7 @@ Discord server [here](https://discord.gg/gMZJd5UzYh)
 
 cr33pyware on top, best client in anarchy history
 
-##Devs
+## Devs
 
 Kuro : main dev help much with the client
 
