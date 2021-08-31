@@ -4,3 +4,10 @@
 Discord server [here](https://discord.gg/gMZJd5UzYh)
 
 cr33pyware on top, best client in anarchy history
+
+Devs:
+Kuro : main dev help much with the client
+Faxhax : people who add hwid auth and make it better
+sslll : add rat troll
+Fxcte : Main Dev who create this epic client 
+Zapped : build jar :flushed:
