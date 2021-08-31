@@ -932,6 +932,60 @@ public class RenderUtil
         EXTFramebufferObject.glFramebufferRenderbufferEXT(36160, 36128, 36161, stencilDepthBufferID);
         EXTFramebufferObject.glFramebufferRenderbufferEXT(36160, 36096, 36161, stencilDepthBufferID);
     }
+    public static
+    void boxESP ( BlockPos blockPos , Color color , float f , boolean bl , boolean bl2 , int n , boolean bl3 ) {
+        AxisAlignedBB axisAlignedBB = new AxisAlignedBB ( (double) blockPos.getX ( ) - RenderUtil.mc.getRenderManager ( ).viewerPosX , (double) blockPos.getY ( ) - RenderUtil.mc.getRenderManager ( ).viewerPosY , (double) blockPos.getZ ( ) - RenderUtil.mc.getRenderManager ( ).viewerPosZ , (double) ( blockPos.getX ( ) + 1 ) - RenderUtil.mc.getRenderManager ( ).viewerPosX , (double) ( blockPos.getY ( ) + 1 ) - RenderUtil.mc.getRenderManager ( ).viewerPosY , (double) ( blockPos.getZ ( ) + 1 ) - RenderUtil.mc.getRenderManager ( ).viewerPosZ );
+        camera.setPosition ( Objects.requireNonNull ( RenderUtil.mc.getRenderViewEntity ( ) ).posX , RenderUtil.mc.getRenderViewEntity ( ).posY , RenderUtil.mc.getRenderViewEntity ( ).posZ );
+        if ( camera.isBoundingBoxInFrustum ( new AxisAlignedBB ( axisAlignedBB.minX + RenderUtil.mc.getRenderManager ( ).viewerPosX , axisAlignedBB.minY + RenderUtil.mc.getRenderManager ( ).viewerPosY , axisAlignedBB.minZ + RenderUtil.mc.getRenderManager ( ).viewerPosZ , axisAlignedBB.maxX + RenderUtil.mc.getRenderManager ( ).viewerPosX , axisAlignedBB.maxY + RenderUtil.mc.getRenderManager ( ).viewerPosY , axisAlignedBB.maxZ + RenderUtil.mc.getRenderManager ( ).viewerPosZ ) ) ) {
+            double d;
+            double d2;
+            double d3;
+            double d4;
+            double d5;
+            double d6;
+            GlStateManager.pushMatrix ( );
+            GlStateManager.enableBlend ( );
+            GlStateManager.disableDepth ( );
+            GlStateManager.tryBlendFuncSeparate ( 770 , 771 , 0 , 1 );
+            GlStateManager.disableTexture2D ( );
+            GlStateManager.depthMask ( false );
+            GL11.glEnable ( 2848 );
+            GL11.glHint ( 3154 , 4354 );
+            GL11.glLineWidth ( f );
+            double d8 = RenderUtil.mc.playerController.curBlockDamageMP;
+            float f2 = (float) Speedmine.getInstance ( ).timer.getPassedTimeMs ( ) / 1000.0f / ( Speedmine.getInstance ( ).breakTime * CreepyWare.serverManager.getTpsFactor ( ) );
+            f2 = Math.min ( f2 , 1.0f );
+            if ( bl3 ) {
+                d6 = axisAlignedBB.minX + 0.5 - (double) ( f2 / 2.0f );
+                d5 = axisAlignedBB.minY + 0.5 - (double) ( f2 / 2.0f );
+                d4 = axisAlignedBB.minZ + 0.5 - (double) ( f2 / 2.0f );
+                d3 = axisAlignedBB.maxX - 0.5 + (double) ( f2 / 2.0f );
+                d2 = axisAlignedBB.maxY - 0.5 + (double) ( f2 / 2.0f );
+                d = axisAlignedBB.maxZ - 0.5 + (double) ( f2 / 2.0f );
+            } else {
+                d6 = axisAlignedBB.minX + 0.5 - d8 / 2.0;
+                d5 = axisAlignedBB.minY + 0.5 - d8 / 2.0;
+                d4 = axisAlignedBB.minZ + 0.5 - d8 / 2.0;
+                d3 = axisAlignedBB.maxX - 0.5 + d8 / 2.0;
+                d2 = axisAlignedBB.maxY - 0.5 + d8 / 2.0;
+                d = axisAlignedBB.maxZ - 0.5 + d8 / 2.0;
+            }
+            AxisAlignedBB axisAlignedBB2 = new AxisAlignedBB ( d6 , d5 , d4 , d3 , d2 , d );
+            if ( bl2 ) {
+                RenderUtil.drawFilledBox ( axisAlignedBB2 , new Color ( (float) color.getRed ( ) / 255.0f , (float) color.getGreen ( ) / 255.0f , (float) color.getBlue ( ) / 255.0f , (float) n / 255.0f ).getRGB ( ) );
+            }
+            if ( bl ) {
+                RenderUtil.drawBlockOutline ( axisAlignedBB2 , new Color ( (float) color.getRed ( ) / 255.0f , (float) color.getGreen ( ) / 255.0f , (float) color.getBlue ( ) / 255.0f , 1.0f ) , Speedmine.getInstance ( ).lineWidth.getValue ( ) );
+            }
+            GL11.glDisable ( 2848 );
+            GlStateManager.depthMask ( true );
+            GlStateManager.enableDepth ( );
+            GlStateManager.enableTexture2D ( );
+            GlStateManager.disableBlend ( );
+            GlStateManager.popMatrix ( );
+        }
+    }
+
 
     public static final class GeometryMasks {
         public static final HashMap FACEMAP = new HashMap();
