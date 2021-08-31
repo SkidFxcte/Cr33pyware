@@ -15,7 +15,7 @@ public class CreepyWareLoader
     public CreepyWareLoader() {
         CreepyWare.LOGGER.info("\n\nLoading mixins by Alpha432");
         MixinBootstrap.init();
-        Mixins.addConfiguration("mixins.CreepyWare.json");
+        Mixins.addConfiguration("mixins.creepyware.json");
         MixinEnvironment.getDefaultEnvironment().setObfuscationContext("searge");
         CreepyWare.LOGGER.info(MixinEnvironment.getDefaultEnvironment().getObfuscationContext());
     }
