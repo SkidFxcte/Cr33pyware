@@ -1,6 +1,7 @@
 package dev.fxcte.creepyware;
 
 import dev.fxcte.creepyware.manager.*;
+import dev.fxcte.creepyware.manager.HWIDManager;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
