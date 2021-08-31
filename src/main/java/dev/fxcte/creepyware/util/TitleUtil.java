@@ -8,7 +8,7 @@ public class TitleUtil {
     int ticks = 0;
     int bruh = 0;
     int breakTimer = 0;
-    String bruh1 = "Cr33pyWare | b0.1.6";
+    String bruh1 = "Cr33pyWare | b0.1.8";
     boolean qwerty = false;
 
     @SubscribeEvent
