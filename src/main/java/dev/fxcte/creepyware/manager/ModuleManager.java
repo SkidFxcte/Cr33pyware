@@ -48,12 +48,10 @@ public class ModuleManager
         this.modules.add(new Killaura ());
         this.modules.add(new AutoTrap ());
         this.modules.add(new OyVeyAutoCrystal ());
-        this.modules.add(new AutoTrap ());
         this.modules.add(new Criticals ());
         this.modules.add(new HoleFiller ());
         this.modules.add(new Offhand ());
         this.modules.add(new Selftrap ());
-        this.modules.add(new Surround ());
         this.modules.add(new Burrow());
         this.modules.add(new BowAim());
         this.modules.add(new BowSpam());
