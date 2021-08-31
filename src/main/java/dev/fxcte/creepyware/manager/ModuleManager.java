@@ -35,42 +35,44 @@ public class ModuleManager
     public Animation animationThread;
 
     public void init() {
-        //client
+        //Client
         this.modules.add(new ClickGui ());
         this.modules.add(new ClientColors());
         this.modules.add(new FontMod ());
         this.modules.add(new HUD ());
         this.modules.add(new GUIBlur());
+        this.modules.add(new MCF());
         this.modules.add(new RPC ());
-        //combat
+        //Combat
         this.modules.add(new AutoArmor ());
+        this.modules.add(new Killaura ());
+        this.modules.add(new AutoTrap ());
         this.modules.add(new OyVeyAutoCrystal ());
         this.modules.add(new AutoTrap ());
         this.modules.add(new Criticals ());
         this.modules.add(new HoleFiller ());
-        this.modules.add(new Killaura ());
         this.modules.add(new Offhand ());
         this.modules.add(new Selftrap ());
         this.modules.add(new Surround ());
         this.modules.add(new Burrow());
         this.modules.add(new BowAim());
         this.modules.add(new BowSpam());
-        //misc
-        this.modules.add(new AutoGG ());
-        this.modules.add(new ChatModifier ());
-        this.modules.add(new ExtraTab ());
-        this.modules.add(new MCF ());
-        this.modules.add(new NoHandShake ());
-        this.modules.add(new NoHitBox ());
-        this.modules.add(new PearlNotify ());
-        this.modules.add(new PopCounter ());
-        this.modules.add(new ToolTips ());
-        this.modules.add(new Tracker ());
+        this.modules.add(new Surround ());
+        //Misc
+        this.modules.add(new AutoGG());
+        this.modules.add(new ChatModifier());
+        this.modules.add(new ExtraTab());
+        this.modules.add(new NoHandShake());
+        this.modules.add(new NoHitBox());
+        this.modules.add(new PearlNotify());
+        this.modules.add(new PopCounter());
+        this.modules.add(new Tracker());
         this.modules.add(new KuroSexDupe());
-        //movement;
-        this.modules.add(new NoVoid());
+        this.modules.add(new ToolTips());
+        //Movement
         this.modules.add(new PacketFly());
         this.modules.add(new ReverseStep());
+        this.modules.add(new NoVoid());
         this.modules.add(new Scaffold());
         this.modules.add(new Speed());
         this.modules.add(new Step());
@@ -78,7 +80,8 @@ public class ModuleManager
         this.modules.add(new Sprint());
         this.modules.add(new Strafe());
         this.modules.add(new Anchor());
-        //player
+        this.modules.add(new Velocity());
+        //Player
         this.modules.add(new FakePlayer());
         this.modules.add(new FastPlace());
         this.modules.add(new LiquidInteract());
@@ -88,25 +91,24 @@ public class ModuleManager
         this.modules.add(new Speedmine());
         this.modules.add(new TpsSync());
         this.modules.add(new Freecam());
-        this.modules.add(new Velocity());
         this.modules.add(new EntityNotifier());
         this.modules.add(new SilentXP());
         this.modules.add(new NoEntityTrace());
-        //render
-        this.modules.add(new BlockHighlight());
-        this.modules.add(new CrystalChams());
-        this.modules.add(new ESP());
-        this.modules.add(new CameraClip());
-        this.modules.add(new HandChams());
-        this.modules.add(new HoleESP());
-        this.modules.add(new Skeleton());
-        this.modules.add(new SmallShield());
-        this.modules.add(new Trajectories());
+        //Render
         this.modules.add(new NoRender());
+        this.modules.add(new ESP());
+        this.modules.add(new HoleESP());
+        this.modules.add(new PopChams());
+        this.modules.add(new HandChams());
+        this.modules.add(new PenisESP());
         this.modules.add(new BurrowESP());
         this.modules.add(new ViewModel());
-        this.modules.add(new PenisESP());
-        this.modules.add(new PopChams());
+        this.modules.add(new CrystalChams());
+        this.modules.add(new CameraClip());
+        this.modules.add(new Skeleton());
+        this.modules.add(new SmallShield());
+        this.modules.add(new BlockHighlight());
+        this.modules.add(new Trajectories());
     }
 
     public Module getModuleByName(String name) {

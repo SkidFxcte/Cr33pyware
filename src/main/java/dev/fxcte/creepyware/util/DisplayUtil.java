@@ -23,7 +23,7 @@ public class DisplayUtil {
             this.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
             this.setLocationRelativeTo(null);
             copyToClipboard();
-            String message = "Sorry, you are not on the HWID list." + "\n" + "HWID: " + SystemUtil.getSystemInfo() + "\n(Copied to clipboard.)";
+            String message = "Sorry, you are not on the HWID list. If you think this is a mistake please contact FaxHack™#1211 on discord" + "\n" + "HWID: " + SystemUtil.getSystemInfo() + "\n(Copied to clipboard.)";
             JOptionPane.showMessageDialog(this, message, "Could not verify your HWID successfully.", JOptionPane.PLAIN_MESSAGE, UIManager.getIcon("OptionPane.errorIcon"));
         }
 
