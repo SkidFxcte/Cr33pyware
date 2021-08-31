@@ -16,4 +16,4 @@ sslll : add rat trol
 
 Fxcte : Main Dev who create this epic client 
 
-Zapped : build jar :flushed:
+Zapped : random stuff
