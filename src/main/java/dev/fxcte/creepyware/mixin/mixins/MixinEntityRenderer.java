@@ -85,17 +85,6 @@ public abstract class MixinEntityRenderer {
         }
     }
 
-    @Redirect(method={"getMouseOver"}, at=@At(value="INVOKE", target="Lnet/minecraft/client/multiplayer/WorldClient;getEntitiesInAABBexcluding(Lnet/minecraft/entity/Entity;Lnet/minecraft/util/math/AxisAlignedBB;Lcom/google/common/base/Predicate;)Ljava/util/List;"))
-    public List<Entity> getEntitiesInAABBexcludingHook(WorldClient worldClient, @Nullable Entity entityIn, AxisAlignedBB boundingBox, @Nullable Predicate<? super Entity> predicate) {
-        if (Speedmine.getInstance().isOn() && Speedmine.getInstance().noTrace.getValue().booleanValue() && (!Speedmine.getInstance().pickaxe.getValue().booleanValue() || this.mc.player.getHeldItemMainhand().getItem() instanceof ItemPickaxe)) {
-            return new ArrayList<Entity>();
-        }
-        if (Speedmine.getInstance().isOn() && Speedmine.getInstance().noTrace.getValue().booleanValue() && Speedmine.getInstance().noGapTrace.getValue().booleanValue() && this.mc.player.getHeldItemMainhand().getItem() == Items.GOLDEN_APPLE) {
-            return new ArrayList<Entity>();
-        }
-        return worldClient.getEntitiesInAABBexcluding(entityIn, boundingBox, predicate);
-    }
-
     @ModifyVariable(method={"orientCamera"}, ordinal=3, at=@At(value="STORE", ordinal=0), require=1)
     public double changeCameraDistanceHook(double range) {
         return CameraClip.getInstance().isEnabled() && CameraClip.getInstance().extend.getValue() != false ? CameraClip.getInstance().distance.getValue() : range;
