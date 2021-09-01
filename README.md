@@ -12,8 +12,8 @@ Kuro : main dev help much with the client
 
 Faxhax : people who add hwid auth and make it better
 
-sslll : add rat trol
+sslll : Fixes shit and adds random modules
 
 Fxcte : Main Dev who create this epic client 
 
-Zapped : build jar :flushed:
+Zapped : random stuff
