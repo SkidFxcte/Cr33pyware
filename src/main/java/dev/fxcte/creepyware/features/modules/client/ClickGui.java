@@ -17,7 +17,6 @@ public class ClickGui
     public Setting<String> prefix = this.register (new Setting<>("Prefix", "."));
     public Setting<Boolean> customFov = this.register (new Setting<>("CustomFov", false));
     public Setting<Boolean> gear = register (new Setting("gear", Boolean.valueOf(true), "draws gear like future"));
-    public Setting<Integer> backgroundAlpha = this.register(new Setting("BackgroundAlpha", 140, 0, 255));
     public Setting<Float> fov = this.register (new Setting<>("Fov", Float.valueOf(150.0f), Float.valueOf(-180.0f), Float.valueOf(180.0f)));
     public Setting<Integer> red = this.register (new Setting<>("Red", 170, 0, 255));
     public Setting<Integer> green = this.register (new Setting<>("Green", 0, 0, 255));

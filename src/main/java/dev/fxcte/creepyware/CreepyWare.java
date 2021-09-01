@@ -119,10 +119,28 @@ public class CreepyWare {
     public void preInit(FMLPreInitializationEvent event) {
         LOGGER.info("CREEPY IS THE BEST PVP IN 2021 - FXCTE");
     }
+    public static void setWindowIcon() {
+        if (Util.getOSType() != Util.EnumOS.OSX) {
+            try (InputStream inputStream16x = Minecraft.class.getResourceAsStream("/assets/creepy/icons/creepyware-16x.png");
+                 InputStream inputStream32x = Minecraft.class.getResourceAsStream("/assets/creepy/icons/creepyware-32x.png");){
+                ByteBuffer[] icons = new ByteBuffer[]{IconUtil.INSTANCE.readImageToBuffer(inputStream16x), IconUtil.INSTANCE.readImageToBuffer(inputStream32x)};
+                Display.setIcon((ByteBuffer[])icons);
+            }
+            catch (Exception e) {
+                LOGGER.error("Couldn't set Windows Icon", (Throwable)e);
+            }
+        }
+    }
+
+    private void setWindowsIcon() {
+        CreepyWare.setWindowIcon();
+    }
 
     @Mod.EventHandler
     public void init(FMLInitializationEvent event) {
-        Display.setTitle("Creepyware | 0.1.8"); //Every Time You Make a Update Change Version Number.
+        MinecraftForge.EVENT_BUS.register((Object)new TitleUtil());
+        this.setWindowsIcon();
         CreepyWare.load();
     }
 }
+ 
