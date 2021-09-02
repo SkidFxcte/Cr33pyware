@@ -5,22 +5,20 @@ import dev.fxcte.creepyware.features.setting.Setting;
 import dev.fxcte.creepyware.util.PlayerUtil;
 import net.minecraft.entity.player.EntityPlayer;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.UUID;
 
 public class FriendManager
         extends Feature {
-    private List<Friend> friends = new ArrayList<Friend>();
+    private final Map<String, UUID> friends = new HashMap<String, UUID>();
 
     public FriendManager() {
         super("Friends");
     }
 
     public boolean isFriend(String name) {
-        this.cleanFriends();
-        return this.friends.stream().anyMatch(friend -> friend.username.equalsIgnoreCase(name));
+        return this.friends.get(name) != null;
     }
 
     public boolean isFriend(EntityPlayer player) {
@@ -30,53 +28,40 @@ public class FriendManager
     public void addFriend(String name) {
         Friend friend = this.getFriendByName(name);
         if (friend != null) {
-            this.friends.add(friend);
+            this.friends.put(friend.getUsername(), friend.getUuid());
         }
-        this.cleanFriends();
     }
 
     public void removeFriend(String name) {
-        this.cleanFriends();
-        for (Friend friend : this.friends) {
-            if (!friend.getUsername().equalsIgnoreCase(name)) continue;
-            this.friends.remove(friend);
-            break;
-        }
+        this.friends.remove(name);
     }
 
     public void onLoad() {
-        this.friends = new ArrayList<Friend>();
+        this.friends.clear();
         this.clearSettings();
     }
 
     public void saveFriends() {
         this.clearSettings();
-        this.cleanFriends();
-        for (Friend friend : this.friends) {
-            this.register(new Setting<String>(friend.getUuid().toString(), friend.getUsername()));
+        for (Map.Entry<String, UUID> entry : this.friends.entrySet()) {
+            this.register(new Setting<String>(entry.getValue().toString(), entry.getKey()));
         }
     }
 
-    public void cleanFriends() {
-        this.friends.stream().filter(Objects::nonNull).filter(friend -> friend.getUsername() != null);
-    }
-
-    public List<Friend> getFriends() {
-        this.cleanFriends();
+    public Map<String, UUID> getFriends() {
         return this.friends;
     }
 
     public Friend getFriendByName(String input) {
         UUID uuid = PlayerUtil.getUUIDFromName(input);
         if (uuid != null) {
-            Friend friend = new Friend(input, uuid);
-            return friend;
+            return new Friend(input, uuid);
         }
         return null;
     }
 
     public void addFriend(Friend friend) {
-        this.friends.add(friend);
+        this.friends.put(friend.getUsername(), friend.getUuid());
     }
 
     public static class Friend {
@@ -94,6 +79,14 @@ public class FriendManager
 
         public UUID getUuid() {
             return this.uuid;
+        }
+
+        public boolean equals(Object other) {
+            return other instanceof Friend && ((Friend) other).getUsername().equals(this.username) && ((Friend) other).getUuid().equals(this.uuid);
+        }
+
+        public int hashCode() {
+            return this.username.hashCode() + this.uuid.hashCode();
         }
     }
 }

@@ -6,17 +6,22 @@ import dev.fxcte.creepyware.features.gui.CreepyWareGui;
 import dev.fxcte.creepyware.features.gui.components.items.Item;
 import dev.fxcte.creepyware.features.gui.components.items.buttons.Button;
 import dev.fxcte.creepyware.features.modules.client.ClickGui;
+import dev.fxcte.creepyware.features.modules.client.Colors;
+import dev.fxcte.creepyware.features.modules.client.HUD;
 import dev.fxcte.creepyware.util.ColorUtil;
+import dev.fxcte.creepyware.util.MathUtil;
 import dev.fxcte.creepyware.util.RenderUtil;
+import dev.fxcte.creepyware.util.Util;
 import net.minecraft.client.audio.PositionedSoundRecord;
-import net.minecraft.client.gui.Gui;
+import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.init.SoundEvents;
+import org.lwjgl.opengl.GL11;
 
+import java.awt.*;
 import java.util.ArrayList;
 
 public class Component
         extends Feature {
-    public static int[] counter1 = new int[]{1};
     private final ArrayList<Item> items = new ArrayList();
     public boolean drag;
     private int x;
@@ -51,19 +56,79 @@ public class Component
 
     public void drawScreen(int mouseX, int mouseY, float partialTicks) {
         this.drag(mouseX, mouseY);
-        counter1 = new int[]{1};
         float totalItemHeight = this.open ? this.getTotalItemHeight() - 2.0f : 0.0f;
-        int color = ColorUtil.toARGB(ClickGui.getInstance().topRed.getValue(), ClickGui.getInstance().topGreen.getValue(), ClickGui.getInstance().topBlue.getValue(), 255);
-        Gui.drawRect(this.x, this.y - 1, this.x + this.width, this.y + this.height - 6, ClickGui.getInstance().rainbow.getValue() != false ? ColorUtil.rainbow(ClickGui.getInstance().rainbowHue.getValue()).getRGB() : color);
+        int color = -7829368;
+        if (ClickGui.getInstance().devSettings.getValue().booleanValue()) {
+            int n = color = ClickGui.getInstance().colorSync.getValue() != false ? Colors.INSTANCE.getCurrentColorHex() : ColorUtil.toARGB(ClickGui.getInstance().topRed.getValue(), ClickGui.getInstance().topGreen.getValue(), ClickGui.getInstance().topBlue.getValue(), ClickGui.getInstance().topAlpha.getValue());
+        }
+        if (ClickGui.getInstance().rainbowRolling.getValue().booleanValue() && ClickGui.getInstance().colorSync.getValue().booleanValue() && Colors.INSTANCE.rainbow.getValue().booleanValue()) {
+            RenderUtil.drawGradientRect((float) this.x, (float) this.y - 1.5f, (float) this.width, (float) (this.height - 4), HUD.getInstance().colorMap.get(MathUtil.clamp(this.y, 0, this.renderer.scaledHeight)), HUD.getInstance().colorMap.get(MathUtil.clamp(this.y + this.height - 4, 0, this.renderer.scaledHeight)));
+        } else {
+            RenderUtil.drawRect(this.x, (float) this.y - 1.5f, this.x + this.width, this.y + this.height - 6, color);
+        }
         if (this.open) {
             RenderUtil.drawRect(this.x, (float) this.y + 12.5f, this.x + this.width, (float) (this.y + this.height) + totalItemHeight, 0x77000000);
-
+            if (ClickGui.getInstance().outline.getValue().booleanValue()) {
+                if (ClickGui.getInstance().rainbowRolling.getValue().booleanValue()) {
+                    GlStateManager.disableTexture2D();
+                    GlStateManager.enableBlend();
+                    GlStateManager.disableAlpha();
+                    GlStateManager.tryBlendFuncSeparate(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA, GlStateManager.SourceFactor.ONE, GlStateManager.DestFactor.ZERO);
+                    GlStateManager.shadeModel(7425);
+                    GL11.glBegin(1);
+                    Color currentColor = new Color(HUD.getInstance().colorMap.get(MathUtil.clamp(this.y, 0, this.renderer.scaledHeight)));
+                    GL11.glColor4f((float) currentColor.getRed() / 255.0f, (float) currentColor.getGreen() / 255.0f, (float) currentColor.getBlue() / 255.0f, (float) currentColor.getAlpha() / 255.0f);
+                    GL11.glVertex3f((float) (this.x + this.width), (float) this.y - 1.5f, 0.0f);
+                    GL11.glVertex3f((float) this.x, (float) this.y - 1.5f, 0.0f);
+                    GL11.glVertex3f((float) this.x, (float) this.y - 1.5f, 0.0f);
+                    float currentHeight = (float) this.getHeight() - 1.5f;
+                    for (Item item : this.getItems()) {
+                        currentColor = new Color(HUD.getInstance().colorMap.get(MathUtil.clamp((int) ((float) this.y + (currentHeight += (float) item.getHeight() + 1.5f)), 0, this.renderer.scaledHeight)));
+                        GL11.glColor4f((float) currentColor.getRed() / 255.0f, (float) currentColor.getGreen() / 255.0f, (float) currentColor.getBlue() / 255.0f, (float) currentColor.getAlpha() / 255.0f);
+                        GL11.glVertex3f((float) this.x, (float) this.y + currentHeight, 0.0f);
+                        GL11.glVertex3f((float) this.x, (float) this.y + currentHeight, 0.0f);
+                    }
+                    currentColor = new Color(HUD.getInstance().colorMap.get(MathUtil.clamp((int) ((float) (this.y + this.height) + totalItemHeight), 0, this.renderer.scaledHeight)));
+                    GL11.glColor4f((float) currentColor.getRed() / 255.0f, (float) currentColor.getGreen() / 255.0f, (float) currentColor.getBlue() / 255.0f, (float) currentColor.getAlpha() / 255.0f);
+                    GL11.glVertex3f((float) (this.x + this.width), (float) (this.y + this.height) + totalItemHeight, 0.0f);
+                    GL11.glVertex3f((float) (this.x + this.width), (float) (this.y + this.height) + totalItemHeight, 0.0f);
+                    for (Item item : this.getItems()) {
+                        currentColor = new Color(HUD.getInstance().colorMap.get(MathUtil.clamp((int) ((float) this.y + (currentHeight -= (float) item.getHeight() + 1.5f)), 0, this.renderer.scaledHeight)));
+                        GL11.glColor4f((float) currentColor.getRed() / 255.0f, (float) currentColor.getGreen() / 255.0f, (float) currentColor.getBlue() / 255.0f, (float) currentColor.getAlpha() / 255.0f);
+                        GL11.glVertex3f((float) (this.x + this.width), (float) this.y + currentHeight, 0.0f);
+                        GL11.glVertex3f((float) (this.x + this.width), (float) this.y + currentHeight, 0.0f);
+                    }
+                    GL11.glVertex3f((float) (this.x + this.width), (float) this.y, 0.0f);
+                    GL11.glEnd();
+                    GlStateManager.shadeModel(7424);
+                    GlStateManager.disableBlend();
+                    GlStateManager.enableAlpha();
+                    GlStateManager.enableTexture2D();
+                } else {
+                    GlStateManager.disableTexture2D();
+                    GlStateManager.enableBlend();
+                    GlStateManager.disableAlpha();
+                    GlStateManager.tryBlendFuncSeparate(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA, GlStateManager.SourceFactor.ONE, GlStateManager.DestFactor.ZERO);
+                    GlStateManager.shadeModel(7425);
+                    GL11.glBegin(2);
+                    Color outlineColor = ClickGui.getInstance().colorSync.getValue() != false ? new Color(Colors.INSTANCE.getCurrentColorHex()) : new Color(CreepyWare.colorManager.getColorAsIntFullAlpha());
+                    GL11.glColor4f((float) outlineColor.getRed(), (float) outlineColor.getGreen(), (float) outlineColor.getBlue(), (float) outlineColor.getAlpha());
+                    GL11.glVertex3f((float) this.x, (float) this.y - 1.5f, 0.0f);
+                    GL11.glVertex3f((float) (this.x + this.width), (float) this.y - 1.5f, 0.0f);
+                    GL11.glVertex3f((float) (this.x + this.width), (float) (this.y + this.height) + totalItemHeight, 0.0f);
+                    GL11.glVertex3f((float) this.x, (float) (this.y + this.height) + totalItemHeight, 0.0f);
+                    GL11.glEnd();
+                    GlStateManager.shadeModel(7424);
+                    GlStateManager.disableBlend();
+                    GlStateManager.enableAlpha();
+                    GlStateManager.enableTexture2D();
+                }
+            }
         }
         CreepyWare.textManager.drawStringWithShadow(this.getName(), (float) this.x + 3.0f, (float) this.y - 4.0f - (float) CreepyWareGui.getClickGui().getTextOffset(), -1);
         if (this.open) {
             float y = (float) (this.getY() + this.getHeight()) - 3.0f;
             for (Item item : this.getItems()) {
-                Component.counter1[0] = counter1[0] + 1;
                 if (item.isHidden()) continue;
                 item.setLocation((float) this.x + 2.0f, y);
                 item.setWidth(this.getWidth() - 4);
@@ -87,7 +152,7 @@ public class Component
         }
         if (mouseButton == 1 && this.isHovering(mouseX, mouseY)) {
             this.open = !this.open;
-            mc.getSoundHandler().playSound(PositionedSoundRecord.getMasterRecord(SoundEvents.UI_BUTTON_CLICK, 1.0f));
+            Util.mc.getSoundHandler().playSound(PositionedSoundRecord.getMasterRecord(SoundEvents.BLOCK_NOTE_HARP, 1.0f));
             return;
         }
         if (!this.open) {
@@ -177,3 +242,4 @@ public class Component
         return height;
     }
 }
+

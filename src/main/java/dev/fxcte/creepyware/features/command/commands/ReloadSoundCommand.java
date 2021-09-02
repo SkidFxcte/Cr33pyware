@@ -1,30 +1,27 @@
-//
-// Decompiled by Procyon v0.5.36
-//
-
 package dev.fxcte.creepyware.features.command.commands;
 
-import com.mojang.realmsclient.gui.ChatFormatting;
 import dev.fxcte.creepyware.features.command.Command;
+import dev.fxcte.creepyware.util.Util;
 import net.minecraft.client.audio.SoundHandler;
 import net.minecraft.client.audio.SoundManager;
 import net.minecraftforge.fml.common.ObfuscationReflectionHelper;
 
-public class ReloadSoundCommand extends Command {
+public class ReloadSoundCommand
+        extends Command {
     public ReloadSoundCommand() {
         super("sound", new String[0]);
     }
 
     @Override
-    public void execute(final String[] commands) {
+    public void execute(String[] commands) {
         try {
-            final SoundManager sndManager = (SoundManager) ObfuscationReflectionHelper.getPrivateValue(SoundHandler.class, ReloadSoundCommand.mc.getSoundHandler(), new String[]{"sndManager", "sndManager"});
+            SoundManager sndManager = ObfuscationReflectionHelper.getPrivateValue(SoundHandler.class, Util.mc.getSoundHandler(), new String[]{"sndManager", "field_147694_f"});
             sndManager.reloadSoundSystem();
-            Command.sendMessage(ChatFormatting.GREEN + "Reloaded Sound System.");
+            ReloadSoundCommand.sendMessage("\u00a7aReloaded Sound System.");
         } catch (Exception e) {
-            System.out.println(ChatFormatting.RED + "Could not restart sound manager: " + e.toString());
+            System.out.println("Could not restart sound manager: " + e.toString());
             e.printStackTrace();
-            Command.sendMessage(ChatFormatting.RED + "Couldnt Reload Sound System!");
+            ReloadSoundCommand.sendMessage("\u00a7cCouldnt Reload Sound System!");
         }
     }
 }

@@ -7,10 +7,7 @@ import dev.fxcte.creepyware.features.modules.Module;
 import java.io.File;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.nio.file.StandardOpenOption;
+import java.nio.file.*;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
@@ -23,7 +20,7 @@ public class FileManager
     private final Path config = this.getMkDirectory(this.base, "config");
 
     public FileManager() {
-        this.getMkDirectory(this.base, "pvp");
+        this.getMkDirectory(this.base, "util");
         for (Module.Category category : CreepyWare.moduleManager.getCategories()) {
             this.getMkDirectory(this.config, category.getName());
         }
@@ -113,6 +110,10 @@ public class FileManager
 
     public Path getCache() {
         return this.getBasePath().resolve("cache");
+    }
+
+    public Path getNotebot() {
+        return this.getBasePath().resolve("notebot");
     }
 
     public Path getMkBaseDirectory(String... names) {

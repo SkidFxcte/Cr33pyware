@@ -4,14 +4,13 @@ import dev.fxcte.creepyware.event.EventStage;
 
 public class KeyEvent
         extends EventStage {
-    private final int key;
+    public boolean info;
+    public boolean pressed;
 
-    public KeyEvent(int key) {
-        this.key = key;
-    }
-
-    public int getKey() {
-        return this.key;
+    public KeyEvent(int stage, boolean info, boolean pressed) {
+        super(stage);
+        this.info = info;
+        this.pressed = pressed;
     }
 }
 

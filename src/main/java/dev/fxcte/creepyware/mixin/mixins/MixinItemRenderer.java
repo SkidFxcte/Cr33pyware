@@ -1,9 +1,7 @@
 package dev.fxcte.creepyware.mixin.mixins;
 
-import dev.fxcte.creepyware.features.Feature;
 import dev.fxcte.creepyware.features.modules.render.NoRender;
 import dev.fxcte.creepyware.features.modules.render.SmallShield;
-import dev.fxcte.creepyware.features.modules.render.ViewModel;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.AbstractClientPlayer;
 import net.minecraft.client.renderer.GlStateManager;
@@ -24,33 +22,25 @@ public abstract class MixinItemRenderer {
     @Shadow
     public abstract void renderItemInFirstPerson(AbstractClientPlayer var1, float var2, float var3, EnumHand var4, float var5, ItemStack var6, float var7);
 
-    @Inject(method = {"renderItemInFirstPerson(Lnet/minecraft/client/entity/AbstractClientPlayer;FFLnet/minecraft/util/EnumHand;FLnet/minecraft/item/ItemStack;F)V"}, at = {@At(value = "HEAD")}, cancellable = true)
-    public
-    void renderItemInFirstPersonHook ( AbstractClientPlayer player , float p_187457_2_ , float p_187457_3_ , EnumHand hand , float p_187457_5_ , ItemStack stack , float p_187457_7_ , CallbackInfo info ) {
-        if ( this.injection ) {
-            info.cancel ( );
-            SmallShield offset = SmallShield.getINSTANCE ( );
+    @Inject(method={"renderItemInFirstPerson(Lnet/minecraft/client/entity/AbstractClientPlayer;FFLnet/minecraft/util/EnumHand;FLnet/minecraft/item/ItemStack;F)V"}, at={@At(value="HEAD")}, cancellable=true)
+    public void renderItemInFirstPersonHook(AbstractClientPlayer player, float p_187457_2_, float p_187457_3_, EnumHand hand, float p_187457_5_, ItemStack stack, float p_187457_7_, CallbackInfo info) {
+        if (this.injection) {
+            info.cancel();
+            SmallShield offset = SmallShield.getINSTANCE();
             float xOffset = 0.0f;
             float yOffset = 0.0f;
             this.injection = false;
-            if ( hand == EnumHand.MAIN_HAND ) {
-                if ( offset.isOn ( ) && player.getHeldItemMainhand ( ) != ItemStack.EMPTY ) {
-                    xOffset = offset.mainX.getValue ( );
-                    yOffset = offset.mainY.getValue ( );
+            if (hand == EnumHand.MAIN_HAND) {
+                if (offset.isOn() && player.getHeldItemMainhand() != ItemStack.EMPTY) {
+                    xOffset = offset.mainX.getValue().floatValue();
+                    yOffset = offset.mainY.getValue().floatValue();
                 }
-            } else if ( ! offset.normalOffset.getValue ( ) && offset.isOn ( ) && player.getHeldItemOffhand ( ) != ItemStack.EMPTY ) {
-                xOffset = offset.offX.getValue ( );
-                yOffset = offset.offY.getValue ( );
+            } else if (!offset.normalOffset.getValue().booleanValue() && offset.isOn() && player.getHeldItemOffhand() != ItemStack.EMPTY) {
+                xOffset = offset.offX.getValue().floatValue();
+                yOffset = offset.offY.getValue().floatValue();
             }
-            this.renderItemInFirstPerson ( player , p_187457_2_ , p_187457_3_ , hand , p_187457_5_ + xOffset , stack , p_187457_7_ + yOffset );
+            this.renderItemInFirstPerson(player, p_187457_2_, p_187457_3_, hand, p_187457_5_ + xOffset, stack, p_187457_7_ + yOffset);
             this.injection = true;
-        }
-        if ( ViewModel.getINSTANCE ( ).enabled.getValue ( ) && Minecraft.getMinecraft ( ).gameSettings.thirdPersonView == 0 && ! Feature.fullNullCheck ( ) ) {
-            GlStateManager.scale ( ViewModel.getINSTANCE ( ).sizeX.getValue ( ) , ViewModel.getINSTANCE ( ).sizeY.getValue ( ) , ViewModel.getINSTANCE ( ).sizeZ.getValue ( ) );
-            GlStateManager.rotate ( ViewModel.getINSTANCE ( ).rotationX.getValue ( ) * 360.0f , 1.0f , 0.0f , 0.0f );
-            GlStateManager.rotate ( ViewModel.getINSTANCE ( ).rotationY.getValue ( ) * 360.0f , 0.0f , 1.0f , 0.0f );
-            GlStateManager.rotate ( ViewModel.getINSTANCE ( ).rotationZ.getValue ( ) * 360.0f , 0.0f , 0.0f , 1.0f );
-            GlStateManager.translate ( ViewModel.getINSTANCE ( ).positionX.getValue ( ) , ViewModel.getINSTANCE ( ).positionY.getValue ( ) , ViewModel.getINSTANCE ( ).positionZ.getValue ( ) );
         }
     }
 

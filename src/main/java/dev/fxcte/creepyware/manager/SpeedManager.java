@@ -1,6 +1,7 @@
 package dev.fxcte.creepyware.manager;
 
 import dev.fxcte.creepyware.features.Feature;
+import dev.fxcte.creepyware.features.modules.client.Managers;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.math.MathHelper;
@@ -12,7 +13,6 @@ public class SpeedManager
     public static final double LAST_JUMP_INFO_DURATION_DEFAULT = 3.0;
     public static boolean didJumpThisTick = false;
     public static boolean isJumping = false;
-    private final int distancer = 20;
     public double firstJumpSpeed = 0.0;
     public double lastJumpSpeed = 0.0;
     public double percentJumpSpeedChanged = 0.0;
@@ -22,6 +22,7 @@ public class SpeedManager
     public boolean wasFirstJump = true;
     public double speedometerCurrentSpeed = 0.0;
     public HashMap<EntityPlayer, Double> playerSpeeds = new HashMap();
+    private final int distancer = 20;
 
     public static void setDidJumpThisTick(boolean val) {
         didJumpThisTick = val;
@@ -53,7 +54,9 @@ public class SpeedManager
             this.didJumpLastTick = false;
             this.lastJumpSpeed = 0.0;
         }
-        this.updatePlayers();
+        if (Managers.getInstance().speed.getValue().booleanValue()) {
+            this.updatePlayers();
+        }
     }
 
     public void updatePlayers() {

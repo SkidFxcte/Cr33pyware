@@ -5,12 +5,13 @@ import dev.fxcte.creepyware.CreepyWare;
 import dev.fxcte.creepyware.features.command.Command;
 import dev.fxcte.creepyware.features.modules.Module;
 import dev.fxcte.creepyware.features.setting.Setting;
-import dev.fxcte.creepyware.util.BlockUtil;
-import dev.fxcte.creepyware.util.EntityUtil;
-import dev.fxcte.creepyware.util.InventoryUtil;
 import dev.fxcte.creepyware.util.Timer;
+import dev.fxcte.creepyware.util.*;
+import dev.fxcte.creepyware.util.creepywareutils.CreepyWareUtils;
 import net.minecraft.block.BlockEnderChest;
 import net.minecraft.block.BlockObsidian;
+import net.minecraft.entity.Entity;
+import net.minecraft.init.Blocks;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
@@ -25,8 +26,8 @@ public class Surround
     private final Setting<Boolean> noGhost = this.register(new Setting<Boolean>("PacketPlace", false));
     private final Setting<Boolean> center = this.register(new Setting<Boolean>("TPCenter", false));
     private final Setting<Boolean> rotate = this.register(new Setting<Boolean>("Rotate", true));
-    private final Timer timer = new Timer();
-    private final Timer retryTimer = new Timer();
+    private final dev.fxcte.creepyware.util.Timer timer = new dev.fxcte.creepyware.util.Timer();
+    private final dev.fxcte.creepyware.util.Timer retryTimer = new Timer();
     private final Set<Vec3d> extendingBlocks = new HashSet<Vec3d>();
     private final Map<BlockPos, Integer> retries = new HashMap<BlockPos, Integer>();
     private int isSafe;
@@ -89,14 +90,21 @@ public class Surround
         if (this.check()) {
             return;
         }
-        if (!EntityUtil.isSafe(Surround.mc.player, 0, true)) {
+        if (!CreepyWareUtils.isSafe((Entity)Surround.mc.player, 0, true)) {
             this.isSafe = 0;
-            this.placeBlocks(Surround.mc.player.getPositionVector(), EntityUtil.getUnsafeBlockArray(Surround.mc.player, 0, true), true, false, false);
-        } else if (!EntityUtil.isSafe(Surround.mc.player, -1, false)) {
+            this.placeBlocks(Surround.mc.player.getPositionVector(), CreepyWareUtils.getUnsafeBlockArray((Entity)Surround.mc.player, 0, true), true, false, false);
+        }
+        else if (!CreepyWareUtils.isSafe((Entity)Surround.mc.player, -1, false)) {
             this.isSafe = 1;
-            this.placeBlocks(Surround.mc.player.getPositionVector(), EntityUtil.getUnsafeBlockArray(Surround.mc.player, -1, false), false, false, true);
-        } else {
-            this.isSafe = 2;
+            this.placeBlocks(Surround.mc.player.getPositionVector(), CreepyWareUtils.getUnsafeBlockArray((Entity)Surround.mc.player, -1, false), false, false, true);
+        }
+        else {
+            this.isSafe = 3;
+            if (Util.mc.world.getBlockState(EntityUtil.getRoundedBlockPos(Util.mc.player)).getBlock().equals(Blocks.ENDER_CHEST) && Util.mc.player.posY != EntityUtil.getRoundedBlockPos(Util.mc.player).getY()) {
+                this.placeBlocks(Surround.mc.player.getPositionVector(), CreepyWareUtils.getUnsafeBlockArray(Surround.mc.player, 1, false), false, false, true);
+            } else {
+                this.isSafe = 4;
+            }
         }
         this.processExtendingBlocks();
         if (this.didPlace) {
@@ -116,7 +124,7 @@ public class Surround
             }
             int placementsBefore = this.placements;
             if (this.areClose(array) != null) {
-                this.placeBlocks(this.areClose(array), EntityUtil.getUnsafeBlockArrayFromVec3d(this.areClose(array), 0, true), true, false, true);
+                this.placeBlocks(this.areClose(array), CreepyWareUtils.getUnsafeBlockArrayFromVec3d(this.areClose(array), 0, true), true, false, true);
             }
             if (placementsBefore < this.placements) {
                 this.extendingBlocks.clear();
@@ -129,7 +137,7 @@ public class Surround
     private Vec3d areClose(Vec3d[] vec3ds) {
         int matches = 0;
         for (Vec3d vec3d : vec3ds) {
-            for (Vec3d pos : EntityUtil.getUnsafeBlockArray(Surround.mc.player, 0, true)) {
+            for (Vec3d pos : CreepyWareUtils.getUnsafeBlockArray(Surround.mc.player, 0, true)) {
                 if (!vec3d.equals(pos)) continue;
                 ++matches;
             }
@@ -155,7 +163,7 @@ public class Surround
                         continue block5;
                     }
                     if (CreepyWare.speedManager.getSpeedKpH() != 0.0 || isExtending || this.extenders >= 1) continue block5;
-                    this.placeBlocks(Surround.mc.player.getPositionVector().add(vec3d), EntityUtil.getUnsafeBlockArrayFromVec3d(Surround.mc.player.getPositionVector().add(vec3d), 0, true), hasHelpingBlocks, false, true);
+                    this.placeBlocks(Surround.mc.player.getPositionVector().add(vec3d), CreepyWareUtils.getUnsafeBlockArrayFromVec3d(Surround.mc.player.getPositionVector().add(vec3d), 0, true), hasHelpingBlocks, false, true);
                     this.extendingBlocks.add(vec3d);
                     ++this.extenders;
                     continue block5;
@@ -234,4 +242,3 @@ public class Surround
         }
     }
 }
-

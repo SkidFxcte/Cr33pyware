@@ -8,6 +8,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Items;
 import net.minecraft.init.MobEffects;
 import net.minecraft.item.*;
+import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.CombatRules;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.math.BlockPos;
@@ -17,14 +18,6 @@ import net.minecraft.world.Explosion;
 
 public class DamageUtil
         implements Util {
-    public static int getRoundedDamage(ItemStack stack) {
-        return (int) DamageUtil.getDamageInPercent(stack);
-    }
-
-    public static float getDamageInPercent(ItemStack stack) {
-        return (float) (DamageUtil.getItemDamage(stack) / stack.getMaxDamage()) * 100.0f;
-    }
-
     public static boolean isArmorLow(EntityPlayer player, int durability) {
         for (ItemStack piece : player.inventory.armorInventory) {
             if (piece == null) {
@@ -36,12 +29,38 @@ public class DamageUtil
         return false;
     }
 
+    public static boolean isNaked(EntityPlayer player) {
+        for (ItemStack piece : player.inventory.armorInventory) {
+            if (piece == null || piece.isEmpty()) continue;
+            return false;
+        }
+        return true;
+    }
+
     public static int getItemDamage(ItemStack stack) {
         return stack.getMaxDamage() - stack.getItemDamage();
     }
 
-    public static boolean canTakeDamage(boolean suicide) {
-        return !DamageUtil.mc.player.capabilities.isCreativeMode && !suicide;
+    public static float getDamageInPercent(ItemStack stack) {
+        return (float) DamageUtil.getItemDamage(stack) / (float) stack.getMaxDamage() * 100.0f;
+    }
+
+    public static int getRoundedDamage(ItemStack stack) {
+        return (int) DamageUtil.getDamageInPercent(stack);
+    }
+
+    public static boolean hasDurability(ItemStack stack) {
+        Item item = stack.getItem();
+        return item instanceof ItemArmor || item instanceof ItemSword || item instanceof ItemTool || item instanceof ItemShield;
+    }
+
+    public static boolean canBreakWeakness(EntityPlayer player) {
+        int strengthAmp = 0;
+        PotionEffect effect = DamageUtil.mc.player.getActivePotionEffect(MobEffects.STRENGTH);
+        if (effect != null) {
+            strengthAmp = effect.getAmplifier();
+        }
+        return !DamageUtil.mc.player.isPotionActive(MobEffects.WEAKNESS) || strengthAmp >= 1 || DamageUtil.mc.player.getHeldItemMainhand().getItem() instanceof ItemSword || DamageUtil.mc.player.getHeldItemMainhand().getItem() instanceof ItemPickaxe || DamageUtil.mc.player.getHeldItemMainhand().getItem() instanceof ItemAxe || DamageUtil.mc.player.getHeldItemMainhand().getItem() instanceof ItemSpade;
     }
 
     public static float calculateDamage(double posX, double posY, double posZ, Entity entity) {
@@ -92,8 +111,16 @@ public class DamageUtil
         return damage * (diff == 0 ? 0.0f : (diff == 2 ? 1.0f : (diff == 1 ? 0.5f : 1.5f)));
     }
 
+    public static float calculateDamage(Entity crystal, Entity entity) {
+        return DamageUtil.calculateDamage(crystal.posX, crystal.posY, crystal.posZ, entity);
+    }
+
     public static float calculateDamage(BlockPos pos, Entity entity) {
         return DamageUtil.calculateDamage((double) pos.getX() + 0.5, pos.getY() + 1, (double) pos.getZ() + 0.5, entity);
+    }
+
+    public static boolean canTakeDamage(boolean suicide) {
+        return !DamageUtil.mc.player.capabilities.isCreativeMode && !suicide;
     }
 
     public static int getCooldownByWeapon(EntityPlayer player) {

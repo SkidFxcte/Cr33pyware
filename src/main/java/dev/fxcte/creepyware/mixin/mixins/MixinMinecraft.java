@@ -2,21 +2,27 @@ package dev.fxcte.creepyware.mixin.mixins;
 
 import javax.annotation.Nullable;
 import dev.fxcte.creepyware.CreepyWare;
+import dev.fxcte.creepyware.features.gui.custom.GuiCustomMainScreen;
+import dev.fxcte.creepyware.features.modules.client.Managers;
+import dev.fxcte.creepyware.features.modules.client.Screens;
 import dev.fxcte.creepyware.features.modules.player.MultiTask;
 import dev.fxcte.creepyware.features.modules.render.NoRender;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.EntityPlayerSP;
+import net.minecraft.client.gui.GuiMainMenu;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.multiplayer.PlayerControllerMP;
 import net.minecraft.client.multiplayer.WorldClient;
 import net.minecraft.crash.CrashReport;
 import org.lwjgl.input.Keyboard;
+import org.lwjgl.opengl.Display;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.Redirect;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 import org.spongepowered.asm.mixin.injection.callback.LocalCapture;
 
 @Mixin(value={Minecraft.class})
@@ -28,6 +34,41 @@ public abstract class MixinMinecraft {
     private void onRunTickKeyboard(CallbackInfo ci, int i) {
         if (Keyboard.getEventKeyState() && CreepyWare.moduleManager != null) {
             CreepyWare.moduleManager.onKeyPressed(i);
+        }
+    }
+
+    @Inject(method={"getLimitFramerate"}, at={@At(value="HEAD")}, cancellable=true)
+    public void getLimitFramerateHook(CallbackInfoReturnable<Integer> callbackInfoReturnable) {
+        try {
+            if (Managers.getInstance().unfocusedCpu.getValue().booleanValue() && !Display.isActive()) {
+                callbackInfoReturnable.setReturnValue(Managers.getInstance().cpuFPS.getValue());
+            }
+        }
+        catch (NullPointerException nullPointerException) {
+            // empty catch block
+        }
+    }
+
+    @Redirect(method={"runGameLoop"}, at=@At(value="INVOKE", target="Lorg/lwjgl/opengl/Display;sync(I)V", remap=false))
+    public void syncHook(int maxFps) {
+        if (Managers.getInstance().betterFrames.getValue().booleanValue()) {
+            Display.sync((int)Managers.getInstance().betterFPS.getValue());
+        } else {
+            Display.sync((int)maxFps);
+        }
+    }
+
+    @Inject(method={"runTick()V"}, at={@At(value="RETURN")})
+    private void runTick(CallbackInfo callbackInfo) {
+        if (Minecraft.getMinecraft().currentScreen instanceof GuiMainMenu && Screens.INSTANCE.mainScreen.getValue().booleanValue()) {
+            Minecraft.getMinecraft().displayGuiScreen((GuiScreen)new GuiCustomMainScreen());
+        }
+    }
+
+    @Inject(method={"displayGuiScreen"}, at={@At(value="HEAD")})
+    private void displayGuiScreen(GuiScreen screen, CallbackInfo ci) {
+        if (screen instanceof GuiMainMenu) {
+            this.displayGuiScreen(new GuiCustomMainScreen());
         }
     }
 

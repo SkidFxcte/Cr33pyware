@@ -1,6 +1,5 @@
 package dev.fxcte.creepyware.features.modules.client;
 
-import com.mojang.realmsclient.gui.ChatFormatting;
 import dev.fxcte.creepyware.CreepyWare;
 import dev.fxcte.creepyware.event.events.ClientEvent;
 import dev.fxcte.creepyware.features.command.Command;
@@ -8,33 +7,34 @@ import dev.fxcte.creepyware.features.gui.CreepyWareGui;
 import dev.fxcte.creepyware.features.modules.Module;
 import dev.fxcte.creepyware.features.modules.render.NoRender;
 import dev.fxcte.creepyware.features.setting.Setting;
+import dev.fxcte.creepyware.util.Util;
 import net.minecraft.client.settings.GameSettings;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
 public class ClickGui
         extends Module {
     private static ClickGui INSTANCE = new ClickGui();
-    public Setting<String> prefix = this.register (new Setting<>("Prefix", "."));
-    public Setting<Boolean> customFov = this.register (new Setting<>("CustomFov", false));
+    public Setting<Boolean> colorSync = this.register(new Setting<Boolean>("Sync", false));
+    public Setting<Boolean> outline = this.register(new Setting<Boolean>("Outline", false));
     public Setting<Boolean> gear = register (new Setting("gear", Boolean.valueOf(true), "draws gear like future"));
-    public Setting<Float> fov = this.register (new Setting<>("Fov", Float.valueOf(150.0f), Float.valueOf(-180.0f), Float.valueOf(180.0f)));
-    public Setting<Integer> red = this.register (new Setting<>("Red", 170, 0, 255));
-    public Setting<Integer> green = this.register (new Setting<>("Green", 0, 0, 255));
-    public Setting<Integer> blue = this.register (new Setting<>("Blue", 255, 0, 255));
-    public Setting<Integer> hoverAlpha = this.register (new Setting<>("Alpha", 180, 0, 255));
-    public Setting<Integer> topRed = this.register (new Setting<>("SecondRed", 80, 0, 255));
-    public Setting<Integer> topGreen = this.register (new Setting<>("SecondGreen", 0, 0, 255));
-    public Setting<Integer> topBlue = this.register (new Setting<>("SecondBlue", 185, 0, 255));
-    public Setting<Integer> alpha = this.register (new Setting<>("HoverAlpha", 240, 0, 255));
-    public Setting<Boolean> rainbow = this.register (new Setting<>("Rainbow", false));
-    public Setting<Boolean> outline = this.register (new Setting<>("Outline", false));
-    public Setting<Boolean> colorSync  = this.register (new Setting<>("Sync", false));
-    public Setting<rainbowMode> rainbowModeHud = this.register(new Setting<Object>("HRainbowMode", rainbowMode.Static, v -> this.rainbow.getValue() && this.colorSync.getValue()));
-    public Setting<rainbowModeArray> rainbowModeA = this.register(new Setting<Object>("ARainbowMode", rainbowModeArray.Static, v -> this.rainbow.getValue() && this.colorSync.getValue()));
-    public Setting<Integer> rainbowHue = this.register(new Setting<Object>("Delay", Integer.valueOf(240), Integer.valueOf(0), Integer.valueOf(600), v -> this.rainbow.getValue()));
-    public Setting<Float> rainbowBrightness = this.register(new Setting<Object>("Brightness ", Float.valueOf(150.0f), Float.valueOf(1.0f), Float.valueOf(255.0f), v -> this.rainbow.getValue()));
-    public Setting<Float> rainbowSaturation = this.register(new Setting<Object>("Saturation", Float.valueOf(150.0f), Float.valueOf(1.0f), Float.valueOf(255.0f), v -> this.rainbow.getValue()));
-    private CreepyWareGui click;
+    public Setting<Boolean> rainbowRolling = this.register(new Setting<Object>("RollingRainbow", Boolean.valueOf(false), v -> this.colorSync.getValue() != false && Colors.INSTANCE.rainbow.getValue() != false));
+    public Setting<String> prefix = this.register(new Setting<String>("Prefix", ".").setRenderName(true));
+    public Setting<Integer> red = this.register(new Setting<Integer>("Red", 170, 0, 255));
+    public Setting<Integer> green = this.register(new Setting<Integer>("Green", 0, 0, 255));
+    public Setting<Integer> blue = this.register(new Setting<Integer>("Blue", 255, 0, 255));
+    public Setting<Integer> hoverAlpha = this.register(new Setting<Integer>("Alpha", 180, 0, 255));
+    public Setting<Integer> alpha = this.register(new Setting<Integer>("HoverAlpha", 240, 0, 255));
+    public Setting<Boolean> customFov = this.register(new Setting<Boolean>("CustomFov", false));
+    public Setting<Float> fov = this.register(new Setting<Object>("Fov", Float.valueOf(150.0f), Float.valueOf(-180.0f), Float.valueOf(180.0f), v -> this.customFov.getValue()));
+    public Setting<Boolean> openCloseChange = this.register(new Setting<Boolean>("Open/Close", false));
+    public Setting<String> open = this.register(new Setting<Object>("Open:", "", v -> this.openCloseChange.getValue()).setRenderName(true));
+    public Setting<String> close = this.register(new Setting<Object>("Close:", "", v -> this.openCloseChange.getValue()).setRenderName(true));
+    public Setting<String> moduleButton = this.register(new Setting<Object>("Buttons:", "", v -> this.openCloseChange.getValue() == false).setRenderName(true));
+    public Setting<Boolean> devSettings = this.register(new Setting<Boolean>("TopSetting", true));
+    public Setting<Integer> topRed = this.register(new Setting<Object>("TopRed", Integer.valueOf(80), Integer.valueOf(0), Integer.valueOf(255), v -> this.devSettings.getValue()));
+    public Setting<Integer> topGreen = this.register(new Setting<Object>("TopGreen", Integer.valueOf(0), Integer.valueOf(0), Integer.valueOf(255), v -> this.devSettings.getValue()));
+    public Setting<Integer> topBlue = this.register(new Setting<Object>("TopBlue", Integer.valueOf(185), Integer.valueOf(0), Integer.valueOf(255), v -> this.devSettings.getValue()));
+    public Setting<Integer> topAlpha = this.register(new Setting<Object>("TopAlpha", Integer.valueOf(255), Integer.valueOf(0), Integer.valueOf(255), v -> this.devSettings.getValue()));
 
     public ClickGui() {
         super("ClickGui", "Opens the ClickGui", Module.Category.CLIENT, true, false, false);
@@ -64,7 +64,7 @@ public class ClickGui
         if (event.getStage() == 2 && event.getSetting().getFeature().equals(this)) {
             if (event.getSetting().equals(this.prefix)) {
                 CreepyWare.commandManager.setPrefix(this.prefix.getPlannedValue());
-                Command.sendMessage("Prefix set to " + ChatFormatting.DARK_GRAY + CreepyWare.commandManager.getPrefix());
+                Command.sendMessage("Prefix set to \u00a7a" + CreepyWare.commandManager.getPrefix());
             }
             CreepyWare.colorManager.setColor(this.red.getPlannedValue(), this.green.getPlannedValue(), this.blue.getPlannedValue(), this.hoverAlpha.getPlannedValue());
         }
@@ -72,12 +72,16 @@ public class ClickGui
 
     @Override
     public void onEnable() {
-        mc.displayGuiScreen(CreepyWareGui.getClickGui());
+        Util.mc.displayGuiScreen(new CreepyWareGui());
     }
 
     @Override
     public void onLoad() {
-        CreepyWare.colorManager.setColor(this.red.getValue(), this.green.getValue(), this.blue.getValue(), this.hoverAlpha.getValue());
+        if (this.colorSync.getValue().booleanValue()) {
+            CreepyWare.colorManager.setColor(Colors.INSTANCE.getCurrentColor().getRed(), Colors.INSTANCE.getCurrentColor().getGreen(), Colors.INSTANCE.getCurrentColor().getBlue(), this.hoverAlpha.getValue());
+        } else {
+            CreepyWare.colorManager.setColor(this.red.getValue(), this.green.getValue(), this.blue.getValue(), this.hoverAlpha.getValue());
+        }
         CreepyWare.commandManager.setPrefix(this.prefix.getValue());
     }
 
@@ -88,15 +92,11 @@ public class ClickGui
         }
     }
 
-    public enum rainbowModeArray {
-        Static,
-        Up
-
-    }
-
-    public enum rainbowMode {
-        Static,
-        Sideway
-
+    @Override
+    public void onDisable() {
+        if (ClickGui.mc.currentScreen instanceof CreepyWareGui) {
+            Util.mc.displayGuiScreen(null);
+        }
     }
 }
+

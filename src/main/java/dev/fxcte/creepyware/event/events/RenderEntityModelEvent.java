@@ -29,3 +29,4 @@ public class RenderEntityModelEvent
         this.scale = scale;
     }
 }
+

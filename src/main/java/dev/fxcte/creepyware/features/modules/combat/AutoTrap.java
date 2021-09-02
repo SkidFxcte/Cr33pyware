@@ -6,6 +6,7 @@ import dev.fxcte.creepyware.features.command.Command;
 import dev.fxcte.creepyware.features.modules.Module;
 import dev.fxcte.creepyware.features.setting.Setting;
 import dev.fxcte.creepyware.util.*;
+import dev.fxcte.creepyware.util.creepywareutils.CreepyWareUtils;
 import net.minecraft.block.BlockEnderChest;
 import net.minecraft.block.BlockObsidian;
 import net.minecraft.entity.player.EntityPlayer;
@@ -87,7 +88,7 @@ public class AutoTrap
     }
 
     private void doStaticTrap() {
-        List<Vec3d> placeTargets = EntityUtil.targets(this.target.getPositionVector(), this.antiScaffold.getValue(), this.antiStep.getValue(), false, false, false, this.raytrace.getValue());
+        List<Vec3d> placeTargets = CreepyWareUtils.targets(this.target.getPositionVector(), this.antiScaffold.getValue(), this.antiStep.getValue(), false, false, false, this.raytrace.getValue());
         this.placeList(placeTargets);
     }
 
@@ -145,7 +146,7 @@ public class AutoTrap
         EntityPlayer target = null;
         double distance = Math.pow(range, 2.0) + 1.0;
         for (EntityPlayer player : AutoTrap.mc.world.playerEntities) {
-            if (EntityUtil.isntValid(player, range) || trapped && EntityUtil.isTrapped(player, this.antiScaffold.getValue(), this.antiStep.getValue(), false, false, false) || CreepyWare.speedManager.getPlayerSpeed(player) > 10.0)
+            if (EntityUtil.isntValid(player, range) || trapped && CreepyWareUtils.isTrapped(player, this.antiScaffold.getValue(), this.antiStep.getValue(), false, false, false) || CreepyWare.speedManager.getPlayerSpeed(player) > 10.0)
                 continue;
             if (target == null) {
                 target = player;
@@ -186,4 +187,3 @@ public class AutoTrap
         }
     }
 }
-

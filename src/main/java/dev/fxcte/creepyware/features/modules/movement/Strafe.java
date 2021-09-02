@@ -1,8 +1,5 @@
 package dev.fxcte.creepyware.features.modules.movement;
 
-import java.math.BigDecimal;
-import java.math.RoundingMode;
-import java.util.Objects;
 import dev.fxcte.creepyware.CreepyWare;
 import dev.fxcte.creepyware.event.events.MoveEvent;
 import dev.fxcte.creepyware.event.events.PacketEvent;
@@ -12,13 +9,17 @@ import dev.fxcte.creepyware.features.modules.player.Freecam;
 import dev.fxcte.creepyware.features.setting.Setting;
 import dev.fxcte.creepyware.util.EntityUtil;
 import dev.fxcte.creepyware.util.Timer;
-import net.minecraft.entity.Entity;
 import net.minecraft.init.MobEffects;
 import net.minecraft.network.play.server.SPacketPlayerPosLook;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
+import java.util.Objects;
+
 public class Strafe
         extends Module {
+    private static Strafe INSTANCE;
     private final Setting<Mode> mode = this.register(new Setting<Mode>("Mode", Mode.NCP));
     private final Setting<Boolean> limiter = this.register(new Setting<Boolean>("SetGround", true));
     private final Setting<Boolean> bhop2 = this.register(new Setting<Boolean>("Hop", true));
@@ -47,9 +48,8 @@ public class Strafe
     private double lastDist;
     private int cooldownHops = 0;
     private boolean waitForGround = false;
-    private Timer timer = new Timer();
+    private final Timer timer = new Timer();
     private int hops = 0;
-    private static Strafe INSTANCE;
 
     public Strafe() {
         super("Strafe", "AirControl etc.", Module.Category.MOVEMENT, true, false, false);
@@ -61,6 +61,23 @@ public class Strafe
             INSTANCE = new Strafe();
         }
         return INSTANCE;
+    }
+
+    public static double getBaseMoveSpeed() {
+        double baseSpeed = 0.272;
+        if (Strafe.mc.player.isPotionActive(MobEffects.SPEED)) {
+            int amplifier = Objects.requireNonNull(Strafe.mc.player.getActivePotionEffect(MobEffects.SPEED)).getAmplifier();
+            baseSpeed *= 1.0 + 0.2 * (double) amplifier;
+        }
+        return baseSpeed;
+    }
+
+    public static double round(double value, int places) {
+        if (places < 0) {
+            throw new IllegalArgumentException();
+        }
+        BigDecimal bigDecimal = new BigDecimal(value).setScale(places, RoundingMode.HALF_UP);
+        return bigDecimal.doubleValue();
     }
 
     @Override
@@ -108,42 +125,42 @@ public class Strafe
             if (this.step.getValue() == 1) {
                 Strafe.mc.player.stepHeight = 0.6f;
             }
-            if (this.limiter2.getValue().booleanValue() && Strafe.mc.player.onGround && CreepyWare.speedManager.getSpeedKpH() < (double)this.speedLimit2.getValue().floatValue()) {
+            if (this.limiter2.getValue().booleanValue() && Strafe.mc.player.onGround && CreepyWare.speedManager.getSpeedKpH() < (double) this.speedLimit2.getValue().floatValue()) {
                 this.stage = 2;
             }
-            if (this.limiter.getValue().booleanValue() && Strafe.round(Strafe.mc.player.posY - (double)((int)Strafe.mc.player.posY), 3) == Strafe.round((double)this.setGroundLimit.getValue().intValue() / 1000.0, 3) && (!this.setGroundNoLag.getValue().booleanValue() || EntityUtil.isEntityMoving((Entity)Strafe.mc.player))) {
+            if (this.limiter.getValue().booleanValue() && Strafe.round(Strafe.mc.player.posY - (double) ((int) Strafe.mc.player.posY), 3) == Strafe.round((double) this.setGroundLimit.getValue().intValue() / 1000.0, 3) && (!this.setGroundNoLag.getValue().booleanValue() || EntityUtil.isEntityMoving(Strafe.mc.player))) {
                 if (this.setNull.getValue().booleanValue()) {
                     Strafe.mc.player.motionY = 0.0;
                 } else {
-                    Strafe.mc.player.motionY -= (double)this.groundFactor.getValue().intValue() / 100.0;
-                    event.setY(event.getY() - (double)this.groundFactor.getValue().intValue() / 100.0);
+                    Strafe.mc.player.motionY -= (double) this.groundFactor.getValue().intValue() / 100.0;
+                    event.setY(event.getY() - (double) this.groundFactor.getValue().intValue() / 100.0);
                     if (this.setPos.getValue().booleanValue()) {
-                        Strafe.mc.player.posY -= (double)this.groundFactor.getValue().intValue() / 100.0;
+                        Strafe.mc.player.posY -= (double) this.groundFactor.getValue().intValue() / 100.0;
                     }
                 }
             }
             if (this.stage == 1 && EntityUtil.isMoving()) {
                 this.stage = 2;
-                this.moveSpeed = (double)this.getMultiplier() * Strafe.getBaseMoveSpeed() - 0.01;
+                this.moveSpeed = (double) this.getMultiplier() * Strafe.getBaseMoveSpeed() - 0.01;
             } else if (this.stage == 2 && EntityUtil.isMoving()) {
                 this.stage = 3;
-                Strafe.mc.player.motionY = (double)this.yOffset.getValue().intValue() / 1000.0;
-                event.setY((double)this.yOffset.getValue().intValue() / 1000.0);
+                Strafe.mc.player.motionY = (double) this.yOffset.getValue().intValue() / 1000.0;
+                event.setY((double) this.yOffset.getValue().intValue() / 1000.0);
                 if (this.cooldownHops > 0) {
                     --this.cooldownHops;
                 }
                 ++this.hops;
-                double accel = this.acceleration.getValue() == 2149 ? 2.149802 : (double)this.acceleration.getValue().intValue() / 1000.0;
+                double accel = this.acceleration.getValue() == 2149 ? 2.149802 : (double) this.acceleration.getValue().intValue() / 1000.0;
                 this.moveSpeed *= accel;
             } else if (this.stage == 3) {
                 this.stage = 4;
                 double difference = 0.66 * (this.lastDist - Strafe.getBaseMoveSpeed());
                 this.moveSpeed = this.lastDist - difference;
             } else {
-                if (Strafe.mc.world.getCollisionBoxes((Entity)Strafe.mc.player, Strafe.mc.player.getEntityBoundingBox().offset(0.0, Strafe.mc.player.motionY, 0.0)).size() > 0 || Strafe.mc.player.collidedVertically && this.stage > 0) {
-                    this.stage = this.bhop2.getValue() != false && CreepyWare.speedManager.getSpeedKpH() >= (double)this.speedLimit.getValue().floatValue() ? 0 : (Strafe.mc.player.moveForward != 0.0f || Strafe.mc.player.moveStrafing != 0.0f ? 1 : 0);
+                if (Strafe.mc.world.getCollisionBoxes(Strafe.mc.player, Strafe.mc.player.getEntityBoundingBox().offset(0.0, Strafe.mc.player.motionY, 0.0)).size() > 0 || Strafe.mc.player.collidedVertically && this.stage > 0) {
+                    this.stage = this.bhop2.getValue() != false && CreepyWare.speedManager.getSpeedKpH() >= (double) this.speedLimit.getValue().floatValue() ? 0 : (Strafe.mc.player.moveForward != 0.0f || Strafe.mc.player.moveStrafing != 0.0f ? 1 : 0);
                 }
-                this.moveSpeed = this.lastDist - this.lastDist / (double)this.dFactor.getValue().intValue();
+                this.moveSpeed = this.lastDist - this.lastDist / (double) this.dFactor.getValue().intValue();
             }
             this.moveSpeed = Math.max(this.moveSpeed, Strafe.getBaseMoveSpeed());
             if (this.hopWait.getValue().booleanValue() && this.limiter2.getValue().booleanValue() && this.hops < 2) {
@@ -170,8 +187,8 @@ public class Strafe
             double motionX = Math.cos(Math.toRadians(rotationYaw + 90.0f));
             double motionZ = Math.sin(Math.toRadians(rotationYaw + 90.0f));
             if (this.cooldownHops == 0) {
-                event.setX((double)moveForward * this.moveSpeed * motionX + (double)moveStrafe * this.moveSpeed * motionZ);
-                event.setZ((double)moveForward * this.moveSpeed * motionZ - (double)moveStrafe * this.moveSpeed * motionX);
+                event.setX((double) moveForward * this.moveSpeed * motionX + (double) moveStrafe * this.moveSpeed * motionZ);
+                event.setZ((double) moveForward * this.moveSpeed * motionZ - (double) moveStrafe * this.moveSpeed * motionX);
             }
             if (this.step.getValue() == 2) {
                 Strafe.mc.player.stepHeight = 0.6f;
@@ -196,9 +213,10 @@ public class Strafe
             }
             case 2: {
                 double motionY = 0.40123128;
-                if (Strafe.mc.player.moveForward == 0.0f && Strafe.mc.player.moveStrafing == 0.0f || !Strafe.mc.player.onGround) break;
+                if (Strafe.mc.player.moveForward == 0.0f && Strafe.mc.player.moveStrafing == 0.0f || !Strafe.mc.player.onGround)
+                    break;
                 if (Strafe.mc.player.isPotionActive(MobEffects.JUMP_BOOST)) {
-                    motionY += (double)((float)(Strafe.mc.player.getActivePotionEffect(MobEffects.JUMP_BOOST).getAmplifier() + 1) * 0.1f);
+                    motionY += (float) (Strafe.mc.player.getActivePotionEffect(MobEffects.JUMP_BOOST).getAmplifier() + 1) * 0.1f;
                 }
                 Strafe.mc.player.motionY = motionY;
                 event.setY(Strafe.mc.player.motionY);
@@ -206,17 +224,17 @@ public class Strafe
                 break;
             }
             case 3: {
-                this.moveSpeed = this.lastDist - 0.76 * (this.lastDist - this.getBaseMoveSpeed());
+                this.moveSpeed = this.lastDist - 0.76 * (this.lastDist - Strafe.getBaseMoveSpeed());
                 break;
             }
             default: {
-                if (Strafe.mc.world.getCollisionBoxes((Entity)Strafe.mc.player, Strafe.mc.player.getEntityBoundingBox().offset(0.0, Strafe.mc.player.motionY, 0.0)).size() > 0 || Strafe.mc.player.collidedVertically && this.stage > 0) {
-                    this.stage = this.bhop2.getValue() != false && CreepyWare.speedManager.getSpeedKpH() >= (double)this.speedLimit.getValue().floatValue() ? 0 : (Strafe.mc.player.moveForward != 0.0f || Strafe.mc.player.moveStrafing != 0.0f ? 1 : 0);
+                if (Strafe.mc.world.getCollisionBoxes(Strafe.mc.player, Strafe.mc.player.getEntityBoundingBox().offset(0.0, Strafe.mc.player.motionY, 0.0)).size() > 0 || Strafe.mc.player.collidedVertically && this.stage > 0) {
+                    this.stage = this.bhop2.getValue() != false && CreepyWare.speedManager.getSpeedKpH() >= (double) this.speedLimit.getValue().floatValue() ? 0 : (Strafe.mc.player.moveForward != 0.0f || Strafe.mc.player.moveStrafing != 0.0f ? 1 : 0);
                 }
                 this.moveSpeed = this.lastDist - this.lastDist / 159.0;
             }
         }
-        this.moveSpeed = Math.max(this.moveSpeed, this.getBaseMoveSpeed());
+        this.moveSpeed = Math.max(this.moveSpeed, Strafe.getBaseMoveSpeed());
         double forward = Strafe.mc.player.movementInput.moveForward;
         double strafe = Strafe.mc.player.movementInput.moveStrafe;
         double yaw = Strafe.mc.player.rotationYaw;
@@ -232,26 +250,17 @@ public class Strafe
         ++this.stage;
     }
 
-    public static double getBaseMoveSpeed() {
-        double baseSpeed = 0.272;
-        if (Strafe.mc.player.isPotionActive(MobEffects.SPEED)) {
-            int amplifier = Objects.requireNonNull(Strafe.mc.player.getActivePotionEffect(MobEffects.SPEED)).getAmplifier();
-            baseSpeed *= 1.0 + 0.2 * (double)amplifier;
-        }
-        return baseSpeed;
-    }
-
     private float getMultiplier() {
         float baseSpeed = this.specialMoveSpeed.getValue().intValue();
         if (this.potion.getValue().booleanValue() && Strafe.mc.player.isPotionActive(MobEffects.SPEED)) {
             int amplifier = Objects.requireNonNull(Strafe.mc.player.getActivePotionEffect(MobEffects.SPEED)).getAmplifier() + 1;
-            baseSpeed = amplifier >= 2 ? (float)this.potionSpeed2.getValue().intValue() : (float)this.potionSpeed.getValue().intValue();
+            baseSpeed = amplifier >= 2 ? (float) this.potionSpeed2.getValue().intValue() : (float) this.potionSpeed.getValue().intValue();
         }
         return baseSpeed / 100.0f;
     }
 
     private boolean shouldReturn() {
-        return CreepyWare.moduleManager.isModuleEnabled(Freecam.class);
+        return CreepyWare.moduleManager.isModuleEnabled(Freecam.class) || CreepyWare.moduleManager.isModuleEnabled(ElytraFlight.class);
     }
 
     @SubscribeEvent
@@ -272,18 +281,10 @@ public class Strafe
         return null;
     }
 
-    public static double round(double value, int places) {
-        if (places < 0) {
-            throw new IllegalArgumentException();
-        }
-        BigDecimal bigDecimal = new BigDecimal(value).setScale(places, RoundingMode.HALF_UP);
-        return bigDecimal.doubleValue();
-    }
-
-    public static enum Mode {
+    public enum Mode {
         NONE,
         NCP,
-        BHOP;
+        BHOP
 
     }
 }

@@ -1,6 +1,11 @@
 package dev.fxcte.creepyware.manager;
 
+import com.mojang.realmsclient.gui.ChatFormatting;
+import dev.fxcte.creepyware.CreepyWare;
 import dev.fxcte.creepyware.features.Feature;
+import dev.fxcte.creepyware.features.command.Command;
+import dev.fxcte.creepyware.features.modules.client.Notifications;
+import dev.fxcte.creepyware.features.modules.client.ModuleTools;
 import net.minecraft.entity.player.EntityPlayer;
 
 import java.util.HashSet;
@@ -10,28 +15,138 @@ import java.util.concurrent.ConcurrentHashMap;
 
 public class TotemPopManager
         extends Feature {
+    private Notifications notifications;
     private Map<EntityPlayer, Integer> poplist = new ConcurrentHashMap<EntityPlayer, Integer>();
     private final Set<EntityPlayer> toAnnounce = new HashSet<EntityPlayer>();
 
+    public void onUpdate() {
+        if (this.notifications.totemAnnounce.passedMs(this.notifications.delay.getValue().intValue()) && this.notifications.isOn() && this.notifications.totemPops.getValue().booleanValue()) {
+            for (EntityPlayer player : this.toAnnounce) {
+                if (player == null) continue;
+                int playerNumber = 0;
+                for (char character : player.getName().toCharArray()) {
+                    playerNumber += character;
+                    playerNumber *= 10;
+                }
+                Command.sendOverwriteMessage(this.pop(player), playerNumber, this.notifications.totemNoti.getValue());
+                this.toAnnounce.remove(player);
+                this.notifications.totemAnnounce.reset();
+                break;
+            }
+        }
+    }
+
+    public String pop(EntityPlayer player) {
+        if (this.getTotemPops(player) == 1) {
+            if (ModuleTools.getInstance().isEnabled()) {
+                switch (ModuleTools.getInstance().popNotifier.getValue()) {
+                    case FUTURE: {
+                        String text = ChatFormatting.RED + "[Future] " + ChatFormatting.GREEN + player.getName() + ChatFormatting.GRAY + " just popped " + ChatFormatting.GREEN + this.getTotemPops(player) + ChatFormatting.GRAY + " totem.";
+                        return text;
+                    }
+                    case PHOBOS: {
+                        String text = ChatFormatting.GOLD + player.getName() + ChatFormatting.RED + " popped " + ChatFormatting.GOLD + this.getTotemPops(player) + ChatFormatting.RED + " totem.";
+                        return text;
+                    }
+                    case NONE: {
+                        return CreepyWare.commandManager.getClientMessage() + ChatFormatting.WHITE + player.getName() + " popped " + ChatFormatting.GREEN + this.getTotemPops(player) + ChatFormatting.WHITE + " Totem.";
+                    }
+                }
+            } else {
+                return CreepyWare.commandManager.getClientMessage() + ChatFormatting.WHITE + player.getName() + " popped " + ChatFormatting.GREEN + this.getTotemPops(player) + ChatFormatting.WHITE + " Totem.";
+            }
+        } else {
+            if (ModuleTools.getInstance().isEnabled()) {
+                switch (ModuleTools.getInstance().popNotifier.getValue()) {
+                    case FUTURE: {
+                        String text = ChatFormatting.RED + "[Future] " + ChatFormatting.GREEN + player.getName() + ChatFormatting.GRAY + " just popped " + ChatFormatting.GREEN + this.getTotemPops(player) + ChatFormatting.GRAY + " totems.";
+                        return text;
+                    }
+                    case PHOBOS: {
+                        String text = ChatFormatting.GOLD + player.getName() + ChatFormatting.RED + " popped " + ChatFormatting.GOLD + this.getTotemPops(player) + ChatFormatting.RED + " totems.";
+                        return text;
+                    }
+                    case NONE: {
+                        return ChatFormatting.WHITE + player.getName() + " popped " + ChatFormatting.GREEN + this.getTotemPops(player) + ChatFormatting.WHITE + " Totems.";
+                    }
+                }
+            } else {
+                return CreepyWare.commandManager.getClientMessage() + ChatFormatting.WHITE + player.getName() + " popped " + ChatFormatting.GREEN + this.getTotemPops(player) + ChatFormatting.WHITE + " Totems.";
+            }
+        }
+        return "";
+    }
 
 
+    public void onLogout() {
+        this.onOwnLogout(this.notifications.clearOnLogout.getValue());
+    }
 
-
+    public void init() {
+        this.notifications = CreepyWare.moduleManager.getModuleByClass(Notifications.class);
+    }
 
     public void onTotemPop(EntityPlayer player) {
         this.popTotem(player);
         if (!player.equals(TotemPopManager.mc.player)) {
             this.toAnnounce.add(player);
+            this.notifications.totemAnnounce.reset();
         }
     }
 
+    public String death1(EntityPlayer player) {
+        if (this.getTotemPops(player) == 1) {
+            if (ModuleTools.getInstance().isEnabled()) {
+                switch (ModuleTools.getInstance().popNotifier.getValue()) {
+                    case FUTURE: {
+                        String text = ChatFormatting.RED + "[Future] " + ChatFormatting.GREEN + player.getName() + ChatFormatting.GRAY + " died after popping " + ChatFormatting.GREEN + this.getTotemPops(player) + ChatFormatting.GRAY + " totem.";
+                        return text;
+                    }
+                    case PHOBOS: {
+                        String text = ChatFormatting.GOLD + player.getName() + ChatFormatting.RED + " died after popping " + ChatFormatting.GOLD + this.getTotemPops(player) + ChatFormatting.RED + " totem.";
+                        return text;
+                    }
+                    case NONE: {
+                        return CreepyWare.commandManager.getClientMessage() + ChatFormatting.WHITE + player.getName() + " died after popping " + ChatFormatting.GREEN + this.getTotemPops(player) + ChatFormatting.WHITE + " Totem!";
+
+                    }
+                }
+            } else {
+                return CreepyWare.commandManager.getClientMessage() + ChatFormatting.WHITE + player.getName() + " died after popping " + ChatFormatting.GREEN + this.getTotemPops(player) + ChatFormatting.WHITE + " Totem!";
+
+            }
+        } else {
+            if (ModuleTools.getInstance().isEnabled()) {
+                switch (ModuleTools.getInstance().popNotifier.getValue()) {
+                    case FUTURE: {
+                        String text = ChatFormatting.RED + "[Future] " + ChatFormatting.GREEN + player.getName() + ChatFormatting.GRAY + " died after popping " + ChatFormatting.GREEN + this.getTotemPops(player) + ChatFormatting.GRAY + " totems.";
+                        return text;
+                    }
+                    case PHOBOS: {
+                        String text = ChatFormatting.GOLD + player.getName() + ChatFormatting.RED + " died after popping " + ChatFormatting.GOLD + this.getTotemPops(player) + ChatFormatting.RED + " totems.";
+                        return text;
+                    }
+                    case NONE: {
+                        return CreepyWare.commandManager.getClientMessage() + ChatFormatting.WHITE + player.getName() + " died after popping " + ChatFormatting.GREEN + this.getTotemPops(player) + ChatFormatting.WHITE + " Totems!";
+
+                    }
+                }
+            } else {
+                return CreepyWare.commandManager.getClientMessage() + ChatFormatting.WHITE + player.getName() + " died after popping " + ChatFormatting.GREEN + this.getTotemPops(player) + ChatFormatting.WHITE + " Totems!";
+            }
+        }
+        return null;
+    }
+
+
     public void onDeath(EntityPlayer player) {
-        if (this.getTotemPops(player) != 0 && !player.equals(TotemPopManager.mc.player)) {
+        if (this.getTotemPops(player) != 0 && !player.equals(TotemPopManager.mc.player) && this.notifications.isOn() && this.notifications.totemPops.getValue().booleanValue()) {
             int playerNumber = 0;
             for (char character : player.getName().toCharArray()) {
                 playerNumber += character;
                 playerNumber *= 10;
             }
+            Command.sendOverwriteMessage(this.death1(player), playerNumber, this.notifications.totemNoti.getValue());
             this.toAnnounce.remove(player);
         }
         this.resetPops(player);
@@ -77,3 +192,4 @@ public class TotemPopManager
         return "\u00a7f" + (this.getTotemPops(player) <= 0 ? "" : "-" + this.getTotemPops(player) + " ");
     }
 }
+

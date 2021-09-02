@@ -1,6 +1,5 @@
 package dev.fxcte.creepyware.features.command.commands;
 
-import com.mojang.realmsclient.gui.ChatFormatting;
 import dev.fxcte.creepyware.CreepyWare;
 import dev.fxcte.creepyware.features.command.Command;
 import dev.fxcte.creepyware.features.modules.Module;
@@ -27,7 +26,7 @@ public class BindCommand
             return;
         }
         if (rkey == null) {
-            BindCommand.sendMessage(module.getName() + " is bound to " + ChatFormatting.GRAY + module.getBind().toString());
+            BindCommand.sendMessage(module.getName() + " is bound to &b" + module.getBind().toString());
             return;
         }
         int key = Keyboard.getKeyIndex(rkey.toUpperCase());
@@ -39,6 +38,7 @@ public class BindCommand
             return;
         }
         module.bind.setValue(new Bind(key));
-        BindCommand.sendMessage("Bind for " + ChatFormatting.GREEN + module.getName() + ChatFormatting.WHITE + " set to " + ChatFormatting.GRAY + rkey.toUpperCase());
+        BindCommand.sendMessage("Bind for &b" + module.getName() + "&r set to &b" + rkey.toUpperCase());
     }
 }
+

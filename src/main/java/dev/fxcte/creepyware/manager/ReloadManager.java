@@ -1,6 +1,5 @@
 package dev.fxcte.creepyware.manager;
 
-import com.mojang.realmsclient.gui.ChatFormatting;
 import dev.fxcte.creepyware.CreepyWare;
 import dev.fxcte.creepyware.event.events.PacketEvent;
 import dev.fxcte.creepyware.features.Feature;
@@ -17,7 +16,7 @@ public class ReloadManager
         this.prefix = prefix;
         MinecraftForge.EVENT_BUS.register(this);
         if (!ReloadManager.fullNullCheck()) {
-            Command.sendMessage(ChatFormatting.RED + "OyVey has been unloaded. Type " + prefix + "reload to reload.");
+            Command.sendMessage("\u00a7cCreepyWare has been unloaded. Type " + prefix + "reload to reload.");
         }
     }
 

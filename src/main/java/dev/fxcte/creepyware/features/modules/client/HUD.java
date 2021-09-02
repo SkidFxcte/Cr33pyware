@@ -4,292 +4,424 @@ import com.mojang.realmsclient.gui.ChatFormatting;
 import dev.fxcte.creepyware.CreepyWare;
 import dev.fxcte.creepyware.event.events.ClientEvent;
 import dev.fxcte.creepyware.event.events.Render2DEvent;
+import dev.fxcte.creepyware.features.Feature;
 import dev.fxcte.creepyware.features.modules.Module;
+import dev.fxcte.creepyware.features.modules.misc.ToolTips;
 import dev.fxcte.creepyware.features.setting.Setting;
-import dev.fxcte.creepyware.util.Timer;
+import dev.fxcte.creepyware.manager.TextManager;
 import dev.fxcte.creepyware.util.*;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.GuiChat;
+import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.init.Items;
+import net.minecraft.init.MobEffects;
 import net.minecraft.item.ItemStack;
+import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.ResourceLocation;
-import net.minecraftforge.event.entity.player.AttackEntityEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
+import java.awt.*;
 import java.text.SimpleDateFormat;
-import java.util.*;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
-public class HUD extends Module {
-    private static final ResourceLocation box = new ResourceLocation("textures/gui/container/shulker_box.png");
+public class HUD
+        extends Module {
     private static final ItemStack totem = new ItemStack(Items.TOTEM_OF_UNDYING);
+    private static final ResourceLocation codHitmarker = new ResourceLocation("creepy", "cod_hitmarker");
+    private static final ResourceLocation csgoHitmarker = new ResourceLocation("creepy", "csgo_hitmarker");
     private static HUD INSTANCE = new HUD();
-    private final Setting<Boolean> grayNess = register(new Setting("Gray", Boolean.valueOf(true)));
-    private final Setting<Boolean> renderingUp = register(new Setting("RenderingUp", Boolean.valueOf(false), "Orientation of the HUD-Elements."));
-    private final Setting<Boolean> waterMark = register(new Setting("Watermark", Boolean.valueOf(false), "displays watermark"));
-    private final Setting<Boolean> arrayList = register(new Setting("ActiveModules", Boolean.valueOf(false), "Lists the active modules."));
-    private final Setting<Boolean> coords = register(new Setting("Coords", Boolean.valueOf(false), "Your current coordinates"));
-    private final Setting<Boolean> direction = register(new Setting("Direction", Boolean.valueOf(false), "The Direction you are facing."));
-    private final Setting<Boolean> armor = register(new Setting("Armor", Boolean.valueOf(false), "ArmorHUD"));
-    private final Setting<Boolean> totems = register(new Setting("Totems", Boolean.valueOf(false), "TotemHUD"));
-    private final Setting<Boolean> greeter = register(new Setting("Welcomer", Boolean.valueOf(false), "The time"));
-    private final Setting<Boolean> speed = register(new Setting("Speed", Boolean.valueOf(false), "Your Speed"));
-    private final Setting<Boolean> potions = register(new Setting("Potions", Boolean.valueOf(false), "Your Speed"));
-    private final Setting<Boolean> ping = register(new Setting("Ping", Boolean.valueOf(false), "Your response time to the server."));
-    private final Setting<Boolean> tps = register(new Setting("TPS", Boolean.valueOf(false), "Ticks per second of the server."));
-    private final Setting<Boolean> fps = register(new Setting("FPS", Boolean.valueOf(false), "Your frames per second."));
-    private final Setting<Boolean> lag = register(new Setting("LagNotifier", Boolean.valueOf(false), "The time"));
+    private final Setting<Boolean> renderingUp = this.register(new Setting<Boolean>("RenderingUp", Boolean.valueOf(false), "Orientation of the HUD-Elements."));
+    private final Setting<WaterMark> watermark = this.register(new Setting<WaterMark>("Logo", WaterMark.NONE, "WaterMark"));
+    private final Setting<Boolean> modeVer = this.register(new Setting<Object>("Version", Boolean.valueOf(false), v -> this.watermark.getValue() != WaterMark.NONE));
+    private final Setting<Boolean> arrayList = this.register(new Setting<Boolean>("ActiveModules", Boolean.valueOf(false), "Lists the active modules."));
+    private final Setting<Boolean> moduleColors = this.register(new Setting<Object>("ModuleColors", Boolean.valueOf(false), v -> this.arrayList.getValue()));
+    private final Setting<Boolean> alphabeticalSorting = this.register(new Setting<Object>("AlphabeticalSorting", Boolean.valueOf(false), v -> this.arrayList.getValue()));
+    private final Setting<Boolean> serverBrand = this.register(new Setting<Boolean>("ServerBrand", Boolean.valueOf(false), "Brand of the server you are on."));
+    private final Setting<Boolean> ping = this.register(new Setting<Boolean>("Ping", Boolean.valueOf(false), "Your response time to the server."));
+    private final Setting<Boolean> tps = this.register(new Setting<Boolean>("TPS", Boolean.valueOf(false), "Ticks per second of the server."));
+    private final Setting<Boolean> fps = this.register(new Setting<Boolean>("FPS", Boolean.valueOf(false), "Your frames per second."));
+    private final Setting<Boolean> coords = this.register(new Setting<Boolean>("Coords", Boolean.valueOf(false), "Your current coordinates"));
+    private final Setting<Boolean> direction = this.register(new Setting<Boolean>("Direction", Boolean.valueOf(false), "The Direction you are facing."));
+    private final Setting<Boolean> speed = this.register(new Setting<Boolean>("Speed", Boolean.valueOf(false), "Your Speed"));
+    private final Setting<Boolean> potions = this.register(new Setting<Boolean>("Potions", Boolean.valueOf(false), "Active potion effects"));
+    private final Setting<Boolean> altPotionsColors = this.register(new Setting<Object>("AltPotionColors", Boolean.valueOf(false), v -> this.potions.getValue()));
+    private final Setting<Boolean> armor = this.register(new Setting<Boolean>("Armor", Boolean.valueOf(false), "ArmorHUD"));
+    private final Setting<Boolean> durability = this.register(new Setting<Boolean>("Durability", Boolean.valueOf(false), "Durability"));
+    private final Setting<Boolean> percent = this.register(new Setting<Object>("Percent", Boolean.valueOf(true), v -> this.armor.getValue()));
+    private final Setting<Boolean> totems = this.register(new Setting<Boolean>("Totems", Boolean.valueOf(false), "TotemHUD"));
+    private final Setting<Greeter> greeter = this.register(new Setting<Greeter>("Greeter", Greeter.NONE, "Greets you."));
+    private final Setting<String> spoofGreeter = this.register(new Setting<Object>("GreeterName", "CharlesDana", v -> this.greeter.getValue() == Greeter.CUSTOM));
+    private final Setting<LagNotify> lag = this.register(new Setting<LagNotify>("Lag", LagNotify.GRAY, "Lag Notifier"));
+    private final Setting<Boolean> hitMarkers = this.register(new Setting<Boolean>("HitMarkers", true));
+    private final Setting<Boolean> grayNess = this.register(new Setting<Boolean>("FutureColour", true));
     private final Timer timer = new Timer();
-    private final Map<String, Integer> players = new HashMap<>();
-    public Setting<String> command = register(new Setting("Command", "CreepyWare"));
-    public Setting<TextUtil.Color> bracketColor = register(new Setting("BracketColor", TextUtil.Color.BLUE));
-    public Setting<TextUtil.Color> commandColor = register(new Setting("NameColor", TextUtil.Color.BLUE));
-    public Setting<String> commandBracket = register(new Setting("Bracket", "<"));
-    public Setting<String> commandBracket2 = register(new Setting("Bracket2", ">"));
+    private final Timer moduleTimer = new Timer();
+    public Setting<Boolean> colorSync = this.register(new Setting<Boolean>("Sync", Boolean.valueOf(false), "Universal colors for hud."));
+    public Setting<Boolean> rainbow = this.register(new Setting<Boolean>("Rainbow", Boolean.valueOf(false), "Rainbow hud."));
+    public Setting<Integer> factor = this.register(new Setting<Object>("Factor", Integer.valueOf(1), Integer.valueOf(0), Integer.valueOf(20), v -> this.rainbow.getValue()));
+    public Setting<Boolean> rolling = this.register(new Setting<Object>("Rolling", Boolean.valueOf(false), v -> this.rainbow.getValue()));
+    public Setting<Integer> rainbowSpeed = this.register(new Setting<Object>("RSpeed", Integer.valueOf(20), Integer.valueOf(0), Integer.valueOf(100), v -> this.rainbow.getValue()));
+    public Setting<Integer> rainbowSaturation = this.register(new Setting<Object>("Saturation", Integer.valueOf(255), Integer.valueOf(0), Integer.valueOf(255), v -> this.rainbow.getValue()));
+    public Setting<Integer> rainbowBrightness = this.register(new Setting<Object>("Brightness", Integer.valueOf(255), Integer.valueOf(0), Integer.valueOf(255), v -> this.rainbow.getValue()));
     public Setting<Boolean> potionIcons = this.register(new Setting<Boolean>("PotionIcons", Boolean.valueOf(true), "Draws Potion Icons."));
+    public Setting<Boolean> shadow = this.register(new Setting<Boolean>("Shadow", Boolean.valueOf(false), "Draws the text with a shadow."));
+    public Setting<Integer> animationHorizontalTime = this.register(new Setting<Object>("AnimationHTime", Integer.valueOf(500), Integer.valueOf(1), Integer.valueOf(1000), v -> this.arrayList.getValue()));
+    public Setting<Integer> animationVerticalTime = this.register(new Setting<Object>("AnimationVTime", Integer.valueOf(50), Integer.valueOf(1), Integer.valueOf(500), v -> this.arrayList.getValue()));
+    public Setting<Boolean> textRadar = this.register(new Setting<Boolean>("TextRadar", Boolean.valueOf(false), "A TextRadar"));
+    public Setting<Boolean> time = this.register(new Setting<Boolean>("Time", Boolean.valueOf(false), "The time"));
+    public Setting<Integer> hudRed = this.register(new Setting<Object>("Red", Integer.valueOf(255), Integer.valueOf(0), Integer.valueOf(255), v -> this.rainbow.getValue() == false));
+    public Setting<Integer> hudGreen = this.register(new Setting<Object>("Green", Integer.valueOf(0), Integer.valueOf(0), Integer.valueOf(255), v -> this.rainbow.getValue() == false));
+    public Setting<Integer> hudBlue = this.register(new Setting<Object>("Blue", Integer.valueOf(0), Integer.valueOf(0), Integer.valueOf(255), v -> this.rainbow.getValue() == false));
     public Setting<Boolean> potions1 = this.register(new Setting<Object>("LevelPotions", Boolean.valueOf(false), v -> this.potions.getValue()));
-    public Setting<Boolean> notifyToggles = register(new Setting("ChatNotify", Boolean.valueOf(false), "notifys in chat"));
-    public Setting<Integer> animationHorizontalTime = register(new Setting("AnimationHTime", Integer.valueOf(500), Integer.valueOf(1), Integer.valueOf(1000), v -> this.arrayList.getValue().booleanValue()));
-    public Setting<Integer> animationVerticalTime = register(new Setting("AnimationVTime", Integer.valueOf(50), Integer.valueOf(1), Integer.valueOf(500), v -> this.arrayList.getValue().booleanValue()));
-    public Setting<RenderingMode> renderingMode = register(new Setting("Ordering", RenderingMode.ABC));
-    public Setting<Integer> waterMarkY = register(new Setting("WatermarkPosY", Integer.valueOf(2), Integer.valueOf(0), Integer.valueOf(20), v -> this.waterMark.getValue().booleanValue()));
-    public Setting<Boolean> time = register(new Setting("Time", Boolean.valueOf(false), "The time"));
-    public Setting<Integer> lagTime = register(new Setting("LagTime", Integer.valueOf(1000), Integer.valueOf(0), Integer.valueOf(2000)));
+    public Setting<Boolean> MS = this.register(new Setting<Object>("ms", Boolean.valueOf(false), v -> this.ping.getValue()));
+    public Map<Module, Float> moduleProgressMap = new HashMap<Module, Float>();
+    public Map<Integer, Integer> colorMap = new HashMap<Integer, Integer>();
+    private Map<String, Integer> players = new HashMap<String, Integer>();
+    private final Map<Potion, Color> potionColorMap = new HashMap<Potion, Color>();
     private int color;
     private boolean shouldIncrement;
     private int hitMarkerTimer;
 
+
     public HUD() {
         super("HUD", "HUD Elements rendered on your screen", Module.Category.CLIENT, true, false, false);
-        setInstance();
+        this.setInstance();
+        this.potionColorMap.put(MobEffects.SPEED, new Color(124, 175, 198));
+        this.potionColorMap.put(MobEffects.SLOWNESS, new Color(90, 108, 129));
+        this.potionColorMap.put(MobEffects.HASTE, new Color(217, 192, 67));
+        this.potionColorMap.put(MobEffects.MINING_FATIGUE, new Color(74, 66, 23));
+        this.potionColorMap.put(MobEffects.STRENGTH, new Color(147, 36, 35));
+        this.potionColorMap.put(MobEffects.INSTANT_HEALTH, new Color(67, 10, 9));
+        this.potionColorMap.put(MobEffects.INSTANT_DAMAGE, new Color(67, 10, 9));
+        this.potionColorMap.put(MobEffects.JUMP_BOOST, new Color(34, 255, 76));
+        this.potionColorMap.put(MobEffects.NAUSEA, new Color(85, 29, 74));
+        this.potionColorMap.put(MobEffects.REGENERATION, new Color(205, 92, 171));
+        this.potionColorMap.put(MobEffects.RESISTANCE, new Color(153, 69, 58));
+        this.potionColorMap.put(MobEffects.FIRE_RESISTANCE, new Color(228, 154, 58));
+        this.potionColorMap.put(MobEffects.WATER_BREATHING, new Color(46, 82, 153));
+        this.potionColorMap.put(MobEffects.INVISIBILITY, new Color(127, 131, 146));
+        this.potionColorMap.put(MobEffects.BLINDNESS, new Color(31, 31, 35));
+        this.potionColorMap.put(MobEffects.NIGHT_VISION, new Color(31, 31, 161));
+        this.potionColorMap.put(MobEffects.HUNGER, new Color(88, 118, 83));
+        this.potionColorMap.put(MobEffects.WEAKNESS, new Color(72, 77, 72));
+        this.potionColorMap.put(MobEffects.POISON, new Color(78, 147, 49));
+        this.potionColorMap.put(MobEffects.WITHER, new Color(53, 42, 39));
+        this.potionColorMap.put(MobEffects.HEALTH_BOOST, new Color(248, 125, 35));
+        this.potionColorMap.put(MobEffects.ABSORPTION, new Color(37, 82, 165));
+        this.potionColorMap.put(MobEffects.SATURATION, new Color(248, 36, 35));
+        this.potionColorMap.put(MobEffects.GLOWING, new Color(148, 160, 97));
+        this.potionColorMap.put(MobEffects.LEVITATION, new Color(206, 255, 255));
+        this.potionColorMap.put(MobEffects.LUCK, new Color(51, 153, 0));
+        this.potionColorMap.put(MobEffects.UNLUCK, new Color(192, 164, 77));
     }
 
     public static HUD getInstance() {
-        if (INSTANCE == null)
-            INSTANCE = new HUD();
-        return INSTANCE;
+        if (HUD.INSTANCE == null) {
+            HUD.INSTANCE = new HUD();
+        }
+        return HUD.INSTANCE;
     }
 
     private void setInstance() {
-        INSTANCE = this;
+        HUD.INSTANCE = this;
     }
 
+    @Override
     public void onUpdate() {
-        if (this.shouldIncrement)
-            this.hitMarkerTimer++;
+        for (final Module module : CreepyWare.moduleManager.sortedModules) {
+            if (module.isDisabled() && module.arrayListOffset == 0.0f) {
+                module.sliding = true;
+            }
+        }
+        if (this.timer.passedMs(Managers.getInstance().textRadarUpdates.getValue())) {
+            this.players = this.getTextRadarPlayers();
+            this.timer.reset();
+        }
+        if (this.shouldIncrement) {
+            ++this.hitMarkerTimer;
+        }
         if (this.hitMarkerTimer == 10) {
             this.hitMarkerTimer = 0;
             this.shouldIncrement = false;
         }
     }
 
-    public void onRender2D(Render2DEvent event) {
-        if (fullNullCheck())
+    @SubscribeEvent
+    public void onModuleToggle(final ClientEvent event) {
+        if (event.getFeature() instanceof Module) {
+            if (event.getStage() == 0) {
+                for (float i = 0.0f; i <= this.renderer.getStringWidth(((Module) event.getFeature()).getDisplayName()); i += this.renderer.getStringWidth(((Module) event.getFeature()).getDisplayName()) / 500.0f) {
+                    if (this.moduleTimer.passedMs(1L)) {
+                        this.moduleProgressMap.put((Module) event.getFeature(), this.renderer.getStringWidth(((Module) event.getFeature()).getDisplayName()) - i);
+                    }
+                    this.timer.reset();
+                }
+            } else if (event.getStage() == 1) {
+                for (float i = 0.0f; i <= this.renderer.getStringWidth(((Module) event.getFeature()).getDisplayName()); i += this.renderer.getStringWidth(((Module) event.getFeature()).getDisplayName()) / 500.0f) {
+                    if (this.moduleTimer.passedMs(1L)) {
+                        this.moduleProgressMap.put((Module) event.getFeature(), this.renderer.getStringWidth(((Module) event.getFeature()).getDisplayName()) - i);
+                    }
+                    this.timer.reset();
+                }
+            }
+        }
+    }
+
+    @Override
+    public void onRender2D(final Render2DEvent event) {
+        if (Feature.fullNullCheck()) {
             return;
-        int width = this.renderer.scaledWidth;
-        int height = this.renderer.scaledHeight;
-        this.color = ColorUtil.toRGBA((ClickGui.getInstance()).red.getValue().intValue(), (ClickGui.getInstance()).green.getValue().intValue(), (ClickGui.getInstance()).blue.getValue().intValue());
-        if (this.waterMark.getValue().booleanValue()) {
-            String string = this.command.getPlannedValue() + " v0.0.3";
-            if ((ClickGui.getInstance()).rainbow.getValue().booleanValue()) {
-                if ((ClickGui.getInstance()).rainbowModeHud.getValue() == ClickGui.rainbowMode.Static) {
-                    this.renderer.drawString(string, 2.0F, this.waterMarkY.getValue().intValue(), ColorUtil.rainbow((ClickGui.getInstance()).rainbowHue.getValue().intValue()).getRGB(), true);
-                } else {
-                    int[] arrayOfInt = {1};
-                    char[] stringToCharArray = string.toCharArray();
-                    float f = 0.0F;
-                    for (char c : stringToCharArray) {
-                        this.renderer.drawString(String.valueOf(c), 2.0F + f, this.waterMarkY.getValue().intValue(), ColorUtil.rainbow(arrayOfInt[0] * (ClickGui.getInstance()).rainbowHue.getValue().intValue()).getRGB(), true);
-                        f += this.renderer.getStringWidth(String.valueOf(c));
-                        arrayOfInt[0] = arrayOfInt[0] + 1;
-                    }
-                }
+        }
+        final int colorSpeed = 101 - this.rainbowSpeed.getValue();
+        final float hue = this.colorSync.getValue() ? Colors.INSTANCE.hue : (System.currentTimeMillis() % (360 * colorSpeed) / (360.0f * colorSpeed));
+        final int width = this.renderer.scaledWidth;
+        final int height = this.renderer.scaledHeight;
+        float tempHue = hue;
+        for (int i = 0; i <= height; ++i) {
+            if (this.colorSync.getValue()) {
+                this.colorMap.put(i, Color.HSBtoRGB(tempHue, Colors.INSTANCE.rainbowSaturation.getValue() / 255.0f, Colors.INSTANCE.rainbowBrightness.getValue() / 255.0f));
             } else {
-                this.renderer.drawString(string, 2.0F, this.waterMarkY.getValue().intValue(), this.color, true);
+                this.colorMap.put(i, Color.HSBtoRGB(tempHue, this.rainbowSaturation.getValue() / 255.0f, this.rainbowBrightness.getValue() / 255.0f));
+            }
+            tempHue += 1.0f / height * this.factor.getValue();
+        }
+        GlStateManager.pushMatrix();
+        if (this.rainbow.getValue() && !this.rolling.getValue()) {
+            this.color = (this.colorSync.getValue() ? Colors.INSTANCE.getCurrentColorHex() : Color.HSBtoRGB(hue, this.rainbowSaturation.getValue() / 255.0f, this.rainbowBrightness.getValue() / 255.0f));
+        } else if (!this.rainbow.getValue()) {
+            this.color = (this.colorSync.getValue() ? Colors.INSTANCE.getCurrentColorHex() : ColorUtil.toRGBA(this.hudRed.getValue(), this.hudGreen.getValue(), this.hudBlue.getValue()));
+        }
+        final String grayString = this.grayNess.getValue() ? String.valueOf(ChatFormatting.GRAY) : "";
+        switch (this.watermark.getValue()) {
+            case CreepyWare: {
+                this.renderer.drawString("CreepyWare" + (this.modeVer.getValue() ? CreepyWare.MODVER : ""), 2.0f, 2.0f, (this.rolling.getValue() && this.rainbow.getValue()) ? this.colorMap.get(2) : this.color, true);
+                break;
             }
         }
-        int[] counter1 = {1};
-        int j = (mc.currentScreen instanceof net.minecraft.client.gui.GuiChat && !this.renderingUp.getValue().booleanValue()) ? 14 : 0;
-        if (this.arrayList.getValue().booleanValue())
-            if (this.renderingUp.getValue().booleanValue()) {
-                if (this.renderingMode.getValue() == RenderingMode.ABC) {
-                    for (int k = 0; k < CreepyWare.moduleManager.sortedModulesABC.size(); k++) {
-                        String str = CreepyWare.moduleManager.sortedModulesABC.get(k);
-                        this.renderer.drawString(str, (width - 2 - this.renderer.getStringWidth(str)), (2 + j * 10), (ClickGui.getInstance()).rainbow.getValue().booleanValue() ? (((ClickGui.getInstance()).rainbowModeA.getValue() == ClickGui.rainbowModeArray.Up) ? ColorUtil.rainbow(counter1[0] * (ClickGui.getInstance()).rainbowHue.getValue().intValue()).getRGB() : ColorUtil.rainbow((ClickGui.getInstance()).rainbowHue.getValue().intValue()).getRGB()) : this.color, true);
-                        j++;
-                        counter1[0] = counter1[0] + 1;
-                    }
-                } else {
-                    for (int k = 0; k < CreepyWare.moduleManager.sortedModules.size(); k++) {
-                        Module module = CreepyWare.moduleManager.sortedModules.get(k);
-                        String str = module.getDisplayName() + ChatFormatting.GRAY + ((module.getDisplayInfo() != null) ? (" [" + ChatFormatting.WHITE + module.getDisplayInfo() + ChatFormatting.GRAY + "]") : "");
-                        this.renderer.drawString(str, (width - 2 - this.renderer.getStringWidth(str)), (2 + j * 10), (ClickGui.getInstance()).rainbow.getValue().booleanValue() ? (((ClickGui.getInstance()).rainbowModeA.getValue() == ClickGui.rainbowModeArray.Up) ? ColorUtil.rainbow(counter1[0] * (ClickGui.getInstance()).rainbowHue.getValue().intValue()).getRGB() : ColorUtil.rainbow((ClickGui.getInstance()).rainbowHue.getValue().intValue()).getRGB()) : this.color, true);
-                        j++;
-                        counter1[0] = counter1[0] + 1;
-                    }
-                }
-            } else if (this.renderingMode.getValue() == RenderingMode.ABC) {
-                for (int k = 0; k < CreepyWare.moduleManager.sortedModulesABC.size(); k++) {
-                    String str = CreepyWare.moduleManager.sortedModulesABC.get(k);
-                    j += 10;
-                    this.renderer.drawString(str, (width - 2 - this.renderer.getStringWidth(str)), (height - j), (ClickGui.getInstance()).rainbow.getValue().booleanValue() ? (((ClickGui.getInstance()).rainbowModeA.getValue() == ClickGui.rainbowModeArray.Up) ? ColorUtil.rainbow(counter1[0] * (ClickGui.getInstance()).rainbowHue.getValue().intValue()).getRGB() : ColorUtil.rainbow((ClickGui.getInstance()).rainbowHue.getValue().intValue()).getRGB()) : this.color, true);
-                    counter1[0] = counter1[0] + 1;
+        if (this.textRadar.getValue()) {
+            this.drawTextRadar((ToolTips.getInstance().isOff() || !ToolTips.getInstance().shulkerSpy.getValue() || !ToolTips.getInstance().render.getValue()) ? 0 : ToolTips.getInstance().getTextRadarY());
+        }
+        int j = this.renderingUp.getValue() ? 0 : ((HUD.mc.currentScreen instanceof GuiChat) ? 14 : 0);
+        if (this.arrayList.getValue()) {
+            if (this.renderingUp.getValue()) {
+                for (int k = 0; k < (this.alphabeticalSorting.getValue() ? CreepyWare.moduleManager.alphabeticallySortedModules.size() : CreepyWare.moduleManager.sortedModules.size()); ++k) {
+                    final Module module = this.alphabeticalSorting.getValue() ? CreepyWare.moduleManager.alphabeticallySortedModules.get(k) : CreepyWare.moduleManager.sortedModules.get(k);
+                    final String text = module.getDisplayName() + ChatFormatting.GRAY + ((module.getDisplayInfo() != null) ? (" [" + ChatFormatting.WHITE + module.getDisplayInfo() + ChatFormatting.GRAY + "]") : "");
+                    final Color moduleColor = CreepyWare.moduleManager.moduleColorMap.get(module);
+                    this.renderer.drawString(text, width - 2 - this.renderer.getStringWidth(text) + ((this.animationHorizontalTime.getValue() == 1) ? 0.0f : module.arrayListOffset), (float) (2 + j * 10), (this.rolling.getValue() && this.rainbow.getValue()) ? this.colorMap.get(MathUtil.clamp(2 + j * 10, 0, height)) : ((this.moduleColors.getValue() && moduleColor != null) ? moduleColor.getRGB() : this.color), true);
+                    ++j;
                 }
             } else {
-                for (int k = 0; k < CreepyWare.moduleManager.sortedModules.size(); k++) {
-                    Module module = CreepyWare.moduleManager.sortedModules.get(k);
-                    String str = module.getDisplayName() + ChatFormatting.GRAY + ((module.getDisplayInfo() != null) ? (" [" + ChatFormatting.WHITE + module.getDisplayInfo() + ChatFormatting.GRAY + "]") : "");
+                for (int k = 0; k < (this.alphabeticalSorting.getValue() ? CreepyWare.moduleManager.alphabeticallySortedModules.size() : CreepyWare.moduleManager.sortedModules.size()); ++k) {
+                    final Module module = this.alphabeticalSorting.getValue() ? CreepyWare.moduleManager.alphabeticallySortedModules.get(CreepyWare.moduleManager.alphabeticallySortedModules.size() - 1 - k) : CreepyWare.moduleManager.sortedModules.get(k);
+                    final String text = module.getDisplayName() + ChatFormatting.GRAY + ((module.getDisplayInfo() != null) ? (" [" + ChatFormatting.WHITE + module.getDisplayInfo() + ChatFormatting.GRAY + "]") : "");
+                    final Color moduleColor = CreepyWare.moduleManager.moduleColorMap.get(module);
+                    final TextManager renderer = this.renderer;
+                    final String text5 = text;
+                    final float x = width - 2 - this.renderer.getStringWidth(text) + ((this.animationHorizontalTime.getValue() == 1) ? 0.0f : module.arrayListOffset);
+                    final int n = height;
                     j += 10;
-                    this.renderer.drawString(str, (width - 2 - this.renderer.getStringWidth(str)), (height - j), (ClickGui.getInstance()).rainbow.getValue().booleanValue() ? (((ClickGui.getInstance()).rainbowModeA.getValue() == ClickGui.rainbowModeArray.Up) ? ColorUtil.rainbow(counter1[0] * (ClickGui.getInstance()).rainbowHue.getValue().intValue()).getRGB() : ColorUtil.rainbow((ClickGui.getInstance()).rainbowHue.getValue().intValue()).getRGB()) : this.color, true);
-                    counter1[0] = counter1[0] + 1;
+                    renderer.drawString(text5, x, (float) (n - j), (this.rolling.getValue() && this.rainbow.getValue()) ? this.colorMap.get(MathUtil.clamp(height - j, 0, height)) : ((this.moduleColors.getValue() && moduleColor != null) ? moduleColor.getRGB() : this.color), true);
                 }
             }
-        String grayString = this.grayNess.getValue().booleanValue() ? String.valueOf(ChatFormatting.GRAY) : "";
-        int i = (mc.currentScreen instanceof net.minecraft.client.gui.GuiChat && this.renderingUp.getValue().booleanValue()) ? 13 : (this.renderingUp.getValue().booleanValue() ? -2 : 0);
-        if (this.renderingUp.getValue().booleanValue()) {
-            if (this.potions.getValue().booleanValue()) {
-                List<PotionEffect> effects = new ArrayList<>((Minecraft.getMinecraft()).player.getActivePotionEffects());
-                for (PotionEffect potionEffect : effects) {
-                    String str = CreepyWare.potionManager.getColoredPotionString(potionEffect);
-                    i += 10;
-                    this.renderer.drawString(str, (width - this.renderer.getStringWidth(str) - 2), (height - 2 - i), potionEffect.getPotion().getLiquidColor(), true);
+        }
+        int k = this.renderingUp.getValue() ? ((HUD.mc.currentScreen instanceof GuiChat) ? 0 : 0) : 0;
+        if (this.renderingUp.getValue()) {
+            if (this.serverBrand.getValue()) {
+                final String text2 = grayString + "Server brand " + ChatFormatting.WHITE + CreepyWare.serverManager.getServerBrand();
+                final TextManager renderer2 = this.renderer;
+                final String text6 = text2;
+                final float x2 = (float) (width - (this.renderer.getStringWidth(text2) + 2));
+                final int n2 = height - 2;
+                k += 10;
+                renderer2.drawString(text6, x2, (float) (n2 - k), (this.rolling.getValue() && this.rainbow.getValue()) ? this.colorMap.get(height - k) : this.color, true);
+            }
+            if (this.potions.getValue()) {
+                for (final PotionEffect effect : CreepyWare.potionManager.getOwnPotions()) {
+                    final String text3 = this.altPotionsColors.getValue() ? CreepyWare.potionManager.getPotionString(effect) : CreepyWare.potionManager.getColoredPotionString(effect);
+                    final TextManager renderer3 = this.renderer;
+                    final String text7 = text3;
+                    final float x3 = (float) (width - (this.renderer.getStringWidth(text3) + 2));
+                    final int n3 = height - 2;
+                    k += 10;
+                    renderer3.drawString(text7, x3, (float) (n3 - k), (this.rolling.getValue() && this.rainbow.getValue()) ? this.colorMap.get(height - k) : (this.altPotionsColors.getValue() ? this.potionColorMap.get(effect.getPotion()).getRGB() : this.color), true);
                 }
             }
-            if (this.speed.getValue().booleanValue()) {
-                String str = grayString + "Speed " + ChatFormatting.WHITE + CreepyWare.speedManager.getSpeedKpH() + " km/h";
-                i += 10;
-                this.renderer.drawString(str, (width - this.renderer.getStringWidth(str) - 2), (height - 2 - i), (ClickGui.getInstance()).rainbow.getValue().booleanValue() ? (((ClickGui.getInstance()).rainbowModeA.getValue() == ClickGui.rainbowModeArray.Up) ? ColorUtil.rainbow(counter1[0] * (ClickGui.getInstance()).rainbowHue.getValue().intValue()).getRGB() : ColorUtil.rainbow((ClickGui.getInstance()).rainbowHue.getValue().intValue()).getRGB()) : this.color, true);
-                counter1[0] = counter1[0] + 1;
+            if (this.speed.getValue()) {
+                final String text2 = grayString + "Speed " + ChatFormatting.WHITE + CreepyWare.speedManager.getSpeedKpH() + " km/h";
+                final TextManager renderer4 = this.renderer;
+                final String text8 = text2;
+                final float x4 = (float) (width - (this.renderer.getStringWidth(text2) + 2));
+                final int n4 = height - 2;
+                k += 10;
+                renderer4.drawString(text8, x4, (float) (n4 - k), (this.rolling.getValue() && this.rainbow.getValue()) ? this.colorMap.get(height - k) : this.color, true);
             }
-            if (this.time.getValue().booleanValue()) {
-                String str = grayString + "Time " + ChatFormatting.WHITE + (new SimpleDateFormat("h:mm a")).format(new Date());
-                i += 10;
-                this.renderer.drawString(str, (width - this.renderer.getStringWidth(str) - 2), (height - 2 - i), (ClickGui.getInstance()).rainbow.getValue().booleanValue() ? (((ClickGui.getInstance()).rainbowModeA.getValue() == ClickGui.rainbowModeArray.Up) ? ColorUtil.rainbow(counter1[0] * (ClickGui.getInstance()).rainbowHue.getValue().intValue()).getRGB() : ColorUtil.rainbow((ClickGui.getInstance()).rainbowHue.getValue().intValue()).getRGB()) : this.color, true);
-                counter1[0] = counter1[0] + 1;
+            if (this.time.getValue()) {
+                final String text2 = grayString + "Time " + ChatFormatting.WHITE + new SimpleDateFormat("h:mm a").format(new Date());
+                final TextManager renderer5 = this.renderer;
+                final String text9 = text2;
+                final float x5 = (float) (width - (this.renderer.getStringWidth(text2) + 2));
+                final int n5 = height - 2;
+                k += 10;
+                renderer5.drawString(text9, x5, (float) (n5 - k), (this.rolling.getValue() && this.rainbow.getValue()) ? this.colorMap.get(height - k) : this.color, true);
             }
-            if (this.tps.getValue().booleanValue()) {
-                String str = grayString + "TPS " + ChatFormatting.WHITE + CreepyWare.serverManager.getTPS();
-                i += 10;
-                this.renderer.drawString(str, (width - this.renderer.getStringWidth(str) - 2), (height - 2 - i), (ClickGui.getInstance()).rainbow.getValue().booleanValue() ? (((ClickGui.getInstance()).rainbowModeA.getValue() == ClickGui.rainbowModeArray.Up) ? ColorUtil.rainbow(counter1[0] * (ClickGui.getInstance()).rainbowHue.getValue().intValue()).getRGB() : ColorUtil.rainbow((ClickGui.getInstance()).rainbowHue.getValue().intValue()).getRGB()) : this.color, true);
-                counter1[0] = counter1[0] + 1;
-            }
-            String fpsText = grayString + "FPS " + ChatFormatting.WHITE + Minecraft.debugFPS;
-            String str1 = grayString + "Ping " + ChatFormatting.WHITE + CreepyWare.serverManager.getPing();
-            if (this.renderer.getStringWidth(str1) > this.renderer.getStringWidth(fpsText)) {
-                if (this.ping.getValue().booleanValue()) {
-                    i += 10;
-                    this.renderer.drawString(str1, (width - this.renderer.getStringWidth(str1) - 2), (height - 2 - i), (ClickGui.getInstance()).rainbow.getValue().booleanValue() ? (((ClickGui.getInstance()).rainbowModeA.getValue() == ClickGui.rainbowModeArray.Up) ? ColorUtil.rainbow(counter1[0] * (ClickGui.getInstance()).rainbowHue.getValue().intValue()).getRGB() : ColorUtil.rainbow((ClickGui.getInstance()).rainbowHue.getValue().intValue()).getRGB()) : this.color, true);
-                    counter1[0] = counter1[0] + 1;
+            if (this.durability.getValue()) {
+                final int itemDamage = HUD.mc.player.getHeldItemMainhand().getMaxDamage() - HUD.mc.player.getHeldItemMainhand().getItemDamage();
+                if (itemDamage > 0) {
+                    final String text = grayString + "Durability " + ChatFormatting.RESET + itemDamage;
+                    final TextManager renderer6 = this.renderer;
+                    final String text10 = text;
+                    final float x6 = (float) (width - (this.renderer.getStringWidth(text) + 2));
+                    final int n6 = height - 2;
+                    k += 10;
+                    renderer6.drawString(text10, x6, (float) (n6 - k), (this.rolling.getValue() && this.rainbow.getValue()) ? this.colorMap.get(height - k) : this.color, true);
                 }
-                if (this.fps.getValue().booleanValue()) {
-                    i += 10;
-                    this.renderer.drawString(fpsText, (width - this.renderer.getStringWidth(fpsText) - 2), (height - 2 - i), (ClickGui.getInstance()).rainbow.getValue().booleanValue() ? (((ClickGui.getInstance()).rainbowModeA.getValue() == ClickGui.rainbowModeArray.Up) ? ColorUtil.rainbow(counter1[0] * (ClickGui.getInstance()).rainbowHue.getValue().intValue()).getRGB() : ColorUtil.rainbow((ClickGui.getInstance()).rainbowHue.getValue().intValue()).getRGB()) : this.color, true);
-                    counter1[0] = counter1[0] + 1;
+            }
+            if (this.tps.getValue()) {
+                final String text2 = grayString + "TPS " + ChatFormatting.WHITE + CreepyWare.serverManager.getTPS();
+                final TextManager renderer7 = this.renderer;
+                final String text11 = text2;
+                final float x7 = (float) (width - (this.renderer.getStringWidth(text2) + 2));
+                final int n7 = height - 2;
+                k += 10;
+                renderer7.drawString(text11, x7, (float) (n7 - k), (this.rolling.getValue() && this.rainbow.getValue()) ? this.colorMap.get(height - k) : this.color, true);
+            }
+            final String fpsText = grayString + "FPS " + ChatFormatting.WHITE + Minecraft.debugFPS;
+            final String text = grayString + "Ping " + ChatFormatting.WHITE + (ServerModule.getInstance().isConnected() ? ServerModule.getInstance().getServerPing() : CreepyWare.serverManager.getPing()) + (this.MS.getValue() ? "ms" : "");
+            if (this.renderer.getStringWidth(text) > this.renderer.getStringWidth(fpsText)) {
+                if (this.ping.getValue()) {
+                    final TextManager renderer8 = this.renderer;
+                    final String text12 = text;
+                    final float x8 = (float) (width - (this.renderer.getStringWidth(text) + 2));
+                    final int n8 = height - 2;
+                    k += 10;
+                    renderer8.drawString(text12, x8, (float) (n8 - k), (this.rolling.getValue() && this.rainbow.getValue()) ? this.colorMap.get(height - k) : this.color, true);
+                }
+                if (this.fps.getValue()) {
+                    final TextManager renderer9 = this.renderer;
+                    final String text13 = fpsText;
+                    final float x9 = (float) (width - (this.renderer.getStringWidth(fpsText) + 2));
+                    final int n9 = height - 2;
+                    k += 10;
+                    renderer9.drawString(text13, x9, (float) (n9 - k), (this.rolling.getValue() && this.rainbow.getValue()) ? this.colorMap.get(height - k) : this.color, true);
                 }
             } else {
-                if (this.fps.getValue().booleanValue()) {
-                    i += 10;
-                    this.renderer.drawString(fpsText, (width - this.renderer.getStringWidth(fpsText) - 2), (height - 2 - i), (ClickGui.getInstance()).rainbow.getValue().booleanValue() ? (((ClickGui.getInstance()).rainbowModeA.getValue() == ClickGui.rainbowModeArray.Up) ? ColorUtil.rainbow(counter1[0] * (ClickGui.getInstance()).rainbowHue.getValue().intValue()).getRGB() : ColorUtil.rainbow((ClickGui.getInstance()).rainbowHue.getValue().intValue()).getRGB()) : this.color, true);
-                    counter1[0] = counter1[0] + 1;
+                if (this.fps.getValue()) {
+                    final TextManager renderer10 = this.renderer;
+                    final String text14 = fpsText;
+                    final float x10 = (float) (width - (this.renderer.getStringWidth(fpsText) + 2));
+                    final int n10 = height - 2;
+                    k += 10;
+                    renderer10.drawString(text14, x10, (float) (n10 - k), (this.rolling.getValue() && this.rainbow.getValue()) ? this.colorMap.get(height - k) : this.color, true);
                 }
-                if (this.ping.getValue().booleanValue()) {
-                    i += 10;
-                    this.renderer.drawString(str1, (width - this.renderer.getStringWidth(str1) - 2), (height - 2 - i), (ClickGui.getInstance()).rainbow.getValue().booleanValue() ? (((ClickGui.getInstance()).rainbowModeA.getValue() == ClickGui.rainbowModeArray.Up) ? ColorUtil.rainbow(counter1[0] * (ClickGui.getInstance()).rainbowHue.getValue().intValue()).getRGB() : ColorUtil.rainbow((ClickGui.getInstance()).rainbowHue.getValue().intValue()).getRGB()) : this.color, true);
-                    counter1[0] = counter1[0] + 1;
+                if (this.ping.getValue()) {
+                    final TextManager renderer11 = this.renderer;
+                    final String text15 = text;
+                    final float x11 = (float) (width - (this.renderer.getStringWidth(text) + 2));
+                    final int n11 = height - 2;
+                    k += 10;
+                    renderer11.drawString(text15, x11, (float) (n11 - k), (this.rolling.getValue() && this.rainbow.getValue()) ? this.colorMap.get(height - k) : this.color, true);
                 }
             }
         } else {
-            if (this.potions.getValue().booleanValue()) {
-                List<PotionEffect> effects = new ArrayList<>((Minecraft.getMinecraft()).player.getActivePotionEffects());
-                for (PotionEffect potionEffect : effects) {
-                    String str = CreepyWare.potionManager.getColoredPotionString(potionEffect);
-                    this.renderer.drawString(str, (width - this.renderer.getStringWidth(str) - 2), (2 + i++ * 10), potionEffect.getPotion().getLiquidColor(), true);
+            if (this.serverBrand.getValue()) {
+                final String text2 = grayString + "Server brand " + ChatFormatting.WHITE + CreepyWare.serverManager.getServerBrand();
+                this.renderer.drawString(text2, (float) (width - (this.renderer.getStringWidth(text2) + 2)), (float) (2 + k++ * 10), (this.rolling.getValue() && this.rainbow.getValue()) ? this.colorMap.get(2 + k * 10) : this.color, true);
+            }
+            if (this.potions.getValue()) {
+                for (final PotionEffect effect : CreepyWare.potionManager.getOwnPotions()) {
+                    final String text3 = this.altPotionsColors.getValue() ? CreepyWare.potionManager.getPotionString(effect) : CreepyWare.potionManager.getColoredPotionString(effect);
+                    this.renderer.drawString(text3, (float) (width - (this.renderer.getStringWidth(text3) + 2)), (float) (2 + k++ * 10), (this.rolling.getValue() && this.rainbow.getValue()) ? this.colorMap.get(2 + k * 10) : (this.altPotionsColors.getValue() ? this.potionColorMap.get(effect.getPotion()).getRGB() : this.color), true);
                 }
             }
-            if (this.speed.getValue().booleanValue()) {
-                String str = grayString + "Speed " + ChatFormatting.WHITE + CreepyWare.speedManager.getSpeedKpH() + " km/h";
-                this.renderer.drawString(str, (width - this.renderer.getStringWidth(str) - 2), (2 + i++ * 10), (ClickGui.getInstance()).rainbow.getValue().booleanValue() ? (((ClickGui.getInstance()).rainbowModeA.getValue() == ClickGui.rainbowModeArray.Up) ? ColorUtil.rainbow(counter1[0] * (ClickGui.getInstance()).rainbowHue.getValue().intValue()).getRGB() : ColorUtil.rainbow((ClickGui.getInstance()).rainbowHue.getValue().intValue()).getRGB()) : this.color, true);
-                counter1[0] = counter1[0] + 1;
+            if (this.speed.getValue()) {
+                final String text2 = grayString + "Speed " + ChatFormatting.WHITE + CreepyWare.speedManager.getSpeedKpH() + " km/h";
+                this.renderer.drawString(text2, (float) (width - (this.renderer.getStringWidth(text2) + 2)), (float) (2 + k++ * 10), (this.rolling.getValue() && this.rainbow.getValue()) ? this.colorMap.get(2 + k * 10) : this.color, true);
             }
-            if (this.time.getValue().booleanValue()) {
-                String str = grayString + "Time " + ChatFormatting.WHITE + (new SimpleDateFormat("h:mm a")).format(new Date());
-                this.renderer.drawString(str, (width - this.renderer.getStringWidth(str) - 2), (2 + i++ * 10), (ClickGui.getInstance()).rainbow.getValue().booleanValue() ? (((ClickGui.getInstance()).rainbowModeA.getValue() == ClickGui.rainbowModeArray.Up) ? ColorUtil.rainbow(counter1[0] * (ClickGui.getInstance()).rainbowHue.getValue().intValue()).getRGB() : ColorUtil.rainbow((ClickGui.getInstance()).rainbowHue.getValue().intValue()).getRGB()) : this.color, true);
-                counter1[0] = counter1[0] + 1;
+            if (this.time.getValue()) {
+                final String text2 = grayString + "Time " + ChatFormatting.WHITE + new SimpleDateFormat("h:mm a").format(new Date());
+                this.renderer.drawString(text2, (float) (width - (this.renderer.getStringWidth(text2) + 2)), (float) (2 + k++ * 10), (this.rolling.getValue() && this.rainbow.getValue()) ? this.colorMap.get(2 + k * 10) : this.color, true);
             }
-            if (this.tps.getValue().booleanValue()) {
-                String str = grayString + "TPS " + ChatFormatting.WHITE + CreepyWare.serverManager.getTPS();
-                this.renderer.drawString(str, (width - this.renderer.getStringWidth(str) - 2), (2 + i++ * 10), (ClickGui.getInstance()).rainbow.getValue().booleanValue() ? (((ClickGui.getInstance()).rainbowModeA.getValue() == ClickGui.rainbowModeArray.Up) ? ColorUtil.rainbow(counter1[0] * (ClickGui.getInstance()).rainbowHue.getValue().intValue()).getRGB() : ColorUtil.rainbow((ClickGui.getInstance()).rainbowHue.getValue().intValue()).getRGB()) : this.color, true);
-                counter1[0] = counter1[0] + 1;
-            }
-            String fpsText = grayString + "FPS " + ChatFormatting.WHITE + Minecraft.debugFPS;
-            String str1 = grayString + "Ping " + ChatFormatting.WHITE + CreepyWare.serverManager.getPing();
-            if (this.renderer.getStringWidth(str1) > this.renderer.getStringWidth(fpsText)) {
-                if (this.ping.getValue().booleanValue()) {
-                    this.renderer.drawString(str1, (width - this.renderer.getStringWidth(str1) - 2), (2 + i++ * 10), (ClickGui.getInstance()).rainbow.getValue().booleanValue() ? (((ClickGui.getInstance()).rainbowModeA.getValue() == ClickGui.rainbowModeArray.Up) ? ColorUtil.rainbow(counter1[0] * (ClickGui.getInstance()).rainbowHue.getValue().intValue()).getRGB() : ColorUtil.rainbow((ClickGui.getInstance()).rainbowHue.getValue().intValue()).getRGB()) : this.color, true);
-                    counter1[0] = counter1[0] + 1;
+            if (this.durability.getValue()) {
+                final int itemDamage = HUD.mc.player.getHeldItemMainhand().getMaxDamage() - HUD.mc.player.getHeldItemMainhand().getItemDamage();
+                if (itemDamage > 0) {
+                    final String text = grayString + "Durability " + ChatFormatting.GREEN + itemDamage;
+                    this.renderer.drawString(text, (float) (width - (this.renderer.getStringWidth(text) + 2)), (float) (2 + k++ * 10), (this.rolling.getValue() && this.rainbow.getValue()) ? this.colorMap.get(2 + k * 10) : this.color, true);
                 }
-                if (this.fps.getValue().booleanValue()) {
-                    this.renderer.drawString(fpsText, (width - this.renderer.getStringWidth(fpsText) - 2), (2 + i++ * 10), (ClickGui.getInstance()).rainbow.getValue().booleanValue() ? (((ClickGui.getInstance()).rainbowModeA.getValue() == ClickGui.rainbowModeArray.Up) ? ColorUtil.rainbow(counter1[0] * (ClickGui.getInstance()).rainbowHue.getValue().intValue()).getRGB() : ColorUtil.rainbow((ClickGui.getInstance()).rainbowHue.getValue().intValue()).getRGB()) : this.color, true);
-                    counter1[0] = counter1[0] + 1;
+            }
+            if (this.tps.getValue()) {
+                final String text2 = grayString + "TPS " + ChatFormatting.WHITE + CreepyWare.serverManager.getTPS();
+                this.renderer.drawString(text2, (float) (width - (this.renderer.getStringWidth(text2) + 2)), (float) (2 + k++ * 10), (this.rolling.getValue() && this.rainbow.getValue()) ? this.colorMap.get(2 + k * 10) : this.color, true);
+            }
+            final String fpsText = grayString + "FPS " + ChatFormatting.WHITE + Minecraft.debugFPS;
+            final String text = grayString + "Ping " + ChatFormatting.WHITE + CreepyWare.serverManager.getPing();
+            if (this.renderer.getStringWidth(text) > this.renderer.getStringWidth(fpsText)) {
+                if (this.ping.getValue()) {
+                    this.renderer.drawString(text, (float) (width - (this.renderer.getStringWidth(text) + 2)), (float) (2 + k++ * 10), (this.rolling.getValue() && this.rainbow.getValue()) ? this.colorMap.get(2 + k * 10) : this.color, true);
+                }
+                if (this.fps.getValue()) {
+                    this.renderer.drawString(fpsText, (float) (width - (this.renderer.getStringWidth(fpsText) + 2)), (float) (2 + k++ * 10), (this.rolling.getValue() && this.rainbow.getValue()) ? this.colorMap.get(2 + k * 10) : this.color, true);
                 }
             } else {
-                if (this.fps.getValue().booleanValue()) {
-                    this.renderer.drawString(fpsText, (width - this.renderer.getStringWidth(fpsText) - 2), (2 + i++ * 10), (ClickGui.getInstance()).rainbow.getValue().booleanValue() ? (((ClickGui.getInstance()).rainbowModeA.getValue() == ClickGui.rainbowModeArray.Up) ? ColorUtil.rainbow(counter1[0] * (ClickGui.getInstance()).rainbowHue.getValue().intValue()).getRGB() : ColorUtil.rainbow((ClickGui.getInstance()).rainbowHue.getValue().intValue()).getRGB()) : this.color, true);
-                    counter1[0] = counter1[0] + 1;
+                if (this.fps.getValue()) {
+                    this.renderer.drawString(fpsText, (float) (width - (this.renderer.getStringWidth(fpsText) + 2)), (float) (2 + k++ * 10), (this.rolling.getValue() && this.rainbow.getValue()) ? this.colorMap.get(2 + k * 10) : this.color, true);
                 }
-                if (this.ping.getValue().booleanValue()) {
-                    this.renderer.drawString(str1, (width - this.renderer.getStringWidth(str1) - 2), (2 + i++ * 10), (ClickGui.getInstance()).rainbow.getValue().booleanValue() ? (((ClickGui.getInstance()).rainbowModeA.getValue() == ClickGui.rainbowModeArray.Up) ? ColorUtil.rainbow(counter1[0] * (ClickGui.getInstance()).rainbowHue.getValue().intValue()).getRGB() : ColorUtil.rainbow((ClickGui.getInstance()).rainbowHue.getValue().intValue()).getRGB()) : this.color, true);
-                    counter1[0] = counter1[0] + 1;
+                if (this.ping.getValue()) {
+                    this.renderer.drawString(text, (float) (width - (this.renderer.getStringWidth(text) + 2)), (float) (2 + k++ * 10), (this.rolling.getValue() && this.rainbow.getValue()) ? this.colorMap.get(2 + k * 10) : this.color, true);
                 }
             }
         }
-        boolean inHell = mc.world.getBiome(mc.player.getPosition()).getBiomeName().equals("Hell");
-        int posX = (int) mc.player.posX;
-        int posY = (int) mc.player.posY;
-        int posZ = (int) mc.player.posZ;
-        float nether = !inHell ? 0.125F : 8.0F;
-        int hposX = (int) (mc.player.posX * nether);
-        int hposZ = (int) (mc.player.posZ * nether);
-        i = (mc.currentScreen instanceof net.minecraft.client.gui.GuiChat) ? 14 : 0;
-        String coordinates = ChatFormatting.WHITE + "XYZ " + ChatFormatting.RESET + (inHell ? (posX + ", " + posY + ", " + posZ + ChatFormatting.WHITE + " [" + ChatFormatting.RESET + hposX + ", " + hposZ + ChatFormatting.WHITE + "]" + ChatFormatting.RESET) : (posX + ", " + posY + ", " + posZ + ChatFormatting.WHITE + " [" + ChatFormatting.RESET + hposX + ", " + hposZ + ChatFormatting.WHITE + "]"));
-        String direction = this.direction.getValue().booleanValue() ? CreepyWare.rotationManager.getDirection4D(false) : "";
-        String coords = this.coords.getValue().booleanValue() ? coordinates : "";
-        i += 10;
-        if ((ClickGui.getInstance()).rainbow.getValue().booleanValue()) {
-            String rainbowCoords = this.coords.getValue().booleanValue() ? ("XYZ " + (inHell ? (posX + ", " + posY + ", " + posZ + " [" + hposX + ", " + hposZ + "]") : (posX + ", " + posY + ", " + posZ + " [" + hposX + ", " + hposZ + "]"))) : "";
-            if ((ClickGui.getInstance()).rainbowModeHud.getValue() == ClickGui.rainbowMode.Static) {
-                this.renderer.drawString(direction, 2.0F, (height - i - 11), ColorUtil.rainbow((ClickGui.getInstance()).rainbowHue.getValue().intValue()).getRGB(), true);
-                this.renderer.drawString(rainbowCoords, 2.0F, (height - i), ColorUtil.rainbow((ClickGui.getInstance()).rainbowHue.getValue().intValue()).getRGB(), true);
-            } else {
-                int[] counter2 = {1};
-                char[] stringToCharArray = direction.toCharArray();
-                float s = 0.0F;
-                for (char c : stringToCharArray) {
-                    this.renderer.drawString(String.valueOf(c), 2.0F + s, (height - i - 11), ColorUtil.rainbow(counter2[0] * (ClickGui.getInstance()).rainbowHue.getValue().intValue()).getRGB(), true);
-                    s += this.renderer.getStringWidth(String.valueOf(c));
-                    counter2[0] = counter2[0] + 1;
-                }
-                int[] counter3 = {1};
-                char[] stringToCharArray2 = rainbowCoords.toCharArray();
-                float u = 0.0F;
-                for (char c : stringToCharArray2) {
-                    this.renderer.drawString(String.valueOf(c), 2.0F + u, (height - i), ColorUtil.rainbow(counter3[0] * (ClickGui.getInstance()).rainbowHue.getValue().intValue()).getRGB(), true);
-                    u += this.renderer.getStringWidth(String.valueOf(c));
-                    counter3[0] = counter3[0] + 1;
-                }
-            }
+        final boolean inHell = HUD.mc.world.getBiome(HUD.mc.player.getPosition()).getBiomeName().equals("Hell");
+        final int posX = (int) HUD.mc.player.posX;
+        final int posY = (int) HUD.mc.player.posY;
+        final int posZ = (int) HUD.mc.player.posZ;
+        final float nether = inHell ? 8.0f : 0.125f;
+        final int hposX = (int) (HUD.mc.player.posX * nether);
+        final int hposZ = (int) (HUD.mc.player.posZ * nether);
+        if (this.renderingUp.getValue()) {
+            CreepyWare.notificationManager.handleNotifications(height - (k + 16));
         } else {
-            this.renderer.drawString(direction, 2.0F, (height - i - 11), this.color, true);
-            this.renderer.drawString(coords, 2.0F, (height - i), this.color, true);
+            CreepyWare.notificationManager.handleNotifications(height - (j + 16));
         }
-        if (this.armor.getValue().booleanValue())
-            renderArmorHUD(true);
-        if (this.totems.getValue().booleanValue())
-            renderTotemHUD();
-        if (this.greeter.getValue().booleanValue())
-            renderGreeter();
-        if (this.lag.getValue().booleanValue())
-            renderLag();
+        k = ((HUD.mc.currentScreen instanceof GuiChat) ? 14 : 0);
+        final String coordinates = String.valueOf(ChatFormatting.WHITE) + posX + ChatFormatting.GRAY + " [" + hposX + "], " + ChatFormatting.WHITE + posY + ChatFormatting.GRAY + ", " + ChatFormatting.WHITE + posZ + ChatFormatting.GRAY + " [" + hposZ + "]";
+        final String text4 = (this.direction.getValue() ? (CreepyWare.rotationManager.getDirection4D(false) + " ") : "") + (this.coords.getValue() ? coordinates : "") + "";
+        final TextManager renderer12 = this.renderer;
+        final String text16 = text4;
+        final float x12 = 2.0f;
+        final int n12 = height;
+        k += 10;
+        final float y = (float) (n12 - k);
+        int color;
+        if (this.rolling.getValue() && this.rainbow.getValue()) {
+            final Map<Integer, Integer> colorMap = this.colorMap;
+            final int n13 = height;
+            k += 10;
+            color = colorMap.get(n13 - k);
+        } else {
+            color = this.color;
+        }
+        renderer12.drawString(text16, x12, y, color, true);
+        if (this.armor.getValue()) {
+            this.renderArmorHUD(this.percent.getValue());
+        }
+        if (this.totems.getValue()) {
+            this.renderTotemHUD();
+        }
+        if (this.greeter.getValue() != Greeter.NONE) {
+            this.renderGreeter();
+        }
+        if (this.lag.getValue() != LagNotify.NONE) {
+            this.renderLag();
+        }
+        if (this.hitMarkers.getValue() && this.hitMarkerTimer > 0) {
+            this.drawHitMarkers();
+        }
+        GlStateManager.popMatrix();
     }
 
     public Map<String, Integer> getTextRadarPlayers() {
@@ -297,128 +429,155 @@ public class HUD extends Module {
     }
 
     public void renderGreeter() {
-        int width = this.renderer.scaledWidth;
+        final int width = this.renderer.scaledWidth;
         String text = "";
-        if (this.greeter.getValue().booleanValue())
-            text = text + MathUtil.getTimeOfDay() + mc.player.getDisplayNameString();
-        if ((ClickGui.getInstance()).rainbow.getValue().booleanValue()) {
-            if ((ClickGui.getInstance()).rainbowModeHud.getValue() == ClickGui.rainbowMode.Static) {
-                this.renderer.drawString(text, width / 2.0F - this.renderer.getStringWidth(text) / 2.0F + 2.0F, 2.0F, ColorUtil.rainbow((ClickGui.getInstance()).rainbowHue.getValue().intValue()).getRGB(), true);
-            } else {
-                int[] counter1 = {1};
-                char[] stringToCharArray = text.toCharArray();
-                float i = 0.0F;
-                for (char c : stringToCharArray) {
-                    this.renderer.drawString(String.valueOf(c), width / 2.0F - this.renderer.getStringWidth(text) / 2.0F + 2.0F + i, 2.0F, ColorUtil.rainbow(counter1[0] * (ClickGui.getInstance()).rainbowHue.getValue().intValue()).getRGB(), true);
-                    i += this.renderer.getStringWidth(String.valueOf(c));
-                    counter1[0] = counter1[0] + 1;
-                }
+        switch (this.greeter.getValue()) {
+            case TIME: {
+                text = text + MathUtil.getTimeOfDay() + HUD.mc.player.getDisplayNameString();
+                break;
             }
-        } else {
-            this.renderer.drawString(text, width / 2.0F - this.renderer.getStringWidth(text) / 2.0F + 2.0F, 2.0F, this.color, true);
+            case CHRISTMAS: {
+                text = text + "Merry Christmas " + HUD.mc.player.getDisplayNameString() + " :^)";
+                break;
+            }
+            case LONG: {
+                text = text + "Welcome to CreepyWare.eu " + HUD.mc.player.getDisplayNameString() + " :^)";
+                break;
+            }
+            case CUSTOM: {
+                text += this.spoofGreeter.getValue();
+                break;
+            }
+            default: {
+                text = text + "Welcome " + HUD.mc.player.getDisplayNameString();
+                break;
+            }
         }
+        this.renderer.drawString(text, width / 2.0f - this.renderer.getStringWidth(text) / 2.0f + 2.0f, 2.0f, (this.rolling.getValue() && this.rainbow.getValue()) ? this.colorMap.get(2) : this.color, true);
     }
 
     public void renderLag() {
-        int width = this.renderer.scaledWidth;
+        final int width = this.renderer.scaledWidth;
         if (CreepyWare.serverManager.isServerNotResponding()) {
-            String text = ChatFormatting.RED + "Server not responding " + MathUtil.round((float) CreepyWare.serverManager.serverRespondingTime() / 1000.0F, 1) + "s.";
-            this.renderer.drawString(text, width / 2.0F - this.renderer.getStringWidth(text) / 2.0F + 2.0F, 20.0F, this.color, true);
+            final String text = ((this.lag.getValue() == LagNotify.GRAY) ? ChatFormatting.GRAY : ChatFormatting.RED) + "Server not responding: " + MathUtil.round(CreepyWare.serverManager.serverRespondingTime() / 1000.0f, 1) + "s.";
+            this.renderer.drawString(text, width / 2.0f - this.renderer.getStringWidth(text) / 2.0f + 2.0f, 20.0f, (this.rolling.getValue() && this.rainbow.getValue()) ? this.colorMap.get(20) : this.color, true);
         }
+    }
+
+    public void renderArrayList() {
     }
 
     public void renderTotemHUD() {
-        int width = this.renderer.scaledWidth;
-        int height = this.renderer.scaledHeight;
-        int totems = mc.player.inventory.mainInventory.stream().filter(itemStack -> (itemStack.getItem() == Items.TOTEM_OF_UNDYING)).mapToInt(ItemStack::getCount).sum();
-        if (mc.player.getHeldItemOffhand().getItem() == Items.TOTEM_OF_UNDYING)
-            totems += mc.player.getHeldItemOffhand().getCount();
+        final int width = this.renderer.scaledWidth;
+        final int height = this.renderer.scaledHeight;
+        int totems = HUD.mc.player.inventory.mainInventory.stream().filter(itemStack -> itemStack.getItem() == Items.TOTEM_OF_UNDYING).mapToInt(ItemStack::getCount).sum();
+        if (HUD.mc.player.getHeldItemOffhand().getItem() == Items.TOTEM_OF_UNDYING) {
+            totems += HUD.mc.player.getHeldItemOffhand().getCount();
+        }
         if (totems > 0) {
             GlStateManager.enableTexture2D();
-            int i = width / 2;
-            int iteration = 0;
-            int y = height - 55 - ((mc.player.isInWater() && mc.playerController.gameIsSurvivalOrAdventure()) ? 10 : 0);
-            int x = i - 189 + 180 + 2;
+            final int i = width / 2;
+            final int iteration = 0;
+            final int y = height - 55 - ((HUD.mc.player.isInWater() && HUD.mc.playerController.gameIsSurvivalOrAdventure()) ? 10 : 0);
+            final int x = i - 189 + 180 + 2;
             GlStateManager.enableDepth();
-            RenderUtil.itemRender.zLevel = 200.0F;
-            RenderUtil.itemRender.renderItemAndEffectIntoGUI(totem, x, y);
-            RenderUtil.itemRender.renderItemOverlayIntoGUI(mc.fontRenderer, totem, x, y, "");
-            RenderUtil.itemRender.zLevel = 0.0F;
+            RenderUtil.itemRender.zLevel = 200.0f;
+            RenderUtil.itemRender.renderItemAndEffectIntoGUI(HUD.totem, x, y);
+            RenderUtil.itemRender.renderItemOverlayIntoGUI(HUD.mc.fontRenderer, HUD.totem, x, y, "");
+            RenderUtil.itemRender.zLevel = 0.0f;
             GlStateManager.enableTexture2D();
             GlStateManager.disableLighting();
             GlStateManager.disableDepth();
-            this.renderer.drawStringWithShadow(totems + "", (x + 19 - 2 - this.renderer.getStringWidth(totems + "")), (y + 9), 16777215);
+            this.renderer.drawStringWithShadow(totems + "", (float) (x + 19 - 2 - this.renderer.getStringWidth(totems + "")), (float) (y + 9), 16777215);
             GlStateManager.enableDepth();
             GlStateManager.disableLighting();
         }
     }
 
-    public void renderArmorHUD(boolean percent) {
-        int width = this.renderer.scaledWidth;
-        int height = this.renderer.scaledHeight;
+    public void renderArmorHUD(final boolean percent) {
+        final int width = this.renderer.scaledWidth;
+        final int height = this.renderer.scaledHeight;
         GlStateManager.enableTexture2D();
-        int i = width / 2;
+        final int i = width / 2;
         int iteration = 0;
-        int y = height - 55 - ((mc.player.isInWater() && mc.playerController.gameIsSurvivalOrAdventure()) ? 10 : 0);
-        for (ItemStack is : mc.player.inventory.armorInventory) {
-            iteration++;
-            if (is.isEmpty())
+        final int y = height - 55 - ((HUD.mc.player.isInWater() && HUD.mc.playerController.gameIsSurvivalOrAdventure()) ? 10 : 0);
+        for (final ItemStack is : HUD.mc.player.inventory.armorInventory) {
+            ++iteration;
+            if (is.isEmpty()) {
                 continue;
-            int x = i - 90 + (9 - iteration) * 20 + 2;
+            }
+            final int x = i - 90 + (9 - iteration) * 20 + 2;
             GlStateManager.enableDepth();
-            RenderUtil.itemRender.zLevel = 200.0F;
+            RenderUtil.itemRender.zLevel = 200.0f;
             RenderUtil.itemRender.renderItemAndEffectIntoGUI(is, x, y);
-            RenderUtil.itemRender.renderItemOverlayIntoGUI(mc.fontRenderer, is, x, y, "");
-            RenderUtil.itemRender.zLevel = 0.0F;
+            RenderUtil.itemRender.renderItemOverlayIntoGUI(HUD.mc.fontRenderer, is, x, y, "");
+            RenderUtil.itemRender.zLevel = 0.0f;
             GlStateManager.enableTexture2D();
             GlStateManager.disableLighting();
             GlStateManager.disableDepth();
-            String s = (is.getCount() > 1) ? (is.getCount() + "") : "";
-            this.renderer.drawStringWithShadow(s, (x + 19 - 2 - this.renderer.getStringWidth(s)), (y + 9), 16777215);
-            if (percent) {
-                float green = (is.getMaxDamage() - is.getItemDamage()) / is.getMaxDamage();
-                float red = 1.0F - green;
-                int dmg = 100 - (int) (red * 100.0F);
-                this.renderer.drawStringWithShadow(dmg + "", (x + 8 - this.renderer.getStringWidth(dmg + "") / 2), (y - 11), ColorUtil.toRGBA((int) (red * 255.0F), (int) (green * 255.0F), 0));
+            final String s = (is.getCount() > 1) ? (is.getCount() + "") : "";
+            this.renderer.drawStringWithShadow(s, (float) (x + 19 - 2 - this.renderer.getStringWidth(s)), (float) (y + 9), 16777215);
+            if (!percent) {
+                continue;
             }
+            int dmg = 0;
+            final int itemDurability = is.getMaxDamage() - is.getItemDamage();
+            final float green = (is.getMaxDamage() - (float) is.getItemDamage()) / is.getMaxDamage();
+            final float red = 1.0f - green;
+            if (percent) {
+                dmg = 100 - (int) (red * 100.0f);
+            } else {
+                dmg = itemDurability;
+            }
+            this.renderer.drawStringWithShadow(dmg + "", (float) (x + 8 - this.renderer.getStringWidth(dmg + "") / 2), (float) (y - 11), ColorUtil.toRGBA((int) (red * 255.0f), (int) (green * 255.0f), 0));
         }
         GlStateManager.enableDepth();
         GlStateManager.disableLighting();
     }
 
-    @SubscribeEvent
-    public void onUpdateWalkingPlayer(AttackEntityEvent event) {
-        this.shouldIncrement = true;
+    public void drawHitMarkers() {
+        final ScaledResolution resolution = new ScaledResolution(HUD.mc);
+        RenderUtil.drawLine(resolution.getScaledWidth() / 2.0f - 4.0f, resolution.getScaledHeight() / 2.0f - 4.0f, resolution.getScaledWidth() / 2.0f - 8.0f, resolution.getScaledHeight() / 2.0f - 8.0f, 1.0f, ColorUtil.toRGBA(255, 255, 255, 255));
+        RenderUtil.drawLine(resolution.getScaledWidth() / 2.0f + 4.0f, resolution.getScaledHeight() / 2.0f - 4.0f, resolution.getScaledWidth() / 2.0f + 8.0f, resolution.getScaledHeight() / 2.0f - 8.0f, 1.0f, ColorUtil.toRGBA(255, 255, 255, 255));
+        RenderUtil.drawLine(resolution.getScaledWidth() / 2.0f - 4.0f, resolution.getScaledHeight() / 2.0f + 4.0f, resolution.getScaledWidth() / 2.0f - 8.0f, resolution.getScaledHeight() / 2.0f + 8.0f, 1.0f, ColorUtil.toRGBA(255, 255, 255, 255));
+        RenderUtil.drawLine(resolution.getScaledWidth() / 2.0f + 4.0f, resolution.getScaledHeight() / 2.0f + 4.0f, resolution.getScaledWidth() / 2.0f + 8.0f, resolution.getScaledHeight() / 2.0f + 8.0f, 1.0f, ColorUtil.toRGBA(255, 255, 255, 255));
     }
 
-    public void onLoad() {
-        CreepyWare.commandManager.setClientMessage(getCommandMessage());
-    }
-
-    @SubscribeEvent
-    public void onSettingChange(ClientEvent event) {
-        if (event.getStage() == 2 &&
-                equals(event.getSetting().getFeature()))
-            CreepyWare.commandManager.setClientMessage(getCommandMessage());
-    }
-
-    public String getCommandMessage() {
-        return TextUtil.coloredString(this.commandBracket.getPlannedValue(), this.bracketColor.getPlannedValue()) + TextUtil.coloredString(this.command.getPlannedValue(), this.commandColor.getPlannedValue()) + TextUtil.coloredString(this.commandBracket2.getPlannedValue(), this.bracketColor.getPlannedValue());
-    }
-
-    public void drawTextRadar(int yOffset) {
+    public void drawTextRadar(final int yOffset) {
         if (!this.players.isEmpty()) {
             int y = this.renderer.getFontHeight() + 7 + yOffset;
-            for (Map.Entry<String, Integer> player : this.players.entrySet()) {
-                String text = player.getKey() + " ";
-                int textheight = this.renderer.getFontHeight() + 1;
-                this.renderer.drawString(text, 2.0F, y, this.color, true);
+            for (final Map.Entry<String, Integer> player : this.players.entrySet()) {
+                final String text = player.getKey() + " ";
+                final int textheight = this.renderer.getFontHeight() + 1;
+                this.renderer.drawString(text, 2.0f, (float) y, (this.rolling.getValue() && this.rainbow.getValue()) ? this.colorMap.get(y) : this.color, true);
                 y += textheight;
             }
         }
     }
 
-    public enum RenderingMode {
-        Length, ABC
+    public enum Greeter {
+        NONE,
+        NAME,
+        TIME,
+        CHRISTMAS,
+        LONG,
+        CUSTOM
+    }
+
+    public enum LagNotify {
+        NONE,
+        RED,
+        GRAY
+    }
+
+    public enum WaterMark {
+        NONE,
+        CreepyWare
+    }
+
+    public enum Sound {
+        NONE,
+        COD,
+        CSGO
     }
 }

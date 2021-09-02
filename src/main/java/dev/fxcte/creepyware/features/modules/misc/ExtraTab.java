@@ -37,4 +37,3 @@ public class ExtraTab
         INSTANCE = this;
     }
 }
-

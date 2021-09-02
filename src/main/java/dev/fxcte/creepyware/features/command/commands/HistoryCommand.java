@@ -1,6 +1,5 @@
 package dev.fxcte.creepyware.features.command.commands;
 
-import com.mojang.realmsclient.gui.ChatFormatting;
 import dev.fxcte.creepyware.features.command.Command;
 import dev.fxcte.creepyware.util.PlayerUtil;
 
@@ -18,7 +17,7 @@ public class HistoryCommand
         List<String> names;
         UUID uuid;
         if (commands.length == 1 || commands.length == 0) {
-            HistoryCommand.sendMessage(ChatFormatting.RED + "Please specify a player.");
+            HistoryCommand.sendMessage("Please specify a player.");
         }
         try {
             uuid = PlayerUtil.getUUIDFromName(commands[0]);
@@ -33,7 +32,7 @@ public class HistoryCommand
             return;
         }
         if (names != null) {
-            HistoryCommand.sendMessage(commands[0] + "\u00c2\u00b4s name history:");
+            HistoryCommand.sendMessage(commands[0] + " name history:");
             for (String name : names) {
                 HistoryCommand.sendMessage(name);
             }

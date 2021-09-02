@@ -1,10 +1,10 @@
 package dev.fxcte.creepyware.features.command;
 
-import com.mojang.realmsclient.gui.ChatFormatting;
 import dev.fxcte.creepyware.CreepyWare;
 import dev.fxcte.creepyware.features.Feature;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TextComponentBase;
+import net.minecraft.util.text.TextComponentString;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -26,8 +26,15 @@ public abstract class Command
         this.commands = commands;
     }
 
+    public static void sendMessage(String message, boolean notification) {
+        Command.sendSilentMessage(CreepyWare.commandManager.getClientMessage() + " " + "\u00a7r" + message);
+        if (notification) {
+            CreepyWare.notificationManager.addNotification(message, 3000L);
+        }
+    }
+
     public static void sendMessage(String message) {
-        Command.sendSilentMessage(CreepyWare.commandManager.getClientMessage() + " " + ChatFormatting.GRAY + message);
+        Command.sendSilentMessage(CreepyWare.commandManager.getClientMessage() + " " + "\u00a7r" + message);
     }
 
     public static void sendSilentMessage(String message) {
@@ -35,6 +42,20 @@ public abstract class Command
             return;
         }
         Command.mc.player.sendMessage(new ChatMessage(message));
+    }
+
+    public static void sendOverwriteMessage(String message, int id, boolean notification) {
+        TextComponentString component = new TextComponentString(message);
+        Command.mc.ingameGUI.getChatGUI().printChatMessageWithOptionalDeletion(component, id);
+        if (notification) {
+            CreepyWare.notificationManager.addNotification(message, 3000L);
+        }
+    }
+
+    public static void sendRainbowMessage(String message) {
+        StringBuilder stringBuilder = new StringBuilder(message);
+        stringBuilder.insert(0, "\u00a7+");
+        Command.mc.player.sendMessage(new ChatMessage(stringBuilder.toString()));
     }
 
     public static String getCommandPrefix() {
@@ -61,7 +82,7 @@ public abstract class Command
             Matcher matcher = pattern.matcher(text);
             StringBuffer stringBuffer = new StringBuffer();
             while (matcher.find()) {
-                String replacement = matcher.group().substring(1);
+                String replacement = "\u00a7" + matcher.group().substring(1);
                 matcher.appendReplacement(stringBuffer, replacement);
             }
             matcher.appendTail(stringBuffer);
@@ -73,10 +94,6 @@ public abstract class Command
         }
 
         public ITextComponent createCopy() {
-            return null;
-        }
-
-        public ITextComponent shallowCopy() {
             return new ChatMessage(this.text);
         }
     }

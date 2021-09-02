@@ -1,6 +1,5 @@
 package dev.fxcte.creepyware.features.modules.client;
 
-import com.mojang.realmsclient.gui.ChatFormatting;
 import dev.fxcte.creepyware.CreepyWare;
 import dev.fxcte.creepyware.event.events.ClientEvent;
 import dev.fxcte.creepyware.features.command.Command;
@@ -14,10 +13,13 @@ public class FontMod
         extends Module {
     private static FontMod INSTANCE = new FontMod();
     public Setting<String> fontName = this.register(new Setting<String>("FontName", "Arial", "Name of the font."));
+    public Setting<Integer> fontSize = this.register(new Setting<Integer>("FontSize", Integer.valueOf(18), "Size of the font."));
+    public Setting<Integer> fontStyle = this.register(new Setting<Integer>("FontStyle", Integer.valueOf(0), "Style of the font."));
     public Setting<Boolean> antiAlias = this.register(new Setting<Boolean>("AntiAlias", Boolean.valueOf(true), "Smoother font."));
     public Setting<Boolean> fractionalMetrics = this.register(new Setting<Boolean>("Metrics", Boolean.valueOf(true), "Thinner font."));
-    public Setting<Integer> fontSize = this.register(new Setting<Integer>("Size", Integer.valueOf(18), Integer.valueOf(12), Integer.valueOf(30), "Size of the font."));
-    public Setting<Integer> fontStyle = this.register(new Setting<Integer>("Style", Integer.valueOf(0), Integer.valueOf(0), Integer.valueOf(3), "Style of the font."));
+    public Setting<Boolean> shadow = this.register(new Setting<Boolean>("Shadow", Boolean.valueOf(true), "Less shadow offset font."));
+    public Setting<Boolean> showFonts = this.register(new Setting<Boolean>("Fonts", Boolean.valueOf(false), "Shows all fonts."));
+    public Setting<Boolean> full = this.register(new Setting<Boolean>("Full", false));
     private boolean reloadFont = false;
 
     public FontMod() {
@@ -53,7 +55,7 @@ public class FontMod
         Setting setting;
         if (event.getStage() == 2 && (setting = event.getSetting()) != null && setting.getFeature().equals(this)) {
             if (setting.getName().equals("FontName") && !FontMod.checkFont(setting.getPlannedValue().toString(), false)) {
-                Command.sendMessage(ChatFormatting.RED + "That font doesnt exist.");
+                Command.sendMessage("\u00a7cThat font doesnt exist.");
                 event.setCanceled(true);
                 return;
             }
@@ -63,6 +65,11 @@ public class FontMod
 
     @Override
     public void onTick() {
+        if (this.showFonts.getValue().booleanValue()) {
+            FontMod.checkFont("Hello", true);
+            Command.sendMessage("Current Font: " + this.fontName.getValue());
+            this.showFonts.setValue(false);
+        }
         if (this.reloadFont) {
             CreepyWare.textManager.init(false);
             this.reloadFont = false;

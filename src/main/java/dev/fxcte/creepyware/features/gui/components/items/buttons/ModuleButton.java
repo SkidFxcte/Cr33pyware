@@ -1,5 +1,6 @@
 package dev.fxcte.creepyware.features.gui.components.items.buttons;
 
+import dev.fxcte.creepyware.CreepyWare;
 import dev.fxcte.creepyware.features.gui.CreepyWareGui;
 import dev.fxcte.creepyware.features.gui.components.Component;
 import dev.fxcte.creepyware.features.gui.components.items.Item;
@@ -7,6 +8,7 @@ import dev.fxcte.creepyware.features.modules.Module;
 import dev.fxcte.creepyware.features.modules.client.ClickGui;
 import dev.fxcte.creepyware.features.setting.Bind;
 import dev.fxcte.creepyware.features.setting.Setting;
+import dev.fxcte.creepyware.util.Util;
 import net.minecraft.client.audio.PositionedSoundRecord;
 import net.minecraft.init.SoundEvents;
 import net.minecraft.util.ResourceLocation;
@@ -27,7 +29,6 @@ public class ModuleButton
         this.module = module;
         this.initSettings();
     }
-
     public static void drawCompleteImage(float posX, float posY, int width, int height) {
         GL11.glPushMatrix();
         GL11.glTranslatef(posX, posY, 0.0f);
@@ -51,21 +52,23 @@ public class ModuleButton
                 if (setting.getValue() instanceof Boolean && !setting.getName().equals("Enabled")) {
                     newItems.add(new BooleanButton(setting));
                 }
-                if (setting.getValue() instanceof Bind && !setting.getName().equalsIgnoreCase("Keybind") && !this.module.getName().equalsIgnoreCase("Hud")) {
+                if (setting.getValue() instanceof Bind && !this.module.getName().equalsIgnoreCase("Hud")) {
                     newItems.add(new BindButton(setting));
                 }
-                if ((setting.getValue() instanceof String || setting.getValue() instanceof Character) && !setting.getName().equalsIgnoreCase("displayName")) {
+                if (setting.getValue() instanceof String || setting.getValue() instanceof Character) {
                     newItems.add(new StringButton(setting));
                 }
-                if (setting.isNumberSetting() && setting.hasRestriction()) {
-                    newItems.add(new Slider(setting));
-                    continue;
+                if (setting.isNumberSetting()) {
+                    if (setting.hasRestriction()) {
+                        newItems.add(new Slider(setting));
+                        continue;
+                    }
+                    newItems.add(new UnlimitedSlider(setting));
                 }
                 if (!setting.isEnumSetting()) continue;
                 newItems.add(new EnumButton(setting));
             }
         }
-        newItems.add(new BindButton(this.module.getSettingByName("Keybind")));
         this.items = newItems;
     }
 
@@ -76,18 +79,19 @@ public class ModuleButton
             if (ClickGui.getInstance().gear.getValue().booleanValue()) {
                 mc.getTextureManager().bindTexture(this.logo);
                 ModuleButton.drawCompleteImage(this.x - 1.5f + (float) this.width - 7.4f, this.y - 2.2f - (float) CreepyWareGui.getClickGui().getTextOffset(), 8, 8);
-            }
-            if (this.subOpen) {
-                float height = 1.0f;
-                for (Item item : this.items) {
-                    Component.counter1[0] = Component.counter1[0] + 1;
-                    if (!item.isHidden()) {
-                        item.setLocation(this.x + 1.0f, this.y + (height += 15.0f));
-                        item.setHeight(15);
-                        item.setWidth(this.width - 9);
-                        item.drawScreen(mouseX, mouseY, partialTicks);
+                ClickGui gui = CreepyWare.moduleManager.getModuleByClass(ClickGui.class);
+                CreepyWare.textManager.drawStringWithShadow(gui.openCloseChange.getValue().booleanValue() ? (this.subOpen ? gui.close.getValue() : gui.open.getValue()) : gui.moduleButton.getValue(), this.x - 1.5f + (float) this.width - 7.4f, this.y - 2.0f - (float) CreepyWareGui.getClickGui().getTextOffset(), -1);
+                if (this.subOpen) {
+                    float height = 1.0f;
+                    for (Item item : this.items) {
+                        if (!item.isHidden()) {
+                            item.setLocation(this.x + 1.0f, this.y + (height += 15.0f));
+                            item.setHeight(15);
+                            item.setWidth(this.width - 9);
+                            item.drawScreen(mouseX, mouseY, partialTicks);
+                        }
+                        item.update();
                     }
-                    item.update();
                 }
             }
         }
@@ -99,7 +103,7 @@ public class ModuleButton
         if (!this.items.isEmpty()) {
             if (mouseButton == 1 && this.isHovering(mouseX, mouseY)) {
                 this.subOpen = !this.subOpen;
-                mc.getSoundHandler().playSound(PositionedSoundRecord.getMasterRecord(SoundEvents.UI_BUTTON_CLICK, 1.0f));
+                Util.mc.getSoundHandler().playSound(PositionedSoundRecord.getMasterRecord(SoundEvents.BLOCK_NOTE_HARP, 1.0f));
             }
             if (this.subOpen) {
                 for (Item item : this.items) {

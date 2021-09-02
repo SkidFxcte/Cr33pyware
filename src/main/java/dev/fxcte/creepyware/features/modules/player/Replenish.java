@@ -2,86 +2,109 @@ package dev.fxcte.creepyware.features.modules.player;
 
 import dev.fxcte.creepyware.features.modules.Module;
 import dev.fxcte.creepyware.features.setting.Setting;
+import dev.fxcte.creepyware.util.InventoryUtil;
 import dev.fxcte.creepyware.util.Timer;
+import net.minecraft.client.gui.inventory.GuiContainer;
+import net.minecraft.client.gui.inventory.GuiInventory;
 import net.minecraft.init.Items;
-import net.minecraft.inventory.ClickType;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 
-import java.util.ArrayList;
+import java.util.Map;
+import java.util.Queue;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ConcurrentLinkedQueue;
+import java.util.concurrent.atomic.AtomicInteger;
 
 public class Replenish
         extends Module {
-    private final Setting<Integer> delay = this.register(new Setting<Integer>("Delay", 0, 0, 10));
-    private final Setting<Integer> gapStack = this.register(new Setting<Integer>("GapStack", 1, 50, 64));
-    private final Setting<Integer> xpStackAt = this.register(new Setting<Integer>("XPStack", 1, 50, 64));
+    private final Setting<Integer> threshold = this.register(new Setting<Integer>("Threshold", 0, 0, 63));
+    private final Setting<Integer> replenishments = this.register(new Setting<Integer>("RUpdates", 0, 0, 1000));
+    private final Setting<Integer> updates = this.register(new Setting<Integer>("HBUpdates", 100, 0, 1000));
+    private final Setting<Integer> actions = this.register(new Setting<Integer>("Actions", 2, 1, 30));
+    private final Setting<Boolean> pauseInv = this.register(new Setting<Boolean>("PauseInv", true));
+    private final Setting<Boolean> putBack = this.register(new Setting<Boolean>("PutBack", true));
     private final Timer timer = new Timer();
-    private final ArrayList<Item> Hotbar = new ArrayList();
+    private final Timer replenishTimer = new Timer();
+    private final Queue<InventoryUtil.Task> taskList = new ConcurrentLinkedQueue<InventoryUtil.Task>();
+    private Map<Integer, ItemStack> hotbar = new ConcurrentHashMap<Integer, ItemStack>();
 
     public Replenish() {
         super("Replenish", "Replenishes your hotbar", Module.Category.PLAYER, false, false, false);
     }
 
     @Override
-    public void onEnable() {
-        if (Replenish.fullNullCheck()) {
+    public void onUpdate() {
+        if (Replenish.mc.currentScreen instanceof GuiContainer && (!(Replenish.mc.currentScreen instanceof GuiInventory) || this.pauseInv.getValue().booleanValue())) {
             return;
         }
-        this.Hotbar.clear();
-        for (int l_I = 0; l_I < 9; ++l_I) {
-            ItemStack l_Stack = Replenish.mc.player.inventory.getStackInSlot(l_I);
-            if (!l_Stack.isEmpty() && !this.Hotbar.contains(l_Stack.getItem())) {
-                this.Hotbar.add(l_Stack.getItem());
-                continue;
+        if (this.timer.passedMs(this.updates.getValue().intValue())) {
+            this.mapHotbar();
+        }
+        if (this.replenishTimer.passedMs(this.replenishments.getValue().intValue())) {
+            for (int i = 0; i < this.actions.getValue(); ++i) {
+                InventoryUtil.Task task = this.taskList.poll();
+                if (task == null) continue;
+                task.run();
             }
-            this.Hotbar.add(Items.AIR);
+            this.replenishTimer.reset();
         }
     }
 
     @Override
-    public void onUpdate() {
-        if (Replenish.mc.currentScreen != null) {
-            return;
-        }
-        if (!this.timer.passedMs(this.delay.getValue() * 1000)) {
-            return;
-        }
-        for (int l_I = 0; l_I < 9; ++l_I) {
-            if (!this.RefillSlotIfNeed(l_I)) continue;
-            this.timer.reset();
-            return;
-        }
+    public void onDisable() {
+        this.hotbar.clear();
     }
 
-    private boolean RefillSlotIfNeed(int p_Slot) {
-        ItemStack l_Stack = Replenish.mc.player.inventory.getStackInSlot(p_Slot);
-        if (l_Stack.isEmpty() || l_Stack.getItem() == Items.AIR) {
-            return false;
-        }
-        if (!l_Stack.isStackable()) {
-            return false;
-        }
-        if (l_Stack.getCount() >= l_Stack.getMaxStackSize()) {
-            return false;
-        }
-        if (l_Stack.getItem().equals(Items.GOLDEN_APPLE) && l_Stack.getCount() >= this.gapStack.getValue()) {
-            return false;
-        }
-        if (l_Stack.getItem().equals(Items.EXPERIENCE_BOTTLE) && l_Stack.getCount() > this.xpStackAt.getValue()) {
-            return false;
-        }
-        for (int l_I = 9; l_I < 36; ++l_I) {
-            ItemStack l_Item = Replenish.mc.player.inventory.getStackInSlot(l_I);
-            if (l_Item.isEmpty() || !this.CanItemBeMergedWith(l_Stack, l_Item)) continue;
-            Replenish.mc.playerController.windowClick(Replenish.mc.player.inventoryContainer.windowId, l_I, 0, ClickType.QUICK_MOVE, Replenish.mc.player);
-            Replenish.mc.playerController.updateController();
-            return true;
-        }
-        return false;
+    @Override
+    public void onLogout() {
+        this.onDisable();
     }
 
-    private boolean CanItemBeMergedWith(ItemStack p_Source, ItemStack p_Target) {
-        return p_Source.getItem() == p_Target.getItem() && p_Source.getDisplayName().equals(p_Target.getDisplayName());
+    private void mapHotbar() {
+        ConcurrentHashMap<Integer, ItemStack> map = new ConcurrentHashMap<Integer, ItemStack>();
+        for (int i = 0; i < 9; ++i) {
+            ItemStack stack = Replenish.mc.player.inventory.getStackInSlot(i);
+            map.put(i, stack);
+        }
+        if (this.hotbar.isEmpty()) {
+            this.hotbar = map;
+            return;
+        }
+        ConcurrentHashMap<Integer, Integer> fromTo = new ConcurrentHashMap<Integer, Integer>();
+        for (Map.Entry hotbarItem : map.entrySet()) {
+            int replenishSlot;
+            ItemStack stack = (ItemStack) hotbarItem.getValue();
+            Integer slotKey = (Integer) hotbarItem.getKey();
+            if (slotKey == null || stack == null || !stack.isEmpty && stack.getItem() != Items.AIR && (stack.stackSize > this.threshold.getValue() || stack.stackSize >= stack.getMaxStackSize()))
+                continue;
+            ItemStack previousStack = (ItemStack) hotbarItem.getValue();
+            if (stack.isEmpty || stack.getItem() != Items.AIR) {
+                previousStack = this.hotbar.get(slotKey);
+            }
+            if (previousStack == null || previousStack.isEmpty || previousStack.getItem() == Items.AIR || (replenishSlot = this.getReplenishSlot(previousStack)) == -1)
+                continue;
+            fromTo.put(replenishSlot, InventoryUtil.convertHotbarToInv(slotKey));
+        }
+        if (!fromTo.isEmpty()) {
+            for (Map.Entry slotMove : fromTo.entrySet()) {
+                this.taskList.add(new InventoryUtil.Task((Integer) slotMove.getKey()));
+                this.taskList.add(new InventoryUtil.Task((Integer) slotMove.getValue()));
+                this.taskList.add(new InventoryUtil.Task((Integer) slotMove.getKey()));
+                this.taskList.add(new InventoryUtil.Task());
+            }
+        }
+        this.hotbar = map;
+    }
+
+    private int getReplenishSlot(ItemStack stack) {
+        AtomicInteger slot = new AtomicInteger();
+        slot.set(-1);
+        for (Map.Entry<Integer, ItemStack> entry : InventoryUtil.getInventoryAndHotbarSlots().entrySet()) {
+            if (entry.getKey() >= 36 || !InventoryUtil.areStacksCompatible(stack, entry.getValue())) continue;
+            slot.set(entry.getKey());
+            return slot.get();
+        }
+        return slot.get();
     }
 }
 

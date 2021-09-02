@@ -5,33 +5,20 @@ import dev.fxcte.creepyware.features.setting.Setting;
 
 public class HandChams
         extends Module {
-    private static HandChams INSTANCE = new HandChams();
-    public Setting<RenderMode> mode = this.register(new Setting<RenderMode>("Mode", RenderMode.SOLID));
-    public Setting<Integer> red = this.register(new Setting<Integer>("Red", 255, 0, 255));
-    public Setting<Integer> green = this.register(new Setting<Integer>("Green", 0, 0, 255));
-    public Setting<Integer> blue = this.register(new Setting<Integer>("Blue", 0, 0, 255));
-    public Setting<Integer> alpha = this.register(new Setting<Integer>("Alpha", 240, 0, 255));
+    public static HandChams INSTANCE;
+    public Setting < Boolean > colorSync = this.register ( new Setting <> ( "Sync" , false ) );
+    public Setting < Boolean > rainbow = this.register ( new Setting <> ( "Rainbow" , false ) );
+    public Setting < Integer > saturation = this.register ( new Setting < Object > ( "Saturation" , 50 , 0 , 100 , v -> this.rainbow.getValue ( ) ) );
+    public Setting < Integer > brightness = this.register ( new Setting < Object > ( "Brightness" , 100 , 0 , 100 , v -> this.rainbow.getValue ( ) ) );
+    public Setting < Integer > speed = this.register ( new Setting < Object > ( "Speed" , 40 , 1 , 100 , v -> this.rainbow.getValue ( ) ) );
+    public Setting < Integer > red = this.register ( new Setting < Object > ( "Red" , 0 , 0 , 255 , v -> ! this.rainbow.getValue ( ) ) );
+    public Setting < Integer > green = this.register ( new Setting < Object > ( "Green" , 255 , 0 , 255 , v -> ! this.rainbow.getValue ( ) ) );
+    public Setting < Integer > blue = this.register ( new Setting < Object > ( "Blue" , 0 , 0 , 255 , v -> ! this.rainbow.getValue ( ) ) );
+    public Setting < Integer > alpha = this.register ( new Setting <> ( "Alpha" , 255 , 0 , 255 ) );
 
-    public HandChams() {
-        super("HandChams", "Changes your hand color.", Module.Category.RENDER, false, false, false);
-        this.setInstance();
-    }
-
-    public static HandChams getINSTANCE() {
-        if (INSTANCE == null) {
-            INSTANCE = new HandChams();
-        }
-        return INSTANCE;
-    }
-
-    private void setInstance() {
+    public
+    HandChams ( ) {
+        super ( "HandChams" , "Changes the color of your hands" , Module.Category.RENDER , false , false , false );
         INSTANCE = this;
     }
-
-    public enum RenderMode {
-        SOLID,
-        WIREFRAME
-
-    }
 }
-

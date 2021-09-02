@@ -1,6 +1,5 @@
 package dev.fxcte.creepyware.features.modules;
 
-import com.mojang.realmsclient.gui.ChatFormatting;
 import dev.fxcte.creepyware.CreepyWare;
 import dev.fxcte.creepyware.event.events.ClientEvent;
 import dev.fxcte.creepyware.event.events.Render2DEvent;
@@ -10,8 +9,12 @@ import dev.fxcte.creepyware.features.command.Command;
 import dev.fxcte.creepyware.features.modules.client.HUD;
 import dev.fxcte.creepyware.features.setting.Bind;
 import dev.fxcte.creepyware.features.setting.Setting;
-import net.minecraft.util.text.TextComponentString;
+import dev.fxcte.creepyware.util.Util;
 import net.minecraftforge.common.MinecraftForge;
+
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 
 public class Module
         extends Feature {
@@ -19,7 +22,7 @@ public class Module
     private final Category category;
     public Setting<Boolean> enabled = this.register(new Setting<Boolean>("Enabled", false));
     public Setting<Boolean> drawn = this.register(new Setting<Boolean>("Drawn", true));
-    public Setting<Bind> bind = this.register(new Setting<Bind>("Keybind", new Bind(-1)));
+    public Setting<Bind> bind = this.register(new Setting<Bind>("Bind", new Bind(-1)));
     public Setting<String> displayName;
     public boolean hasListener;
     public boolean alwaysListening;
@@ -27,8 +30,10 @@ public class Module
     public float arrayListOffset = 0.0f;
     public float arrayListVOffset = 0.0f;
     public float offset;
+
     public float vOffset;
     public boolean sliding;
+    public Animation animation;
 
     public Module(String name, String description, Category category, boolean hasListener, boolean hidden, boolean alwaysListening) {
         super(name);
@@ -38,10 +43,7 @@ public class Module
         this.hasListener = hasListener;
         this.hidden = hidden;
         this.alwaysListening = alwaysListening;
-    }
-
-    public boolean isSliding() {
-        return this.sliding;
+        this.animation = new Animation(this);
     }
 
     public void onEnable() {
@@ -98,13 +100,9 @@ public class Module
     }
 
     public void enable() {
-        this.enabled.setValue(Boolean.TRUE);
+        this.enabled.setValue(true);
         this.onToggle();
         this.onEnable();
-        if (HUD.getInstance().notifyToggles.getValue().booleanValue()) {
-            TextComponentString text = new TextComponentString(CreepyWare.commandManager.getClientMessage() + " " + ChatFormatting.GREEN + this.getDisplayName() + " toggled on.");
-            Module.mc.ingameGUI.getChatGUI().printChatMessageWithOptionalDeletion(text, 1);
-        }
         if (this.isOn() && this.hasListener && !this.alwaysListening) {
             MinecraftForge.EVENT_BUS.register(this);
         }
@@ -115,10 +113,6 @@ public class Module
             MinecraftForge.EVENT_BUS.unregister(this);
         }
         this.enabled.setValue(false);
-        if (HUD.getInstance().notifyToggles.getValue().booleanValue()) {
-            TextComponentString text = new TextComponentString(CreepyWare.commandManager.getClientMessage() + " " + ChatFormatting.RED + this.getDisplayName() + " toggled off.");
-            Module.mc.ingameGUI.getChatGUI().printChatMessageWithOptionalDeletion(text, 1);
-        }
         this.onToggle();
         this.onDisable();
     }
@@ -139,15 +133,19 @@ public class Module
         Module module = CreepyWare.moduleManager.getModuleByDisplayName(name);
         Module originalModule = CreepyWare.moduleManager.getModuleByName(name);
         if (module == null && originalModule == null) {
-            Command.sendMessage(this.getDisplayName() + ", name: " + this.getName() + ", has been renamed to: " + name);
+            Command.sendMessage(this.getDisplayName() + ", Original name: " + this.getName() + ", has been renamed to: " + name);
             this.displayName.setValue(name);
             return;
         }
-        Command.sendMessage(ChatFormatting.RED + "A module of this name already exists.");
+        Command.sendMessage("\u00a7cA module of this name already exists.");
     }
 
     public String getDescription() {
         return this.description;
+    }
+
+    public boolean isSliding() {
+        return this.sliding;
     }
 
     public boolean isDrawn() {
@@ -179,15 +177,14 @@ public class Module
     }
 
     public String getFullArrayString() {
-        return this.getDisplayName() + ChatFormatting.GRAY + (this.getDisplayInfo() != null ? " [" + ChatFormatting.WHITE + this.getDisplayInfo() + ChatFormatting.GRAY + "]" : "");
+        return this.getDisplayName() + "\u00a78" + (this.getDisplayInfo() != null ? " [\u00a7r" + this.getDisplayInfo() + "\u00a78" + "]" : "");
     }
 
     public enum Category {
         COMBAT("Combat"),
         MISC("Misc"),
-        MOVEMENT("Movement"),
         RENDER("Render"),
-        Exploit("Exploit"),
+        MOVEMENT("Movement"),
         PLAYER("Player"),
         CLIENT("Client");
 
@@ -199,6 +196,48 @@ public class Module
 
         public String getName() {
             return this.name;
+        }
+    }
+
+    public class Animation
+            extends Thread {
+        public Module module;
+        public float offset;
+        public float vOffset;
+        public String lastText;
+        public boolean shouldMetaSlide;
+        ScheduledExecutorService service;
+
+        public Animation(Module module) {
+            super("Animation");
+            this.service = Executors.newSingleThreadScheduledExecutor();
+            this.module = module;
+        }
+
+        @Override
+        public void run() {
+            String text = this.module.getDisplayName() + "\u00a77" + (this.module.getDisplayInfo() != null ? " [\u00a7f" + this.module.getDisplayInfo() + "\u00a77" + "]" : "");
+            this.module.offset = (float) Module.this.renderer.getStringWidth(text) / HUD.getInstance().animationHorizontalTime.getValue().floatValue();
+            this.module.vOffset = (float) Module.this.renderer.getFontHeight() / HUD.getInstance().animationVerticalTime.getValue().floatValue();
+            if (this.module.isEnabled() && HUD.getInstance().animationHorizontalTime.getValue() != 1) {
+                if (this.module.arrayListOffset > this.module.offset && Util.mc.world != null) {
+                    this.module.arrayListOffset -= this.module.offset;
+                    this.module.sliding = true;
+                }
+            } else if (this.module.isDisabled() && HUD.getInstance().animationHorizontalTime.getValue() != 1) {
+                if (this.module.arrayListOffset < (float) Module.this.renderer.getStringWidth(text) && Util.mc.world != null) {
+                    this.module.arrayListOffset += this.module.offset;
+                    this.module.sliding = true;
+                } else {
+                    this.module.sliding = false;
+                }
+            }
+        }
+
+        @Override
+        public void start() {
+            System.out.println("Starting animation thread for " + this.module.getName());
+            this.service.scheduleAtFixedRate(this, 0L, 1L, TimeUnit.MILLISECONDS);
         }
     }
 }

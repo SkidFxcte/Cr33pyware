@@ -1,7 +1,7 @@
 package dev.fxcte.creepyware.manager;
 
 import dev.fxcte.creepyware.features.Feature;
-import dev.fxcte.creepyware.features.modules.client.HUD;
+import dev.fxcte.creepyware.features.modules.client.Managers;
 import dev.fxcte.creepyware.util.Timer;
 
 import java.text.DecimalFormat;
@@ -22,7 +22,7 @@ public class ServerManager
     }
 
     public boolean isServerNotResponding() {
-        return this.timer.passedMs(HUD.getInstance().lagTime.getValue().intValue());
+        return this.timer.passedMs(Managers.getInstance().respondTime.getValue().intValue());
     }
 
     public long serverRespondingTime() {

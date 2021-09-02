@@ -19,9 +19,9 @@ public class DiscordPresence {
         DiscordPresence.presence.startTimestamp = System.currentTimeMillis() / 1000L;
         DiscordPresence.presence.details = Minecraft.getMinecraft().currentScreen instanceof GuiMainMenu ? "Main menu" : "Playing " + (Minecraft.getMinecraft().currentServerData != null ? (RPC.INSTANCE.showIP.getValue().booleanValue() ? "on " + Minecraft.getMinecraft().currentServerData.serverIP + "." : " multiplayer") : " singleplayer");
         DiscordPresence.presence.state = "Creepy Gang";
-        DiscordPresence.presence.largeImageKey = "creepy";
-        DiscordPresence.presence.largeImageText = "b0.1.6";
-        DiscordPresence.presence.smallImageKey = "logo";
+        DiscordPresence.presence.largeImageText = RPC.INSTANCE.largeImageText.getValue();
+        DiscordPresence.presence.largeImageText = "b0.1.8";
+        DiscordPresence.presence.smallImageText = RPC.INSTANCE.smallImageText.getValue();
         rpc.Discord_UpdatePresence(presence);
         thread = new Thread(() -> {
             while (!Thread.currentThread().isInterrupted()) {

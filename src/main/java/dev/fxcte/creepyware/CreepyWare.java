@@ -1,8 +1,10 @@
 package dev.fxcte.creepyware;
 
+import dev.fxcte.creepyware.features.gui.custom.GuiCustomMainScreen;
+import dev.fxcte.creepyware.features.modules.misc.RPC;
 import dev.fxcte.creepyware.manager.*;
-import dev.fxcte.creepyware.util.IconUtil;
-import dev.fxcte.creepyware.util.TitleUtil;
+import dev.fxcte.creepyware.util.IconUtils;
+import dev.fxcte.creepyware.util.TitleUtils;
 import net.minecraft.client.Minecraft;
 import net.minecraft.util.Util;
 import net.minecraftforge.common.MinecraftForge;
@@ -22,24 +24,29 @@ public class CreepyWare {
     public static final String MODNAME = "Creepyware";
     public static final String MODVER = "b0.1.6";
     public static final Logger LOGGER = LogManager.getLogger("Creepyware");
-    public static CommandManager commandManager;
-    public static FriendManager friendManager;
     public static ModuleManager moduleManager;
-    public static PacketManager packetManager;
-    public static ColorManager colorManager;
-    public static HoleManager holeManager;
-    public static InventoryManager inventoryManager;
-    public static PotionManager potionManager;
-    public static RotationManager rotationManager;
-    public static PositionManager positionManager;
     public static SpeedManager speedManager;
-    public static ReloadManager reloadManager;
-    public static FileManager fileManager;
-    public static ConfigManager configManager;
-    public static ServerManager serverManager;
+    public static PositionManager positionManager;
+    public static RotationManager rotationManager;
+    public static CommandManager commandManager;
     public static EventManager eventManager;
+    public static ConfigManager configManager;
+    public static FileManager fileManager;
+    public static FriendManager friendManager;
     public static TextManager textManager;
+    public static ColorManager colorManager;
+    public static ServerManager serverManager;
+    public static PotionManager potionManager;
+    public static InventoryManager inventoryManager;
     public static TimerManager timerManager;
+    public static PacketManager packetManager;
+    public static ReloadManager reloadManager;
+    public static TotemPopManager totemPopManager;
+    public static HoleManager holeManager;
+    public static NotificationManager notificationManager;
+    public static SafetyManager safetyManager;
+    public static GuiCustomMainScreen customMainScreen;
+    public static NoStopManager baritoneManager;
     @Mod.Instance
     public static CreepyWare INSTANCE;
     private static boolean unloaded;
@@ -55,24 +62,28 @@ public class CreepyWare {
             reloadManager.unload();
             reloadManager = null;
         }
-        textManager = new TextManager();
-        commandManager = new CommandManager();
-        friendManager = new FriendManager();
-        moduleManager = new ModuleManager();
-        rotationManager = new RotationManager();
+        baritoneManager = new NoStopManager();
+        totemPopManager = new TotemPopManager();
+        timerManager = new TimerManager();
         packetManager = new PacketManager();
-        eventManager = new EventManager();
+        serverManager = new ServerManager();
+        colorManager = new ColorManager();
+        textManager = new TextManager();
+        moduleManager = new ModuleManager();
         speedManager = new SpeedManager();
+        rotationManager = new RotationManager();
+        positionManager = new PositionManager();
+        commandManager = new CommandManager();
+        eventManager = new EventManager();
+        configManager = new ConfigManager();
+        fileManager = new FileManager();
+        friendManager = new FriendManager();
         potionManager = new PotionManager();
         inventoryManager = new InventoryManager();
-        serverManager = new ServerManager();
-        fileManager = new FileManager();
-        colorManager = new ColorManager();
-        positionManager = new PositionManager();
-        configManager = new ConfigManager();
         holeManager = new HoleManager();
-        timerManager = new TimerManager();
-        LOGGER.info("Managers loaded.");
+        notificationManager = new NotificationManager();
+        safetyManager = new SafetyManager();
+        LOGGER.info("Initialized Managers");
         moduleManager.init();
         LOGGER.info("Modules loaded.");
         configManager.init();
@@ -80,6 +91,11 @@ public class CreepyWare {
         LOGGER.info("EventManager loaded.");
         textManager.init(true);
         moduleManager.onLoad();
+        totemPopManager.init();
+        timerManager.init();
+        if (moduleManager.getModuleByClass(RPC.class).isEnabled()) {
+            DiscordPresence.start();
+        }
         LOGGER.info("Creepyware successfully loaded!\n");
     }
 
@@ -89,22 +105,29 @@ public class CreepyWare {
             reloadManager = new ReloadManager();
             reloadManager.init(commandManager != null ? commandManager.getPrefix() : ".");
         }
+        if (baritoneManager != null) {
+            baritoneManager.stop();
+        }
         CreepyWare.onUnload();
         eventManager = null;
-        friendManager = null;
-        speedManager = null;
         holeManager = null;
-        positionManager = null;
-        rotationManager = null;
-        configManager = null;
-        commandManager = null;
-        colorManager = null;
+        timerManager = null;
+        moduleManager = null;
+        totemPopManager = null;
         serverManager = null;
+        colorManager = null;
+        textManager = null;
+        speedManager = null;
+        rotationManager = null;
+        positionManager = null;
+        commandManager = null;
+        configManager = null;
         fileManager = null;
+        friendManager = null;
         potionManager = null;
         inventoryManager = null;
-        moduleManager = null;
-        textManager = null;
+        notificationManager = null;
+        safetyManager = null;
         LOGGER.info("Creepyware unloaded!\n");
     }
 
@@ -119,10 +142,11 @@ public class CreepyWare {
             moduleManager.onUnload();
             configManager.saveConfig(CreepyWare.configManager.config.replaceFirst("creepyware/", ""));
             moduleManager.onUnloadPost();
+            timerManager.unload();
             unloaded = true;
         }
     }
-    
+
     @Mod.EventHandler
     public void preInit(FMLPreInitializationEvent event) {
         LOGGER.info("CREEPY IS THE BEST PVP IN 2021 - FXCTE");
@@ -131,7 +155,7 @@ public class CreepyWare {
         if (Util.getOSType() != Util.EnumOS.OSX) {
             try (InputStream inputStream16x = Minecraft.class.getResourceAsStream("/assets/creepy/icons/creepyware-16x.png");
                  InputStream inputStream32x = Minecraft.class.getResourceAsStream("/assets/creepy/icons/creepyware-32x.png");){
-                ByteBuffer[] icons = new ByteBuffer[]{IconUtil.INSTANCE.readImageToBuffer(inputStream16x), IconUtil.INSTANCE.readImageToBuffer(inputStream32x)};
+                ByteBuffer[] icons = new ByteBuffer[]{IconUtils.INSTANCE.readImageToBuffer(inputStream16x), IconUtils.INSTANCE.readImageToBuffer(inputStream32x)};
                 Display.setIcon((ByteBuffer[])icons);
             }
             catch (Exception e) {
@@ -146,9 +170,9 @@ public class CreepyWare {
 
     @Mod.EventHandler
     public void init(FMLInitializationEvent event) {
-        MinecraftForge.EVENT_BUS.register((Object)new TitleUtil());
-        this.setWindowsIcon();
+        customMainScreen = new GuiCustomMainScreen();
+        MinecraftForge.EVENT_BUS.register((Object)new TitleUtils());
         CreepyWare.load();
     }
 }
- 
+

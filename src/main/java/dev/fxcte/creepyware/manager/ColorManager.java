@@ -1,7 +1,5 @@
 package dev.fxcte.creepyware.manager;
 
-import dev.fxcte.creepyware.features.gui.components.Component;
-import dev.fxcte.creepyware.features.modules.client.ClickGui;
 import dev.fxcte.creepyware.util.ColorUtil;
 
 import java.awt.*;
@@ -30,9 +28,6 @@ public class ColorManager {
     }
 
     public int getColorWithAlpha(int alpha) {
-        if (ClickGui.getInstance().rainbow.getValue().booleanValue()) {
-            return ColorUtil.rainbow(Component.counter1[0] * ClickGui.getInstance().rainbowHue.getValue()).getRGB();
-        }
         return ColorUtil.toRGBA(new Color(this.red, this.green, this.blue, (float) alpha / 255.0f));
     }
 

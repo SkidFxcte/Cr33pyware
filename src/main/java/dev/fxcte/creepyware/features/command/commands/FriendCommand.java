@@ -3,7 +3,12 @@ package dev.fxcte.creepyware.features.command.commands;
 import com.mojang.realmsclient.gui.ChatFormatting;
 import dev.fxcte.creepyware.CreepyWare;
 import dev.fxcte.creepyware.features.command.Command;
-import dev.fxcte.creepyware.manager.FriendManager;
+import dev.fxcte.creepyware.features.modules.misc.FriendSettings;
+import dev.fxcte.creepyware.util.Util;
+import net.minecraft.network.play.client.CPacketChatMessage;
+
+import java.util.Map;
+import java.util.UUID;
 
 public class FriendCommand
         extends Command {
@@ -15,16 +20,12 @@ public class FriendCommand
     public void execute(String[] commands) {
         if (commands.length == 1) {
             if (CreepyWare.friendManager.getFriends().isEmpty()) {
-                FriendCommand.sendMessage("Friend list empty D:.");
+                FriendCommand.sendMessage("You currently dont have any friends added.");
             } else {
-                String f = "Friends: ";
-                for (FriendManager.Friend friend : CreepyWare.friendManager.getFriends()) {
-                    try {
-                        f = f + friend.getUsername() + ", ";
-                    } catch (Exception exception) {
-                    }
+                FriendCommand.sendMessage("Friends: ");
+                for (Map.Entry<String, UUID> entry : CreepyWare.friendManager.getFriends().entrySet()) {
+                    FriendCommand.sendMessage(entry.getKey());
                 }
-                FriendCommand.sendMessage(f);
             }
             return;
         }
@@ -44,10 +45,16 @@ public class FriendCommand
                 case "add": {
                     CreepyWare.friendManager.addFriend(commands[1]);
                     FriendCommand.sendMessage(ChatFormatting.GREEN + commands[1] + " has been friended");
+                    if (FriendSettings.getInstance().notify.getValue()) {
+                        Util.mc.player.connection.sendPacket(new CPacketChatMessage("/w " + commands[1] + " I just added you to my friends list on Charlie dana hack!"));
+                    }
                     return;
                 }
                 case "del": {
                     CreepyWare.friendManager.removeFriend(commands[1]);
+                    if (FriendSettings.getInstance().notify.getValue()) {
+                        Util.mc.player.connection.sendPacket(new CPacketChatMessage("/w " + commands[1] + " I just removed you from my friends list on Charlie dana hack!"));
+                    }
                     FriendCommand.sendMessage(ChatFormatting.RED + commands[1] + " has been unfriended");
                     return;
                 }
@@ -56,4 +63,5 @@ public class FriendCommand
         }
     }
 }
+
 

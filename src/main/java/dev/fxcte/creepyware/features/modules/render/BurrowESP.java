@@ -1,71 +1,107 @@
 package dev.fxcte.creepyware.features.modules.render;
 
+import dev.fxcte.creepyware.CreepyWare;
 import dev.fxcte.creepyware.event.events.Render3DEvent;
 import dev.fxcte.creepyware.features.modules.Module;
 import dev.fxcte.creepyware.features.modules.client.ClickGui;
 import dev.fxcte.creepyware.features.setting.Setting;
 import dev.fxcte.creepyware.util.ColorUtil;
+import dev.fxcte.creepyware.util.EntityUtil;
 import dev.fxcte.creepyware.util.RenderUtil;
-import dev.fxcte.creepyware.util.RenderUtill;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
+import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 
 import java.awt.*;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 
-public class BurrowESP extends Module{
+public
+class BurrowESP
+        extends Module {
+    private final Setting < Integer > boxRed;
+    private final Setting < Integer > outlineGreen;
+    private final Setting < Integer > boxGreen;
+    private final Setting < Boolean > box;
+    private final Setting < Boolean > cOutline;
+    private final Setting < Integer > outlineBlue;
+    private final Setting < Boolean > name = this.register ( new Setting <> ( "Name" , false ) );
+    private final Setting < Integer > boxAlpha;
+    private final Setting < Float > outlineWidth;
+    private final Setting < Integer > outlineRed;
+    private final Setting < Boolean > outline;
+    private final Setting < Integer > boxBlue;
+    private final Map < EntityPlayer, BlockPos > burrowedPlayers;
+    private final Setting < Integer > outlineAlpha;
 
-    private static BurrowESP INSTANCE = new BurrowESP();
-
-    public Setting<Boolean> text = register(new Setting("Text", true));
-    public Setting<String> textString = register(new Setting("TextString", "BURROW", v -> this.text.getValue()));
-    public Setting<Boolean> rainbow = register(new Setting("Rainbow", false));
-    public Setting<Integer> red = register(new Setting("Red", 0, 0, 255, v -> !this.rainbow.getValue()));
-    public Setting<Integer> green = register(new Setting("Green", 255, 0, 255, v -> !this.rainbow.getValue()));
-    public Setting<Integer> blue = register(new Setting("Blue", 0, 0, 255, v -> !this.rainbow.getValue()));
-    public Setting<Integer> alpha = register(new Setting("Alpha", 0, 0, 255));
-    public Setting<Integer> outlineAlpha = register(new Setting("OL-Alpha", 0, 0, 255));
-
-    private final List<BlockPos> posList = new ArrayList<>();
-
-    private RenderUtill renderUtill = new RenderUtill();
-
-    public BurrowESP(){
-        super("BurrowESP", "BURROWESP", Category.RENDER, true, false, false);
-        this.setInstance();
+    public
+    BurrowESP ( ) {
+        super ( "BurrowESP" , "Shows gay people." , Module.Category.RENDER , true , false , false );
+        this.box = new Setting <> ( "Box" , true );
+        this.boxRed = this.register ( new Setting <> ( "BoxRed" , 255 , 0 , 255 , v -> this.box.getValue ( ) ) );
+        this.boxGreen = this.register ( new Setting <> ( "BoxGreen" , 255 , 0 , 255 , v -> this.box.getValue ( ) ) );
+        this.boxBlue = this.register ( new Setting <> ( "BoxBlue" , 255 , 0 , 255 , v -> this.box.getValue ( ) ) );
+        this.boxAlpha = this.register ( new Setting <> ( "BoxAlpha" , 125 , 0 , 255 , v -> this.box.getValue ( ) ) );
+        this.outline = this.register ( new Setting <> ( "Outline" , true ) );
+        this.outlineWidth = this.register ( new Setting <> ( "OutlineWidth" , 1.0f , 0.0f , 5.0f , v -> this.outline.getValue ( ) ) );
+        this.cOutline = this.register ( new Setting <> ( "CustomOutline" , false , v -> this.outline.getValue ( ) ) );
+        this.outlineRed = this.register ( new Setting <> ( "OutlineRed" , 255 , 0 , 255 , v -> this.cOutline.getValue ( ) ) );
+        this.outlineGreen = this.register ( new Setting <> ( "OutlineGreen" , 255 , 0 , 255 , v -> this.cOutline.getValue ( ) ) );
+        this.outlineBlue = this.register ( new Setting <> ( "OutlineBlue" , 255 , 0 , 255 , v -> this.cOutline.getValue ( ) ) );
+        this.outlineAlpha = this.register ( new Setting <> ( "OutlineAlpha" , 255 , 0 , 255 , v -> this.cOutline.getValue ( ) ) );
+        this.burrowedPlayers = new HashMap <> ( );
     }
 
-    public static BurrowESP getInstance(){
-        if (INSTANCE == null) {
-            INSTANCE = new BurrowESP();
-        }
-        return INSTANCE;
-    }
-
-    private void setInstance() {
-        INSTANCE = this;
-    }
-
-    public void onTick(){
-        posList.clear();
-        for (EntityPlayer player : mc.world.playerEntities){
-            BlockPos blockPos = new BlockPos(Math.floor(player.posX), Math.floor(player.posY+0.2), Math.floor(player.posZ));
-            if(mc.world.getBlockState(blockPos).getBlock() == Blocks.ENDER_CHEST || mc.world.getBlockState(blockPos).getBlock() == Blocks.OBSIDIAN){
-                posList.add(blockPos);
-            }
+    private
+    void getPlayers ( ) {
+        for (EntityPlayer entityPlayer : BurrowESP.mc.world.playerEntities) {
+            if ( entityPlayer == BurrowESP.mc.player || CreepyWare.friendManager.isFriend ( entityPlayer.getName ( ) ) || ! EntityUtil.isLiving ( entityPlayer ) || ! this.isBurrowed ( entityPlayer ) )
+                continue;
+            this.burrowedPlayers.put ( entityPlayer , new BlockPos ( entityPlayer.posX , entityPlayer.posY , entityPlayer.posZ ) );
         }
     }
 
     @Override
-    public void onRender3D(Render3DEvent event){
-        for (BlockPos blockPos : posList){
-            String s = textString.getValue().toUpperCase();
-            if (this.text.getValue()) {
-                this.renderUtill.drawText(blockPos, s, rainbow.getValue() ? ColorUtil.rainbow(ClickGui.getInstance().rainbowHue.getValue()) : new Color(red.getValue(), green.getValue(), blue.getValue(), outlineAlpha.getValue()));
-            }
-            RenderUtil.drawBoxESP(blockPos, rainbow.getValue() ? ColorUtil.rainbow(ClickGui.getInstance().rainbowHue.getValue()) : new Color(red.getValue(), green.getValue(), blue.getValue(), outlineAlpha.getValue()), 1.5F, true, true, alpha.getValue());
+    public
+    void onEnable ( ) {
+        this.burrowedPlayers.clear ( );
+    }
+
+    private
+    void lambda$onRender3D$8 ( Map.Entry entry ) {
+        this.renderBurrowedBlock ( (BlockPos) entry.getValue ( ) );
+        if ( this.name.getValue ( ) ) {
+            RenderUtil.drawText ( new BlockPos ( (BlockPos) entry.getValue ( ) ) , ( (EntityPlayer) entry.getKey ( ) ).getGameProfile ( ).getName ( ) );
+        }
+    }
+
+    private
+    boolean isBurrowed ( EntityPlayer entityPlayer ) {
+        BlockPos blockPos = new BlockPos ( Math.floor ( entityPlayer.posX ) , Math.floor ( entityPlayer.posY + 0.2 ) , Math.floor ( entityPlayer.posZ ) );
+        return BurrowESP.mc.world.getBlockState ( blockPos ).getBlock ( ) == Blocks.ENDER_CHEST || BurrowESP.mc.world.getBlockState ( blockPos ).getBlock ( ) == Blocks.OBSIDIAN || BurrowESP.mc.world.getBlockState ( blockPos ).getBlock ( ) == Blocks.CHEST || BurrowESP.mc.world.getBlockState ( blockPos ).getBlock ( ) == Blocks.ANVIL;
+    }
+
+    @Override
+    public
+    void onUpdate ( ) {
+        if ( BurrowESP.fullNullCheck ( ) ) {
+            return;
+        }
+        this.burrowedPlayers.clear ( );
+        this.getPlayers ( );
+    }
+
+    private
+    void renderBurrowedBlock ( BlockPos blockPos ) {
+        RenderUtil.drawBoxESP ( blockPos , new Color ( this.boxRed.getValue ( ) , this.boxGreen.getValue ( ) , this.boxBlue.getValue ( ) , this.boxAlpha.getValue ( ) ) , true , new Color ( this.outlineRed.getValue ( ) , this.outlineGreen.getValue ( ) , this.outlineBlue.getValue ( ) , this.outlineAlpha.getValue ( ) ) , this.outlineWidth.getValue ( ) , this.outline.getValue ( ) , this.box.getValue ( ) , this.boxAlpha.getValue ( ) , true );
+    }
+
+    @Override
+    public
+    void onRender3D ( Render3DEvent render3DEvent ) {
+        if ( ! this.burrowedPlayers.isEmpty ( ) ) {
+            this.burrowedPlayers.entrySet ( ).forEach ( this::lambda$onRender3D$8 );
         }
     }
 }

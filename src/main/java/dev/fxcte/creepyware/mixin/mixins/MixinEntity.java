@@ -1,8 +1,5 @@
 package dev.fxcte.creepyware.mixin.mixins;
 
-import java.util.Arrays;
-import java.util.List;
-import java.util.Random;
 import dev.fxcte.creepyware.event.events.PushEvent;
 import dev.fxcte.creepyware.event.events.StepEvent;
 import net.minecraft.block.Block;
@@ -33,6 +30,10 @@ import org.spongepowered.asm.mixin.Overwrite;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Redirect;
+
+import java.util.Arrays;
+import java.util.List;
+import java.util.Random;
 
 @Mixin(value={Entity.class})
 public abstract class MixinEntity {
@@ -159,7 +160,7 @@ public abstract class MixinEntity {
 
     @Shadow
     public abstract int getMaxInPortalTime();
-    /**Gopro on top*/
+/**Gopro on top*/
     @Overwrite
     public void move(MoverType type, double x, double y, double z) {
         Entity _this = (Entity)(Object)this;

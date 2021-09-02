@@ -1,6 +1,7 @@
 package dev.fxcte.creepyware.mixin.mixins;
 
 import dev.fxcte.creepyware.CreepyWare;
+import dev.fxcte.creepyware.features.gui.custom.GuiCustomNewChat;
 import dev.fxcte.creepyware.features.modules.client.HUD;
 import dev.fxcte.creepyware.features.modules.render.NoRender;
 import net.minecraft.client.Minecraft;
@@ -10,6 +11,7 @@ import net.minecraft.client.gui.GuiNewChat;
 import net.minecraft.client.gui.ScaledResolution;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Mutable;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
@@ -17,10 +19,15 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(value={GuiIngame.class})
 public class MixinGuiIngame
-        extends Gui {
+extends Gui {
     @Shadow
     @Final
     public GuiNewChat persistantChatGUI;
+
+    @Inject(method={"<init>"}, at={@At(value="RETURN")})
+    public void init(Minecraft mcIn, CallbackInfo ci) {
+        this.persistantChatGUI = new GuiCustomNewChat(mcIn);
+    }
 
     @Inject(method={"renderPortal"}, at={@At(value="HEAD")}, cancellable=true)
     protected void renderPortalHook(float n, ScaledResolution scaledResolution, CallbackInfo info) {

@@ -25,14 +25,14 @@ public class TimerManager
         TimerManager.mc.timer.tickLength = 50.0f / (this.timer <= 0.0f ? 0.1f : this.timer);
     }
 
-    public float getTimer() {
-        return this.timer;
-    }
-
     public void setTimer(float timer) {
         if (timer > 0.0f) {
             this.timer = timer;
         }
+    }
+
+    public float getTimer() {
+        return this.timer;
     }
 
     @Override
@@ -40,4 +40,5 @@ public class TimerManager
         this.timer = 1.0f;
     }
 }
+
 

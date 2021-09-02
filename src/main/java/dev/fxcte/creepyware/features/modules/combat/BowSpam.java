@@ -1,11 +1,9 @@
-
 package dev.fxcte.creepyware.features.modules.combat;
 
 import dev.fxcte.creepyware.CreepyWare;
 import dev.fxcte.creepyware.event.events.PacketEvent;
 import dev.fxcte.creepyware.event.events.UpdateWalkingPlayerEvent;
 import dev.fxcte.creepyware.features.modules.Module;
-import dev.fxcte.creepyware.features.modules.combat.OyVeyAutoCrystal;
 import dev.fxcte.creepyware.features.setting.Setting;
 import dev.fxcte.creepyware.util.EntityUtil;
 import dev.fxcte.creepyware.util.InventoryUtil;
@@ -60,9 +58,9 @@ public class BowSpam
             return;
         }
         if (this.autoSwitch.getValue().booleanValue() && InventoryUtil.findHotbarBlock(ItemBow.class) != -1 && this.ownHealth.getValue().floatValue() <= EntityUtil.getHealth((Entity)BowSpam.mc.player) && (!this.onlyWhenSave.getValue().booleanValue() || EntityUtil.isSafe((Entity)BowSpam.mc.player))) {
-            OyVeyAutoCrystal crystal;
+            AutoCrystal crystal;
             EntityPlayer target = this.getTarget();
-            if (!(target == null || (crystal = CreepyWare.moduleManager.getModuleByClass(OyVeyAutoCrystal.class)).isOn() && InventoryUtil.holdingItem(ItemEndCrystal.class))) {
+            if (!(target == null || (crystal = CreepyWare.moduleManager.getModuleByClass(AutoCrystal.class)).isOn() && InventoryUtil.holdingItem(ItemEndCrystal.class))) {
                 Vec3d pos = target.getPositionVector();
                 double xPos = pos.x;
                 double yPos = pos.y;
@@ -171,4 +169,3 @@ public class BowSpam
 
     }
 }
-

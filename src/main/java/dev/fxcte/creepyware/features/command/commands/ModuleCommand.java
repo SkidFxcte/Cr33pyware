@@ -1,7 +1,6 @@
 package dev.fxcte.creepyware.features.command.commands;
 
 import com.google.gson.JsonParser;
-import com.mojang.realmsclient.gui.ChatFormatting;
 import dev.fxcte.creepyware.CreepyWare;
 import dev.fxcte.creepyware.features.command.Command;
 import dev.fxcte.creepyware.features.modules.Module;
@@ -21,8 +20,8 @@ public class ModuleCommand
             ModuleCommand.sendMessage("Modules: ");
             for (Module.Category category : CreepyWare.moduleManager.getCategories()) {
                 String modules = category.getName() + ": ";
-                for (Module module1 : CreepyWare.moduleManager.getModulesByCategory(category)) {
-                    modules = modules + (module1.isEnabled() ? ChatFormatting.GREEN : ChatFormatting.RED) + module1.getName() + ChatFormatting.WHITE + ", ";
+                for (Module module : CreepyWare.moduleManager.getModulesByCategory(category)) {
+                    modules = modules + (module.isEnabled() ? "\u00a7a" : "\u00a7c") + module.getName() + "\u00a7r" + ", ";
                 }
                 ModuleCommand.sendMessage(modules);
             }
@@ -32,10 +31,10 @@ public class ModuleCommand
         if (module == null) {
             module = CreepyWare.moduleManager.getModuleByName(commands[0]);
             if (module == null) {
-                ModuleCommand.sendMessage("This module doesnt exist.");
+                ModuleCommand.sendMessage("\u00a7cThis module doesnt exist.");
                 return;
             }
-            ModuleCommand.sendMessage(" This is the original name of the module. Its current name is: " + module.getDisplayName());
+            ModuleCommand.sendMessage("\u00a7c This is the original name of the module. Its current name is: " + module.getDisplayName());
             return;
         }
         if (commands.length == 2) {
@@ -47,25 +46,25 @@ public class ModuleCommand
         }
         if (commands.length == 3) {
             if (commands[1].equalsIgnoreCase("set")) {
-                ModuleCommand.sendMessage("Please specify a setting.");
+                ModuleCommand.sendMessage("\u00a7cPlease specify a setting.");
             } else if (commands[1].equalsIgnoreCase("reset")) {
                 for (Setting setting3 : module.getSettings()) {
                     setting3.setValue(setting3.getDefaultValue());
                 }
             } else {
-                ModuleCommand.sendMessage("This command doesnt exist.");
+                ModuleCommand.sendMessage("\u00a7cThis command doesnt exist.");
             }
             return;
         }
         if (commands.length == 4) {
-            ModuleCommand.sendMessage("Please specify a value.");
+            ModuleCommand.sendMessage("\u00a7cPlease specify a value.");
             return;
         }
         if (commands.length == 5 && (setting = module.getSettingByName(commands[2])) != null) {
             JsonParser jp = new JsonParser();
             if (setting.getType().equalsIgnoreCase("String")) {
                 setting.setValue(commands[3]);
-                ModuleCommand.sendMessage(ChatFormatting.DARK_GRAY + module.getName() + " " + setting.getName() + " has been set to " + commands[3] + ".");
+                ModuleCommand.sendMessage("\u00a7a" + module.getName() + " " + setting.getName() + " has been set to " + commands[3] + ".");
                 return;
             }
             try {
@@ -79,10 +78,10 @@ public class ModuleCommand
                 }
                 ConfigManager.setValueFromJson(module, setting, jp.parse(commands[3]));
             } catch (Exception e) {
-                ModuleCommand.sendMessage("Bad Value! This setting requires a: " + setting.getType() + " value.");
+                ModuleCommand.sendMessage("\u00a7cBad Value! This setting requires a: " + setting.getType() + " value.");
                 return;
             }
-            ModuleCommand.sendMessage(ChatFormatting.GRAY + module.getName() + " " + setting.getName() + " has been set to " + commands[3] + ".");
+            ModuleCommand.sendMessage("\u00a7a" + module.getName() + " " + setting.getName() + " has been set to " + commands[3] + ".");
         }
     }
 }

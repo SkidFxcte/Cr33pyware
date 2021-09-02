@@ -1,6 +1,5 @@
 package dev.fxcte.creepyware.manager;
 
-import com.mojang.realmsclient.gui.ChatFormatting;
 import dev.fxcte.creepyware.features.Feature;
 import dev.fxcte.creepyware.features.command.Command;
 import dev.fxcte.creepyware.features.command.commands.*;
@@ -10,9 +9,9 @@ import java.util.LinkedList;
 
 public class CommandManager
         extends Feature {
-    private final ArrayList<Command> commands = new ArrayList();
-    private String clientMessage = "<OyVey>";
+    private String clientMessage = "<CreepyWare>";
     private String prefix = ".";
+    private final ArrayList<Command> commands = new ArrayList();
 
     public CommandManager() {
         super("Command");
@@ -25,6 +24,12 @@ public class CommandManager
         this.commands.add(new ReloadCommand());
         this.commands.add(new UnloadCommand());
         this.commands.add(new ReloadSoundCommand());
+        this.commands.add(new PeekCommand());
+        this.commands.add(new XrayCommand());
+        this.commands.add(new BookCommand());
+        this.commands.add(new CrashCommand());
+        this.commands.add(new HistoryCommand());
+        this.commands.add(new BaritoneNoStop());
     }
 
     public static String[] removeElement(String[] input, int indexToDelete) {
@@ -56,7 +61,7 @@ public class CommandManager
             c.execute(parts);
             return;
         }
-        Command.sendMessage(ChatFormatting.GRAY + "Command not found, type 'help' for the commands list.");
+        Command.sendMessage("Unknown command. try 'commands' for a list of commands.");
     }
 
     public Command getCommandByName(String name) {

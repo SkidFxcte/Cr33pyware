@@ -1,7 +1,6 @@
 package dev.fxcte.creepyware.features.gui;
 
 import dev.fxcte.creepyware.CreepyWare;
-import dev.fxcte.creepyware.features.Feature;
 import dev.fxcte.creepyware.features.gui.components.Component;
 import dev.fxcte.creepyware.features.gui.components.items.Item;
 import dev.fxcte.creepyware.features.gui.components.items.buttons.ModuleButton;
@@ -11,7 +10,6 @@ import org.lwjgl.input.Mouse;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Comparator;
 
 public class CreepyWareGui
         extends GuiScreen {
@@ -51,7 +49,6 @@ public class CreepyWareGui
 
                 @Override
                 public void setupItems() {
-                    counter1 = new int[]{1};
                     CreepyWare.moduleManager.getModulesByCategory(category).forEach(module -> {
                         if (!module.hidden) {
                             this.addButton(new ModuleButton(module));
@@ -60,10 +57,11 @@ public class CreepyWareGui
                 }
             });
         }
-        this.components.forEach(components -> components.getItems().sort(Comparator.comparing(Feature::getName)));
+        this.components.forEach(components -> components.getItems().sort((item1, item2) -> item1.getName().compareTo(item2.getName())));
     }
 
     public void updateModule(Module module) {
+        block0:
         for (Component component : this.components) {
             for (Item item : component.getItems()) {
                 if (!(item instanceof ModuleButton)) continue;
@@ -71,6 +69,7 @@ public class CreepyWareGui
                 Module mod = button.getModule();
                 if (module == null || !module.equals(mod)) continue;
                 button.initSettings();
+                continue block0;
             }
         }
     }
