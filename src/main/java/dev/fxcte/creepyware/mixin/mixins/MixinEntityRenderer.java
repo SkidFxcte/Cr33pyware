@@ -1,26 +1,24 @@
 package dev.fxcte.creepyware.mixin.mixins;
 
-import com.google.common.base.Predicate;
-import java.util.ArrayList;
-import java.util.List;
-import javax.annotation.Nullable;
+
+import dev.fxcte.creepyware.MinecraftInstance;
+import dev.fxcte.creepyware.event.events.PerspectiveEvent;
 import dev.fxcte.creepyware.features.modules.client.Notifications;
-import dev.fxcte.creepyware.features.modules.player.Speedmine;
 import dev.fxcte.creepyware.features.modules.render.CameraClip;
 import dev.fxcte.creepyware.features.modules.render.NoRender;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.EntityPlayerSP;
-import net.minecraft.client.multiplayer.WorldClient;
 import net.minecraft.client.renderer.ActiveRenderInfo;
 import net.minecraft.client.renderer.EntityRenderer;
 import net.minecraft.entity.Entity;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
-import net.minecraft.item.ItemPickaxe;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.world.World;
+import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.fml.common.eventhandler.Event;
+import org.lwjgl.util.glu.Project;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -47,6 +45,26 @@ public abstract class MixinEntityRenderer {
         if (this.itemActivationItem != null && NoRender.getInstance().isOn() && NoRender.getInstance().totemPops.getValue().booleanValue() && this.itemActivationItem.getItem() == Items.TOTEM_OF_UNDYING) {
             info.cancel();
         }
+    }
+    @Redirect(method={"setupCameraTransform"}, at=@At(value="INVOKE", target="Lorg/lwjgl/util/glu/Project;gluPerspective(FFFF)V"))
+    private void onSetupCameraTransform(float fovy, float aspect, float zNear, float zFar) {
+        PerspectiveEvent event = new PerspectiveEvent((float) MinecraftInstance.mc.displayWidth / (float)MinecraftInstance.mc.displayHeight);
+        MinecraftForge.EVENT_BUS.post((Event)event);
+        Project.gluPerspective((float)fovy, (float)event.getAspect(), (float)zNear, (float)zFar);
+    }
+
+    @Redirect(method={"renderWorldPass"}, at=@At(value="INVOKE", target="Lorg/lwjgl/util/glu/Project;gluPerspective(FFFF)V"))
+    private void onRenderWorldPass(float fovy, float aspect, float zNear, float zFar) {
+        PerspectiveEvent event = new PerspectiveEvent((float)MinecraftInstance.mc.displayWidth / (float)MinecraftInstance.mc.displayHeight);
+        MinecraftForge.EVENT_BUS.post((Event)event);
+        Project.gluPerspective((float)fovy, (float)event.getAspect(), (float)zNear, (float)zFar);
+    }
+
+    @Redirect(method={"renderCloudsCheck"}, at=@At(value="INVOKE", target="Lorg/lwjgl/util/glu/Project;gluPerspective(FFFF)V"))
+    private void onRenderCloudsCheck(float fovy, float aspect, float zNear, float zFar) {
+        PerspectiveEvent event = new PerspectiveEvent((float)MinecraftInstance.mc.displayWidth / (float)MinecraftInstance.mc.displayHeight);
+        MinecraftForge.EVENT_BUS.post((Event)event);
+        Project.gluPerspective((float)fovy, (float)event.getAspect(), (float)zNear, (float)zFar);
     }
 
     @Inject(method={"updateLightmap"}, at={@At(value="HEAD")}, cancellable=true)
@@ -104,18 +122,6 @@ public abstract class MixinEntityRenderer {
             info.cancel();
         }
     }
-
-    @Redirect(method={"getMouseOver"}, at=@At(value="INVOKE", target="Lnet/minecraft/client/multiplayer/WorldClient;getEntitiesInAABBexcluding(Lnet/minecraft/entity/Entity;Lnet/minecraft/util/math/AxisAlignedBB;Lcom/google/common/base/Predicate;)Ljava/util/List;"))
-    public List<Entity> getEntitiesInAABBexcludingHook(WorldClient worldClient, @Nullable Entity entityIn, AxisAlignedBB boundingBox, @Nullable Predicate<? super Entity> predicate) {
-        if (Speedmine.getInstance().isOn() && Speedmine.getInstance().noTrace.getValue().booleanValue() && (!Speedmine.getInstance().pickaxe.getValue().booleanValue() || this.mc.player.getHeldItemMainhand().getItem() instanceof ItemPickaxe)) {
-            return new ArrayList<Entity>();
-        }
-        if (Speedmine.getInstance().isOn() && Speedmine.getInstance().noTrace.getValue().booleanValue() && Speedmine.getInstance().noGapTrace.getValue().booleanValue() && this.mc.player.getHeldItemMainhand().getItem() == Items.GOLDEN_APPLE) {
-            return new ArrayList<Entity>();
-        }
-        return worldClient.getEntitiesInAABBexcluding(entityIn, boundingBox, predicate);
-    }
-
     @ModifyVariable(method={"orientCamera"}, ordinal=3, at=@At(value="STORE", ordinal=0), require=1)
     public double changeCameraDistanceHook(double range) {
         return CameraClip.getInstance().isEnabled() && CameraClip.getInstance().extend.getValue() != false ? CameraClip.getInstance().distance.getValue() : range;

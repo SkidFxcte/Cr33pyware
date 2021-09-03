@@ -12,8 +12,10 @@ import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.item.EntityXPOrb;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
+import net.minecraft.network.Packet;
 import net.minecraft.network.play.client.CPacketAnimation;
 import net.minecraft.network.play.client.CPacketEntityAction;
+import net.minecraft.network.play.client.CPacketPlayer;
 import net.minecraft.network.play.client.CPacketPlayerTryUseItemOnBlock;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
@@ -34,6 +36,11 @@ public class BlockUtil
         NonNullList positions = NonNullList.create();
         positions.addAll(BlockUtil.getSphere(EntityUtil.getPlayerPos(mc.player), breakRange, (int) breakRange, false, true, 0).stream().filter(pos -> clazz.isInstance(mc.world.getBlockState(pos).getBlock())).collect(Collectors.toList()));
         return positions;
+    }
+
+    public static void faceVectorPacketInstant(Vec3d var0) {
+        float[] var1 = RotationUtil.getLegitRotations(var0);
+        Wrapper.getPlayer().connection.sendPacket((Packet)new CPacketPlayer.Rotation(var1[0], var1[1], Wrapper.getPlayer().onGround));
     }
 
     public static EnumFacing getFacing(BlockPos pos) {

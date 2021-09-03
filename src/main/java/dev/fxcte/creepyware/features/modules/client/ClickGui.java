@@ -5,10 +5,10 @@ import dev.fxcte.creepyware.event.events.ClientEvent;
 import dev.fxcte.creepyware.features.command.Command;
 import dev.fxcte.creepyware.features.gui.CreepyWareGui;
 import dev.fxcte.creepyware.features.modules.Module;
-import dev.fxcte.creepyware.features.modules.render.NoRender;
 import dev.fxcte.creepyware.features.setting.Setting;
 import dev.fxcte.creepyware.util.Util;
 import net.minecraft.client.settings.GameSettings;
+import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
 public class ClickGui
@@ -17,6 +17,7 @@ public class ClickGui
     public Setting<Boolean> colorSync = this.register(new Setting<Boolean>("Sync", false));
     public Setting<Boolean> outline = this.register(new Setting<Boolean>("Outline", false));
     public Setting<Boolean> gear = register (new Setting("gear", Boolean.valueOf(true), "draws gear like future"));
+    public Setting < Boolean > blurEffect = this.register ( new Setting <> ( "Blur" , true ) );
     public Setting<Boolean> rainbowRolling = this.register(new Setting<Object>("RollingRainbow", Boolean.valueOf(false), v -> this.colorSync.getValue() != false && Colors.INSTANCE.rainbow.getValue() != false));
     public Setting<String> prefix = this.register(new Setting<String>("Prefix", ".").setRenderName(true));
     public Setting<Integer> red = this.register(new Setting<Integer>("Red", 170, 0, 255));
@@ -73,6 +74,9 @@ public class ClickGui
     @Override
     public void onEnable() {
         Util.mc.displayGuiScreen(new CreepyWareGui());
+        if ( this.blurEffect.getValue ( ) ) {
+            ClickGui.mc.entityRenderer.loadShader ( new ResourceLocation( "shaders/post/blur.json" ) );
+        }
     }
 
     @Override
@@ -99,4 +103,3 @@ public class ClickGui
         }
     }
 }
-
