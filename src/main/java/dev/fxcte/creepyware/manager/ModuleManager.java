@@ -42,7 +42,6 @@ public class ModuleManager
         this.modules.add(new HUD());
         this.modules.add(new Screens());
         this.modules.add(new Media());
-        this.modules.add(new GUIBlur());
         //combat
         this.modules.add(new OyVeyAutoCrystal());
         this.modules.add(new Burrow());
@@ -128,7 +127,7 @@ public class ModuleManager
         this.modules.add(new Fullbright());
         this.modules.add(new PenisESP());
 
-        this.moduleColorMap.put ( this.getModuleByClass ( BurrowESP.class ) , new Color ( 96 , 138 , 92 ) );
+        this.moduleColorMap.put(this.getModuleByClass(BurrowESP.class), new Color(96, 138, 92));
         this.moduleColorMap.put(this.getModuleByClass(AntiTrap.class), new Color(128, 53, 69));
         this.moduleColorMap.put(this.getModuleByClass(AutoCrystal.class), new Color(255, 15, 43));
         this.moduleColorMap.put(this.getModuleByClass(AutoTrap.class), new Color(193, 49, 244));
