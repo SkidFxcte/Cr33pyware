@@ -8,7 +8,7 @@ Creepy is best pvper
 
 **Fxcte** : `creator of this client`
 
-**kuro** : `Rewrite the base twice base`           
+**kuro** : `Rewrite the base twice based`           
 
 **faxhax** : `hwid lock things, make client better`
 
