@@ -113,6 +113,7 @@ public class ModuleManager
         this.modules.add(new Nametags());
         this.modules.add(new BurrowESP());
         this.modules.add(new HandChams());
+        this.modules.add(new Aspect());
         this.modules.add(new ViewModel());
         this.modules.add(new StorageESP());
         this.modules.add(new CameraClip());
@@ -129,8 +130,6 @@ public class ModuleManager
         this.modules.add(new SmallShield());
         this.modules.add(new Fullbright());
         this.modules.add(new PenisESP());
-        this.modules.add(new ItemPhysics());
-        this.modules.add(new Trails());
 
 
         this.moduleColorMap.put ( this.getModuleByClass ( BurrowESP.class ) , new Color ( 96 , 138 , 92 ) );
