@@ -18,11 +18,11 @@ import org.lwjgl.opengl.Display;
 import java.io.InputStream;
 import java.nio.ByteBuffer;
 
-@Mod(modid = "creepyware", name = "Creepyware", version = "b0.1.6")
+@Mod(modid = "creepyware", name = "Creepyware", version = "b0.2.0")
 public class CreepyWare {
     public static final String MODID = "creepyware";
     public static final String MODNAME = "Creepyware";
-    public static final String MODVER = "b0.1.6";
+    public static final String MODVER = "b0.2.0";
     public static final Logger LOGGER = LogManager.getLogger("Creepyware");
     public static ModuleManager moduleManager;
     public static SpeedManager speedManager;
@@ -56,7 +56,7 @@ public class CreepyWare {
     }
 
     public static void load() {
-        LOGGER.info("\n\nLoading Creepyware by FXCTE");
+        LOGGER.info("\n\nLoading Creepyware by Cr33pyWare Dev Team");
         unloaded = false;
         if (reloadManager != null) {
             reloadManager.unload();
@@ -100,7 +100,7 @@ public class CreepyWare {
     }
 
     public static void unload(boolean unload) {
-        LOGGER.info("\n\nUnloading Creepyware by FXCTE");
+        LOGGER.info("\n\nUnloading Creepyware by Cr33pyWare Dev Team");
         if (unload) {
             reloadManager = new ReloadManager();
             reloadManager.init(commandManager != null ? commandManager.getPrefix() : ".");

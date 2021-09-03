@@ -182,7 +182,7 @@ public class AutoCrystal
     public Setting<Integer> rotations = this.register(new Setting<Object>("Spoofs", Integer.valueOf(1), Integer.valueOf(1), Integer.valueOf(20), v -> this.setting.getValue() == Settings.DEV));
     public Setting<Boolean> predictRotate = this.register(new Setting<Object>("PredictRotate", Boolean.valueOf(false), v -> this.setting.getValue() == Settings.DEV));
     public Setting<Float> predictOffset = this.register(new Setting<Object>("PredictOffset", Float.valueOf(0.0f), Float.valueOf(0.0f), Float.valueOf(4.0f), v -> this.setting.getValue() == Settings.DEV));
-    public Setting<Boolean> brownZombie = this.register(new Setting<Object>("BrownZombieMode", Boolean.valueOf(false), v -> this.setting.getValue() == Settings.MISC));
+    public Setting<Boolean> brownZombie = this.register(new Setting<Object>("FaxHackMode", Boolean.valueOf(false), v -> this.setting.getValue() == Settings.MISC));
     public Setting<Boolean> doublePopOnDamage = this.register(new Setting<Object>("DamagePop", Boolean.valueOf(false), v -> this.setting.getValue() == Settings.PLACE && this.place.getValue() != false && this.doublePop.getValue() != false && this.targetMode.getValue() == Target.DAMAGE));
     public boolean rotating = false;
     private Queue<Entity> attackList = new ConcurrentLinkedQueue<Entity>();
