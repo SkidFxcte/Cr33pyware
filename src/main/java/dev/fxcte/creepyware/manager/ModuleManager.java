@@ -105,13 +105,13 @@ public class ModuleManager
         this.modules.add(new MultiTask());
         this.modules.add(new XCarry());
         this.modules.add(new Replenish());
-        this.modules.add(new EchestBP());
         this.modules.add(new MCP());
-        this.modules.add(new Yaw());
+        this.modules.add(new SilentXP());
 
         //render
         this.modules.add(new BurrowESP());
         this.modules.add(new HandChams());
+        this.modules.add(new ViewModel());
         this.modules.add(new StorageESP());
         this.modules.add(new CameraClip());
         this.modules.add(new Chams());
@@ -121,15 +121,12 @@ public class ModuleManager
         this.modules.add(new Trajectories());
         this.modules.add(new LogoutSpots());
         this.modules.add(new XRay());
-        this.modules.add(new Ranges());
         this.modules.add(new VoidESP());
         this.modules.add(new CrystalScale());
         this.modules.add(new NoRender());
         this.modules.add(new SmallShield());
         this.modules.add(new Fullbright());
         this.modules.add(new PenisESP());
-        this.modules.add(new ItemPhysics());
-        this.modules.add(new HandSwing());
 
         this.moduleColorMap.put ( this.getModuleByClass ( BurrowESP.class ) , new Color ( 96 , 138 , 92 ) );
         this.moduleColorMap.put(this.getModuleByClass(AntiTrap.class), new Color(128, 53, 69));
@@ -162,7 +159,6 @@ public class ModuleManager
         this.moduleColorMap.put(this.getModuleByClass(LogoutSpots.class), new Color(2, 135, 134));
         this.moduleColorMap.put(this.getModuleByClass(Nametags.class), new Color(98, 82, 223));
         this.moduleColorMap.put(this.getModuleByClass(NoRender.class), new Color(255, 164, 107));
-        this.moduleColorMap.put(this.getModuleByClass(Ranges.class), new Color(144, 212, 196));
         this.moduleColorMap.put(this.getModuleByClass(SmallShield.class), new Color(145, 223, 187));
         this.moduleColorMap.put(this.getModuleByClass(StorageESP.class), new Color(97, 81, 223));
         this.moduleColorMap.put(this.getModuleByClass(Trajectories.class), new Color(98, 18, 223));
@@ -176,7 +172,6 @@ public class ModuleManager
         this.moduleColorMap.put(this.getModuleByClass(Strafe.class), new Color(0, 204, 255));
         this.moduleColorMap.put(this.getModuleByClass(Velocity.class), new Color(115, 134, 140));
         this.moduleColorMap.put(this.getModuleByClass(ReverseStep.class), new Color(1, 134, 140));
-        this.moduleColorMap.put(this.getModuleByClass(EchestBP.class), new Color(255, 243, 30));
         this.moduleColorMap.put(this.getModuleByClass(FakePlayer.class), new Color(37, 192, 170));
         this.moduleColorMap.put(this.getModuleByClass(FastPlace.class), new Color(217, 118, 37));
         this.moduleColorMap.put(this.getModuleByClass(Freecam.class), new Color(206, 232, 128));
@@ -187,7 +182,6 @@ public class ModuleManager
         this.moduleColorMap.put(this.getModuleByClass(Speedmine.class), new Color(152, 166, 113));
         this.moduleColorMap.put(this.getModuleByClass(TimerSpeed.class), new Color(255, 133, 18));
         this.moduleColorMap.put(this.getModuleByClass(XCarry.class), new Color(254, 161, 51));
-        this.moduleColorMap.put(this.getModuleByClass(Yaw.class), new Color(115, 39, 141));
         this.moduleColorMap.put(this.getModuleByClass(ClickGui.class), new Color(26, 81, 135));
         this.moduleColorMap.put(this.getModuleByClass(Colors.class), new Color(135, 133, 26));
         this.moduleColorMap.put(this.getModuleByClass(FontMod.class), new Color(135, 26, 88));

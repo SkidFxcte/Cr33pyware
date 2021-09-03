@@ -112,6 +112,13 @@ public class RenderUtil
         GlStateManager.popMatrix();
     }
 
+    public static
+    void rotationHelper ( float xAngle , float yAngle , float zAngle ) {
+        GlStateManager.rotate ( yAngle , 0.0f , 1.0f , 0.0f );
+        GlStateManager.rotate ( zAngle , 0.0f , 0.0f , 1.0f );
+        GlStateManager.rotate ( xAngle , 1.0f , 0.0f , 0.0f );
+    }
+
 
     public static void updateModelViewProjectionMatrix() {
         GL11.glGetFloat(2982, modelView);

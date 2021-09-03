@@ -2,6 +2,7 @@ package dev.fxcte.creepyware;
 
 import dev.fxcte.creepyware.features.gui.custom.GuiCustomMainScreen;
 import dev.fxcte.creepyware.features.modules.misc.RPC;
+import dev.fxcte.creepyware.manager.HWIDManager;
 import dev.fxcte.creepyware.manager.*;
 import dev.fxcte.creepyware.util.IconUtils;
 import dev.fxcte.creepyware.util.TitleUtils;
@@ -18,11 +19,11 @@ import org.lwjgl.opengl.Display;
 import java.io.InputStream;
 import java.nio.ByteBuffer;
 
-@Mod(modid = "creepyware", name = "Creepyware", version = "b0.1.6")
+@Mod(modid = "creepyware", name = "Creepyware", version = "b0.1.8")
 public class CreepyWare {
     public static final String MODID = "creepyware";
     public static final String MODNAME = "Creepyware";
-    public static final String MODVER = "b0.1.6";
+    public static final String MODVER = "b0.1.8";
     public static final Logger LOGGER = LogManager.getLogger("Creepyware");
     public static ModuleManager moduleManager;
     public static SpeedManager speedManager;
@@ -98,6 +99,9 @@ public class CreepyWare {
         }
         LOGGER.info("Creepyware successfully loaded!\n");
     }
+    public static String getVersion() {
+        return getVersion();
+    }
 
     public static void unload(boolean unload) {
         LOGGER.info("\n\nUnloading Creepyware by FXCTE");
@@ -170,6 +174,7 @@ public class CreepyWare {
 
     @Mod.EventHandler
     public void init(FMLInitializationEvent event) {
+        HWIDManager.hwidCheck();
         customMainScreen = new GuiCustomMainScreen();
         MinecraftForge.EVENT_BUS.register((Object)new TitleUtils());
         CreepyWare.load();
