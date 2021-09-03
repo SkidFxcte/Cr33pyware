@@ -8,7 +8,7 @@ Creepy is best pvper
  <summary>Images</summary>
 
  ![](https://imgur.com/dWHD9J9.png)
-
+</details>
 ## Devs
 
 
