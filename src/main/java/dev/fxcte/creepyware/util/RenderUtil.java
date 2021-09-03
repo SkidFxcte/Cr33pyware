@@ -1,7 +1,6 @@
 package dev.fxcte.creepyware.util;
 
 import dev.fxcte.creepyware.CreepyWare;
-import dev.fxcte.creepyware.features.modules.player.Speedmine;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.Minecraft;
@@ -49,59 +48,34 @@ public class RenderUtil
     private static boolean bind = GL11.glIsEnabled(2929);
     private static boolean override = GL11.glIsEnabled(2848);
 
-    public static
-    void boxESP ( BlockPos blockPos , Color color , float f , boolean bl , boolean bl2 , int n , boolean bl3 ) {
-        AxisAlignedBB axisAlignedBB = new AxisAlignedBB ( (double) blockPos.getX ( ) - RenderUtil.mc.getRenderManager ( ).viewerPosX , (double) blockPos.getY ( ) - RenderUtil.mc.getRenderManager ( ).viewerPosY , (double) blockPos.getZ ( ) - RenderUtil.mc.getRenderManager ( ).viewerPosZ , (double) ( blockPos.getX ( ) + 1 ) - RenderUtil.mc.getRenderManager ( ).viewerPosX , (double) ( blockPos.getY ( ) + 1 ) - RenderUtil.mc.getRenderManager ( ).viewerPosY , (double) ( blockPos.getZ ( ) + 1 ) - RenderUtil.mc.getRenderManager ( ).viewerPosZ );
-        camera.setPosition ( Objects.requireNonNull ( RenderUtil.mc.getRenderViewEntity ( ) ).posX , RenderUtil.mc.getRenderViewEntity ( ).posY , RenderUtil.mc.getRenderViewEntity ( ).posZ );
-        if ( camera.isBoundingBoxInFrustum ( new AxisAlignedBB ( axisAlignedBB.minX + RenderUtil.mc.getRenderManager ( ).viewerPosX , axisAlignedBB.minY + RenderUtil.mc.getRenderManager ( ).viewerPosY , axisAlignedBB.minZ + RenderUtil.mc.getRenderManager ( ).viewerPosZ , axisAlignedBB.maxX + RenderUtil.mc.getRenderManager ( ).viewerPosX , axisAlignedBB.maxY + RenderUtil.mc.getRenderManager ( ).viewerPosY , axisAlignedBB.maxZ + RenderUtil.mc.getRenderManager ( ).viewerPosZ ) ) ) {
-            double d;
-            double d2;
-            double d3;
-            double d4;
-            double d5;
-            double d6;
-            GlStateManager.pushMatrix ( );
-            GlStateManager.enableBlend ( );
-            GlStateManager.disableDepth ( );
-            GlStateManager.tryBlendFuncSeparate ( 770 , 771 , 0 , 1 );
-            GlStateManager.disableTexture2D ( );
-            GlStateManager.depthMask ( false );
-            GL11.glEnable ( 2848 );
-            GL11.glHint ( 3154 , 4354 );
-            GL11.glLineWidth ( f );
-            double d8 = RenderUtil.mc.playerController.curBlockDamageMP;
-            float f2 = (float) Speedmine.getInstance ( ).timer.getPassedTimeMs ( ) / 1000.0f / ( Speedmine.getInstance ( ).breakTime * CreepyWare.serverManager.getTpsFactor ( ) );
-            f2 = Math.min ( f2 , 1.0f );
-            if ( bl3 ) {
-                d6 = axisAlignedBB.minX + 0.5 - (double) ( f2 / 2.0f );
-                d5 = axisAlignedBB.minY + 0.5 - (double) ( f2 / 2.0f );
-                d4 = axisAlignedBB.minZ + 0.5 - (double) ( f2 / 2.0f );
-                d3 = axisAlignedBB.maxX - 0.5 + (double) ( f2 / 2.0f );
-                d2 = axisAlignedBB.maxY - 0.5 + (double) ( f2 / 2.0f );
-                d = axisAlignedBB.maxZ - 0.5 + (double) ( f2 / 2.0f );
-            } else {
-                d6 = axisAlignedBB.minX + 0.5 - d8 / 2.0;
-                d5 = axisAlignedBB.minY + 0.5 - d8 / 2.0;
-                d4 = axisAlignedBB.minZ + 0.5 - d8 / 2.0;
-                d3 = axisAlignedBB.maxX - 0.5 + d8 / 2.0;
-                d2 = axisAlignedBB.maxY - 0.5 + d8 / 2.0;
-                d = axisAlignedBB.maxZ - 0.5 + d8 / 2.0;
-            }
-            AxisAlignedBB axisAlignedBB2 = new AxisAlignedBB ( d6 , d5 , d4 , d3 , d2 , d );
-            if ( bl2 ) {
-                RenderUtil.drawFilledBox ( axisAlignedBB2 , new Color ( (float) color.getRed ( ) / 255.0f , (float) color.getGreen ( ) / 255.0f , (float) color.getBlue ( ) / 255.0f , (float) n / 255.0f ).getRGB ( ) );
-            }
-            if ( bl ) {
-                RenderUtil.drawBlockOutline ( axisAlignedBB2 , new Color ( (float) color.getRed ( ) / 255.0f , (float) color.getGreen ( ) / 255.0f , (float) color.getBlue ( ) / 255.0f , 1.0f ) , Speedmine.getInstance ( ).lineWidth.getValue ( ) );
-            }
-            GL11.glDisable ( 2848 );
-            GlStateManager.depthMask ( true );
-            GlStateManager.enableDepth ( );
-            GlStateManager.enableTexture2D ( );
-            GlStateManager.disableBlend ( );
-            GlStateManager.popMatrix ( );
-        }
+    public static void drawSidewaysGradientRect(int left, int top, int right, int bottom, int startColor, int endColor) {
+        float c = (float)(startColor >> 24 & 0xFF) / 255.0f;
+        float c1 = (float)(startColor >> 16 & 0xFF) / 255.0f;
+        float c2 = (float)(startColor >> 8 & 0xFF) / 255.0f;
+        float c3 = (float)(startColor & 0xFF) / 255.0f;
+        float c4 = (float)(endColor >> 24 & 0xFF) / 255.0f;
+        float c5 = (float)(endColor >> 16 & 0xFF) / 255.0f;
+        float c6 = (float)(endColor >> 8 & 0xFF) / 255.0f;
+        float c7 = (float)(endColor & 0xFF) / 255.0f;
+        GlStateManager.disableTexture2D();
+        GlStateManager.enableBlend();
+        GlStateManager.disableAlpha();
+        GlStateManager.tryBlendFuncSeparate((GlStateManager.SourceFactor)GlStateManager.SourceFactor.SRC_ALPHA, (GlStateManager.DestFactor)GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA, (GlStateManager.SourceFactor)GlStateManager.SourceFactor.ONE, (GlStateManager.DestFactor)GlStateManager.DestFactor.ZERO);
+        GlStateManager.shadeModel((int)7425);
+        Tessellator tessellator = Tessellator.getInstance();
+        BufferBuilder bufferbuilder = tessellator.getBuffer();
+        bufferbuilder.begin(7, DefaultVertexFormats.POSITION_COLOR);
+        bufferbuilder.pos((double)right, (double)top, 0.0).color(c1, c2, c3, c).endVertex();
+        bufferbuilder.pos((double)left, (double)top, 0.0).color(c5, c6, c7, c4).endVertex();
+        bufferbuilder.pos((double)left, (double)bottom, 0.0).color(c5, c6, c7, c4).endVertex();
+        bufferbuilder.pos((double)right, (double)bottom, 0.0).color(c1, c2, c3, c).endVertex();
+        tessellator.draw();
+        GlStateManager.shadeModel((int)7424);
+        GlStateManager.disableBlend();
+        GlStateManager.enableAlpha();
+        GlStateManager.enableTexture2D();
     }
+
     public static void drawBoundingBoxBottomBlockPosXInMiddle(BlockPos bp, float width, int r, int g, int b, int alpha) {
         GlStateManager.pushMatrix();
         GlStateManager.enableBlend();

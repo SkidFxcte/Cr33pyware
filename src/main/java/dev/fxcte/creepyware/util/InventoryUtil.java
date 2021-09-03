@@ -162,6 +162,19 @@ public class InventoryUtil
         return slot.get();
     }
 
+    public static List<Integer> getItemInventory(Item item) {
+        ArrayList<Integer> ints = new ArrayList<Integer>();
+        for (int i = 9; i < 36; ++i) {
+            Item target = InventoryUtil.mc.player.inventory.getStackInSlot(i).getItem();
+            if (!(item instanceof ItemBlock) || !((ItemBlock)item).getBlock().equals(item)) continue;
+            ints.add(i);
+        }
+        if (ints.size() == 0) {
+            ints.add(-1);
+        }
+        return ints;
+    }
+
     public static boolean isBlock(Item item, Class clazz) {
         if (item instanceof ItemBlock) {
             Block block = ((ItemBlock) item).getBlock();

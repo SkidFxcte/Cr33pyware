@@ -30,6 +30,7 @@ public class ModuleManager
     public Map<Module, Color> moduleColorMap = new HashMap<Module, Color>();
 
     public void init() {
+        //if you have free time help me sort it :^)//
         //client
         this.modules.add(new FontMod());
         this.modules.add(new ClickGui());
@@ -40,6 +41,7 @@ public class ModuleManager
         this.modules.add(new Notifications());
         this.modules.add(new HUD());
         this.modules.add(new Media());
+        this.modules.add(new GUIBlur());
         //combat
         this.modules.add(new OyVeyAutoCrystal());
         this.modules.add(new Burrow());
@@ -78,7 +80,6 @@ public class ModuleManager
         this.modules.add(new FxcteSexDupe());
 
         //movement
-        this.modules.add(new Anchor());
         this.modules.add(new ReverseStep());
         this.modules.add(new Strafe());
         this.modules.add(new ElytraFlight());
@@ -92,7 +93,6 @@ public class ModuleManager
         this.modules.add(new VanillaSpeed());
 
         //player
-        this.modules.add(new EchestBP());
         this.modules.add(new NoEntityTrace());
         this.modules.add(new EntityNotifier());
         this.modules.add(new FakePlayer());
@@ -107,10 +107,8 @@ public class ModuleManager
         this.modules.add(new Replenish());
         this.modules.add(new MCP());
         this.modules.add(new SilentXP());
-        this.modules.add(new Yaw());
 
         //render
-        this.modules.add(new Nametags());
         this.modules.add(new BurrowESP());
         this.modules.add(new HandChams());
         this.modules.add(new ViewModel());
@@ -129,9 +127,6 @@ public class ModuleManager
         this.modules.add(new SmallShield());
         this.modules.add(new Fullbright());
         this.modules.add(new PenisESP());
-        this.modules.add(new ItemPhysics());
-        this.modules.add(new Trails());
-
 
         this.moduleColorMap.put ( this.getModuleByClass ( BurrowESP.class ) , new Color ( 96 , 138 , 92 ) );
         this.moduleColorMap.put(this.getModuleByClass(AntiTrap.class), new Color(128, 53, 69));

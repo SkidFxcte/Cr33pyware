@@ -1,5 +1,6 @@
 package dev.fxcte.creepyware.util;
 
+import dev.fxcte.creepyware.features.modules.client.ClickGui;
 import org.lwjgl.opengl.GL11;
 
 import java.awt.*;
@@ -335,4 +336,3 @@ public class ColorUtil {
         }
     }
 }
-
