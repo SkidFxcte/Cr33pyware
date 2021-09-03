@@ -111,7 +111,6 @@ public class ModuleManager
 
         //render
         this.modules.add(new Nametags());
-        this.modules.add(new Aspect());
         this.modules.add(new BurrowESP());
         this.modules.add(new HandChams());
         this.modules.add(new ViewModel());
