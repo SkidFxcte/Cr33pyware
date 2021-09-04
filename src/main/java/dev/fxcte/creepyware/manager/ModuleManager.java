@@ -108,6 +108,7 @@ public class ModuleManager
         this.modules.add(new SilentXP());
 
         //render
+        this.modules.add(new BreakingESP());
         this.modules.add(new BurrowESP());
         this.modules.add(new HandChams());
         this.modules.add(new Aspect());
