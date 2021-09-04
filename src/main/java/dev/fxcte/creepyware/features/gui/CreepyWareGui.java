@@ -43,7 +43,7 @@ public class CreepyWareGui
     }
 
     private void load() {
-        int x = -84;
+        int x = -74;
         for (final Module.Category category : CreepyWare.moduleManager.getCategories()) {
             this.components.add(new Component(category.getName(), x += 90, 4, true) {
 

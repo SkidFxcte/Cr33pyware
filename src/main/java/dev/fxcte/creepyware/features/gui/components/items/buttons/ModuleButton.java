@@ -7,12 +7,15 @@ import dev.fxcte.creepyware.features.modules.Module;
 import dev.fxcte.creepyware.features.modules.client.ClickGui;
 import dev.fxcte.creepyware.features.setting.Bind;
 import dev.fxcte.creepyware.features.setting.Setting;
+import dev.fxcte.creepyware.util.RenderUtil;
 import dev.fxcte.creepyware.util.Util;
 import net.minecraft.client.audio.PositionedSoundRecord;
 import net.minecraft.init.SoundEvents;
 import net.minecraft.util.ResourceLocation;
+import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.GL11;
 
+import javax.vecmath.AxisAngle4f;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -28,6 +31,7 @@ public class ModuleButton
         this.module = module;
         this.initSettings();
     }
+
     public static void drawCompleteImage(float posX, float posY, int width, int height) {
         GL11.glPushMatrix();
         GL11.glTranslatef(posX, posY, 0.0f);
@@ -77,21 +81,21 @@ public class ModuleButton
         if (!this.items.isEmpty()) {
             ClickGui gui = CreepyWare.moduleManager.getModuleByClass(ClickGui.class);
             CreepyWare.textManager.drawStringWithShadow(gui.openCloseChange.getValue().booleanValue() ? (this.subOpen ? gui.close.getValue() : gui.open.getValue()) : gui.moduleButton.getValue(), this.x - 1.5f + (float) this.width - 7.4f, this.y - 2.0f - (float) CreepyWareGui.getClickGui().getTextOffset(), -1);
+        }
             if (ClickGui.getInstance().gear.getValue().booleanValue()) {
                 mc.getTextureManager().bindTexture(this.logo);
-                ModuleButton.drawCompleteImage(this.x - 1.5f + (float) this.width - 7.4f, this.y - 2.2f - (float) CreepyWareGui.getClickGui().getTextOffset(), 8, 8);
+                ModuleButton.drawCompleteImage(this.x - 1.5f + (float) this.width - 7.4f, this.y - 2.2f - (float) CreepyWareGui.getClickGui().getTextOffset(), 9, 9);
             }
-                if (this.subOpen) {
-                    float height = 1.0f;
-                    for (Item item : this.items) {
-                        if (!item.isHidden()) {
-                            item.setLocation(this.x + 1.0f, this.y + (height += 15.0f));
-                            item.setHeight(15);
-                            item.setWidth(this.width - 9);
-                            item.drawScreen(mouseX, mouseY, partialTicks);
-                        }
-                        item.update();
+            if (this.subOpen) {
+                float height = 1.0f;
+                for (Item item : this.items) {
+                    if (!item.isHidden()) {
+                        item.setLocation(this.x + 1.0f, this.y + (height += 15.0f));
+                        item.setHeight(15);
+                        item.setWidth(this.width - 9);
+                        item.drawScreen(mouseX, mouseY, partialTicks);
                     }
+                    item.update();
                 }
             }
         }
@@ -150,5 +154,6 @@ public class ModuleButton
     public boolean getState() {
         return this.module.isEnabled();
     }
+
 }
 
