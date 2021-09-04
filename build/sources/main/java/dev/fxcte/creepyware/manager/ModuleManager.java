@@ -41,7 +41,6 @@ public class ModuleManager
         this.modules.add(new Notifications());
         this.modules.add(new HUD());
         this.modules.add(new Media());
-        this.modules.add(new GUIBlur());
         //combat
         this.modules.add(new OyVeyAutoCrystal());
         this.modules.add(new Burrow());
@@ -80,6 +79,7 @@ public class ModuleManager
         this.modules.add(new FxcteSexDupe());
 
         //movement
+        this.modules.add(new Anchor());
         this.modules.add(new ReverseStep());
         this.modules.add(new Strafe());
         this.modules.add(new ElytraFlight());
@@ -107,16 +107,22 @@ public class ModuleManager
         this.modules.add(new Replenish());
         this.modules.add(new MCP());
         this.modules.add(new SilentXP());
+        this.modules.add(new EchestBP());
 
         //render
+        this.modules.add(new Nametags());
+        this.modules.add(new BreakingESP());
         this.modules.add(new BurrowESP());
         this.modules.add(new HandChams());
+        this.modules.add(new Aspect());
+        this.modules.add(new ItemPhysics());
         this.modules.add(new ViewModel());
         this.modules.add(new StorageESP());
         this.modules.add(new CameraClip());
         this.modules.add(new Chams());
         this.modules.add(new ESP());
         this.modules.add(new HoleESP());
+        this.modules.add(new PopChams());
         this.modules.add(new BlockHighlight());
         this.modules.add(new Trajectories());
         this.modules.add(new LogoutSpots());

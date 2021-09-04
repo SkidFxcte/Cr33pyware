@@ -34,6 +34,7 @@ FD: dev/fxcte/creepyware/mixin/mixins/MixinRenderEntityItem/itemRenderer dev/fxc
 FD: dev/fxcte/creepyware/mixin/mixins/MixinRenderEntityItem/random dev/fxcte/creepyware/mixin/mixins/MixinRenderEntityItem/field_177079_e
 FD: dev/fxcte/creepyware/mixin/mixins/MixinRenderer/renderOutlines dev/fxcte/creepyware/mixin/mixins/MixinRenderer/field_188301_f
 FD: dev/fxcte/creepyware/mixin/mixins/MixinRenderer/renderManager dev/fxcte/creepyware/mixin/mixins/MixinRenderer/field_76990_c
+FD: dev/fxcte/creepyware/mixin/mixins/MixinRenderLivingBase/mainModel dev/fxcte/creepyware/mixin/mixins/MixinRenderLivingBase/field_77045_g
 MD: dev/fxcte/creepyware/mixin/mixins/MixinAbstractClientPlayer/getPlayerInfo ()Lnet/minecraft/client/network/NetworkPlayerInfo; dev/fxcte/creepyware/mixin/mixins/MixinAbstractClientPlayer/func_175155_b ()Lnet/minecraft/client/network/NetworkPlayerInfo;
 MD: dev/fxcte/creepyware/mixin/mixins/MixinBlock/getBlockHardness (Lnet/minecraft/block/state/IBlockState;Lnet/minecraft/world/World;Lnet/minecraft/util/math/BlockPos;)F dev/fxcte/creepyware/mixin/mixins/MixinBlock/func_176195_g (Lnet/minecraft/block/state/IBlockState;Lnet/minecraft/world/World;Lnet/minecraft/util/math/BlockPos;)F
 MD: dev/fxcte/creepyware/mixin/mixins/MixinEntity/isSprinting ()Z dev/fxcte/creepyware/mixin/mixins/MixinEntity/func_70051_ag ()Z
