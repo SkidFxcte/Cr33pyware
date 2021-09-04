@@ -118,6 +118,7 @@ public class ModuleManager
         this.modules.add(new Chams());
         this.modules.add(new ESP());
         this.modules.add(new HoleESP());
+        this.modules.add(new PopChams());
         this.modules.add(new BlockHighlight());
         this.modules.add(new Trajectories());
         this.modules.add(new LogoutSpots());

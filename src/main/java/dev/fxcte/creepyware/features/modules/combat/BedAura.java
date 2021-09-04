@@ -26,7 +26,7 @@ public class BedAura
     Setting<Boolean> refill = this.register(new Setting<Boolean>("RefillBed", true));
 
     public BedAura() {
-        super("AutoBed", "Fucked (Future)", Module.Category.COMBAT, true, false, false);
+        super("BedAura", "Fucked (Future)", Module.Category.COMBAT, true, false, false);
     }
 
     @Override

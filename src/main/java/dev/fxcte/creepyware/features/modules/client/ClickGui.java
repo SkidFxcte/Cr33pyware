@@ -75,7 +75,7 @@ public class ClickGui
     public void onEnable() {
         Util.mc.displayGuiScreen(new CreepyWareGui());
         if ( this.blurEffect.getValue ( ) ) {
-            ClickGui.mc.entityRenderer.loadShader ( new ResourceLocation( "shaders/post/blur.json" ) );
+            ClickGui.mc.entityRenderer.loadShader ( new ResourceLocation( "-" ) );
         }
     }
 
@@ -103,3 +103,4 @@ public class ClickGui
         }
     }
 }
+
