@@ -2,7 +2,6 @@ package dev.fxcte.creepyware.features.gui.components.items.buttons;
 
 import dev.fxcte.creepyware.CreepyWare;
 import dev.fxcte.creepyware.features.gui.CreepyWareGui;
-import dev.fxcte.creepyware.features.gui.components.Component;
 import dev.fxcte.creepyware.features.gui.components.items.Item;
 import dev.fxcte.creepyware.features.modules.Module;
 import dev.fxcte.creepyware.features.modules.client.ClickGui;
@@ -76,11 +75,12 @@ public class ModuleButton
     public void drawScreen(int mouseX, int mouseY, float partialTicks) {
         super.drawScreen(mouseX, mouseY, partialTicks);
         if (!this.items.isEmpty()) {
+            ClickGui gui = CreepyWare.moduleManager.getModuleByClass(ClickGui.class);
+            CreepyWare.textManager.drawStringWithShadow(gui.openCloseChange.getValue().booleanValue() ? (this.subOpen ? gui.close.getValue() : gui.open.getValue()) : gui.moduleButton.getValue(), this.x - 1.5f + (float) this.width - 7.4f, this.y - 2.0f - (float) CreepyWareGui.getClickGui().getTextOffset(), -1);
             if (ClickGui.getInstance().gear.getValue().booleanValue()) {
                 mc.getTextureManager().bindTexture(this.logo);
                 ModuleButton.drawCompleteImage(this.x - 1.5f + (float) this.width - 7.4f, this.y - 2.2f - (float) CreepyWareGui.getClickGui().getTextOffset(), 8, 8);
-                ClickGui gui = CreepyWare.moduleManager.getModuleByClass(ClickGui.class);
-                CreepyWare.textManager.drawStringWithShadow(gui.openCloseChange.getValue().booleanValue() ? (this.subOpen ? gui.close.getValue() : gui.open.getValue()) : gui.moduleButton.getValue(), this.x - 1.5f + (float) this.width - 7.4f, this.y - 2.0f - (float) CreepyWareGui.getClickGui().getTextOffset(), -1);
+            }
                 if (this.subOpen) {
                     float height = 1.0f;
                     for (Item item : this.items) {
@@ -95,7 +95,6 @@ public class ModuleButton
                 }
             }
         }
-    }
 
     @Override
     public void mouseClicked(int mouseX, int mouseY, int mouseButton) {

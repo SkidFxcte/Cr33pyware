@@ -41,7 +41,6 @@ public class ModuleManager
         this.modules.add(new Notifications());
         this.modules.add(new HUD());
         this.modules.add(new Media());
-        this.modules.add(new GUIBlur());
         //combat
         this.modules.add(new OyVeyAutoCrystal());
         this.modules.add(new Burrow());
@@ -111,12 +110,15 @@ public class ModuleManager
         //render
         this.modules.add(new BurrowESP());
         this.modules.add(new HandChams());
+        this.modules.add(new Aspect());
+        this.modules.add(new ItemPhysics());
         this.modules.add(new ViewModel());
         this.modules.add(new StorageESP());
         this.modules.add(new CameraClip());
         this.modules.add(new Chams());
         this.modules.add(new ESP());
         this.modules.add(new HoleESP());
+        this.modules.add(new PopChams());
         this.modules.add(new BlockHighlight());
         this.modules.add(new Trajectories());
         this.modules.add(new LogoutSpots());

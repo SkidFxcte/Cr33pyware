@@ -39,6 +39,7 @@
     "MixinRenderEnderCrystal",
     "MixinRenderGlobal",
     "MixinRenderItem",
+    "MixinRenderEntityItem",
     "MixinRenderLivingBase",
     "MixinRenderPlayer",
     "MixinServerAddress",
