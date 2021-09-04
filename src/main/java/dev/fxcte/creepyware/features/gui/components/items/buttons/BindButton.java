@@ -1,5 +1,6 @@
 package dev.fxcte.creepyware.features.gui.components.items.buttons;
 
+import com.mojang.realmsclient.gui.ChatFormatting;
 import dev.fxcte.creepyware.CreepyWare;
 import dev.fxcte.creepyware.features.gui.CreepyWareGui;
 import dev.fxcte.creepyware.features.modules.client.ClickGui;
@@ -66,7 +67,6 @@ public class BindButton
             super.onMouseClick();
         }
     }
-
     @Override
     public int getHeight() {
         return 14;

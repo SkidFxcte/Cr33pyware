@@ -95,4 +95,3 @@ public class Feature
         this.settings = new ArrayList<Setting>();
     }
 }
-

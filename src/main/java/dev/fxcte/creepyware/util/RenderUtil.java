@@ -48,6 +48,34 @@ public class RenderUtil
     private static boolean bind = GL11.glIsEnabled(2929);
     private static boolean override = GL11.glIsEnabled(2848);
 
+    public static void drawSidewaysGradientRect(int left, int top, int right, int bottom, int startColor, int endColor) {
+        float c = (float)(startColor >> 24 & 0xFF) / 255.0f;
+        float c1 = (float)(startColor >> 16 & 0xFF) / 255.0f;
+        float c2 = (float)(startColor >> 8 & 0xFF) / 255.0f;
+        float c3 = (float)(startColor & 0xFF) / 255.0f;
+        float c4 = (float)(endColor >> 24 & 0xFF) / 255.0f;
+        float c5 = (float)(endColor >> 16 & 0xFF) / 255.0f;
+        float c6 = (float)(endColor >> 8 & 0xFF) / 255.0f;
+        float c7 = (float)(endColor & 0xFF) / 255.0f;
+        GlStateManager.disableTexture2D();
+        GlStateManager.enableBlend();
+        GlStateManager.disableAlpha();
+        GlStateManager.tryBlendFuncSeparate((GlStateManager.SourceFactor)GlStateManager.SourceFactor.SRC_ALPHA, (GlStateManager.DestFactor)GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA, (GlStateManager.SourceFactor)GlStateManager.SourceFactor.ONE, (GlStateManager.DestFactor)GlStateManager.DestFactor.ZERO);
+        GlStateManager.shadeModel((int)7425);
+        Tessellator tessellator = Tessellator.getInstance();
+        BufferBuilder bufferbuilder = tessellator.getBuffer();
+        bufferbuilder.begin(7, DefaultVertexFormats.POSITION_COLOR);
+        bufferbuilder.pos((double)right, (double)top, 0.0).color(c1, c2, c3, c).endVertex();
+        bufferbuilder.pos((double)left, (double)top, 0.0).color(c5, c6, c7, c4).endVertex();
+        bufferbuilder.pos((double)left, (double)bottom, 0.0).color(c5, c6, c7, c4).endVertex();
+        bufferbuilder.pos((double)right, (double)bottom, 0.0).color(c1, c2, c3, c).endVertex();
+        tessellator.draw();
+        GlStateManager.shadeModel((int)7424);
+        GlStateManager.disableBlend();
+        GlStateManager.enableAlpha();
+        GlStateManager.enableTexture2D();
+    }
+
     public static void drawBoundingBoxBottomBlockPosXInMiddle(BlockPos bp, float width, int r, int g, int b, int alpha) {
         GlStateManager.pushMatrix();
         GlStateManager.enableBlend();
@@ -110,6 +138,13 @@ public class RenderUtil
         GlStateManager.enableTexture2D();
         GlStateManager.disableBlend();
         GlStateManager.popMatrix();
+    }
+
+    public static
+    void rotationHelper ( float xAngle , float yAngle , float zAngle ) {
+        GlStateManager.rotate ( yAngle , 0.0f , 1.0f , 0.0f );
+        GlStateManager.rotate ( zAngle , 0.0f , 0.0f , 1.0f );
+        GlStateManager.rotate ( xAngle , 1.0f , 0.0f , 0.0f );
     }
 
 

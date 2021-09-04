@@ -77,7 +77,7 @@ public class ChatModifier
                 return;
             }
             switch (this.suffix.getValue()) {
-                case RenoSense: {
+                case Creepyware: {
                     s = s + " \u23d0 creepyware";
                     break;
                 }
@@ -135,7 +135,7 @@ public class ChatModifier
 
     public enum Suffix {
         NONE,
-        RenoSense
+        Creepyware
 
     }
 }

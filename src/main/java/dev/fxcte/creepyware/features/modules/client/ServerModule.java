@@ -40,7 +40,7 @@ public class ServerModule
     private String serverPrefix = "idk";
 
     public ServerModule() {
-        super("PingBypass", "Manages RenoSense`s internal Server", Module.Category.CLIENT, false, false, true);
+        super("PingBypass", "Manages Creepyware`s internal Server", Module.Category.CLIENT, false, false, true);
         instance = this;
     }
 
