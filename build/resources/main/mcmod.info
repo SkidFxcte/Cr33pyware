@@ -1,0 +1,17 @@
+[
+  {
+    "modid": "creepyware",
+    "name": "Creepyware",
+    "description": "Meme client skid from oyvey creepy best pvper",
+    "version": "b0.2.0",
+    "mcversion": "1.12.2",
+    "logoFile": "creepy.png",
+    "url": "https://discord.gg/A7PHbf8wsU",
+    "updateUrl": "",
+    "authorList": [
+      "FaxHack™#1211", "Fxcte", "Kuro_Here", "Zapped", "SSLWasTaken"
+    ],
+    "screenshots": [],
+    "dependencies": []
+  }
+]

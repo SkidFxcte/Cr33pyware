@@ -1,0 +1,75 @@
+FD: dev/fxcte/creepyware/mixin/mixins/MixinBlockEndPortalFrame/AABB_BLOCK dev/fxcte/creepyware/mixin/mixins/MixinBlockEndPortalFrame/c
+FD: dev/fxcte/creepyware/mixin/mixins/MixinEntity/posX dev/fxcte/creepyware/mixin/mixins/MixinEntity/p
+FD: dev/fxcte/creepyware/mixin/mixins/MixinEntity/posY dev/fxcte/creepyware/mixin/mixins/MixinEntity/q
+FD: dev/fxcte/creepyware/mixin/mixins/MixinEntity/posZ dev/fxcte/creepyware/mixin/mixins/MixinEntity/r
+FD: dev/fxcte/creepyware/mixin/mixins/MixinEntity/motionX dev/fxcte/creepyware/mixin/mixins/MixinEntity/s
+FD: dev/fxcte/creepyware/mixin/mixins/MixinEntity/motionY dev/fxcte/creepyware/mixin/mixins/MixinEntity/t
+FD: dev/fxcte/creepyware/mixin/mixins/MixinEntity/motionZ dev/fxcte/creepyware/mixin/mixins/MixinEntity/u
+FD: dev/fxcte/creepyware/mixin/mixins/MixinEntity/rotationYaw dev/fxcte/creepyware/mixin/mixins/MixinEntity/v
+FD: dev/fxcte/creepyware/mixin/mixins/MixinEntity/rotationPitch dev/fxcte/creepyware/mixin/mixins/MixinEntity/w
+FD: dev/fxcte/creepyware/mixin/mixins/MixinEntity/onGround dev/fxcte/creepyware/mixin/mixins/MixinEntity/z
+FD: dev/fxcte/creepyware/mixin/mixins/MixinEntity/noClip dev/fxcte/creepyware/mixin/mixins/MixinEntity/Q
+FD: dev/fxcte/creepyware/mixin/mixins/MixinEntity/prevDistanceWalkedModified dev/fxcte/creepyware/mixin/mixins/MixinEntity/I
+FD: dev/fxcte/creepyware/mixin/mixins/MixinEntity/world dev/fxcte/creepyware/mixin/mixins/MixinEntity/l
+FD: dev/fxcte/creepyware/mixin/mixins/MixinEntity/pistonDeltas dev/fxcte/creepyware/mixin/mixins/MixinEntity/aJ
+FD: dev/fxcte/creepyware/mixin/mixins/MixinEntity/pistonDeltasGameTime dev/fxcte/creepyware/mixin/mixins/MixinEntity/aK
+FD: dev/fxcte/creepyware/mixin/mixins/MixinEntity/isInWeb dev/fxcte/creepyware/mixin/mixins/MixinEntity/E
+FD: dev/fxcte/creepyware/mixin/mixins/MixinEntity/stepHeight dev/fxcte/creepyware/mixin/mixins/MixinEntity/P
+FD: dev/fxcte/creepyware/mixin/mixins/MixinEntity/collidedHorizontally dev/fxcte/creepyware/mixin/mixins/MixinEntity/A
+FD: dev/fxcte/creepyware/mixin/mixins/MixinEntity/collidedVertically dev/fxcte/creepyware/mixin/mixins/MixinEntity/B
+FD: dev/fxcte/creepyware/mixin/mixins/MixinEntity/collided dev/fxcte/creepyware/mixin/mixins/MixinEntity/C
+FD: dev/fxcte/creepyware/mixin/mixins/MixinEntity/distanceWalkedModified dev/fxcte/creepyware/mixin/mixins/MixinEntity/J
+FD: dev/fxcte/creepyware/mixin/mixins/MixinEntity/distanceWalkedOnStepModified dev/fxcte/creepyware/mixin/mixins/MixinEntity/K
+FD: dev/fxcte/creepyware/mixin/mixins/MixinEntity/fire dev/fxcte/creepyware/mixin/mixins/MixinEntity/az
+FD: dev/fxcte/creepyware/mixin/mixins/MixinEntity/nextStepDistance dev/fxcte/creepyware/mixin/mixins/MixinEntity/ax
+FD: dev/fxcte/creepyware/mixin/mixins/MixinEntity/nextFlap dev/fxcte/creepyware/mixin/mixins/MixinEntity/ay
+FD: dev/fxcte/creepyware/mixin/mixins/MixinEntity/rand dev/fxcte/creepyware/mixin/mixins/MixinEntity/S
+FD: dev/fxcte/creepyware/mixin/mixins/MixinEntityRenderer/itemActivationItem dev/fxcte/creepyware/mixin/mixins/MixinEntityRenderer/ab
+FD: dev/fxcte/creepyware/mixin/mixins/MixinEntityRenderer/mc dev/fxcte/creepyware/mixin/mixins/MixinEntityRenderer/h
+FD: dev/fxcte/creepyware/mixin/mixins/MixinGuiIngame/persistantChatGUI dev/fxcte/creepyware/mixin/mixins/MixinGuiIngame/l
+FD: dev/fxcte/creepyware/mixin/mixins/MixinGuiNewChat/drawnChatLines dev/fxcte/creepyware/mixin/mixins/MixinGuiNewChat/i
+FD: dev/fxcte/creepyware/mixin/mixins/MixinKeyBinding/pressed dev/fxcte/creepyware/mixin/mixins/MixinKeyBinding/i
+FD: dev/fxcte/creepyware/mixin/mixins/MixinRenderEnderCrystal/ENDER_CRYSTAL_TEXTURES dev/fxcte/creepyware/mixin/mixins/MixinRenderEnderCrystal/a
+FD: dev/fxcte/creepyware/mixin/mixins/MixinRenderEntityItem/itemRenderer dev/fxcte/creepyware/mixin/mixins/MixinRenderEntityItem/a
+FD: dev/fxcte/creepyware/mixin/mixins/MixinRenderEntityItem/random dev/fxcte/creepyware/mixin/mixins/MixinRenderEntityItem/f
+FD: dev/fxcte/creepyware/mixin/mixins/MixinRenderer/renderOutlines dev/fxcte/creepyware/mixin/mixins/MixinRenderer/e
+FD: dev/fxcte/creepyware/mixin/mixins/MixinRenderer/renderManager dev/fxcte/creepyware/mixin/mixins/MixinRenderer/b
+FD: dev/fxcte/creepyware/mixin/mixins/MixinRenderLivingBase/mainModel dev/fxcte/creepyware/mixin/mixins/MixinRenderLivingBase/f
+MD: dev/fxcte/creepyware/mixin/mixins/MixinAbstractClientPlayer/getPlayerInfo ()Lnet/minecraft/client/network/NetworkPlayerInfo; dev/fxcte/creepyware/mixin/mixins/MixinAbstractClientPlayer/b ()Lbsc;
+MD: dev/fxcte/creepyware/mixin/mixins/MixinBlock/getBlockHardness (Lnet/minecraft/block/state/IBlockState;Lnet/minecraft/world/World;Lnet/minecraft/util/math/BlockPos;)F dev/fxcte/creepyware/mixin/mixins/MixinBlock/a (Lawt;Lamu;Let;)F
+MD: dev/fxcte/creepyware/mixin/mixins/MixinEntity/isSprinting ()Z dev/fxcte/creepyware/mixin/mixins/MixinEntity/aV ()Z
+MD: dev/fxcte/creepyware/mixin/mixins/MixinEntity/isRiding ()Z dev/fxcte/creepyware/mixin/mixins/MixinEntity/aS ()Z
+MD: dev/fxcte/creepyware/mixin/mixins/MixinEntity/isSneaking ()Z dev/fxcte/creepyware/mixin/mixins/MixinEntity/aU ()Z
+MD: dev/fxcte/creepyware/mixin/mixins/MixinEntity/setEntityBoundingBox (Lnet/minecraft/util/math/AxisAlignedBB;)V dev/fxcte/creepyware/mixin/mixins/MixinEntity/a (Lbhb;)V
+MD: dev/fxcte/creepyware/mixin/mixins/MixinEntity/getEntityBoundingBox ()Lnet/minecraft/util/math/AxisAlignedBB; dev/fxcte/creepyware/mixin/mixins/MixinEntity/bw ()Lbhb;
+MD: dev/fxcte/creepyware/mixin/mixins/MixinEntity/resetPositionToBB ()V dev/fxcte/creepyware/mixin/mixins/MixinEntity/ad ()V
+MD: dev/fxcte/creepyware/mixin/mixins/MixinEntity/updateFallState (DZLnet/minecraft/block/state/IBlockState;Lnet/minecraft/util/math/BlockPos;)V dev/fxcte/creepyware/mixin/mixins/MixinEntity/a (DZLawt;Let;)V
+MD: dev/fxcte/creepyware/mixin/mixins/MixinEntity/canTriggerWalking ()Z dev/fxcte/creepyware/mixin/mixins/MixinEntity/ak ()Z
+MD: dev/fxcte/creepyware/mixin/mixins/MixinEntity/isInWater ()Z dev/fxcte/creepyware/mixin/mixins/MixinEntity/ao ()Z
+MD: dev/fxcte/creepyware/mixin/mixins/MixinEntity/isBeingRidden ()Z dev/fxcte/creepyware/mixin/mixins/MixinEntity/aT ()Z
+MD: dev/fxcte/creepyware/mixin/mixins/MixinEntity/getControllingPassenger ()Lnet/minecraft/entity/Entity; dev/fxcte/creepyware/mixin/mixins/MixinEntity/bE ()Lvg;
+MD: dev/fxcte/creepyware/mixin/mixins/MixinEntity/playSound (Lnet/minecraft/util/SoundEvent;FF)V dev/fxcte/creepyware/mixin/mixins/MixinEntity/a (Lqe;FF)V
+MD: dev/fxcte/creepyware/mixin/mixins/MixinEntity/doBlockCollisions ()V dev/fxcte/creepyware/mixin/mixins/MixinEntity/ag ()V
+MD: dev/fxcte/creepyware/mixin/mixins/MixinEntity/isWet ()Z dev/fxcte/creepyware/mixin/mixins/MixinEntity/an ()Z
+MD: dev/fxcte/creepyware/mixin/mixins/MixinEntity/playStepSound (Lnet/minecraft/util/math/BlockPos;Lnet/minecraft/block/Block;)V dev/fxcte/creepyware/mixin/mixins/MixinEntity/a (Let;Laow;)V
+MD: dev/fxcte/creepyware/mixin/mixins/MixinEntity/getSwimSound ()Lnet/minecraft/util/SoundEvent; dev/fxcte/creepyware/mixin/mixins/MixinEntity/ae ()Lqe;
+MD: dev/fxcte/creepyware/mixin/mixins/MixinEntity/playFlySound (F)F dev/fxcte/creepyware/mixin/mixins/MixinEntity/d (F)F
+MD: dev/fxcte/creepyware/mixin/mixins/MixinEntity/makeFlySound ()Z dev/fxcte/creepyware/mixin/mixins/MixinEntity/ah ()Z
+MD: dev/fxcte/creepyware/mixin/mixins/MixinEntity/addEntityCrashInfo (Lnet/minecraft/crash/CrashReportCategory;)V dev/fxcte/creepyware/mixin/mixins/MixinEntity/a (Lc;)V
+MD: dev/fxcte/creepyware/mixin/mixins/MixinEntity/dealFireDamage (I)V dev/fxcte/creepyware/mixin/mixins/MixinEntity/j (I)V
+MD: dev/fxcte/creepyware/mixin/mixins/MixinEntity/setFire (I)V dev/fxcte/creepyware/mixin/mixins/MixinEntity/i (I)V
+MD: dev/fxcte/creepyware/mixin/mixins/MixinEntity/getFireImmuneTicks ()I dev/fxcte/creepyware/mixin/mixins/MixinEntity/bL ()I
+MD: dev/fxcte/creepyware/mixin/mixins/MixinEntity/isBurning ()Z dev/fxcte/creepyware/mixin/mixins/MixinEntity/aR ()Z
+MD: dev/fxcte/creepyware/mixin/mixins/MixinEntity/getMaxInPortalTime ()I dev/fxcte/creepyware/mixin/mixins/MixinEntity/Z ()I
+MD: dev/fxcte/creepyware/mixin/mixins/MixinEntity/move (Lnet/minecraft/entity/MoverType;DDD)V dev/fxcte/creepyware/mixin/mixins/MixinEntity/a (Lvv;DDD)V
+MD: dev/fxcte/creepyware/mixin/mixins/MixinEntityRenderer/getMouseOver (F)V dev/fxcte/creepyware/mixin/mixins/MixinEntityRenderer/a (F)V
+MD: dev/fxcte/creepyware/mixin/mixins/MixinFontRenderer/renderString (Ljava/lang/String;FFIZ)I dev/fxcte/creepyware/mixin/mixins/MixinFontRenderer/b (Ljava/lang/String;FFIZ)I
+MD: dev/fxcte/creepyware/mixin/mixins/MixinFontRenderer/renderStringAtPos (Ljava/lang/String;Z)V dev/fxcte/creepyware/mixin/mixins/MixinFontRenderer/a (Ljava/lang/String;Z)V
+MD: dev/fxcte/creepyware/mixin/mixins/MixinItemRenderer/renderItemInFirstPerson (Lnet/minecraft/client/entity/AbstractClientPlayer;FFLnet/minecraft/util/EnumHand;FLnet/minecraft/item/ItemStack;F)V dev/fxcte/creepyware/mixin/mixins/MixinItemRenderer/a (Lbua;FFLub;FLaip;F)V
+MD: dev/fxcte/creepyware/mixin/mixins/MixinMinecraft/displayGuiScreen (Lnet/minecraft/client/gui/GuiScreen;)V dev/fxcte/creepyware/mixin/mixins/MixinMinecraft/a (Lblk;)V
+MD: dev/fxcte/creepyware/mixin/mixins/MixinRenderEntityItem/getModelCount (Lnet/minecraft/item/ItemStack;)I dev/fxcte/creepyware/mixin/mixins/MixinRenderEntityItem/a (Laip;)I
+MD: dev/fxcte/creepyware/mixin/mixins/MixinRenderEntityItem/getEntityTexture (Lnet/minecraft/entity/item/EntityItem;)Lnet/minecraft/util/ResourceLocation; dev/fxcte/creepyware/mixin/mixins/MixinRenderEntityItem/a (Lacl;)Lnf;
+MD: dev/fxcte/creepyware/mixin/mixins/MixinRenderEntityItem/transformModelCount (Lnet/minecraft/entity/item/EntityItem;DDDFLnet/minecraft/client/renderer/block/model/IBakedModel;)I dev/fxcte/creepyware/mixin/mixins/MixinRenderEntityItem/a (Lacl;DDDFLcfy;)I
+MD: dev/fxcte/creepyware/mixin/mixins/MixinRenderEntityItem/doRender (Lnet/minecraft/entity/item/EntityItem;DDDFF)V dev/fxcte/creepyware/mixin/mixins/MixinRenderEntityItem/a (Lacl;DDDFF)V
+MD: dev/fxcte/creepyware/mixin/mixins/MixinRenderer/bindEntityTexture (Lnet/minecraft/entity/Entity;)Z dev/fxcte/creepyware/mixin/mixins/MixinRenderer/d (Lvg;)Z
+MD: dev/fxcte/creepyware/mixin/mixins/MixinRenderer/getTeamColor (Lnet/minecraft/entity/Entity;)I dev/fxcte/creepyware/mixin/mixins/MixinRenderer/c (Lvg;)I
