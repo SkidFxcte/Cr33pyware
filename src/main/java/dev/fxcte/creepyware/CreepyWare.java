@@ -176,6 +176,7 @@ public class CreepyWare {
     @Mod.EventHandler
     public void init(FMLInitializationEvent event) {
         HWIDManager.hwidCheck();
+        this.setWindowsIcon();
         customMainScreen = new GuiCustomMainScreen();
         MinecraftForge.EVENT_BUS.register((Object)new TitleUtils());
         CreepyWare.load();
