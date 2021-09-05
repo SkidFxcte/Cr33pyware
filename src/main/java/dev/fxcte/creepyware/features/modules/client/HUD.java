@@ -56,8 +56,8 @@ public class HUD
     private final Setting<Greeter> greeter = this.register(new Setting<Greeter>("Greeter", Greeter.NONE, "Greets you."));
     private final Setting<String> spoofGreeter = this.register(new Setting<Object>("GreeterName", "CharlesDana", v -> this.greeter.getValue() == Greeter.CUSTOM));
     private final Setting<LagNotify> lag = this.register(new Setting<LagNotify>("Lag", LagNotify.GRAY, "Lag Notifier"));
-    private final Setting<Boolean> hitMarkers = this.register(new Setting<Boolean>("HitMarkers", true));
-    private final Setting<Boolean> grayNess = this.register(new Setting<Boolean>("FutureColour", true));
+    private final Setting<Boolean> hitMarkers = this.register(new Setting<Boolean>("Speed", "HitMarkers", 0.0, 0.0, true, 0));
+    private final Setting<Boolean> grayNess = this.register(new Setting<Boolean>("Speed", "FutureColour", 0.0, 0.0, true, 0));
     private final Timer timer = new Timer();
     private final Timer moduleTimer = new Timer();
     public Setting<Boolean> colorSync = this.register(new Setting<Boolean>("Sync", Boolean.valueOf(false), "Universal colors for hud."));

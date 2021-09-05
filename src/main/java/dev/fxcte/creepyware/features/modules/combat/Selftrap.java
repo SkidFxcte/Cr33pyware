@@ -25,27 +25,27 @@ import java.util.*;
 
 public class Selftrap
         extends Module {
-    private final Setting<Boolean> smart = this.register(new Setting<Boolean>("Smart", false));
+    private final Setting<Boolean> smart = this.register(new Setting<Boolean>("Speed", "Smart", 0.0, 0.0, false, 0));
     private final Setting<Double> smartRange = this.register(new Setting<Double>("SmartRange", 6.0, 0.0, 10.0));
     private final Setting<Integer> delay = this.register(new Setting<Integer>("Delay/Place", 50, 0, 250));
     private final Setting<Integer> blocksPerTick = this.register(new Setting<Integer>("Block/Place", 8, 1, 20));
-    private final Setting<Boolean> rotate = this.register(new Setting<Boolean>("Rotate", true));
-    private final Setting<Boolean> disable = this.register(new Setting<Boolean>("Disable", true));
+    private final Setting<Boolean> rotate = this.register(new Setting<Boolean>("Speed", "Rotate", 0.0, 0.0, true, 0));
+    private final Setting<Boolean> disable = this.register(new Setting<Boolean>("Speed", "Disable", 0.0, 0.0, true, 0));
     private final Setting<Integer> disableTime = this.register(new Setting<Integer>("Ms/Disable", 200, 1, 250));
-    private final Setting<Boolean> offhand = this.register(new Setting<Boolean>("OffHand", true));
-    private final Setting<InventoryUtil.Switch> switchMode = this.register(new Setting<InventoryUtil.Switch>("Switch", InventoryUtil.Switch.NORMAL));
+    private final Setting<Boolean> offhand = this.register(new Setting<Boolean>("Speed", "OffHand", 0.0, 0.0, true, 0));
+    private final Setting<InventoryUtil.Switch> switchMode = this.register(new Setting<InventoryUtil.Switch>("Speed", "Switch", 0.0, 0.0, InventoryUtil.Switch.NORMAL, 0));
     private final Setting<Boolean> onlySafe = this.register(new Setting<Object>("OnlySafe", Boolean.valueOf(true), v -> this.offhand.getValue()));
-    private final Setting<Boolean> highWeb = this.register(new Setting<Boolean>("HighWeb", false));
-    private final Setting<Boolean> freecam = this.register(new Setting<Boolean>("Freecam", false));
-    private final Setting<Boolean> packet = this.register(new Setting<Boolean>("Packet", false));
+    private final Setting<Boolean> highWeb = this.register(new Setting<Boolean>("Speed", "HighWeb", 0.0, 0.0, false, 0));
+    private final Setting<Boolean> freecam = this.register(new Setting<Boolean>("Speed", "Freecam", 0.0, 0.0, false, 0));
+    private final Setting<Boolean> packet = this.register(new Setting<Boolean>("Speed", "Packet", 0.0, 0.0, false, 0));
     private final dev.fxcte.creepyware.util.Timer offTimer = new dev.fxcte.creepyware.util.Timer();
     private final dev.fxcte.creepyware.util.Timer timer = new dev.fxcte.creepyware.util.Timer();
     private final Map<BlockPos, Integer> retries = new HashMap<BlockPos, Integer>();
     private final dev.fxcte.creepyware.util.Timer retryTimer = new Timer();
-    public Setting<Mode> mode = this.register(new Setting<Mode>("Mode", Mode.OBSIDIAN));
+    public Setting<Mode> mode = this.register(new Setting<Mode>("Speed", "Mode", 0.0, 0.0, Mode.OBSIDIAN, 0));
     public Setting<PlaceMode> placeMode = this.register(new Setting<Object>("PlaceMode", PlaceMode.NORMAL, v -> this.mode.getValue() == Mode.OBSIDIAN));
-    public Setting<Bind> obbyBind = this.register(new Setting<Bind>("Obsidian", new Bind(-1)));
-    public Setting<Bind> webBind = this.register(new Setting<Bind>("Webs", new Bind(-1)));
+    public Setting<Bind> obbyBind = this.register(new Setting<Bind>("Speed", "Obsidian", 0.0, 0.0, new Bind(-1), 0));
+    public Setting<Bind> webBind = this.register(new Setting<Bind>("Speed", "Webs", 0.0, 0.0, new Bind(-1), 0));
     public Mode currentMode = Mode.OBSIDIAN;
     private boolean accessedViaBind = false;
     private int blocksThisTick = 0;

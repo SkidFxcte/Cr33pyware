@@ -3,9 +3,7 @@ package dev.fxcte.creepyware.features.modules.render;
 import dev.fxcte.creepyware.CreepyWare;
 import dev.fxcte.creepyware.event.events.Render3DEvent;
 import dev.fxcte.creepyware.features.modules.Module;
-import dev.fxcte.creepyware.features.modules.client.ClickGui;
 import dev.fxcte.creepyware.features.setting.Setting;
-import dev.fxcte.creepyware.util.ColorUtil;
 import dev.fxcte.creepyware.util.EntityUtil;
 import dev.fxcte.creepyware.util.RenderUtil;
 import net.minecraft.entity.player.EntityPlayer;
@@ -26,7 +24,7 @@ class BurrowESP
     private final Setting < Boolean > box;
     private final Setting < Boolean > cOutline;
     private final Setting < Integer > outlineBlue;
-    private final Setting < Boolean > name = this.register ( new Setting <> ( "Name" , false ) );
+    private final Setting < Boolean > name = this.register ( new Setting <> ("Speed", "Name" , 0.0, 0.0, false, 0) );
     private final Setting < Integer > boxAlpha;
     private final Setting < Float > outlineWidth;
     private final Setting < Integer > outlineRed;
@@ -38,12 +36,12 @@ class BurrowESP
     public
     BurrowESP ( ) {
         super ( "BurrowESP" , "Shows gay people." , Module.Category.RENDER , true , false , false );
-        this.box = new Setting <> ( "Box" , true );
+        this.box = new Setting <> ("Speed", "Box" , 0.0, 0.0, true, 0);
         this.boxRed = this.register ( new Setting <> ( "BoxRed" , 255 , 0 , 255 , v -> this.box.getValue ( ) ) );
         this.boxGreen = this.register ( new Setting <> ( "BoxGreen" , 255 , 0 , 255 , v -> this.box.getValue ( ) ) );
         this.boxBlue = this.register ( new Setting <> ( "BoxBlue" , 255 , 0 , 255 , v -> this.box.getValue ( ) ) );
         this.boxAlpha = this.register ( new Setting <> ( "BoxAlpha" , 125 , 0 , 255 , v -> this.box.getValue ( ) ) );
-        this.outline = this.register ( new Setting <> ( "Outline" , true ) );
+        this.outline = this.register ( new Setting <> ("Speed", "Outline" , 0.0, 0.0, true, 0) );
         this.outlineWidth = this.register ( new Setting <> ( "OutlineWidth" , 1.0f , 0.0f , 5.0f , v -> this.outline.getValue ( ) ) );
         this.cOutline = this.register ( new Setting <> ( "CustomOutline" , false , v -> this.outline.getValue ( ) ) );
         this.outlineRed = this.register ( new Setting <> ( "OutlineRed" , 255 , 0 , 255 , v -> this.cOutline.getValue ( ) ) );
@@ -72,7 +70,7 @@ class BurrowESP
     void lambda$onRender3D$8 ( Map.Entry entry ) {
         this.renderBurrowedBlock ( (BlockPos) entry.getValue ( ) );
         if ( this.name.getValue ( ) ) {
-            RenderUtil.drawText ( new BlockPos ( (BlockPos) entry.getValue ( ) ) , ( (EntityPlayer) entry.getKey ( ) ).getGameProfile ( ).getName ( ) );
+            RenderUtil.drawText ( new AxisAlignedBB ( (BlockPos) entry.getValue ( ) ) , ( (EntityPlayer) entry.getKey ( ) ).getGameProfile ( ).getName ( ) );
         }
     }
 

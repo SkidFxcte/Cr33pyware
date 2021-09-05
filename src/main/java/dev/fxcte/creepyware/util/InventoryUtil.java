@@ -14,10 +14,7 @@ import net.minecraft.inventory.Slot;
 import net.minecraft.item.*;
 import net.minecraft.network.play.client.CPacketHeldItemChange;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public class InventoryUtil
@@ -210,6 +207,10 @@ public class InventoryUtil
             fullInventorySlots.put(current, mc.player.openContainer.getInventory().get(current));
         }
         return fullInventorySlots;
+    }
+
+    public static boolean isHolding(Item item) {
+        return mc.player.getHeldItemMainhand().getItem().equals(item) || mc.player.getHeldItemOffhand().getItem().equals(item);
     }
 
     public static boolean[] switchItem(boolean back, int lastHotbarSlot, boolean switchedItem, Switch mode, Class clazz) {

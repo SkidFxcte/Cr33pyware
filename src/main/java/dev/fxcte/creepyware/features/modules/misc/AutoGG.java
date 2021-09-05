@@ -26,12 +26,12 @@ import java.util.concurrent.ConcurrentHashMap;
 public class AutoGG
         extends Module {
     private static final String path = "creepyware/autogg.txt";
-    private final Setting<Boolean> onOwnDeath = this.register(new Setting<Boolean>("OwnDeath", false));
-    private final Setting<Boolean> greentext = this.register(new Setting<Boolean>("Greentext", false));
-    private final Setting<Boolean> loadFiles = this.register(new Setting<Boolean>("LoadFiles", false));
+    private final Setting<Boolean> onOwnDeath = this.register(new Setting<Boolean>("Speed", "OwnDeath", 0.0, 0.0, false, 0));
+    private final Setting<Boolean> greentext = this.register(new Setting<Boolean>("Speed", "Greentext", 0.0, 0.0, false, 0));
+    private final Setting<Boolean> loadFiles = this.register(new Setting<Boolean>("Speed", "LoadFiles", 0.0, 0.0, false, 0));
     private final Setting<Integer> targetResetTimer = this.register(new Setting<Integer>("Reset", 30, 0, 90));
     private final Setting<Integer> delay = this.register(new Setting<Integer>("Delay", 10, 0, 30));
-    private final Setting<Boolean> test = this.register(new Setting<Boolean>("Test", false));
+    private final Setting<Boolean> test = this.register(new Setting<Boolean>("Speed", "Test", 0.0, 0.0, false, 0));
     public Map<EntityPlayer, Integer> targets = new ConcurrentHashMap<EntityPlayer, Integer>();
     public List<String> messages = new ArrayList<String>();
     public EntityPlayer cauraTarget;

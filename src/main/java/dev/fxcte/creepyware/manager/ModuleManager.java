@@ -42,7 +42,6 @@ public class ModuleManager
         this.modules.add(new HUD());
         this.modules.add(new Media());
         //combat
-        this.modules.add(new OyVeyAutoCrystal());
         this.modules.add(new Burrow());
         this.modules.add(new BowSpam());
         this.modules.add(new BowAim());
@@ -69,16 +68,18 @@ public class ModuleManager
         this.modules.add(new AutoRespawn());
         this.modules.add(new ToolTips());
         this.modules.add(new NoRotate());
+        this.modules.add(new Blink());
         this.modules.add(new AutoLog());
         this.modules.add(new AutoReconnect());
         this.modules.add(new Tracker());
-        this.modules.add(new Blink());
         this.modules.add(new RPC());
         this.modules.add(new AutoGG());
         this.modules.add(new NoHandShake());
+        this.modules.add(new NoSoundLag());
         this.modules.add(new FxcteSexDupe());
 
         //movement
+        this.modules.add(new Anchor());
         this.modules.add(new ReverseStep());
         this.modules.add(new Strafe());
         this.modules.add(new ElytraFlight());
@@ -106,9 +107,11 @@ public class ModuleManager
         this.modules.add(new Replenish());
         this.modules.add(new MCP());
         this.modules.add(new SilentXP());
+        this.modules.add(new EchestBP());
 
         //render
-        this.modules.add(new BurrowESP());
+        this.modules.add(new Nametags());
+        this.modules.add(new BreakingESP());
         this.modules.add(new HandChams());
         this.modules.add(new Aspect());
         this.modules.add(new ItemPhysics());
@@ -116,6 +119,7 @@ public class ModuleManager
         this.modules.add(new StorageESP());
         this.modules.add(new CameraClip());
         this.modules.add(new Chams());
+        this.modules.add(new BurrowESP());
         this.modules.add(new ESP());
         this.modules.add(new HoleESP());
         this.modules.add(new PopChams());
@@ -123,6 +127,7 @@ public class ModuleManager
         this.modules.add(new Trajectories());
         this.modules.add(new LogoutSpots());
         this.modules.add(new XRay());
+        this.modules.add(new SkyColor());
         this.modules.add(new VoidESP());
         this.modules.add(new CrystalScale());
         this.modules.add(new NoRender());
@@ -130,7 +135,6 @@ public class ModuleManager
         this.modules.add(new Fullbright());
         this.modules.add(new PenisESP());
 
-        this.moduleColorMap.put ( this.getModuleByClass ( BurrowESP.class ) , new Color ( 96 , 138 , 92 ) );
         this.moduleColorMap.put(this.getModuleByClass(AntiTrap.class), new Color(128, 53, 69));
         this.moduleColorMap.put(this.getModuleByClass(AutoCrystal.class), new Color(255, 15, 43));
         this.moduleColorMap.put(this.getModuleByClass(AutoTrap.class), new Color(193, 49, 244));

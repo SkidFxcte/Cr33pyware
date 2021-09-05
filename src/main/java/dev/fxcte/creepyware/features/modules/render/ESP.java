@@ -25,25 +25,25 @@ import java.awt.*;
 public class ESP
         extends Module {
     private static ESP INSTANCE = new ESP();
-    private final Setting<Mode> mode = this.register(new Setting<Mode>("Mode", Mode.OUTLINE));
-    private final Setting<Boolean> colorSync = this.register(new Setting<Boolean>("Sync", false));
-    private final Setting<Boolean> players = this.register(new Setting<Boolean>("Players", true));
-    private final Setting<Boolean> animals = this.register(new Setting<Boolean>("Animals", false));
-    private final Setting<Boolean> mobs = this.register(new Setting<Boolean>("Mobs", false));
-    private final Setting<Boolean> items = this.register(new Setting<Boolean>("Items", false));
-    private final Setting<Boolean> xporbs = this.register(new Setting<Boolean>("XpOrbs", false));
-    private final Setting<Boolean> xpbottles = this.register(new Setting<Boolean>("XpBottles", false));
-    private final Setting<Boolean> pearl = this.register(new Setting<Boolean>("Pearls", false));
+    private final Setting<Mode> mode = this.register(new Setting<Mode>("Speed", "Mode", 0.0, 0.0, Mode.OUTLINE, 0));
+    private final Setting<Boolean> colorSync = this.register(new Setting<Boolean>("Speed", "Sync", 0.0, 0.0, false, 0));
+    private final Setting<Boolean> players = this.register(new Setting<Boolean>("Speed", "Players", 0.0, 0.0, true, 0));
+    private final Setting<Boolean> animals = this.register(new Setting<Boolean>("Speed", "Animals", 0.0, 0.0, false, 0));
+    private final Setting<Boolean> mobs = this.register(new Setting<Boolean>("Speed", "Mobs", 0.0, 0.0, false, 0));
+    private final Setting<Boolean> items = this.register(new Setting<Boolean>("Speed", "Items", 0.0, 0.0, false, 0));
+    private final Setting<Boolean> xporbs = this.register(new Setting<Boolean>("Speed", "XpOrbs", 0.0, 0.0, false, 0));
+    private final Setting<Boolean> xpbottles = this.register(new Setting<Boolean>("Speed", "XpBottles", 0.0, 0.0, false, 0));
+    private final Setting<Boolean> pearl = this.register(new Setting<Boolean>("Speed", "Pearls", 0.0, 0.0, false, 0));
     private final Setting<Integer> red = this.register(new Setting<Integer>("Red", 255, 0, 255));
     private final Setting<Integer> green = this.register(new Setting<Integer>("Green", 255, 0, 255));
     private final Setting<Integer> blue = this.register(new Setting<Integer>("Blue", 255, 0, 255));
     private final Setting<Integer> boxAlpha = this.register(new Setting<Integer>("BoxAlpha", 120, 0, 255));
     private final Setting<Integer> alpha = this.register(new Setting<Integer>("Alpha", 255, 0, 255));
     private final Setting<Float> lineWidth = this.register(new Setting<Float>("LineWidth", Float.valueOf(2.0f), Float.valueOf(0.1f), Float.valueOf(5.0f)));
-    private final Setting<Boolean> colorFriends = this.register(new Setting<Boolean>("Friends", true));
-    private final Setting<Boolean> self = this.register(new Setting<Boolean>("Self", true));
-    private final Setting<Boolean> onTop = this.register(new Setting<Boolean>("onTop", true));
-    private final Setting<Boolean> invisibles = this.register(new Setting<Boolean>("Invisibles", false));
+    private final Setting<Boolean> colorFriends = this.register(new Setting<Boolean>("Speed", "Friends", 0.0, 0.0, true, 0));
+    private final Setting<Boolean> self = this.register(new Setting<Boolean>("Speed", "Self", 0.0, 0.0, true, 0));
+    private final Setting<Boolean> onTop = this.register(new Setting<Boolean>("Speed", "onTop", 0.0, 0.0, true, 0));
+    private final Setting<Boolean> invisibles = this.register(new Setting<Boolean>("Speed", "Invisibles", 0.0, 0.0, false, 0));
 
     public ESP() {
         super("ESP", "Renders a nice ESP.", Module.Category.RENDER, false, false, false);

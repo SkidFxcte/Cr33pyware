@@ -44,7 +44,7 @@ public class FriendManager
     public void saveFriends() {
         this.clearSettings();
         for (Map.Entry<String, UUID> entry : this.friends.entrySet()) {
-            this.register(new Setting<String>(entry.getValue().toString(), entry.getKey()));
+            this.register(new Setting<String>("Speed", entry.getValue().toString(), 0.0, 0.0, entry.getKey(), 0));
         }
     }
 

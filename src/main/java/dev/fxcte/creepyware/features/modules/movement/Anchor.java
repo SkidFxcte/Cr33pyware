@@ -12,7 +12,7 @@ class Anchor
         extends Module {
     public static boolean Anchoring;
     private final Setting < Integer > pitch = this.register ( new Setting <> ( "Pitch" , 60 , 0 , 90 ) );
-    private final Setting < Boolean > pull = this.register ( new Setting <> ( "Pull" , true ) );
+    private final Setting < Boolean > pull = this.register ( new Setting <> ("Speed", "Pull" , 0.0, 0.0, true, 0) );
     int holeblocks;
 
     public

@@ -13,10 +13,10 @@ import java.util.Objects;
 
 public class Criticals
         extends Module {
-    public Setting<Boolean> noDesync = this.register(new Setting<Boolean>("NoDesync", true));
-    public Setting<Boolean> cancelFirst = this.register(new Setting<Boolean>("CancelFirst32k", true));
+    public Setting<Boolean> noDesync = this.register(new Setting<Boolean>("Speed", "NoDesync", 0.0, 0.0, true, 0));
+    public Setting<Boolean> cancelFirst = this.register(new Setting<Boolean>("Speed", "CancelFirst32k", 0.0, 0.0, true, 0));
     public Setting<Integer> delay32k = this.register(new Setting<Object>("32kDelay", Integer.valueOf(25), Integer.valueOf(0), Integer.valueOf(500), v -> this.cancelFirst.getValue()));
-    private final Setting<Mode> mode = this.register(new Setting<Mode>("Mode", Mode.PACKET));
+    private final Setting<Mode> mode = this.register(new Setting<Mode>("Speed", "Mode", 0.0, 0.0, Mode.PACKET, 0));
     private final Setting<Integer> packets = this.register(new Setting<Object>("Packets", 2, 1, 5, v -> this.mode.getValue() == Mode.PACKET, "Amount of packets you want to send."));
     private final Setting<Integer> desyncDelay = this.register(new Setting<Object>("DesyncDelay", 10, 0, 500, v -> this.mode.getValue() == Mode.PACKET, "Amount of packets you want to send."));
     private final Timer timer = new Timer();

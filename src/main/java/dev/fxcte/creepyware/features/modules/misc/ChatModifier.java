@@ -27,12 +27,12 @@ public class ChatModifier
     public Setting<Boolean> autoQMain = this.register(new Setting<Boolean>("AutoQMain", Boolean.valueOf(false), "Spams AutoQMain"));
     public Setting<Boolean> qNotification = this.register(new Setting<Object>("QNotification", Boolean.valueOf(false), v -> this.autoQMain.getValue()));
     public Setting<Integer> qDelay = this.register(new Setting<Object>("QDelay", Integer.valueOf(9), Integer.valueOf(1), Integer.valueOf(90), v -> this.autoQMain.getValue()));
-    public Setting<TextUtil.Color> timeStamps = this.register(new Setting<TextUtil.Color>("Time", TextUtil.Color.NONE));
+    public Setting<TextUtil.Color> timeStamps = this.register(new Setting<TextUtil.Color>("Speed", "Time", 0.0, 0.0, TextUtil.Color.NONE, 0));
     public Setting<Boolean> rainbowTimeStamps = this.register(new Setting<Object>("RainbowTimeStamps", Boolean.valueOf(false), v -> this.timeStamps.getValue() != TextUtil.Color.NONE));
     public Setting<TextUtil.Color> bracket = this.register(new Setting<Object>("Bracket", TextUtil.Color.WHITE, v -> this.timeStamps.getValue() != TextUtil.Color.NONE));
     public Setting<Boolean> space = this.register(new Setting<Object>("Space", Boolean.valueOf(true), v -> this.timeStamps.getValue() != TextUtil.Color.NONE));
     public Setting<Boolean> all = this.register(new Setting<Object>("All", Boolean.valueOf(false), v -> this.timeStamps.getValue() != TextUtil.Color.NONE));
-    public Setting<Boolean> shrug = this.register(new Setting<Boolean>("Shrug", false));
+    public Setting<Boolean> shrug = this.register(new Setting<Boolean>("Speed", "Shrug", 0.0, 0.0, false, 0));
 
     public ChatModifier() {
         super("ChatModifier", "Modifies your chat", Module.Category.MISC, true, false, false);

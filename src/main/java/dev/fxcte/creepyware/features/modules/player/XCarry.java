@@ -30,15 +30,15 @@ import java.util.concurrent.atomic.AtomicBoolean;
 public class XCarry
         extends Module {
     private static XCarry INSTANCE = new XCarry();
-    private final Setting<Boolean> simpleMode = this.register(new Setting<Boolean>("Simple", false));
-    private final Setting<Bind> autoStore = this.register(new Setting<Bind>("AutoDuel", new Bind(-1)));
+    private final Setting<Boolean> simpleMode = this.register(new Setting<Boolean>("Speed", "Simple", 0.0, 0.0, false, 0));
+    private final Setting<Bind> autoStore = this.register(new Setting<Bind>("Speed", "AutoDuel", 0.0, 0.0, new Bind(-1), 0));
     private final Setting<Integer> obbySlot = this.register(new Setting<Object>("ObbySlot", Integer.valueOf(2), Integer.valueOf(1), Integer.valueOf(9), v -> this.autoStore.getValue().getKey() != -1));
     private final Setting<Integer> slot1 = this.register(new Setting<Object>("Slot1", Integer.valueOf(22), Integer.valueOf(9), Integer.valueOf(44), v -> this.autoStore.getValue().getKey() != -1));
     private final Setting<Integer> slot2 = this.register(new Setting<Object>("Slot2", Integer.valueOf(23), Integer.valueOf(9), Integer.valueOf(44), v -> this.autoStore.getValue().getKey() != -1));
     private final Setting<Integer> slot3 = this.register(new Setting<Object>("Slot3", Integer.valueOf(24), Integer.valueOf(9), Integer.valueOf(44), v -> this.autoStore.getValue().getKey() != -1));
     private final Setting<Integer> tasks = this.register(new Setting<Object>("Actions", Integer.valueOf(3), Integer.valueOf(1), Integer.valueOf(12), v -> this.autoStore.getValue().getKey() != -1));
-    private final Setting<Boolean> store = this.register(new Setting<Boolean>("Store", false));
-    private final Setting<Boolean> shiftClicker = this.register(new Setting<Boolean>("ShiftClick", false));
+    private final Setting<Boolean> store = this.register(new Setting<Boolean>("Speed", "Store", 0.0, 0.0, false, 0));
+    private final Setting<Boolean> shiftClicker = this.register(new Setting<Boolean>("Speed", "ShiftClick", 0.0, 0.0, false, 0));
     private final Setting<Boolean> withShift = this.register(new Setting<Object>("WithShift", Boolean.valueOf(true), v -> this.shiftClicker.getValue()));
     private final Setting<Bind> keyBind = this.register(new Setting<Object>("ShiftBind", new Bind(-1), v -> this.shiftClicker.getValue()));
     private final AtomicBoolean guiNeedsClose = new AtomicBoolean(false);

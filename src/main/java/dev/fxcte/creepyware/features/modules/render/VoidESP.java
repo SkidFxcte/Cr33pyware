@@ -16,11 +16,11 @@ public class VoidESP
         extends Module {
     private final Setting<Float> radius = this.register(new Setting<Float>("Radius", Float.valueOf(8.0f), Float.valueOf(0.0f), Float.valueOf(50.0f)));
     private final Timer timer = new Timer();
-    public Setting<Boolean> air = this.register(new Setting<Boolean>("OnlyAir", true));
-    public Setting<Boolean> noEnd = this.register(new Setting<Boolean>("NoEnd", true));
-    public Setting<Boolean> box = this.register(new Setting<Boolean>("Box", true));
-    public Setting<Boolean> outline = this.register(new Setting<Boolean>("Outline", true));
-    public Setting<Boolean> colorSync = this.register(new Setting<Boolean>("Sync", false));
+    public Setting<Boolean> air = this.register(new Setting<Boolean>("Speed", "OnlyAir", 0.0, 0.0, true, 0));
+    public Setting<Boolean> noEnd = this.register(new Setting<Boolean>("Speed", "NoEnd", 0.0, 0.0, true, 0));
+    public Setting<Boolean> box = this.register(new Setting<Boolean>("Speed", "Box", 0.0, 0.0, true, 0));
+    public Setting<Boolean> outline = this.register(new Setting<Boolean>("Speed", "Outline", 0.0, 0.0, true, 0));
+    public Setting<Boolean> colorSync = this.register(new Setting<Boolean>("Speed", "Sync", 0.0, 0.0, false, 0));
     public Setting<Double> height = this.register(new Setting<Double>("Height", 0.0, -2.0, 2.0));
     public Setting<Boolean> customOutline = this.register(new Setting<Object>("CustomLine", Boolean.valueOf(false), v -> this.outline.getValue()));
     private final Setting<Integer> updates = this.register(new Setting<Integer>("Updates", 500, 0, 1000));

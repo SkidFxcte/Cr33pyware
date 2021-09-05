@@ -11,8 +11,8 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 public class XRay
         extends Module {
     private static XRay INSTANCE = new XRay();
-    public Setting<String> newBlock = this.register(new Setting<String>("NewBlock", "Add Block..."));
-    public Setting<Boolean> showBlocks = this.register(new Setting<Boolean>("ShowBlocks", false));
+    public Setting<String> newBlock = this.register(new Setting<String>("Speed", "NewBlock", 0.0, 0.0, "Add Block...", 0));
+    public Setting<Boolean> showBlocks = this.register(new Setting<Boolean>("Speed", "ShowBlocks", 0.0, 0.0, false, 0));
 
     public XRay() {
         super("XRay", "Lets you look through walls.", Module.Category.RENDER, false, false, true);

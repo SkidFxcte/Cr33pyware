@@ -24,21 +24,21 @@ import java.util.concurrent.CopyOnWriteArrayList;
 
 public class LogoutSpots
         extends Module {
-    private final Setting<Boolean> colorSync = this.register(new Setting<Boolean>("Sync", false));
+    private final Setting<Boolean> colorSync = this.register(new Setting<Boolean>("Speed", "Sync", 0.0, 0.0, false, 0));
     private final Setting<Integer> red = this.register(new Setting<Integer>("Red", 255, 0, 255));
     private final Setting<Integer> green = this.register(new Setting<Integer>("Green", 0, 0, 255));
     private final Setting<Integer> blue = this.register(new Setting<Integer>("Blue", 0, 0, 255));
     private final Setting<Integer> alpha = this.register(new Setting<Integer>("Alpha", 255, 0, 255));
-    private final Setting<Boolean> scaleing = this.register(new Setting<Boolean>("Scale", false));
+    private final Setting<Boolean> scaleing = this.register(new Setting<Boolean>("Speed", "Scale", 0.0, 0.0, false, 0));
     private final Setting<Float> scaling = this.register(new Setting<Float>("Size", Float.valueOf(4.0f), Float.valueOf(0.1f), Float.valueOf(20.0f)));
     private final Setting<Float> factor = this.register(new Setting<Object>("Factor", Float.valueOf(0.3f), Float.valueOf(0.1f), Float.valueOf(1.0f), v -> this.scaleing.getValue()));
     private final Setting<Boolean> smartScale = this.register(new Setting<Object>("SmartScale", Boolean.valueOf(false), v -> this.scaleing.getValue()));
-    private final Setting<Boolean> rect = this.register(new Setting<Boolean>("Rectangle", true));
-    private final Setting<Boolean> coords = this.register(new Setting<Boolean>("Coords", true));
-    private final Setting<Boolean> notification = this.register(new Setting<Boolean>("Notification", true));
+    private final Setting<Boolean> rect = this.register(new Setting<Boolean>("Speed", "Rectangle", 0.0, 0.0, true, 0));
+    private final Setting<Boolean> coords = this.register(new Setting<Boolean>("Speed", "Coords", 0.0, 0.0, true, 0));
+    private final Setting<Boolean> notification = this.register(new Setting<Boolean>("Speed", "Notification", 0.0, 0.0, true, 0));
     private final List<LogoutPos> spots = new CopyOnWriteArrayList<LogoutPos>();
     public Setting<Float> range = this.register(new Setting<Float>("Range", Float.valueOf(300.0f), Float.valueOf(50.0f), Float.valueOf(500.0f)));
-    public Setting<Boolean> message = this.register(new Setting<Boolean>("Message", false));
+    public Setting<Boolean> message = this.register(new Setting<Boolean>("Speed", "Message", 0.0, 0.0, false, 0));
 
     public LogoutSpots() {
         super("LogoutSpots", "Renders LogoutSpots", Module.Category.RENDER, true, false, false);

@@ -26,13 +26,13 @@ import org.lwjgl.input.Mouse;
 
 public class BowSpam
         extends Module {
-    public Setting<Mode> mode = this.register(new Setting<Mode>("Mode", Mode.FAST));
+    public Setting<Mode> mode = this.register(new Setting<Mode>("Speed", "Mode", 0.0, 0.0, Mode.FAST, 0));
     public Setting<Boolean> bowbomb = this.register(new Setting<Object>("BowBomb", Boolean.valueOf(false), v -> this.mode.getValue() != Mode.BOWBOMB));
     public Setting<Boolean> allowOffhand = this.register(new Setting<Object>("Offhand", Boolean.valueOf(true), v -> this.mode.getValue() != Mode.AUTORELEASE));
     public Setting<Integer> ticks = this.register(new Setting<Object>("Ticks", 3, 0, 20, v -> this.mode.getValue() == Mode.BOWBOMB || this.mode.getValue() == Mode.FAST, "Speed"));
     public Setting<Integer> delay = this.register(new Setting<Object>("Delay", 50, 0, 500, v -> this.mode.getValue() == Mode.AUTORELEASE, "Speed"));
-    public Setting<Boolean> tpsSync = this.register(new Setting<Boolean>("TpsSync", true));
-    public Setting<Boolean> autoSwitch = this.register(new Setting<Boolean>("AutoSwitch", false));
+    public Setting<Boolean> tpsSync = this.register(new Setting<Boolean>("Speed", "TpsSync", 0.0, 0.0, true, 0));
+    public Setting<Boolean> autoSwitch = this.register(new Setting<Boolean>("Speed", "AutoSwitch", 0.0, 0.0, false, 0));
     public Setting<Boolean> onlyWhenSave = this.register(new Setting<Object>("OnlyWhenSave", Boolean.valueOf(true), v -> this.autoSwitch.getValue()));
     public Setting<Target> targetMode = this.register(new Setting<Object>("Target", (Object)Target.LOWEST, v -> this.autoSwitch.getValue()));
     public Setting<Float> range = this.register(new Setting<Object>("Range", Float.valueOf(3.0f), Float.valueOf(0.0f), Float.valueOf(6.0f), v -> this.autoSwitch.getValue(), "Range of the target"));

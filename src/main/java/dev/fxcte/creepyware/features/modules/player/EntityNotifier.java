@@ -23,13 +23,13 @@ class EntityNotifier
     private final Set < Entity > llamas = new HashSet <> ( );
     private final Image image = Toolkit.getDefaultToolkit ( ).getImage ( "resources/creepy.png" );
     private final TrayIcon icon = new TrayIcon ( this.image , "Creepyware" );
-    public Setting < Boolean > Chat = this.register ( new Setting <> ( "Chat" , true ) );
-    public Setting < Boolean > Sound = this.register ( new Setting <> ( "Sound" , true ) );
-    public Setting < Boolean > Desktop = this.register ( new Setting <> ( "DesktopNotifs" , true ) );
-    public Setting < Boolean > Ghasts = this.register ( new Setting <> ( "Ghasts" , true ) );
-    public Setting < Boolean > Donkeys = this.register ( new Setting <> ( "Donkeys" , true ) );
-    public Setting < Boolean > Mules = this.register ( new Setting <> ( "Mules" , true ) );
-    public Setting < Boolean > Llamas = this.register ( new Setting <> ( "Llamas" , true ) );
+    public Setting < Boolean > Chat = this.register ( new Setting <> ("Speed", "Chat" , 0.0, 0.0, true, 0) );
+    public Setting < Boolean > Sound = this.register ( new Setting <> ("Speed", "Sound" , 0.0, 0.0, true, 0) );
+    public Setting < Boolean > Desktop = this.register ( new Setting <> ("Speed", "DesktopNotifs" , 0.0, 0.0, true, 0) );
+    public Setting < Boolean > Ghasts = this.register ( new Setting <> ("Speed", "Ghasts" , 0.0, 0.0, true, 0) );
+    public Setting < Boolean > Donkeys = this.register ( new Setting <> ("Speed", "Donkeys" , 0.0, 0.0, true, 0) );
+    public Setting < Boolean > Mules = this.register ( new Setting <> ("Speed", "Mules" , 0.0, 0.0, true, 0) );
+    public Setting < Boolean > Llamas = this.register ( new Setting <> ("Speed", "Llamas" , 0.0, 0.0, true, 0) );
 
     public
     EntityNotifier ( ) {

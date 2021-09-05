@@ -21,7 +21,7 @@ public class AutoReconnect
         INSTANCE = new AutoReconnect();
     }
 
-    private final Setting<Integer> delay = this.register(new Setting<Integer>("Delay", 5));
+    private final Setting<Integer> delay = this.register(new Setting<Integer>("Speed", "Delay", 0.0, 0.0, 5, 0));
 
     public AutoReconnect() {
         super("AutoReconnect", "Reconnects you if you disconnect.", Module.Category.MISC, true, false, false);

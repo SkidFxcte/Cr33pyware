@@ -19,7 +19,7 @@ public class Setting<T> {
     private String description;
     private Feature feature;
 
-    public Setting(String name, T defaultValue) {
+    public Setting(String speed, String name, double v1, double v, T defaultValue, int i) {
         this.name = name;
         this.defaultValue = defaultValue;
         this.value = defaultValue;

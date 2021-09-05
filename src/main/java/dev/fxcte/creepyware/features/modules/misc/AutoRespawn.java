@@ -9,9 +9,9 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
 public class AutoRespawn
         extends Module {
-    public Setting<Boolean> antiDeathScreen = this.register(new Setting<Boolean>("AntiDeathScreen", true));
-    public Setting<Boolean> deathCoords = this.register(new Setting<Boolean>("DeathCoords", false));
-    public Setting<Boolean> respawn = this.register(new Setting<Boolean>("Respawn", true));
+    public Setting<Boolean> antiDeathScreen = this.register(new Setting<Boolean>("Speed", "AntiDeathScreen", 0.0, 0.0, true, 0));
+    public Setting<Boolean> deathCoords = this.register(new Setting<Boolean>("Speed", "DeathCoords", 0.0, 0.0, false, 0));
+    public Setting<Boolean> respawn = this.register(new Setting<Boolean>("Speed", "Respawn", 0.0, 0.0, true, 0));
 
     public AutoRespawn() {
         super("AutoRespawn", "Respawns you when you die.", Module.Category.MISC, true, false, false);

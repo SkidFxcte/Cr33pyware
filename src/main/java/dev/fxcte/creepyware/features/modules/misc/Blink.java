@@ -1,77 +1,127 @@
 package dev.fxcte.creepyware.features.modules.misc;
 
-import dev.fxcte.creepyware.event.events.EventNetworkPacketEvent;
+import dev.fxcte.creepyware.event.events.PacketEvent;
 import dev.fxcte.creepyware.features.modules.Module;
 import dev.fxcte.creepyware.features.setting.Setting;
+import dev.fxcte.creepyware.util.MathUtil;
+import dev.fxcte.creepyware.util.Timer;
 import net.minecraft.client.entity.EntityOtherPlayerMP;
-import net.minecraft.entity.passive.EntityDonkey;
 import net.minecraft.network.Packet;
-import net.minecraft.network.play.client.CPacketConfirmTeleport;
-import net.minecraft.network.play.client.CPacketPlayer;
-import net.minecraft.network.play.client.CPacketVehicleMove;
+import net.minecraft.network.play.client.*;
+import net.minecraft.util.math.BlockPos;
+import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
-import java.util.LinkedList;
+import java.util.Queue;
+import java.util.concurrent.ConcurrentLinkedQueue;
 
-public class Blink extends Module {
-    public final Setting<Boolean> Visualize = new Setting("Visualize", true);
-    public final Setting<Boolean> EntityBlink = new Setting<Boolean>("EntityBlink", false);
+public
+class Blink
+        extends Module {
+    private static Blink INSTANCE = new Blink ( );
+    private final Timer timer = new Timer ( );
+    private final Queue < Packet < ? > > packets = new ConcurrentLinkedQueue <> ( );
+    public Setting < Boolean > cPacketPlayer = this.register ( new Setting <> ("Speed", "CPacketPlayer" , 0.0, 0.0, true, 0) );
+    public Setting < Mode > autoOff = this.register ( new Setting <> ("Speed", "AutoOff" , 0.0, 0.0, Mode.MANUAL, 0) );
+    public Setting < Integer > timeLimit = this.register ( new Setting < Object > ( "Time" , 20 , 1 , 500 , v -> this.autoOff.getValue ( ) == Mode.TIME ) );
+    public Setting < Integer > packetLimit = this.register ( new Setting < Object > ( "Packets" , 20 , 1 , 500 , v -> this.autoOff.getValue ( ) == Mode.PACKETS ) );
+    public Setting < Float > distance = this.register ( new Setting < Object > ( "Distance" , 10.0f , 1.0f , 100.0f , v -> this.autoOff.getValue ( ) == Mode.DISTANCE ) );
+    private EntityOtherPlayerMP entity;
+    private int packetsCanceled;
+    private BlockPos startPos;
 
-    public Blink() {
-        super("Blink", "BLINKL", Category.MISC, false, false, false);
+    public
+    Blink ( ) {
+        super ( "Blink" , "Fakelag." , Module.Category.PLAYER , true , false , false );
+        this.setInstance ( );
     }
 
-    private EntityOtherPlayerMP Original;
-    private EntityDonkey RidingEntity;
-    private LinkedList<Packet> Packets = new LinkedList<Packet>();
+    public static
+    Blink getInstance ( ) {
+        if ( INSTANCE == null ) {
+            INSTANCE = new Blink ( );
+        }
+        return INSTANCE;
+    }
+
+    private
+    void setInstance ( ) {
+        INSTANCE = this;
+    }
 
     @Override
-    public void onEnable() {
-        super.onEnable();
+    public
+    void onEnable ( ) {
+        if ( ! Blink.fullNullCheck ( ) ) {
+            this.entity = new EntityOtherPlayerMP ( Blink.mc.world , Blink.mc.session.getProfile ( ) );
+            this.entity.copyLocationAndAnglesFrom ( Blink.mc.player );
+            this.entity.rotationYaw = Blink.mc.player.rotationYaw;
+            this.entity.rotationYawHead = Blink.mc.player.rotationYawHead;
+            this.entity.inventory.copyInventory ( Blink.mc.player.inventory );
+            Blink.mc.world.addEntityToWorld ( 6942069 , this.entity );
+            this.startPos = Blink.mc.player.getPosition ( );
+        } else {
+            this.disable ( );
+        }
+        this.packetsCanceled = 0;
+        this.timer.reset ( );
+    }
 
-        Packets.clear();
-        Original = null;
-        RidingEntity = null;
+    @Override
+    public
+    void onUpdate ( ) {
+        if ( Blink.nullCheck ( ) || this.autoOff.getValue ( ) == Mode.TIME && this.timer.passedS ( this.timeLimit.getValue ( ) ) || this.autoOff.getValue ( ) == Mode.DISTANCE && this.startPos != null && Blink.mc.player.getDistanceSq ( this.startPos ) >= MathUtil.square ( this.distance.getValue ( ) ) || this.autoOff.getValue ( ) == Mode.PACKETS && this.packetsCanceled >= this.packetLimit.getValue ( ) ) {
+            this.disable ( );
+        }
+    }
 
-        if (Visualize.getValue()) {
-            Original = new EntityOtherPlayerMP(mc.world, mc.session.getProfile());
-            Original.copyLocationAndAnglesFrom(mc.player);
-            Original.rotationYaw = mc.player.rotationYaw;
-            Original.rotationYawHead = mc.player.rotationYawHead;
-            Original.inventory.copyInventory(mc.player.inventory);
-            mc.world.addEntityToWorld(-0xFFFFF, Original);
+    @Override
+    public
+    void onLogout ( ) {
+        if ( this.isOn ( ) ) {
+            this.disable ( );
+        }
+    }
 
-            if (mc.player.isRiding() && mc.player.getRidingEntity() instanceof EntityDonkey) {
-                EntityDonkey l_Original = (EntityDonkey) mc.player.getRidingEntity();
-
-                RidingEntity = new EntityDonkey(mc.world);
-                RidingEntity.copyLocationAndAnglesFrom(l_Original);
-                RidingEntity.setChested(l_Original.hasChest());
-                mc.world.addEntityToWorld(-0xFFFFF + 1, RidingEntity);
-
-                Original.startRiding(RidingEntity, true);
+    @SubscribeEvent
+    public
+    void onSendPacket ( PacketEvent.Send event ) {
+        if ( event.getStage ( ) == 0 && Blink.mc.world != null && ! mc.isSingleplayer ( ) ) {
+            Object packet = event.getPacket ( );
+            if ( this.cPacketPlayer.getValue ( ) && packet instanceof CPacketPlayer ) {
+                event.setCanceled ( true );
+                this.packets.add ( (Packet < ? >) packet );
+                ++ this.packetsCanceled;
+            }
+            if ( ! this.cPacketPlayer.getValue ( ) ) {
+                if ( packet instanceof CPacketChatMessage || packet instanceof CPacketConfirmTeleport || packet instanceof CPacketKeepAlive || packet instanceof CPacketTabComplete || packet instanceof CPacketClientStatus ) {
+                    return;
+                }
+                this.packets.add ( (Packet < ? >) packet );
+                event.setCanceled ( true );
+                ++ this.packetsCanceled;
             }
         }
     }
 
     @Override
-    public void onDisable() {
-        super.onDisable();
-
-        if (!Packets.isEmpty() && mc.world != null) {
-            while (!Packets.isEmpty()) {
-                mc.getConnection().sendPacket(Packets.getFirst()); ///< front
-                Packets.removeFirst(); ///< pop
+    public
+    void onDisable ( ) {
+        if ( ! Blink.fullNullCheck ( ) ) {
+            Blink.mc.world.removeEntity ( this.entity );
+            while ( ! this.packets.isEmpty ( ) ) {
+                Blink.mc.player.connection.sendPacket ( this.packets.poll ( ) );
             }
         }
+        this.startPos = null;
+    }
 
-        if (Original != null) {
-            if (Original.isRiding())
-                Original.dismountRidingEntity();
+    public
+    enum Mode {
+        MANUAL,
+        TIME,
+        DISTANCE,
+        PACKETS
 
-            mc.world.removeEntity(Original);
-        }
-
-        if (RidingEntity != null)
-            mc.world.removeEntity(RidingEntity);
     }
 }
+

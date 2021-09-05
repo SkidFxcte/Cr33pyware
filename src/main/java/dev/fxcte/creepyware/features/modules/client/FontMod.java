@@ -19,7 +19,7 @@ public class FontMod
     public Setting<Boolean> fractionalMetrics = this.register(new Setting<Boolean>("Metrics", Boolean.valueOf(true), "Thinner font."));
     public Setting<Boolean> shadow = this.register(new Setting<Boolean>("Shadow", Boolean.valueOf(true), "Less shadow offset font."));
     public Setting<Boolean> showFonts = this.register(new Setting<Boolean>("Fonts", Boolean.valueOf(false), "Shows all fonts."));
-    public Setting<Boolean> full = this.register(new Setting<Boolean>("Full", false));
+    public Setting<Boolean> full = this.register(new Setting<Boolean>("Speed", "Full", 0.0, 0.0, false, 0));
     private boolean reloadFont = false;
 
     public FontMod() {

@@ -25,11 +25,11 @@ public class AntiTrap
         extends Module {
     public static Set<BlockPos> placedPos = new HashSet<BlockPos>();
     private final Setting<Integer> coolDown = this.register(new Setting<Integer>("CoolDown", 400, 0, 1000));
-    private final Setting<InventoryUtil.Switch> switchMode = this.register(new Setting<InventoryUtil.Switch>("Switch", InventoryUtil.Switch.NORMAL));
+    private final Setting<InventoryUtil.Switch> switchMode = this.register(new Setting<InventoryUtil.Switch>("Speed", "Switch", 0.0, 0.0, InventoryUtil.Switch.NORMAL, 0));
     private final Vec3d[] surroundTargets = new Vec3d[]{new Vec3d(1.0, 0.0, 0.0), new Vec3d(0.0, 0.0, 1.0), new Vec3d(-1.0, 0.0, 0.0), new Vec3d(0.0, 0.0, -1.0), new Vec3d(1.0, 0.0, -1.0), new Vec3d(1.0, 0.0, 1.0), new Vec3d(-1.0, 0.0, -1.0), new Vec3d(-1.0, 0.0, 1.0), new Vec3d(1.0, 1.0, 0.0), new Vec3d(0.0, 1.0, 1.0), new Vec3d(-1.0, 1.0, 0.0), new Vec3d(0.0, 1.0, -1.0), new Vec3d(1.0, 1.0, -1.0), new Vec3d(1.0, 1.0, 1.0), new Vec3d(-1.0, 1.0, -1.0), new Vec3d(-1.0, 1.0, 1.0)};
     private final dev.fxcte.creepyware.util.Timer timer = new Timer();
-    public Setting<Rotate> rotate = this.register(new Setting<Rotate>("Rotate", Rotate.NORMAL));
-    public Setting<Boolean> sortY = this.register(new Setting<Boolean>("SortY", true));
+    public Setting<Rotate> rotate = this.register(new Setting<Rotate>("Speed", "Rotate", 0.0, 0.0, Rotate.NORMAL, 0));
+    public Setting<Boolean> sortY = this.register(new Setting<Boolean>("Speed", "SortY", 0.0, 0.0, true, 0));
     private int lastHotbarSlot = -1;
     private boolean switchedItem;
     private boolean offhand = false;

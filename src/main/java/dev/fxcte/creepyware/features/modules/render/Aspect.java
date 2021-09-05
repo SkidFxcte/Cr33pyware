@@ -5,17 +5,19 @@ import dev.fxcte.creepyware.features.modules.Module;
 import dev.fxcte.creepyware.features.setting.Setting;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
-public class Aspect
+public
+class Aspect
         extends Module {
-    private Setting<Double> aspect;
+    public Setting < Float > aspect = this.register ( new Setting <> ( "Alpha" , 1.0f , 0.1f , 5.0f ) );
 
-    public Aspect() {
-        super("Aspect", "eeeeee", Module.Category.RENDER, true, false, false);
-        this.aspect = this.register(new Setting<Double>("Aspect", (double)Aspect.mc.displayWidth / (double)Aspect.mc.displayHeight, 0.0, 3.0));
+    public
+    Aspect ( ) {
+        super ( "Aspect" , "Cool." , Module.Category.RENDER , true , false , false );
     }
 
     @SubscribeEvent
-    public void onPerspectiveEvent(PerspectiveEvent event) {
-        event.setAspect(this.aspect.getValue().floatValue());
+    public
+    void onPerspectiveEvent ( PerspectiveEvent perspectiveEvent ) {
+        perspectiveEvent.setAspect ( this.aspect.getValue ( ) );
     }
 }

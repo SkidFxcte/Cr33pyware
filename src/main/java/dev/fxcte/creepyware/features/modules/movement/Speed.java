@@ -19,7 +19,7 @@ import java.util.Random;
 public class Speed
         extends Module {
     private static Speed INSTANCE = new Speed();
-    public Setting<Mode> mode = this.register(new Setting<Mode>("Mode", Mode.INSTANT));
+    public Setting<Mode> mode = this.register(new Setting<Mode>("Speed", "Mode", 0.0, 0.0, Mode.INSTANT, 0));
     public Setting<Boolean> strafeJump = this.register(new Setting<Object>("Jump", Boolean.valueOf(false), v -> this.mode.getValue() == Mode.INSTANT));
     public Setting<Boolean> noShake = this.register(new Setting<Object>("NoShake", Boolean.valueOf(true), v -> this.mode.getValue() != Mode.INSTANT));
     public Setting<Boolean> useTimer = this.register(new Setting<Object>("UseTimer", Boolean.valueOf(false), v -> this.mode.getValue() != Mode.INSTANT));

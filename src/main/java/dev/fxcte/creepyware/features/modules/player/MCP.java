@@ -13,9 +13,9 @@ import org.lwjgl.input.Mouse;
 
 public class MCP
         extends Module {
-    private final Setting<Mode> mode = this.register(new Setting<Mode>("Mode", Mode.MIDDLECLICK));
-    private final Setting<Boolean> stopRotation = this.register(new Setting<Boolean>("Rotation", true));
-    private final Setting<Boolean> antiFriend = this.register(new Setting<Boolean>("AntiFriend", true));
+    private final Setting<Mode> mode = this.register(new Setting<Mode>("Speed", "Mode", 0.0, 0.0, Mode.MIDDLECLICK, 0));
+    private final Setting<Boolean> stopRotation = this.register(new Setting<Boolean>("Speed", "Rotation", 0.0, 0.0, true, 0));
+    private final Setting<Boolean> antiFriend = this.register(new Setting<Boolean>("Speed", "AntiFriend", 0.0, 0.0, true, 0));
     private final Setting<Integer> rotation = this.register(new Setting<Object>("Delay", Integer.valueOf(10), Integer.valueOf(0), Integer.valueOf(100), v -> this.stopRotation.getValue()));
     private boolean clicked = false;
 

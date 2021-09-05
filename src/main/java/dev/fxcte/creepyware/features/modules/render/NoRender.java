@@ -52,12 +52,12 @@ public class NoRender
     public Setting<Boolean> bats = this.register(new Setting<Boolean>("Bats", Boolean.valueOf(false), "Removes bats."));
     public Setting<NoArmor> noArmor = this.register(new Setting<NoArmor>("NoArmor", NoArmor.NONE, "Doesnt Render Armor on players."));
     public Setting<Boolean> glint = this.register(new Setting<Object>("Glint", Boolean.valueOf(false), v -> this.noArmor.getValue() != NoArmor.NONE));
-    public Setting<Skylight> skylight = this.register(new Setting<Skylight>("Skylight", Skylight.NONE));
+    public Setting<Skylight> skylight = this.register(new Setting<Skylight>("Speed", "Skylight", 0.0, 0.0, Skylight.NONE, 0));
     public Setting<Boolean> barriers = this.register(new Setting<Boolean>("Barriers", Boolean.valueOf(false), "Barriers"));
     public Setting<Boolean> blocks = this.register(new Setting<Boolean>("Blocks", Boolean.valueOf(false), "Blocks"));
-    public Setting<Boolean> advancements = this.register(new Setting<Boolean>("Advancements", false));
-    public Setting<Boolean> pigmen = this.register(new Setting<Boolean>("Pigmen", false));
-    public Setting<Boolean> timeChange = this.register(new Setting<Boolean>("TimeChange", false));
+    public Setting<Boolean> advancements = this.register(new Setting<Boolean>("Speed", "Advancements", 0.0, 0.0, false, 0));
+    public Setting<Boolean> pigmen = this.register(new Setting<Boolean>("Speed", "Pigmen", 0.0, 0.0, false, 0));
+    public Setting<Boolean> timeChange = this.register(new Setting<Boolean>("Speed", "TimeChange", 0.0, 0.0, false, 0));
     public Setting<Integer> time = this.register(new Setting<Object>("Time", Integer.valueOf(0), Integer.valueOf(0), Integer.valueOf(23000), v -> this.timeChange.getValue()));
 
     public NoRender() {

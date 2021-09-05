@@ -12,11 +12,9 @@ import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.item.EntityXPOrb;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
+import net.minecraft.init.Items;
 import net.minecraft.network.Packet;
-import net.minecraft.network.play.client.CPacketAnimation;
-import net.minecraft.network.play.client.CPacketEntityAction;
-import net.minecraft.network.play.client.CPacketPlayer;
-import net.minecraft.network.play.client.CPacketPlayerTryUseItemOnBlock;
+import net.minecraft.network.play.client.*;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.NonNullList;
@@ -40,7 +38,7 @@ public class BlockUtil
 
     public static void faceVectorPacketInstant(Vec3d var0) {
         float[] var1 = RotationUtil.getLegitRotations(var0);
-        Wrapper.getPlayer().connection.sendPacket((Packet)new CPacketPlayer.Rotation(var1[0], var1[1], Wrapper.getPlayer().onGround));
+        Wrapper.getPlayer().connection.sendPacket((Packet) new CPacketPlayer.Rotation(var1[0], var1[1], Wrapper.getPlayer().onGround));
     }
 
     public static EnumFacing getFacing(BlockPos pos) {
@@ -343,14 +341,20 @@ public class BlockUtil
         Command.sendMessage(message + pos.getX() + "x, " + pos.getY() + "y, " + pos.getZ() + "z");
     }
 
-    public static void placeCrystalOnBlock(BlockPos pos, EnumHand hand, boolean swing, boolean exactHand) {
-        RayTraceResult result = mc.world.rayTraceBlocks(new Vec3d(mc.player.posX, mc.player.posY + (double) mc.player.getEyeHeight(), mc.player.posZ), new Vec3d((double) pos.getX() + 0.5, (double) pos.getY() - 0.5, (double) pos.getZ() + 0.5));
+    public static void placeCrystalOnBlock(BlockPos pos, EnumHand hand, boolean swing, boolean exactHand, boolean silent) {
+        RayTraceResult result = BlockUtil.mc.world.rayTraceBlocks(new Vec3d(BlockUtil.mc.player.posX, BlockUtil.mc.player.posY + (double) BlockUtil.mc.player.getEyeHeight(), BlockUtil.mc.player.posZ), new Vec3d((double) pos.getX() + 0.5, (double) pos.getY() - 0.5, (double) pos.getZ() + 0.5));
         EnumFacing facing = result == null || result.sideHit == null ? EnumFacing.UP : result.sideHit;
-        mc.player.connection.sendPacket(new CPacketPlayerTryUseItemOnBlock(pos, facing, hand, 0.0f, 0.0f, 0.0f));
-        if (swing) {
-            mc.player.connection.sendPacket(new CPacketAnimation(exactHand ? hand : EnumHand.MAIN_HAND));
-        }
+        int old = BlockUtil.mc.player.inventory.currentItem;
+        int crystal = InventoryUtil.getItemHotbar(Items.END_CRYSTAL);
+        if (hand == EnumHand.MAIN_HAND && silent && crystal != -1 && crystal != BlockUtil.mc.player.inventory.currentItem)
+            BlockUtil.mc.player.connection.sendPacket(new CPacketHeldItemChange(crystal));
+        BlockUtil.mc.player.connection.sendPacket(new CPacketPlayerTryUseItemOnBlock(pos, facing, hand, 0.0f, 0.0f, 0.0f));
+        if (hand == EnumHand.MAIN_HAND && silent && crystal != -1 && crystal != BlockUtil.mc.player.inventory.currentItem)
+            BlockUtil.mc.player.connection.sendPacket(new CPacketHeldItemChange(old));
+        if (swing)
+            BlockUtil.mc.player.connection.sendPacket(new CPacketAnimation(exactHand ? hand : EnumHand.MAIN_HAND));
     }
+
 
     public static BlockPos[] toBlockPos(Vec3d[] vec3ds) {
         BlockPos[] list = new BlockPos[vec3ds.length];

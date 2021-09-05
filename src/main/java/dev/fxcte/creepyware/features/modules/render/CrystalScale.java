@@ -20,16 +20,16 @@ import java.util.concurrent.ConcurrentHashMap;
 public class CrystalScale
         extends Module {
     public static CrystalScale INSTANCE;
-    public Setting<Boolean> animateScale = this.register(new Setting<Boolean>("AnimateScale", false));
-    public Setting<Boolean> chams = this.register(new Setting<Boolean>("Chams", false));
-    public Setting<Boolean> throughWalls = this.register(new Setting<Boolean>("ThroughWalls", true));
-    public Setting<Boolean> wireframeThroughWalls = this.register(new Setting<Boolean>("WireThroughWalls", true));
+    public Setting<Boolean> animateScale = this.register(new Setting<Boolean>("Speed", "AnimateScale", 0.0, 0.0, false, 0));
+    public Setting<Boolean> chams = this.register(new Setting<Boolean>("Speed", "Chams", 0.0, 0.0, false, 0));
+    public Setting<Boolean> throughWalls = this.register(new Setting<Boolean>("Speed", "ThroughWalls", 0.0, 0.0, true, 0));
+    public Setting<Boolean> wireframeThroughWalls = this.register(new Setting<Boolean>("Speed", "WireThroughWalls", 0.0, 0.0, true, 0));
     public Setting<Boolean> glint = this.register(new Setting<Object>("Glint", Boolean.valueOf(false), v -> this.chams.getValue()));
-    public Setting<Boolean> wireframe = this.register(new Setting<Boolean>("Wireframe", false));
+    public Setting<Boolean> wireframe = this.register(new Setting<Boolean>("Speed", "Wireframe", 0.0, 0.0, false, 0));
     public Setting<Float> scale = this.register(new Setting<Float>("Scale", Float.valueOf(1.0f), Float.valueOf(0.1f), Float.valueOf(10.0f)));
     public Setting<Float> lineWidth = this.register(new Setting<Float>("LineWidth", Float.valueOf(1.0f), Float.valueOf(0.1f), Float.valueOf(3.0f)));
-    public Setting<Boolean> colorSync = this.register(new Setting<Boolean>("Sync", false));
-    public Setting<Boolean> rainbow = this.register(new Setting<Boolean>("Rainbow", false));
+    public Setting<Boolean> colorSync = this.register(new Setting<Boolean>("Speed", "Sync", 0.0, 0.0, false, 0));
+    public Setting<Boolean> rainbow = this.register(new Setting<Boolean>("Speed", "Rainbow", 0.0, 0.0, false, 0));
     public Setting<Integer> saturation = this.register(new Setting<Object>("Saturation", Integer.valueOf(50), Integer.valueOf(0), Integer.valueOf(100), v -> this.rainbow.getValue()));
     public Setting<Integer> brightness = this.register(new Setting<Object>("Brightness", Integer.valueOf(100), Integer.valueOf(0), Integer.valueOf(100), v -> this.rainbow.getValue()));
     public Setting<Integer> speed = this.register(new Setting<Object>("Speed", Integer.valueOf(40), Integer.valueOf(1), Integer.valueOf(100), v -> this.rainbow.getValue()));

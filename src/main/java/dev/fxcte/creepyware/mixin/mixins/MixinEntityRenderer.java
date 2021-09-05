@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.annotation.Nullable;
 import dev.fxcte.creepyware.features.modules.client.Notifications;
-import dev.fxcte.creepyware.features.modules.player.Speedmine;
 import dev.fxcte.creepyware.features.modules.render.CameraClip;
 import dev.fxcte.creepyware.features.modules.render.NoRender;
 import net.minecraft.block.state.IBlockState;
@@ -103,17 +102,6 @@ public abstract class MixinEntityRenderer {
         if (NoRender.getInstance().isOn() && NoRender.getInstance().hurtcam.getValue().booleanValue()) {
             info.cancel();
         }
-    }
-
-    @Redirect(method={"getMouseOver"}, at=@At(value="INVOKE", target="Lnet/minecraft/client/multiplayer/WorldClient;getEntitiesInAABBexcluding(Lnet/minecraft/entity/Entity;Lnet/minecraft/util/math/AxisAlignedBB;Lcom/google/common/base/Predicate;)Ljava/util/List;"))
-    public List<Entity> getEntitiesInAABBexcludingHook(WorldClient worldClient, @Nullable Entity entityIn, AxisAlignedBB boundingBox, @Nullable Predicate<? super Entity> predicate) {
-        if (Speedmine.getInstance().isOn() && Speedmine.getInstance().noTrace.getValue().booleanValue() && (!Speedmine.getInstance().pickaxe.getValue().booleanValue() || this.mc.player.getHeldItemMainhand().getItem() instanceof ItemPickaxe)) {
-            return new ArrayList<Entity>();
-        }
-        if (Speedmine.getInstance().isOn() && Speedmine.getInstance().noTrace.getValue().booleanValue() && Speedmine.getInstance().noGapTrace.getValue().booleanValue() && this.mc.player.getHeldItemMainhand().getItem() == Items.GOLDEN_APPLE) {
-            return new ArrayList<Entity>();
-        }
-        return worldClient.getEntitiesInAABBexcluding(entityIn, boundingBox, predicate);
     }
 
     @ModifyVariable(method={"orientCamera"}, ordinal=3, at=@At(value="STORE", ordinal=0), require=1)

@@ -10,8 +10,8 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
 public class Fullbright
         extends Module {
-    public Setting<Mode> mode = this.register(new Setting<Mode>("Mode", Mode.GAMMA));
-    public Setting<Boolean> effects = this.register(new Setting<Boolean>("Effects", false));
+    public Setting<Mode> mode = this.register(new Setting<Mode>("Speed", "Mode", 0.0, 0.0, Mode.GAMMA, 0));
+    public Setting<Boolean> effects = this.register(new Setting<Boolean>("Speed", "Effects", 0.0, 0.0, false, 0));
     private float previousSetting = 1.0f;
 
     public Fullbright() {
