@@ -10,32 +10,32 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 public class Managers
         extends Module {
     private static Managers INSTANCE = new Managers();
-    public Setting<Boolean> betterFrames = this.register(new Setting<Boolean>("Speed", false));
-    public Setting<String> commandBracket = this.register(new Setting<String>("Speed", "<"));
-    public Setting<String> commandBracket2 = this.register(new Setting<String>("Speed", ">"));
-    public Setting<String> command = this.register(new Setting<String>("Speed", "CreepyWare"));
-    public Setting<Boolean> rainbowPrefix = this.register(new Setting<Boolean>("Speed", false));
-    public Setting<TextUtil.Color> bracketColor = this.register(new Setting<TextUtil.Color>("Speed", TextUtil.Color.BLUE));
-    public Setting<TextUtil.Color> commandColor = this.register(new Setting<TextUtil.Color>("Speed", TextUtil.Color.BLUE));
+    public Setting<Boolean> betterFrames = this.register(new Setting<Boolean>("Speed", "BetterMaxFPS", 0.0, 0.0, false, 0));
+    public Setting<String> commandBracket = this.register(new Setting<String>("Speed", "Bracket", 0.0, 0.0, "<", 0));
+    public Setting<String> commandBracket2 = this.register(new Setting<String>("Speed", "Bracket2", 0.0, 0.0, ">", 0));
+    public Setting<String> command = this.register(new Setting<String>("Speed", "Command", 0.0, 0.0, "CreepyWare", 0));
+    public Setting<Boolean> rainbowPrefix = this.register(new Setting<Boolean>("Speed", "RainbowPrefix", 0.0, 0.0, false, 0));
+    public Setting<TextUtil.Color> bracketColor = this.register(new Setting<TextUtil.Color>("Speed", "BColor", 0.0, 0.0, TextUtil.Color.BLUE, 0));
+    public Setting<TextUtil.Color> commandColor = this.register(new Setting<TextUtil.Color>("Speed", "CColor", 0.0, 0.0, TextUtil.Color.BLUE, 0));
     public Setting<Integer> betterFPS = this.register(new Setting<Object>("MaxFPS", Integer.valueOf(300), Integer.valueOf(30), Integer.valueOf(1000), v -> this.betterFrames.getValue()));
-    public Setting<Boolean> potions = this.register(new Setting<Boolean>("Speed", true));
+    public Setting<Boolean> potions = this.register(new Setting<Boolean>("Speed", "Potions", 0.0, 0.0, true, 0));
     public Setting<Integer> textRadarUpdates = this.register(new Setting<Integer>("TRUpdates", 500, 0, 1000));
     public Setting<Integer> respondTime = this.register(new Setting<Integer>("SeverTime", 500, 0, 1000));
     public Setting<Integer> moduleListUpdates = this.register(new Setting<Integer>("ALUpdates", 1000, 0, 1000));
     public Setting<Float> holeRange = this.register(new Setting<Float>("HoleRange", Float.valueOf(6.0f), Float.valueOf(1.0f), Float.valueOf(256.0f)));
     public Setting<Integer> holeUpdates = this.register(new Setting<Integer>("HoleUpdates", 100, 0, 1000));
     public Setting<Integer> holeSync = this.register(new Setting<Integer>("HoleSync", 10000, 1, 10000));
-    public Setting<Boolean> safety = this.register(new Setting<Boolean>("Speed", false));
+    public Setting<Boolean> safety = this.register(new Setting<Boolean>("Speed", "SafetyPlayer", 0.0, 0.0, false, 0));
     public Setting<Integer> safetyCheck = this.register(new Setting<Integer>("SafetyCheck", 50, 1, 150));
     public Setting<Integer> safetySync = this.register(new Setting<Integer>("SafetySync", 250, 1, 10000));
-    public Setting<ThreadMode> holeThread = this.register(new Setting<ThreadMode>("Speed", ThreadMode.WHILE));
-    public Setting<Boolean> speed = this.register(new Setting<Boolean>("Speed", true));
-    public Setting<Boolean> oneDot15 = this.register(new Setting<Boolean>("Speed", false));
-    public Setting<Boolean> tRadarInv = this.register(new Setting<Boolean>("Speed", true));
-    public Setting<Boolean> unfocusedCpu = this.register(new Setting<Boolean>("Speed", false));
+    public Setting<ThreadMode> holeThread = this.register(new Setting<ThreadMode>("Speed", "HoleThread", 0.0, 0.0, ThreadMode.WHILE, 0));
+    public Setting<Boolean> speed = this.register(new Setting<Boolean>("Speed", "Speed", 0.0, 0.0, true, 0));
+    public Setting<Boolean> oneDot15 = this.register(new Setting<Boolean>("Speed", "1.15", 0.0, 0.0, false, 0));
+    public Setting<Boolean> tRadarInv = this.register(new Setting<Boolean>("Speed", "TRadarInv", 0.0, 0.0, true, 0));
+    public Setting<Boolean> unfocusedCpu = this.register(new Setting<Boolean>("Speed", "UnfocusedCPU", 0.0, 0.0, false, 0));
     public Setting<Integer> cpuFPS = this.register(new Setting<Object>("UnfocusedFPS", Integer.valueOf(60), Integer.valueOf(1), Integer.valueOf(60), v -> this.unfocusedCpu.getValue()));
     public Setting<Integer> baritoneTimeOut = this.register(new Setting<Integer>("Baritone", 5, 1, 20));
-    public Setting<Boolean> oneChunk = this.register(new Setting<Boolean>("Speed", false));
+    public Setting<Boolean> oneChunk = this.register(new Setting<Boolean>("Speed", "OneChunk", 0.0, 0.0, false, 0));
 
     public Managers() {
         super("Management", "ClientManagement", Module.Category.CLIENT, false, false, true);

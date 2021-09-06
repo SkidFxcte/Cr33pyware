@@ -7,7 +7,7 @@ import dev.fxcte.creepyware.util.Util;
 public class Media
         extends Module {
     private static Media instance;
-    public final Setting<Boolean> changeOwn = this.register(new Setting<Boolean>("Speed", true));
+    public final Setting<Boolean> changeOwn = this.register(new Setting<Boolean>("Speed", "MyName", 0.0, 0.0, true, 0));
     public final Setting<String> ownName = this.register(new Setting<Object>("Name", "Name here...", v -> this.changeOwn.getValue()));
 
     public Media() {

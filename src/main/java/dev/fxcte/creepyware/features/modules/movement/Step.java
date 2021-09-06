@@ -10,9 +10,9 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 public class Step
         extends Module {
     private static Step instance;
-    public Setting<Boolean> vanilla = this.register(new Setting<Boolean>("Speed", false));
+    public Setting<Boolean> vanilla = this.register(new Setting<Boolean>("Speed", "Vanilla", 0.0, 0.0, false, 0));
     public Setting<Integer> stepHeight = this.register(new Setting<Integer>("Height", 2, 1, 2));
-    public Setting<Boolean> turnOff = this.register(new Setting<Boolean>("Speed", false));
+    public Setting<Boolean> turnOff = this.register(new Setting<Boolean>("Speed", "Disable", 0.0, 0.0, false, 0));
 
     public Step() {
         super("Step", "Allows you to step up blocks", Module.Category.MOVEMENT, true, false, false);

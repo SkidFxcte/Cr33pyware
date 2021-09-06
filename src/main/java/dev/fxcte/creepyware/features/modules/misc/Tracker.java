@@ -31,9 +31,9 @@ public class Tracker
     private static Tracker instance;
     private final Timer timer = new Timer();
     private final Set<BlockPos> manuallyPlaced = new HashSet<BlockPos>();
-    public Setting<TextUtil.Color> color = this.register(new Setting<TextUtil.Color>("Speed", TextUtil.Color.RED));
-    public Setting<Boolean> autoEnable = this.register(new Setting<Boolean>("Speed", false));
-    public Setting<Boolean> autoDisable = this.register(new Setting<Boolean>("Speed", true));
+    public Setting<TextUtil.Color> color = this.register(new Setting<TextUtil.Color>("Speed", "Color", 0.0, 0.0, TextUtil.Color.RED, 0));
+    public Setting<Boolean> autoEnable = this.register(new Setting<Boolean>("Speed", "AutoEnable", 0.0, 0.0, false, 0));
+    public Setting<Boolean> autoDisable = this.register(new Setting<Boolean>("Speed", "AutoDisable", 0.0, 0.0, true, 0));
     private EntityPlayer trackedPlayer;
     private int usedExp = 0;
     private int usedStacks = 0;

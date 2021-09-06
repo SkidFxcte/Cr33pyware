@@ -20,9 +20,9 @@ public class Module
         extends Feature {
     private final String description;
     private final Category category;
-    public Setting<Boolean> enabled = this.register(new Setting<Boolean>("Speed", false));
-    public Setting<Boolean> drawn = this.register(new Setting<Boolean>("Speed", true));
-    public Setting<Bind> bind = this.register(new Setting<Bind>("Speed", new Bind(-1)));
+    public Setting<Boolean> enabled = this.register(new Setting<Boolean>("Speed", "Enabled", 0.0, 0.0, false, 0));
+    public Setting<Boolean> drawn = this.register(new Setting<Boolean>("Speed", "Drawn", 0.0, 0.0, true, 0));
+    public Setting<Bind> bind = this.register(new Setting<Bind>("Speed", "Bind", 0.0, 0.0, new Bind(-1), 0));
     public Setting<String> displayName;
     public boolean hasListener;
     public boolean alwaysListening;
@@ -37,7 +37,7 @@ public class Module
 
     public Module(String name, String description, Category category, boolean hasListener, boolean hidden, boolean alwaysListening) {
         super(name);
-        this.displayName = this.register(new Setting<String>("Speed", name));
+        this.displayName = this.register(new Setting<String>("Speed", "DisplayName", 0.0, 0.0, name, 0));
         this.description = description;
         this.category = category;
         this.hasListener = hasListener;

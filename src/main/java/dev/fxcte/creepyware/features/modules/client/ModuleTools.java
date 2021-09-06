@@ -7,8 +7,8 @@ public class ModuleTools extends Module {
 
     private static ModuleTools INSTANCE;
 
-    public Setting<Notifier> notifier = register(new Setting("Speed", Notifier.FUTURE));
-    public Setting<PopNotifier> popNotifier = register(new Setting("Speed", PopNotifier.FUTURE));
+    public Setting<Notifier> notifier = register(new Setting("Speed", "ModuleNotifier", 0.0, 0.0, Notifier.FUTURE, 0));
+    public Setting<PopNotifier> popNotifier = register(new Setting("Speed", "PopNotifier", 0.0, 0.0, PopNotifier.FUTURE, 0));
 
     public ModuleTools() {
         super("ModuleTools", "Change settings", Module.Category.CLIENT, true, false, false);

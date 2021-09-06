@@ -24,10 +24,10 @@ public class AutoTrap
     public static boolean isPlacing = false;
     private final Setting<Integer> delay = this.register(new Setting<Integer>("Delay", 50, 0, 250));
     private final Setting<Integer> blocksPerPlace = this.register(new Setting<Integer>("BlocksPerTick", 8, 1, 30));
-    private final Setting<Boolean> rotate = this.register(new Setting<Boolean>("Speed", true));
-    private final Setting<Boolean> raytrace = this.register(new Setting<Boolean>("Speed", false));
-    private final Setting<Boolean> antiScaffold = this.register(new Setting<Boolean>("Speed", false));
-    private final Setting<Boolean> antiStep = this.register(new Setting<Boolean>("Speed", false));
+    private final Setting<Boolean> rotate = this.register(new Setting<Boolean>("Speed", "Rotate", 0.0, 0.0, true, 0));
+    private final Setting<Boolean> raytrace = this.register(new Setting<Boolean>("Speed", "Raytrace", 0.0, 0.0, false, 0));
+    private final Setting<Boolean> antiScaffold = this.register(new Setting<Boolean>("Speed", "AntiScaffold", 0.0, 0.0, false, 0));
+    private final Setting<Boolean> antiStep = this.register(new Setting<Boolean>("Speed", "AntiStep", 0.0, 0.0, false, 0));
     private final Timer timer = new Timer();
     private final Map<BlockPos, Integer> retries = new HashMap<BlockPos, Integer>();
     private final Timer retryTimer = new Timer();

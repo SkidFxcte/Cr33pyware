@@ -7,7 +7,7 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
 public class Sprint
         extends Module {
-    public Setting<Mode> mode = this.register(new Setting<Mode>("Speed", Mode.LEGIT));
+    public Setting<Mode> mode = this.register(new Setting<Mode>("Speed", "Mode", 0.0, 0.0, Mode.LEGIT, 0));
     private static Sprint INSTANCE = new Sprint();
 
     public Sprint() {

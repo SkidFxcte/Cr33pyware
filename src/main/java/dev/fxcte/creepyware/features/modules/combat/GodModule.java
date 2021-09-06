@@ -28,12 +28,12 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 public class GodModule
         extends Module {
     public Setting<Integer> rotations = this.register(new Setting<Integer>("Spoofs", 1, 1, 20));
-    public Setting<Boolean> rotate = this.register(new Setting<Boolean>("Speed", false));
-    public Setting<Boolean> render = this.register(new Setting<Boolean>("Speed", false));
-    public Setting<Boolean> antiIllegal = this.register(new Setting<Boolean>("Speed", true));
-    public Setting<Boolean> checkPos = this.register(new Setting<Boolean>("Speed", true));
-    public Setting<Boolean> oneDot15 = this.register(new Setting<Boolean>("Speed", false));
-    public Setting<Boolean> entitycheck = this.register(new Setting<Boolean>("Speed", false));
+    public Setting<Boolean> rotate = this.register(new Setting<Boolean>("Speed", "Rotate", 0.0, 0.0, false, 0));
+    public Setting<Boolean> render = this.register(new Setting<Boolean>("Speed", "Render", 0.0, 0.0, false, 0));
+    public Setting<Boolean> antiIllegal = this.register(new Setting<Boolean>("Speed", "AntiIllegal", 0.0, 0.0, true, 0));
+    public Setting<Boolean> checkPos = this.register(new Setting<Boolean>("Speed", "CheckPos", 0.0, 0.0, true, 0));
+    public Setting<Boolean> oneDot15 = this.register(new Setting<Boolean>("Speed", "1.15", 0.0, 0.0, false, 0));
+    public Setting<Boolean> entitycheck = this.register(new Setting<Boolean>("Speed", "EntityCheck", 0.0, 0.0, false, 0));
     public Setting<Integer> attacks = this.register(new Setting<Integer>("Attacks", 1, 1, 10));
     public Setting<Integer> delay = this.register(new Setting<Integer>("Delay", 0, 0, 50));
     private float yaw = 0.0f;

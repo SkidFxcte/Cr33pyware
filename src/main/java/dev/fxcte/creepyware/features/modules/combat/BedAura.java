@@ -21,9 +21,9 @@ public class BedAura
         extends Module {
     boolean moving = false;
     Setting<Double> range = this.register(new Setting<Double>("Range", 4.5, 0.0, 10.0));
-    Setting<Boolean> rotate = this.register(new Setting<Boolean>("Speed", true));
-    Setting<Boolean> dimensionCheck = this.register(new Setting<Boolean>("Speed", true));
-    Setting<Boolean> refill = this.register(new Setting<Boolean>("Speed", true));
+    Setting<Boolean> rotate = this.register(new Setting<Boolean>("Speed", "Rotate", 0.0, 0.0, true, 0));
+    Setting<Boolean> dimensionCheck = this.register(new Setting<Boolean>("Speed", "DimensionCheck", 0.0, 0.0, true, 0));
+    Setting<Boolean> refill = this.register(new Setting<Boolean>("Speed", "RefillBed", 0.0, 0.0, true, 0));
 
     public BedAura() {
         super("BedAura", "Fucked (Future)", Module.Category.COMBAT, true, false, false);

@@ -6,7 +6,8 @@ import net.minecraftforge.common.MinecraftForge;
 
 import java.util.function.Predicate;
 
-public class Setting<T> {
+public
+class Setting<T> {
     private final String name;
     private final T defaultValue;
     private T value;
@@ -27,13 +28,14 @@ public class Setting<T> {
         this.description = "";
     }
 
-    public Setting(String name, T defaultValue) {
+    public Setting(String name, T defaultValue, String description) {
         this.name = name;
         this.defaultValue = defaultValue;
         this.value = defaultValue;
         this.plannedValue = defaultValue;
         this.description = description;
     }
+
 
     public Setting(String name, T defaultValue, T min, T max, String description) {
         this.name = name;
@@ -263,5 +265,13 @@ public class Setting<T> {
             return true;
         }
         return this.visibility.test(this.getValue());
+    }
+
+    public Setting(String name, T defaultValue) {
+        this.name = name;
+        this.defaultValue = defaultValue;
+        this.value = defaultValue;
+        this.plannedValue = defaultValue;
+        this.description = "";
     }
 }

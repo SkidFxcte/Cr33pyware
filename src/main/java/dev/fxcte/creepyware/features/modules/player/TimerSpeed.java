@@ -7,9 +7,9 @@ import dev.fxcte.creepyware.util.Timer;
 
 public class TimerSpeed
         extends Module {
-    public Setting<Boolean> autoOff = this.register(new Setting<Boolean>("Speed", false));
+    public Setting<Boolean> autoOff = this.register(new Setting<Boolean>("Speed", "AutoOff", 0.0, 0.0, false, 0));
     public Setting<Integer> timeLimit = this.register(new Setting<Object>("Limit", Integer.valueOf(250), Integer.valueOf(1), Integer.valueOf(2500), v -> this.autoOff.getValue()));
-    public Setting<TimerMode> mode = this.register(new Setting<TimerMode>("Speed", TimerMode.NORMAL));
+    public Setting<TimerMode> mode = this.register(new Setting<TimerMode>("Speed", "Mode", 0.0, 0.0, TimerMode.NORMAL, 0));
     public Setting<Float> timerSpeed = this.register(new Setting<Float>("Speed", Float.valueOf(4.0f), Float.valueOf(0.1f), Float.valueOf(20.0f)));
     public Setting<Float> fastSpeed = this.register(new Setting<Object>("Fast", Float.valueOf(10.0f), Float.valueOf(0.1f), Float.valueOf(100.0f), v -> this.mode.getValue() == TimerMode.SWITCH, "Fast Speed for switch."));
     public Setting<Integer> fastTime = this.register(new Setting<Object>("FastTime", 20, 1, 500, v -> this.mode.getValue() == TimerMode.SWITCH, "How long you want to go fast.(ms * 10)"));

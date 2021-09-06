@@ -20,8 +20,8 @@ class Blink
     private static Blink INSTANCE = new Blink ( );
     private final Timer timer = new Timer ( );
     private final Queue < Packet < ? > > packets = new ConcurrentLinkedQueue <> ( );
-    public Setting < Boolean > cPacketPlayer = this.register ( new Setting <> ("Speed", true) );
-    public Setting < Mode > autoOff = this.register ( new Setting <> ("Speed", Mode.MANUAL) );
+    public Setting < Boolean > cPacketPlayer = this.register ( new Setting <> ("Speed", "CPacketPlayer" , 0.0, 0.0, true, 0) );
+    public Setting < Mode > autoOff = this.register ( new Setting <> ("Speed", "AutoOff" , 0.0, 0.0, Mode.MANUAL, 0) );
     public Setting < Integer > timeLimit = this.register ( new Setting < Object > ( "Time" , 20 , 1 , 500 , v -> this.autoOff.getValue ( ) == Mode.TIME ) );
     public Setting < Integer > packetLimit = this.register ( new Setting < Object > ( "Packets" , 20 , 1 , 500 , v -> this.autoOff.getValue ( ) == Mode.PACKETS ) );
     public Setting < Float > distance = this.register ( new Setting < Object > ( "Distance" , 10.0f , 1.0f , 100.0f , v -> this.autoOff.getValue ( ) == Mode.DISTANCE ) );

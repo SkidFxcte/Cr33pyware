@@ -70,7 +70,8 @@ class AutoCrystal
     private final Queue < CPacketUseEntity > packetUseEntities = new LinkedList <> ( );
     private final AtomicBoolean threadOngoing = new AtomicBoolean ( false );
     private final List < RenderPos > positions = new ArrayList <> ( );
-    private final Setting<Settings> setting = this.register(new Setting<Settings>("Settings", Settings.PLACE));
+    private final Setting < Settings > setting = this.register ( new Setting <> ( "Settings" , Settings.PLACE ) );
+    // PLACE SETTINGS
     public Setting < Boolean > place = this.register ( new Setting < Object > ( "Place" , Boolean.TRUE , v -> this.setting.getValue ( ) == Settings.PLACE ) );
     public Setting < Integer > placeDelay = this.register ( new Setting < Object > ( "PlaceDelay" , 25 , 0 , 500 , v -> this.setting.getValue ( ) == Settings.PLACE && this.place.getValue ( ) ) );
     public Setting < Float > placeRange = this.register ( new Setting < Object > ( "PlaceRange" , 6.0f , 0.0f , 10.0f , v -> this.setting.getValue ( ) == Settings.PLACE && this.place.getValue ( ) ) );

@@ -30,8 +30,8 @@ public class Burrow extends Module
     public Burrow() {
         super("Burrow", "TPs you into a block", Category.COMBAT, true, false, false);
         this.offset = (Setting<Integer>)this.register(new Setting("Offset", 3, (-10), 10));
-        this.rotate = (Setting<Boolean>)this.register(new Setting("Speed", false));
-        this.mode = (Setting<Mode>)this.register(new Setting("Speed", Mode.OBBY));
+        this.rotate = (Setting<Boolean>)this.register(new Setting("Speed", "Rotate", 0.0, 0.0, false, 0));
+        this.mode = (Setting<Mode>)this.register(new Setting("Speed", "Mode", 0.0, 0.0, Mode.OBBY, 0));
         this.oldSlot = -1;
         this.returnBlock = null;
     }
