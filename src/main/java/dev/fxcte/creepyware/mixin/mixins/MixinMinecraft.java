@@ -3,6 +3,7 @@ package dev.fxcte.creepyware.mixin.mixins;
 import javax.annotation.Nullable;
 import dev.fxcte.creepyware.CreepyWare;
 import dev.fxcte.creepyware.features.gui.custom.GuiCustomMainScreen;
+import dev.fxcte.creepyware.features.modules.client.MainMenu;
 import dev.fxcte.creepyware.features.modules.client.Managers;
 import dev.fxcte.creepyware.features.modules.player.MultiTask;
 import dev.fxcte.creepyware.features.modules.render.NoRender;
@@ -54,6 +55,12 @@ public abstract class MixinMinecraft {
             Display.sync((int)Managers.getInstance().betterFPS.getValue());
         } else {
             Display.sync((int)maxFps);
+        }
+    }
+    @Inject(method={"runTick()V"}, at={@At(value="RETURN")})
+    private void runTick(CallbackInfo callbackInfo) {
+        if (Minecraft.getMinecraft().currentScreen instanceof GuiMainMenu && MainMenu.INSTANCE.mainScreen.getValue().booleanValue()) {
+            Minecraft.getMinecraft().displayGuiScreen((GuiScreen)new GuiCustomMainScreen());
         }
     }
 
