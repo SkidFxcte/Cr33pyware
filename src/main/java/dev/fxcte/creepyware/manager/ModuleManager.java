@@ -42,7 +42,6 @@ public class ModuleManager
         this.modules.add(new HUD());
         this.modules.add(new Media());
         //combat
-        this.modules.add(new OyVeyAutoCrystal());
         this.modules.add(new Burrow());
         this.modules.add(new BowSpam());
         this.modules.add(new BowAim());

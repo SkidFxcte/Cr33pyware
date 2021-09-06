@@ -21,18 +21,18 @@ import java.util.Map;
 public class StorageESP
         extends Module {
     private final Setting<Float> range = this.register(new Setting<Float>("Range", Float.valueOf(50.0f), Float.valueOf(1.0f), Float.valueOf(300.0f)));
-    private final Setting<Boolean> colorSync = this.register(new Setting<Boolean>("Speed", "Sync", 0.0, 0.0, false, 0));
-    private final Setting<Boolean> chest = this.register(new Setting<Boolean>("Speed", "Chest", 0.0, 0.0, true, 0));
-    private final Setting<Boolean> dispenser = this.register(new Setting<Boolean>("Speed", "Dispenser", 0.0, 0.0, false, 0));
-    private final Setting<Boolean> shulker = this.register(new Setting<Boolean>("Speed", "Shulker", 0.0, 0.0, true, 0));
-    private final Setting<Boolean> echest = this.register(new Setting<Boolean>("Speed", "Ender Chest", 0.0, 0.0, true, 0));
-    private final Setting<Boolean> furnace = this.register(new Setting<Boolean>("Speed", "Furnace", 0.0, 0.0, false, 0));
-    private final Setting<Boolean> hopper = this.register(new Setting<Boolean>("Speed", "Hopper", 0.0, 0.0, false, 0));
-    private final Setting<Boolean> cart = this.register(new Setting<Boolean>("Speed", "Minecart", 0.0, 0.0, false, 0));
-    private final Setting<Boolean> frame = this.register(new Setting<Boolean>("Speed", "Item Frame", 0.0, 0.0, false, 0));
-    private final Setting<Boolean> box = this.register(new Setting<Boolean>("Speed", "Box", 0.0, 0.0, false, 0));
+    private final Setting<Boolean> colorSync = this.register(new Setting<Boolean>("Speed", false));
+    private final Setting<Boolean> chest = this.register(new Setting<Boolean>("Speed", true));
+    private final Setting<Boolean> dispenser = this.register(new Setting<Boolean>("Speed", false));
+    private final Setting<Boolean> shulker = this.register(new Setting<Boolean>("Speed", true));
+    private final Setting<Boolean> echest = this.register(new Setting<Boolean>("Speed", true));
+    private final Setting<Boolean> furnace = this.register(new Setting<Boolean>("Speed", false));
+    private final Setting<Boolean> hopper = this.register(new Setting<Boolean>("Speed", false));
+    private final Setting<Boolean> cart = this.register(new Setting<Boolean>("Speed", false));
+    private final Setting<Boolean> frame = this.register(new Setting<Boolean>("Speed", false));
+    private final Setting<Boolean> box = this.register(new Setting<Boolean>("Speed", false));
     private final Setting<Integer> boxAlpha = this.register(new Setting<Object>("BoxAlpha", Integer.valueOf(125), Integer.valueOf(0), Integer.valueOf(255), v -> this.box.getValue()));
-    private final Setting<Boolean> outline = this.register(new Setting<Boolean>("Speed", "Outline", 0.0, 0.0, true, 0));
+    private final Setting<Boolean> outline = this.register(new Setting<Boolean>("Speed", true));
     private final Setting<Float> lineWidth = this.register(new Setting<Object>("LineWidth", Float.valueOf(1.0f), Float.valueOf(0.1f), Float.valueOf(5.0f), v -> this.outline.getValue()));
 
     public StorageESP() {

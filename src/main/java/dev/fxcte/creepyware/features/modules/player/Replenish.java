@@ -21,8 +21,8 @@ public class Replenish
     private final Setting<Integer> replenishments = this.register(new Setting<Integer>("RUpdates", 0, 0, 1000));
     private final Setting<Integer> updates = this.register(new Setting<Integer>("HBUpdates", 100, 0, 1000));
     private final Setting<Integer> actions = this.register(new Setting<Integer>("Actions", 2, 1, 30));
-    private final Setting<Boolean> pauseInv = this.register(new Setting<Boolean>("Speed", "PauseInv", 0.0, 0.0, true, 0));
-    private final Setting<Boolean> putBack = this.register(new Setting<Boolean>("Speed", "PutBack", 0.0, 0.0, true, 0));
+    private final Setting<Boolean> pauseInv = this.register(new Setting<Boolean>("Speed", true));
+    private final Setting<Boolean> putBack = this.register(new Setting<Boolean>("Speed", true));
     private final Timer timer = new Timer();
     private final Timer replenishTimer = new Timer();
     private final Queue<InventoryUtil.Task> taskList = new ConcurrentLinkedQueue<InventoryUtil.Task>();

@@ -20,11 +20,11 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
 public class StashLogger
         extends Module {
-    private final Setting<Boolean> chests = this.register(new Setting<Boolean>("Speed", "Chests", 0.0, 0.0, true, 0));
+    private final Setting<Boolean> chests = this.register(new Setting<Boolean>("Speed", true));
     private final Setting<Integer> chestsValue = this.register(new Setting<Object>("ChestsValue", Integer.valueOf(4), Integer.valueOf(1), Integer.valueOf(30), v -> this.chests.getValue()));
-    private final Setting<Boolean> Shulkers = this.register(new Setting<Boolean>("Speed", "Shulkers", 0.0, 0.0, true, 0));
+    private final Setting<Boolean> Shulkers = this.register(new Setting<Boolean>("Speed", true));
     private final Setting<Integer> shulkersValue = this.register(new Setting<Object>("ShulkersValue", Integer.valueOf(4), Integer.valueOf(1), Integer.valueOf(30), v -> this.Shulkers.getValue()));
-    private final Setting<Boolean> writeToFile = this.register(new Setting<Boolean>("Speed", "CoordsSaver", 0.0, 0.0, true, 0));
+    private final Setting<Boolean> writeToFile = this.register(new Setting<Boolean>("Speed", true));
     File mainFolder;
     final Iterator<NBTTagCompound> iterator;
 

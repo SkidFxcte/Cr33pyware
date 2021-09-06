@@ -8,7 +8,7 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 public
 class ViewModel extends Module {
     private static ViewModel INSTANCE = new ViewModel ( );
-    public Setting < Settings > settings = this.register ( new Setting <> ("Speed", "Settings" , 0.0, 0.0, Settings.TRANSLATE, 0) );
+    public Setting < Settings > settings = this.register ( new Setting <> ("Speed", Settings.TRANSLATE) );
     public Setting < Boolean > noEatAnimation = this.register ( new Setting <> ( "NoEatAnimation" , false , v -> settings.getValue ( ) == Settings.TWEAKS ) );
     public Setting < Double > eatX = this.register ( new Setting <> ( "EatX" , 1.0 , - 2.0 , 5.0 , v -> settings.getValue ( ) == Settings.TWEAKS && ! this.noEatAnimation.getValue ( ) ) );
     public Setting < Double > eatY = this.register ( new Setting <> ( "EatY" , 1.0 , - 2.0 , 5.0 , v -> settings.getValue ( ) == Settings.TWEAKS && ! this.noEatAnimation.getValue ( ) ) );

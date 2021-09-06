@@ -6,8 +6,8 @@ import dev.fxcte.creepyware.features.setting.Setting;
 public class HandChams
         extends Module {
     public static HandChams INSTANCE;
-    public Setting < Boolean > colorSync = this.register ( new Setting <> ("Speed", "Sync" , 0.0, 0.0, false, 0) );
-    public Setting < Boolean > rainbow = this.register ( new Setting <> ("Speed", "Rainbow" , 0.0, 0.0, false, 0) );
+    public Setting < Boolean > colorSync = this.register ( new Setting <> ("Speed", false) );
+    public Setting < Boolean > rainbow = this.register ( new Setting <> ("Speed", false) );
     public Setting < Integer > saturation = this.register ( new Setting < Object > ( "Saturation" , 50 , 0 , 100 , v -> this.rainbow.getValue ( ) ) );
     public Setting < Integer > brightness = this.register ( new Setting < Object > ( "Brightness" , 100 , 0 , 100 , v -> this.rainbow.getValue ( ) ) );
     public Setting < Integer > speed = this.register ( new Setting < Object > ( "Speed" , 40 , 1 , 100 , v -> this.rainbow.getValue ( ) ) );

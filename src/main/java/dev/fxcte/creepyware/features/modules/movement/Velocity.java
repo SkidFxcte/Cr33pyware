@@ -15,15 +15,15 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 public class Velocity
         extends Module {
     private static Velocity INSTANCE = new Velocity();
-    public Setting<Boolean> knockBack = this.register(new Setting<Boolean>("Speed", "KnockBack", 0.0, 0.0, true, 0));
-    public Setting<Boolean> noPush = this.register(new Setting<Boolean>("Speed", "NoPush", 0.0, 0.0, true, 0));
+    public Setting<Boolean> knockBack = this.register(new Setting<Boolean>("Speed", true));
+    public Setting<Boolean> noPush = this.register(new Setting<Boolean>("Speed", true));
     public Setting<Float> horizontal = this.register(new Setting<Float>("Horizontal", Float.valueOf(0.0f), Float.valueOf(0.0f), Float.valueOf(100.0f)));
     public Setting<Float> vertical = this.register(new Setting<Float>("Vertical", Float.valueOf(0.0f), Float.valueOf(0.0f), Float.valueOf(100.0f)));
-    public Setting<Boolean> explosions = this.register(new Setting<Boolean>("Speed", "Explosions", 0.0, 0.0, true, 0));
-    public Setting<Boolean> bobbers = this.register(new Setting<Boolean>("Speed", "Bobbers", 0.0, 0.0, true, 0));
-    public Setting<Boolean> water = this.register(new Setting<Boolean>("Speed", "Water", 0.0, 0.0, false, 0));
-    public Setting<Boolean> blocks = this.register(new Setting<Boolean>("Speed", "Blocks", 0.0, 0.0, false, 0));
-    public Setting<Boolean> ice = this.register(new Setting<Boolean>("Speed", "Ice", 0.0, 0.0, false, 0));
+    public Setting<Boolean> explosions = this.register(new Setting<Boolean>("Speed", true));
+    public Setting<Boolean> bobbers = this.register(new Setting<Boolean>("Speed", true));
+    public Setting<Boolean> water = this.register(new Setting<Boolean>("Speed", false));
+    public Setting<Boolean> blocks = this.register(new Setting<Boolean>("Speed", false));
+    public Setting<Boolean> ice = this.register(new Setting<Boolean>("Speed", false));
 
     public Velocity() {
         super("Velocity", "Allows you to control your velocity", Module.Category.MOVEMENT, true, false, false);

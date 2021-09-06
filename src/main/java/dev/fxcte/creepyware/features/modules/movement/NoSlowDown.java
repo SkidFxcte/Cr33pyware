@@ -27,13 +27,13 @@ public class NoSlowDown
     private static final KeyBinding[] keys = new KeyBinding[]{NoSlowDown.mc.gameSettings.keyBindForward, NoSlowDown.mc.gameSettings.keyBindBack, NoSlowDown.mc.gameSettings.keyBindLeft, NoSlowDown.mc.gameSettings.keyBindRight, NoSlowDown.mc.gameSettings.keyBindJump, NoSlowDown.mc.gameSettings.keyBindSprint};
     public final Setting<Double> webHorizontalFactor = this.register(new Setting<Double>("WebHSpeed", 2.0, 0.0, 100.0));
     public final Setting<Double> webVerticalFactor = this.register(new Setting<Double>("WebVSpeed", 2.0, 0.0, 100.0));
-    public Setting<Boolean> guiMove = this.register(new Setting<Boolean>("Speed", "GuiMove", 0.0, 0.0, true, 0));
-    public Setting<Boolean> noSlow = this.register(new Setting<Boolean>("Speed", "NoSlow", 0.0, 0.0, true, 0));
-    public Setting<Boolean> soulSand = this.register(new Setting<Boolean>("Speed", "SoulSand", 0.0, 0.0, true, 0));
-    public Setting<Boolean> strict = this.register(new Setting<Boolean>("Speed", "Strict", 0.0, 0.0, false, 0));
-    public Setting<Boolean> sneakPacket = this.register(new Setting<Boolean>("Speed", "SneakPacket", 0.0, 0.0, false, 0));
-    public Setting<Boolean> endPortal = this.register(new Setting<Boolean>("Speed", "EndPortal", 0.0, 0.0, false, 0));
-    public Setting<Boolean> webs = this.register(new Setting<Boolean>("Speed", "Webs", 0.0, 0.0, false, 0));
+    public Setting<Boolean> guiMove = this.register(new Setting<Boolean>("Speed", true));
+    public Setting<Boolean> noSlow = this.register(new Setting<Boolean>("Speed", true));
+    public Setting<Boolean> soulSand = this.register(new Setting<Boolean>("Speed", true));
+    public Setting<Boolean> strict = this.register(new Setting<Boolean>("Speed", false));
+    public Setting<Boolean> sneakPacket = this.register(new Setting<Boolean>("Speed", false));
+    public Setting<Boolean> endPortal = this.register(new Setting<Boolean>("Speed", false));
+    public Setting<Boolean> webs = this.register(new Setting<Boolean>("Speed", false));
     private boolean sneaking = false;
 
     public NoSlowDown() {

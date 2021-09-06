@@ -15,10 +15,10 @@ import org.lwjgl.input.Mouse;
 public
 class SilentXP
         extends Module {
-    public Setting < Mode > mode = this.register ( new Setting <> ("Speed", "Mode" , 0.0, 0.0, Mode.MIDDLECLICK, 0) );
-    public Setting < Boolean > antiFriend = this.register ( new Setting <> ("Speed", "AntiFriend" , 0.0, 0.0, true, 0) );
+    public Setting < Mode > mode = this.register ( new Setting <> ("Speed", Mode.MIDDLECLICK) );
+    public Setting < Boolean > antiFriend = this.register ( new Setting <> ("Speed", true) );
     public Setting < Bind > key = this.register ( new Setting <> ( "Key" , new Bind ( - 1 ) , v -> mode.getValue ( ) != Mode.MIDDLECLICK ) );
-    public Setting < Boolean > groundOnly = this.register ( new Setting <> ("Speed", "BelowHorizon" , 0.0, 0.0, false, 0) );
+    public Setting < Boolean > groundOnly = this.register ( new Setting <> ("Speed", false) );
     private boolean last;
     private boolean on;
 

@@ -6,9 +6,9 @@ import dev.fxcte.creepyware.features.setting.Setting;
 public class Chams
         extends Module {
     private static Chams INSTANCE = new Chams();
-    public Setting<Boolean> colorSync = this.register(new Setting<Boolean>("Speed", "Sync", 0.0, 0.0, false, 0));
-    public Setting<Boolean> colored = this.register(new Setting<Boolean>("Speed", "Colored", 0.0, 0.0, false, 0));
-    public Setting<Boolean> textured = this.register(new Setting<Boolean>("Speed", "Textured", 0.0, 0.0, false, 0));
+    public Setting<Boolean> colorSync = this.register(new Setting<Boolean>("Speed", false));
+    public Setting<Boolean> colored = this.register(new Setting<Boolean>("Speed", false));
+    public Setting<Boolean> textured = this.register(new Setting<Boolean>("Speed", false));
     public Setting<Boolean> rainbow = this.register(new Setting<Object>("Rainbow", Boolean.valueOf(false), v -> this.colored.getValue()));
     public Setting<Integer> saturation = this.register(new Setting<Object>("Saturation", Integer.valueOf(50), Integer.valueOf(0), Integer.valueOf(100), v -> this.colored.getValue() != false && this.rainbow.getValue() != false));
     public Setting<Integer> brightness = this.register(new Setting<Object>("Brightness", Integer.valueOf(100), Integer.valueOf(0), Integer.valueOf(100), v -> this.colored.getValue() != false && this.rainbow.getValue() != false));

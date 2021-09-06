@@ -23,9 +23,9 @@ public class Surround
     public static boolean isPlacing = false;
     private final Setting<Integer> blocksPerTick = this.register(new Setting<Integer>("BlocksPerTick", 12, 1, 20));
     private final Setting<Integer> delay = this.register(new Setting<Integer>("Delay", 0, 0, 250));
-    private final Setting<Boolean> noGhost = this.register(new Setting<Boolean>("Speed", "PacketPlace", 0.0, 0.0, false, 0));
-    private final Setting<Boolean> center = this.register(new Setting<Boolean>("Speed", "TPCenter", 0.0, 0.0, false, 0));
-    private final Setting<Boolean> rotate = this.register(new Setting<Boolean>("Speed", "Rotate", 0.0, 0.0, true, 0));
+    private final Setting<Boolean> noGhost = this.register(new Setting<Boolean>("Speed", false));
+    private final Setting<Boolean> center = this.register(new Setting<Boolean>("Speed", false));
+    private final Setting<Boolean> rotate = this.register(new Setting<Boolean>("Speed", true));
     private final dev.fxcte.creepyware.util.Timer timer = new dev.fxcte.creepyware.util.Timer();
     private final dev.fxcte.creepyware.util.Timer retryTimer = new Timer();
     private final Set<Vec3d> extendingBlocks = new HashSet<Vec3d>();

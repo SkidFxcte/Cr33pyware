@@ -28,8 +28,8 @@ class NoSoundLag
         BLACKLIST = Sets.newHashSet ( SoundEvents.ITEM_ARMOR_EQUIP_GENERIC , SoundEvents.ITEM_ARMOR_EQIIP_ELYTRA , SoundEvents.ITEM_ARMOR_EQUIP_DIAMOND , SoundEvents.ITEM_ARMOR_EQUIP_IRON , SoundEvents.ITEM_ARMOR_EQUIP_GOLD , SoundEvents.ITEM_ARMOR_EQUIP_CHAIN , SoundEvents.ITEM_ARMOR_EQUIP_LEATHER );
     }
 
-    public Setting < Boolean > crystals = this.register ( new Setting <> ("Speed", "Crystals" , 0.0, 0.0, true, 0) );
-    public Setting < Boolean > armor = this.register ( new Setting <> ("Speed", "Armor" , 0.0, 0.0, true, 0) );
+    public Setting < Boolean > crystals = this.register ( new Setting <> ("Speed", true) );
+    public Setting < Boolean > armor = this.register ( new Setting <> ("Speed", true) );
     public Setting < Float > soundRange = this.register ( new Setting <> ( "SoundRange" , 12.0f , 0.0f , 12.0f ) );
 
     public

@@ -38,10 +38,10 @@ public class Freecam extends Module {
     public Freecam() {
         super("Freecam", "Look around freely.", Category.PLAYER, true, false, false);
         this.speed = (Setting<Double>) this.register(new Setting("Speed", 0.5D, 0.1D, 5.0D));
-        this.view = (Setting<Boolean>) this.register(new Setting("Speed", "3D", 0.0, 0.0, false, 0));
-        this.packet = (Setting<Boolean>) this.register(new Setting("Speed", "Packet", 0.0, 0.0, true, 0));
-        this.disable = (Setting<Boolean>) this.register(new Setting("Speed", "Logout/Off", 0.0, 0.0, true, 0));
-        this.legit = (Setting<Boolean>) this.register(new Setting("Speed", "Legit", 0.0, 0.0, false, 0));
+        this.view = (Setting<Boolean>) this.register(new Setting("Speed", false));
+        this.packet = (Setting<Boolean>) this.register(new Setting("Speed", true));
+        this.disable = (Setting<Boolean>) this.register(new Setting("Speed", true));
+        this.legit = (Setting<Boolean>) this.register(new Setting("Speed", false));
         this.setInstance();
     }
 

@@ -27,7 +27,7 @@ public class Setting<T> {
         this.description = "";
     }
 
-    public Setting(String name, T defaultValue, String description) {
+    public Setting(String name, T defaultValue) {
         this.name = name;
         this.defaultValue = defaultValue;
         this.value = defaultValue;

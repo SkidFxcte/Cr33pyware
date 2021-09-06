@@ -12,14 +12,14 @@ import java.awt.*;
 public class FontMod
         extends Module {
     private static FontMod INSTANCE = new FontMod();
-    public Setting<String> fontName = this.register(new Setting<String>("FontName", "Arial", "Name of the font."));
-    public Setting<Integer> fontSize = this.register(new Setting<Integer>("FontSize", Integer.valueOf(18), "Size of the font."));
-    public Setting<Integer> fontStyle = this.register(new Setting<Integer>("FontStyle", Integer.valueOf(0), "Style of the font."));
-    public Setting<Boolean> antiAlias = this.register(new Setting<Boolean>("AntiAlias", Boolean.valueOf(true), "Smoother font."));
-    public Setting<Boolean> fractionalMetrics = this.register(new Setting<Boolean>("Metrics", Boolean.valueOf(true), "Thinner font."));
-    public Setting<Boolean> shadow = this.register(new Setting<Boolean>("Shadow", Boolean.valueOf(true), "Less shadow offset font."));
-    public Setting<Boolean> showFonts = this.register(new Setting<Boolean>("Fonts", Boolean.valueOf(false), "Shows all fonts."));
-    public Setting<Boolean> full = this.register(new Setting<Boolean>("Speed", "Full", 0.0, 0.0, false, 0));
+    public Setting<String> fontName = this.register(new Setting<String>("FontName", "Arial"));
+    public Setting<Integer> fontSize = this.register(new Setting<Integer>("FontSize", Integer.valueOf(18)));
+    public Setting<Integer> fontStyle = this.register(new Setting<Integer>("FontStyle", Integer.valueOf(0)));
+    public Setting<Boolean> antiAlias = this.register(new Setting<Boolean>("AntiAlias", Boolean.valueOf(true)));
+    public Setting<Boolean> fractionalMetrics = this.register(new Setting<Boolean>("Metrics", Boolean.valueOf(true)));
+    public Setting<Boolean> shadow = this.register(new Setting<Boolean>("Shadow", Boolean.valueOf(true)));
+    public Setting<Boolean> showFonts = this.register(new Setting<Boolean>("Fonts", Boolean.valueOf(false)));
+    public Setting<Boolean> full = this.register(new Setting<Boolean>("Speed", false));
     private boolean reloadFont = false;
 
     public FontMod() {

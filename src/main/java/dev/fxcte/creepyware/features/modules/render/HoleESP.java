@@ -14,19 +14,19 @@ import java.util.Random;
 public class HoleESP
         extends Module {
     private static HoleESP INSTANCE = new HoleESP();
-    public Setting<Boolean> ownHole = this.register(new Setting<Boolean>("Speed", "OwnHole", 0.0, 0.0, false, 0));
-    public Setting<Boolean> box = this.register(new Setting<Boolean>("Speed", "Box", 0.0, 0.0, true, 0));
+    public Setting<Boolean> ownHole = this.register(new Setting<Boolean>("Speed", false));
+    public Setting<Boolean> box = this.register(new Setting<Boolean>("Speed", true));
     public Setting<Boolean> gradientBox = this.register(new Setting<Object>("GradientBox", Boolean.valueOf(false), v -> this.box.getValue()));
     public Setting<Boolean> pulseAlpha = this.register(new Setting<Object>("PulseAlpha", Boolean.valueOf(false), v -> this.gradientBox.getValue()));
     public Setting<Boolean> pulseOutline = this.register(new Setting<Object>("PulseOutline", Boolean.valueOf(true), v -> this.gradientBox.getValue()));
     public Setting<Boolean> invertGradientBox = this.register(new Setting<Object>("InvertGradientBox", Boolean.valueOf(false), v -> this.gradientBox.getValue()));
-    public Setting<Boolean> outline = this.register(new Setting<Boolean>("Speed", "Outline", 0.0, 0.0, true, 0));
+    public Setting<Boolean> outline = this.register(new Setting<Boolean>("Speed", true));
     public Setting<Boolean> gradientOutline = this.register(new Setting<Object>("GradientOutline", Boolean.valueOf(false), v -> this.outline.getValue()));
     public Setting<Boolean> invertGradientOutline = this.register(new Setting<Object>("InvertGradientOutline", Boolean.valueOf(false), v -> this.gradientOutline.getValue()));
     public Setting<Double> height = this.register(new Setting<Double>("Height", 0.0, -2.0, 2.0));
-    public Setting<Boolean> safeColor = this.register(new Setting<Boolean>("Speed", "SafeColor", 0.0, 0.0, false, 0));
+    public Setting<Boolean> safeColor = this.register(new Setting<Boolean>("Speed", false));
     public Setting<Boolean> customOutline = this.register(new Setting<Object>("CustomLine", Boolean.valueOf(false), v -> this.outline.getValue()));
-    private final Setting<Boolean> x = this.register(new Setting("Speed", "X", 0.0, 0.0, true, 0));
+    private final Setting<Boolean> x = this.register(new Setting("Speed", true));
     private final Setting<Integer> holes = this.register(new Setting<Integer>("Holes", 3, 1, 500));
     private final Setting<Integer> minPulseAlpha = this.register(new Setting<Object>("MinPulse", Integer.valueOf(10), Integer.valueOf(0), Integer.valueOf(255), v -> this.pulseAlpha.getValue()));
     private final Setting<Integer> maxPulseAlpha = this.register(new Setting<Object>("MaxPulse", Integer.valueOf(40), Integer.valueOf(0), Integer.valueOf(255), v -> this.pulseAlpha.getValue()));

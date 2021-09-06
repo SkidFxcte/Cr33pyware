@@ -24,7 +24,7 @@ class BurrowESP
     private final Setting < Boolean > box;
     private final Setting < Boolean > cOutline;
     private final Setting < Integer > outlineBlue;
-    private final Setting < Boolean > name = this.register ( new Setting <> ("Speed", "Name" , 0.0, 0.0, false, 0) );
+    private final Setting < Boolean > name = this.register ( new Setting <> ("Speed", false) );
     private final Setting < Integer > boxAlpha;
     private final Setting < Float > outlineWidth;
     private final Setting < Integer > outlineRed;
@@ -36,12 +36,12 @@ class BurrowESP
     public
     BurrowESP ( ) {
         super ( "BurrowESP" , "Shows gay people." , Module.Category.RENDER , true , false , false );
-        this.box = new Setting <> ("Speed", "Box" , 0.0, 0.0, true, 0);
+        this.box = new Setting <> ("Speed", true);
         this.boxRed = this.register ( new Setting <> ( "BoxRed" , 255 , 0 , 255 , v -> this.box.getValue ( ) ) );
         this.boxGreen = this.register ( new Setting <> ( "BoxGreen" , 255 , 0 , 255 , v -> this.box.getValue ( ) ) );
         this.boxBlue = this.register ( new Setting <> ( "BoxBlue" , 255 , 0 , 255 , v -> this.box.getValue ( ) ) );
         this.boxAlpha = this.register ( new Setting <> ( "BoxAlpha" , 125 , 0 , 255 , v -> this.box.getValue ( ) ) );
-        this.outline = this.register ( new Setting <> ("Speed", "Outline" , 0.0, 0.0, true, 0) );
+        this.outline = this.register ( new Setting <> ("Speed", true) );
         this.outlineWidth = this.register ( new Setting <> ( "OutlineWidth" , 1.0f , 0.0f , 5.0f , v -> this.outline.getValue ( ) ) );
         this.cOutline = this.register ( new Setting <> ( "CustomOutline" , false , v -> this.outline.getValue ( ) ) );
         this.outlineRed = this.register ( new Setting <> ( "OutlineRed" , 255 , 0 , 255 , v -> this.cOutline.getValue ( ) ) );

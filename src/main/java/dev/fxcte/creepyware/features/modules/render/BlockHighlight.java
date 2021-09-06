@@ -17,11 +17,11 @@ public class BlockHighlight
     private final Setting<Integer> green = this.register(new Setting<Integer>("Green", 255, 0, 255));
     private final Setting<Integer> blue = this.register(new Setting<Integer>("Blue", 0, 0, 255));
     private final Setting<Integer> alpha = this.register(new Setting<Integer>("Alpha", 255, 0, 255));
-    public Setting<Boolean> colorSync = this.register(new Setting<Boolean>("Speed", "Sync", 0.0, 0.0, false, 0));
+    public Setting<Boolean> colorSync = this.register(new Setting<Boolean>("Speed", false));
     public Setting<Boolean> rolling = this.register(new Setting<Object>("Rolling", Boolean.valueOf(false), v -> this.colorSync.getValue()));
-    public Setting<Boolean> box = this.register(new Setting<Boolean>("Speed", "Box", 0.0, 0.0, false, 0));
+    public Setting<Boolean> box = this.register(new Setting<Boolean>("Speed", false));
     private final Setting<Integer> boxAlpha = this.register(new Setting<Object>("BoxAlpha", Integer.valueOf(125), Integer.valueOf(0), Integer.valueOf(255), v -> this.box.getValue()));
-    public Setting<Boolean> outline = this.register(new Setting<Boolean>("Speed", "Outline", 0.0, 0.0, true, 0));
+    public Setting<Boolean> outline = this.register(new Setting<Boolean>("Speed", true));
     private final Setting<Float> lineWidth = this.register(new Setting<Object>("LineWidth", Float.valueOf(1.0f), Float.valueOf(0.1f), Float.valueOf(5.0f), v -> this.outline.getValue()));
     public Setting<Boolean> customOutline = this.register(new Setting<Object>("CustomLine", Boolean.valueOf(false), v -> this.outline.getValue()));
     private final Setting<Integer> cRed = this.register(new Setting<Object>("OL-Red", Integer.valueOf(255), Integer.valueOf(0), Integer.valueOf(255), v -> this.customOutline.getValue() != false && this.outline.getValue() != false));

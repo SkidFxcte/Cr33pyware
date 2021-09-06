@@ -11,7 +11,7 @@ import java.util.Random;
 import java.util.UUID;
 
 public class FakePlayer extends Module {
-    public Setting<Boolean> hollow = this.register(new Setting("Speed", "Move", 0.0, 0.0, false, 0));
+    public Setting<Boolean> hollow = this.register(new Setting("Speed", false));
 
     public FakePlayer() {
         super("FakePlayer", "Spawns fake player", Category.PLAYER, false, false, false);

@@ -20,9 +20,9 @@ import org.lwjgl.input.Mouse;
 
 public class MCF
         extends Module {
-    private final Setting<Boolean> middleClick = this.register(new Setting<Boolean>("Speed", "MiddleClick", 0.0, 0.0, true, 0));
-    private final Setting<Boolean> keyboard = this.register(new Setting<Boolean>("Speed", "Keyboard", 0.0, 0.0, false, 0));
-    private final Setting<Boolean> server = this.register(new Setting<Boolean>("Speed", "Server", 0.0, 0.0, true, 0));
+    private final Setting<Boolean> middleClick = this.register(new Setting<Boolean>("Speed", true));
+    private final Setting<Boolean> keyboard = this.register(new Setting<Boolean>("Speed", false));
+    private final Setting<Boolean> server = this.register(new Setting<Boolean>("Speed", true));
     private final Setting<Bind> key = this.register(new Setting<Object>("KeyBind", new Bind(-1), v -> this.keyboard.getValue()));
     private boolean clicked = false;
 

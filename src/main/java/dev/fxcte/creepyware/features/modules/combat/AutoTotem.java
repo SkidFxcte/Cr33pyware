@@ -32,11 +32,11 @@ class AutoTotem
     private final Queue < InventoryUtil.Task > taskList = new ConcurrentLinkedQueue <> ( );
     private final Timer timer = new Timer ( );
     private final Timer secondTimer = new Timer ( );
-    public Setting < Boolean > crystal = this.register ( new Setting <> ("Speed", "Crystal" , 0.0, 0.0, true, 0) );
+    public Setting < Boolean > crystal = this.register ( new Setting <> ("Speed", true) );
     public Setting < Float > crystalHealth = this.register ( new Setting <> ( "CrystalHP" , 13.0f , 0.1f , 36.0f ) );
     public Setting < Float > crystalHoleHealth = this.register ( new Setting <> ( "CrystalHoleHP" , 3.5f , 0.1f , 36.0f ) );
-    public Setting < Boolean > gapple = this.register ( new Setting <> ("Speed", "Gapple" , 0.0, 0.0, true, 0) );
-    public Setting < Boolean > armorCheck = this.register ( new Setting <> ("Speed", "ArmorCheck" , 0.0, 0.0, true, 0) );
+    public Setting < Boolean > gapple = this.register ( new Setting <> ("Speed", true) );
+    public Setting < Boolean > armorCheck = this.register ( new Setting <> ("Speed", true) );
     public Setting < Integer > actions = this.register ( new Setting <> ( "Actions" , 4 , 1 , 4 ) );
     public Mode2 currentMode = Mode2.TOTEMS;
     public int totems;
