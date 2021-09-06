@@ -7,6 +7,10 @@ Creepy is best pvper
 <details>
  <summary>Images</summary>
 
+![](https://cdn.discordapp.com/attachments/876463640415469568/883904657267781662/unknown.png)
+![](https://cdn.discordapp.com/attachments/876463640415469568/883906555651711006/unknown.png)
+![](https://cdn.discordapp.com/attachments/876463640415469568/883907019982135296/unknown.png)
+![](https://cdn.discordapp.com/attachments/876463640415469568/883908901836308480/Capture.PNG)
 ![](https://imgur.com/dWHD9J9.png)
 </details>
 
