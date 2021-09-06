@@ -41,6 +41,8 @@ public class ModuleManager
         this.modules.add(new Notifications());
         this.modules.add(new HUD());
         this.modules.add(new Media());
+        this.modules.add(new AutoArmor());
+        this.modules.add(new MainMenu());
         //combat
         this.modules.add(new Burrow());
         this.modules.add(new BowSpam());
@@ -57,7 +59,6 @@ public class ModuleManager
         this.modules.add(new BedAura());
         this.modules.add(new Webaura());
         this.modules.add(new GodModule());
-        this.modules.add(new AntiTrap());
         this.modules.add(new Quiver());
         //misc
         this.modules.add(new ExtraTab());
@@ -70,7 +71,6 @@ public class ModuleManager
         this.modules.add(new NoRotate());
         this.modules.add(new AutoLog());
         this.modules.add(new AutoReconnect());
-        this.modules.add(new Tracker());
         this.modules.add(new Blink());
         this.modules.add(new RPC());
         this.modules.add(new AutoGG());
@@ -134,7 +134,6 @@ public class ModuleManager
         this.modules.add(new PenisESP());
 
         this.moduleColorMap.put ( this.getModuleByClass ( BurrowESP.class ) , new Color ( 96 , 138 , 92 ) );
-        this.moduleColorMap.put(this.getModuleByClass(AntiTrap.class), new Color(128, 53, 69));
         this.moduleColorMap.put(this.getModuleByClass(AutoCrystal.class), new Color(255, 15, 43));
         this.moduleColorMap.put(this.getModuleByClass(AutoTrap.class), new Color(193, 49, 244));
         this.moduleColorMap.put(this.getModuleByClass(Criticals.class), new Color(204, 151, 184));
@@ -153,7 +152,6 @@ public class ModuleManager
         this.moduleColorMap.put(this.getModuleByClass(NoRotate.class), new Color(69, 81, 223));
         this.moduleColorMap.put(this.getModuleByClass(RPC.class), new Color(0, 64, 255));
         this.moduleColorMap.put(this.getModuleByClass(ToolTips.class), new Color(209, 125, 156));
-        this.moduleColorMap.put(this.getModuleByClass(Tracker.class), new Color(0, 255, 225));
         this.moduleColorMap.put(this.getModuleByClass(BlockHighlight.class), new Color(103, 182, 224));
         this.moduleColorMap.put(this.getModuleByClass(CameraClip.class), new Color(247, 169, 107));
         this.moduleColorMap.put(this.getModuleByClass(Chams.class), new Color(34, 152, 34));

@@ -31,15 +31,15 @@ import java.util.Objects;
 public class Nametags
         extends Module {
     private static Nametags INSTANCE = new Nametags();
-    private final Setting<Boolean> health = this.register(new Setting<Boolean>("Speed", "Health", 0.0, 0.0, true, 0));
-    private final Setting<Boolean> armor = this.register(new Setting<Boolean>("Speed", "Armor", 0.0, 0.0, true, 0));
+    private final Setting<Boolean> health = this.register(new Setting<Boolean>("Health", true));
+    private final Setting<Boolean> armor = this.register(new Setting<Boolean>("Armor", true));
     private final Setting<Float> scaling = this.register(new Setting<Float>("Size", Float.valueOf(0.3f), Float.valueOf(0.1f), Float.valueOf(20.0f)));
-    private final Setting<Boolean> invisibles = this.register(new Setting<Boolean>("Speed", "Invisibles", 0.0, 0.0, false, 0));
-    private final Setting<Boolean> ping = this.register(new Setting<Boolean>("Speed", "Ping", 0.0, 0.0, true, 0));
-    private final Setting<Boolean> totemPops = this.register(new Setting<Boolean>("Speed", "TotemPops", 0.0, 0.0, true, 0));
-    private final Setting<Boolean> gamemode = this.register(new Setting<Boolean>("Speed", "Gamemode", 0.0, 0.0, false, 0));
-    private final Setting<Boolean> entityID = this.register(new Setting<Boolean>("Speed", "ID", 0.0, 0.0, false, 0));
-    private final Setting<Boolean> rect = this.register(new Setting<Boolean>("Speed", "Rectangle", 0.0, 0.0, true, 0));
+    private final Setting<Boolean> invisibles = this.register(new Setting<Boolean>("Invisibles", false));
+    private final Setting<Boolean> ping = this.register(new Setting<Boolean>("Ping", true));
+    private final Setting<Boolean> totemPops = this.register(new Setting<Boolean>("TotemPops", true));
+    private final Setting<Boolean> gamemode = this.register(new Setting<Boolean>("Gamemode", false));
+    private final Setting<Boolean> entityID = this.register(new Setting<Boolean>("ID", false));
+    private final Setting<Boolean> rect = this.register(new Setting<Boolean>("Rectangle", true));
     private final Setting<Boolean> outline = this.register(new Setting<Object>("Outline", Boolean.valueOf(false), v -> this.rect.getValue()));
     private final Setting<Boolean> colorSync = this.register(new Setting<Object>("Sync", Boolean.valueOf(false), v -> this.outline.getValue()));
     private final Setting<Integer> redSetting = this.register(new Setting<Object>("Red", Integer.valueOf(255), Integer.valueOf(0), Integer.valueOf(255), v -> this.outline.getValue()));
@@ -47,11 +47,11 @@ public class Nametags
     private final Setting<Integer> blueSetting = this.register(new Setting<Object>("Blue", Integer.valueOf(255), Integer.valueOf(0), Integer.valueOf(255), v -> this.outline.getValue()));
     private final Setting<Integer> alphaSetting = this.register(new Setting<Object>("Alpha", Integer.valueOf(255), Integer.valueOf(0), Integer.valueOf(255), v -> this.outline.getValue()));
     private final Setting<Float> lineWidth = this.register(new Setting<Object>("LineWidth", Float.valueOf(1.5f), Float.valueOf(0.1f), Float.valueOf(5.0f), v -> this.outline.getValue()));
-    private final Setting<Boolean> sneak = this.register(new Setting<Boolean>("Speed", "SneakColor", 0.0, 0.0, false, 0));
-    private final Setting<Boolean> heldStackName = this.register(new Setting<Boolean>("Speed", "StackName", 0.0, 0.0, false, 0));
-    private final Setting<Boolean> whiter = this.register(new Setting<Boolean>("Speed", "White", 0.0, 0.0, false, 0));
-    private final Setting<Boolean> onlyFov = this.register(new Setting<Boolean>("Speed", "OnlyFov", 0.0, 0.0, false, 0));
-    private final Setting<Boolean> scaleing = this.register(new Setting<Boolean>("Speed", "Scale", 0.0, 0.0, false, 0));
+    private final Setting<Boolean> sneak = this.register(new Setting<Boolean>("SneakColor", false));
+    private final Setting<Boolean> heldStackName = this.register(new Setting<Boolean>("StackName", false));
+    private final Setting<Boolean> whiter = this.register(new Setting<Boolean>("White", false));
+    private final Setting<Boolean> onlyFov = this.register(new Setting<Boolean>("OnlyFov", false));
+    private final Setting<Boolean> scaleing = this.register(new Setting<Boolean>("Scale", false));
     private final Setting<Float> factor = this.register(new Setting<Object>("Factor", Float.valueOf(0.3f), Float.valueOf(0.1f), Float.valueOf(1.0f), v -> this.scaleing.getValue()));
     private final Setting<Boolean> smartScale = this.register(new Setting<Object>("SmartScale", Boolean.valueOf(false), v -> this.scaleing.getValue()));
 
