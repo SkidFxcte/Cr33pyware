@@ -41,6 +41,7 @@ public class ModuleManager
         this.modules.add(new Notifications());
         this.modules.add(new HUD());
         this.modules.add(new Media());
+        this.modules.add(new MainMenu());
         //combat
         this.modules.add(new Burrow());
         this.modules.add(new BowSpam());
