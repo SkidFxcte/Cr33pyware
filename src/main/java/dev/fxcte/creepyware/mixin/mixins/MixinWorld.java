@@ -3,6 +3,7 @@ package dev.fxcte.creepyware.mixin.mixins;
 import com.google.common.base.Predicate;
 import java.util.List;
 import dev.fxcte.creepyware.event.events.PushEvent;
+import dev.fxcte.creepyware.features.modules.misc.Tracker;
 import dev.fxcte.creepyware.features.modules.render.NoRender;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.math.AxisAlignedBB;
@@ -29,6 +30,11 @@ public class MixinWorld {
         catch (Exception exception) {
             // empty catch block
         }
+    }
+
+    @Inject(method={"onEntityAdded"}, at={@At(value="HEAD")})
+    private void onEntityAdded(Entity entityIn, CallbackInfo ci) {
+        Tracker.getInstance().onSpawnEntity(entityIn);
     }
 
     @Inject(method={"checkLightFor"}, at={@At(value="HEAD")}, cancellable=true)

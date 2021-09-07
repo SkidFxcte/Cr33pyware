@@ -1,6 +1,7 @@
 package dev.fxcte.creepyware.features.gui.custom;
 
 import dev.fxcte.creepyware.CreepyWare;
+import dev.fxcte.creepyware.util.ParticleGenerator;
 import dev.fxcte.creepyware.util.RenderUtil;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.*;
@@ -10,10 +11,10 @@ import org.lwjgl.opengl.GL11;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
+import java.net.URI;
 
 public class GuiCustomMainScreen
         extends GuiScreen {
-    private final String backgroundURL = "https://i.imgur.com/GCJRhiA.png";
     private final ResourceLocation resourceLocation = new ResourceLocation("textures/background.png");
     private int y;
     private int x;
@@ -25,6 +26,8 @@ public class GuiCustomMainScreen
     private float xOffset;
     private float yOffset;
 
+    public static Minecraft mc = Minecraft.getMinecraft();
+    public static ParticleGenerator particleGenerator = new ParticleGenerator(100, mc.displayWidth, mc.displayHeight);
     public static void drawCompleteImage(float posX, float posY, float width, float height) {
         GL11.glPushMatrix();
         GL11.glTranslatef(posX, posY, 0.0f);
@@ -46,12 +49,13 @@ public class GuiCustomMainScreen
     }
 
     public void initGui() {
-        this.x = this.width / 2;
+        this.x = this.width / 4;
         this.y = this.height / 4 + 48;
         this.buttonList.add(new TextButton(0, this.x, this.y + 20, "Singleplayer"));
-        this.buttonList.add(new TextButton(1, this.x, this.y + 44, "Multiplayer"));
+        this.buttonList.add(new TextButton(2, this.x, this.y + 44, "TheGang"));
         this.buttonList.add(new TextButton(2, this.x, this.y + 66, "Settings"));
-        this.buttonList.add(new TextButton(2, this.x, this.y + 88, "Exit"));
+        this.buttonList.add(new TextButton(2, this.x, this.y + 88, "Discord"));
+        this.buttonList.add(new TextButton(2, this.x, this.y + 132, "EzLog"));
         GlStateManager.disableTexture2D();
         GlStateManager.enableBlend();
         GlStateManager.disableAlpha();
@@ -67,26 +71,35 @@ public class GuiCustomMainScreen
     }
 
     public void mouseClicked(int mouseX, int mouseY, int mouseButton) {
-        if (GuiCustomMainScreen.isHovered(this.x - CreepyWare.textManager.getStringWidth("Singleplayer") / 2, this.y + 20, CreepyWare.textManager.getStringWidth("Singleplayer"), CreepyWare.textManager.getFontHeight(), mouseX, mouseY)) {
+        if (GuiCustomMainScreen.isHovered(this.x, this.y + 20, CreepyWare.textManager.getStringWidth("Singleplayer"), CreepyWare.textManager.getFontHeight(), mouseX, mouseY)) {
             this.mc.displayGuiScreen(new GuiWorldSelection(this));
-        } else if (GuiCustomMainScreen.isHovered(this.x - CreepyWare.textManager.getStringWidth("Multiplayer") / 2, this.y + 44, CreepyWare.textManager.getStringWidth("Multiplayer"), CreepyWare.textManager.getFontHeight(), mouseX, mouseY)) {
+        } else if (GuiCustomMainScreen.isHovered(this.x, this.y + 44, CreepyWare.textManager.getStringWidth("TheGang"), CreepyWare.textManager.getFontHeight(), mouseX, mouseY)) {
             this.mc.displayGuiScreen(new GuiMultiplayer(this));
-        } else if (GuiCustomMainScreen.isHovered(this.x - CreepyWare.textManager.getStringWidth("Settings") / 2, this.y + 66, CreepyWare.textManager.getStringWidth("Settings"), CreepyWare.textManager.getFontHeight(), mouseX, mouseY)) {
+        } else if (GuiCustomMainScreen.isHovered(this.x, this.y + 66, CreepyWare.textManager.getStringWidth("settings"), CreepyWare.textManager.getFontHeight(), mouseX, mouseY)) {
             this.mc.displayGuiScreen(new GuiOptions(this, this.mc.gameSettings));
-        } else if (GuiCustomMainScreen.isHovered(this.x - CreepyWare.textManager.getStringWidth("Exit") / 2, this.y + 88, CreepyWare.textManager.getStringWidth("Exit"), CreepyWare.textManager.getFontHeight(), mouseX, mouseY)) {
-            this.mc.shutdown();
+        } else if (GuiCustomMainScreen.isHovered(this.x, this.y + 132, CreepyWare.textManager.getStringWidth("EzLog"), CreepyWare.textManager.getFontHeight(), mouseX, mouseY)) {
+                this.mc.shutdown();
+        } else if (GuiCustomMainScreen.isHovered(this.x, this.y + 88, CreepyWare.textManager.getStringWidth("discord"), CreepyWare.textManager.getFontHeight(), mouseX, mouseY)) {
+            try {
+                if (Desktop.isDesktopSupported() && Desktop.getDesktop().isSupported(Desktop.Action.BROWSE)) {
+                    Desktop.getDesktop().browse(new URI("https://discord.gg/gMZJd5UzYh"));
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
         }
     }
 
     public void drawScreen(int mouseX, int mouseY, float partialTicks) {
-        this.xOffset = -1.0f * (((float) mouseX - (float) this.width / 2.0f) / ((float) this.width / 32.0f));
-        this.yOffset = -1.0f * (((float) mouseY - (float) this.height / 2.0f) / ((float) this.height / 18.0f));
-        this.x = this.width / 2;
+        this.x = this.width / 4;
         this.y = this.height / 4 + 48;
         GlStateManager.enableTexture2D();
         GlStateManager.disableBlend();
         this.mc.getTextureManager().bindTexture(this.resourceLocation);
         GuiCustomMainScreen.drawCompleteImage(-16.0f + this.xOffset, -9.0f + this.yOffset, this.width + 32, this.height + 18);
+        particleGenerator.drawParticles(mouseX, mouseY);
+        CreepyWare.textManager.drawStringBig("Cr33pyW4re", (float) this.x, (float) this.y - 20, Color.white.getRGB(), true);
         super.drawScreen(mouseX, mouseY, partialTicks);
     }
 
@@ -116,7 +129,8 @@ public class GuiCustomMainScreen
                 this.hovered = (float) mouseX >= (float) this.x - (float) CreepyWare.textManager.getStringWidth(this.displayString) / 2.0f && mouseY >= this.y && mouseX < this.x + this.width && mouseY < this.y + this.height;
                 CreepyWare.textManager.drawStringWithShadow(this.displayString, (float) this.x - (float) CreepyWare.textManager.getStringWidth(this.displayString) / 2.0f, this.y, Color.WHITE.getRGB());
                 if (this.hovered) {
-                    RenderUtil.drawLine((float) (this.x - 1) - (float) CreepyWare.textManager.getStringWidth(this.displayString) / 2.0f, this.y + 2 + CreepyWare.textManager.getFontHeight(), (float) this.x + (float) CreepyWare.textManager.getStringWidth(this.displayString) / 2.0f + 1.0f, this.y + 2 + CreepyWare.textManager.getFontHeight(), 1.0f, Color.WHITE.getRGB());
+                    RenderUtil.drawLine((this.x - 5f) - (float) CreepyWare.textManager.getStringWidth(this.displayString) / 2.0f, this.y + 2 + CreepyWare.textManager.getFontHeight(), (float) this.x + (float) CreepyWare.textManager.getStringWidth(this.displayString) / 2.0f + 1.0f, this.y + 2 + CreepyWare.textManager.getFontHeight(), 1.0f, Color.GREEN.getRGB());
+                    CreepyWare.textManager.drawStringSmall("Click me", (float) this.x, (float) this.y - 10, Color.white.getRGB(), false);
                 }
             }
         }

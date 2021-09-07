@@ -17,6 +17,8 @@ public class TextManager
     public int scaledHeight;
     public int scaleFactor;
     private CustomFont customFont = new CustomFont(new Font("Verdana", 0, 17), true, false);
+    private final CustomFont headerFont = new CustomFont(new Font("Tahoma", Font.BOLD, 40), true, false);
+    private final CustomFont smallString = new CustomFont(new Font("tahoma", Font.BOLD, 10), true, false );
     private boolean idling;
 
     public TextManager() {
@@ -137,6 +139,21 @@ public class TextManager
             return "_";
         }
         return "";
+    }
+
+    public float drawStringBig(String string, float x, float y, int colour, boolean shadow) {
+        if (shadow) {
+            return this.headerFont.drawStringWithShadow(string, x, y, colour);
+        } else {
+            return this.headerFont.drawString(string, x, y, colour);
+        }
+    }
+    public float drawStringSmall(String string, float x, float y, int colour, boolean shadow) {
+        if (shadow) {
+            return this.smallString.drawStringWithShadow(string, x, y, colour);
+        } else {
+            return this.smallString.drawString(string, x, y, colour);
+        }
     }
 }
 

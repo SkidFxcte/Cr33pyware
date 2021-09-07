@@ -307,5 +307,9 @@ public class MathUtil
         double posZ = (double) forward * speed * sin - (double) side * speed * cos;
         return new double[]{posX, posZ};
     }
+
+    public static int random(int min, int max) {
+        return random.nextInt(max - min) + min;
+    }
 }
 
