@@ -24,7 +24,7 @@ public class PopChams
     public Setting<Integer> alpha = this.register(new Setting<Integer>("Alpha", 255, 0, 255));
 
     public PopChams() {
-        super("PopChams", "1 origianl module from kambing", Module.Category.RENDER, false, false, false);
+        super("PopChams", "1 original module from kambing", Module.Category.RENDER, false, false, false);
     }
 
     public static PopChams getINSTANCE() {
