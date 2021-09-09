@@ -18,7 +18,8 @@ import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicBoolean;
 
-public class SafetyManager
+public
+class SafetyManager
         extends Feature
         implements Runnable {
     private final Timer syncTimer = new Timer();
@@ -26,31 +27,33 @@ public class SafetyManager
     private ScheduledExecutorService service;
 
     @Override
-    public void run() {
+    public
+    void run() {
         if (AutoCrystal.getInstance().isOff() || AutoCrystal.getInstance().threadMode.getValue() == AutoCrystal.ThreadMode.NONE) {
             this.doSafetyCheck();
         }
     }
 
-    public void doSafetyCheck() {
-        if (!SafetyManager.fullNullCheck()) {
+    public
+    void doSafetyCheck() {
+        if (! SafetyManager.fullNullCheck()) {
             EntityPlayer closest;
             boolean safe = true;
-            EntityPlayer entityPlayer = closest = Managers.getInstance().safety.getValue() != false ? EntityUtil.getClosestEnemy(18.0) : null;
-            if (Managers.getInstance ().safety.getValue () && closest == null) {
+            EntityPlayer entityPlayer = closest = Managers.getInstance().safety.getValue() ? EntityUtil.getClosestEnemy(18.0) : null;
+            if (Managers.getInstance().safety.getValue() && closest == null) {
                 this.SAFE.set(true);
                 return;
             }
-            ArrayList<Entity> crystals = new ArrayList<>(SafetyManager.mc.world.loadedEntityList);
+            ArrayList <Entity> crystals = new ArrayList <>(SafetyManager.mc.world.loadedEntityList);
             for (Entity crystal : crystals) {
-                if (!(crystal instanceof EntityEnderCrystal) || !((double) DamageUtil.calculateDamage(crystal, SafetyManager.mc.player) > 4.0) || closest != null && !(closest.getDistanceSq(crystal) < 40.0))
+                if (! (crystal instanceof EntityEnderCrystal) || ! ((double) DamageUtil.calculateDamage(crystal , SafetyManager.mc.player) > 4.0) || closest != null && ! (closest.getDistanceSq(crystal) < 40.0))
                     continue;
                 safe = false;
                 break;
             }
             if (safe) {
-                for (BlockPos pos : BlockUtil.possiblePlacePositions(4.0f, false, Managers.getInstance().oneDot15.getValue())) {
-                    if (!((double) DamageUtil.calculateDamage(pos, SafetyManager.mc.player) > 4.0) || closest != null && !(closest.getDistanceSq(pos) < 40.0))
+                for (BlockPos pos : BlockUtil.possiblePlacePositions(4.0f , false , Managers.getInstance().oneDot15.getValue())) {
+                    if (! ((double) DamageUtil.calculateDamage(pos , SafetyManager.mc.player) > 4.0) || closest != null && ! (closest.getDistanceSq(pos) < 40.0))
                         continue;
                     safe = false;
                     break;
@@ -60,24 +63,28 @@ public class SafetyManager
         }
     }
 
-    public void onUpdate() {
+    public
+    void onUpdate() {
         this.run();
     }
 
-    public String getSafetyString() {
+    public
+    String getSafetyString() {
         if (this.SAFE.get()) {
             return "\u00a7aSecure";
         }
         return "\u00a7cUnsafe";
     }
 
-    public boolean isSafe() {
+    public
+    boolean isSafe() {
         return this.SAFE.get();
     }
 
-    public ScheduledExecutorService getService() {
+    public
+    ScheduledExecutorService getService() {
         ScheduledExecutorService service = Executors.newSingleThreadScheduledExecutor();
-        service.scheduleAtFixedRate(this, 0L, Managers.getInstance ().safetyCheck.getValue () , TimeUnit.MILLISECONDS);
+        service.scheduleAtFixedRate(this , 0L , Managers.getInstance().safetyCheck.getValue() , TimeUnit.MILLISECONDS);
         return service;
     }
 }

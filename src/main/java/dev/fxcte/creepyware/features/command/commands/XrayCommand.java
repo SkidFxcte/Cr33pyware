@@ -5,14 +5,17 @@ import dev.fxcte.creepyware.features.command.Command;
 import dev.fxcte.creepyware.features.modules.render.XRay;
 import dev.fxcte.creepyware.features.setting.Setting;
 
-public class XrayCommand
+public
+class XrayCommand
         extends Command {
-    public XrayCommand() {
-        super("xray", new String[]{"<add/del>", "<block>"});
+    public
+    XrayCommand() {
+        super("xray" , new String[]{"<add/del>" , "<block>"});
     }
 
     @Override
-    public void execute(String[] commands) {
+    public
+    void execute(String[] commands) {
         XRay module = CreepyWare.moduleManager.getModuleByClass(XRay.class);
         if (module != null) {
             if (commands.length == 1) {
@@ -41,8 +44,8 @@ public class XrayCommand
                 }
                 XrayCommand.sendMessage("<XRay>\u00a7c Removed: " + blockName);
             } else if (addRemove.equalsIgnoreCase("add")) {
-                if (!module.shouldRender(blockName)) {
-                    module.register(new Setting<Object>(blockName, true , v -> module.showBlocks.getValue()));
+                if (! module.shouldRender(blockName)) {
+                    module.register(new Setting <Object>(blockName , true , v -> module.showBlocks.getValue()));
                     XrayCommand.sendMessage("<Xray> Added new Block: " + blockName);
                 }
             } else {

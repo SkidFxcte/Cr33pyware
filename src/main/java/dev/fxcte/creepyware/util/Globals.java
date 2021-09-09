@@ -4,13 +4,14 @@ import net.minecraft.client.Minecraft;
 
 import java.util.Random;
 
-public interface Globals {
+public
+interface Globals {
     Minecraft mc = Minecraft.getMinecraft();
     Random random = new Random();
     char SECTIONSIGN = '\u00A7';
 
     default
-    boolean nullCheck (){
+    boolean nullCheck() {
         return mc.player == null || mc.world == null;
     }
 

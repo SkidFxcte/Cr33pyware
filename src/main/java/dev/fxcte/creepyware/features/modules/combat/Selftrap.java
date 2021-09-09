@@ -238,7 +238,7 @@ public class Selftrap
     private void placeBlock(BlockPos pos) {
         if (this.blocksThisTick < this.blocksPerTick.getValue() && this.switchItem(false)) {
             boolean smartRotate;
-            boolean bl = smartRotate = this.blocksPerTick.getValue() == 1 && this.rotate.getValue() != false;
+            boolean bl = smartRotate = this.blocksPerTick.getValue() == 1 && this.rotate.getValue();
             this.isSneaking = smartRotate ? BlockUtil.placeBlockSmartRotate(pos, this.hasOffhand ? EnumHand.OFF_HAND : EnumHand.MAIN_HAND, true, this.packet.getValue(), this.isSneaking) : BlockUtil.placeBlock(pos, this.hasOffhand ? EnumHand.OFF_HAND : EnumHand.MAIN_HAND, this.rotate.getValue(), this.packet.getValue(), this.isSneaking);
             this.timer.reset();
             ++this.blocksThisTick;

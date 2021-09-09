@@ -8,11 +8,13 @@ import org.spongepowered.asm.mixin.Mixins;
 
 import java.util.Map;
 
-public class CreepywareMixinLoader
-implements IFMLLoadingPlugin {
+public
+class CreepywareMixinLoader
+        implements IFMLLoadingPlugin {
     private static boolean isObfuscatedEnvironment = false;
 
-    public CreepywareMixinLoader() {
+    public
+    CreepywareMixinLoader() {
         CreepyWare.LOGGER.info("CreepyWare mixins initialized");
         MixinBootstrap.init();
         Mixins.addConfiguration("mixins.creepyware.json");
@@ -20,23 +22,28 @@ implements IFMLLoadingPlugin {
         CreepyWare.LOGGER.info(MixinEnvironment.getDefaultEnvironment().getObfuscationContext());
     }
 
-    public String[] getASMTransformerClass() {
+    public
+    String[] getASMTransformerClass() {
         return new String[0];
     }
 
-    public String getModContainerClass() {
+    public
+    String getModContainerClass() {
         return null;
     }
 
-    public String getSetupClass() {
+    public
+    String getSetupClass() {
         return null;
     }
 
-    public void injectData(Map<String, Object> data) {
-        isObfuscatedEnvironment = (Boolean)data.get("runtimeDeobfuscationEnabled");
+    public
+    void injectData(Map <String, Object> data) {
+        isObfuscatedEnvironment = (Boolean) data.get("runtimeDeobfuscationEnabled");
     }
 
-    public String getAccessTransformerClass() {
+    public
+    String getAccessTransformerClass() {
         return null;
     }
 }

@@ -3,7 +3,8 @@ package dev.fxcte.creepyware.util;
 import java.util.Random;
 import java.util.regex.Pattern;
 
-public class TextUtil {
+public
+class TextUtil {
     public static final String SECTIONSIGN = "\u00a7";
     public static final String BLACK = "\u00a70";
     public static final String DARK_BLUE = "\u00a71";
@@ -39,14 +40,16 @@ public class TextUtil {
     private static final Random rand = new Random();
     public static String shrug = "\u00af\\_(\u30c4)_/\u00af";
 
-    public static String stripColor(String input) {
+    public static
+    String stripColor(String input) {
         if (input == null) {
             return null;
         }
         return STRIP_COLOR_PATTERN.matcher(input).replaceAll("");
     }
 
-    public static String coloredString(String string, Color color) {
+    public static
+    String coloredString(String string , Color color) {
         String coloredString = string;
         switch (color) {
             case AQUA: {
@@ -117,15 +120,17 @@ public class TextUtil {
         return coloredString;
     }
 
-    public static String cropMaxLengthMessage(String s, int i) {
+    public static
+    String cropMaxLengthMessage(String s , int i) {
         String output = "";
         if (s.length() >= 256 - i) {
-            output = s.substring(0, 256 - i);
+            output = s.substring(0 , 256 - i);
         }
         return output;
     }
 
-    public enum Color {
+    public
+    enum Color {
         NONE,
         WHITE,
         BLACK,

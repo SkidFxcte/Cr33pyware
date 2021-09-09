@@ -9,14 +9,17 @@ import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
-public class ConfigCommand
+public
+class ConfigCommand
         extends Command {
-    public ConfigCommand() {
-        super("config", new String[]{"<save/load>"});
+    public
+    ConfigCommand() {
+        super("config" , new String[]{"<save/load>"});
     }
 
     @Override
-    public void execute(String[] commands) {
+    public
+    void execute(String[] commands) {
         if (commands.length == 1) {
             ConfigCommand.sendMessage("You`ll find the config files in your gameProfile directory under creepyware/config");
             return;
@@ -25,7 +28,7 @@ public class ConfigCommand
             if ("list".equals(commands[0])) {
                 String configs = "Configs: ";
                 File file = new File("creepyware/");
-                List<File> directories = Arrays.stream(Objects.requireNonNull (file.listFiles ())).filter(File::isDirectory).filter(f -> !f.getName().equals("util")).collect(Collectors.toList());
+                List <File> directories = Arrays.stream(Objects.requireNonNull(file.listFiles())).filter(File::isDirectory).filter(f -> ! f.getName().equals("util")).collect(Collectors.toList());
                 StringBuilder builder = new StringBuilder(configs);
                 for (File file1 : directories) {
                     builder.append(file1.getName() + ", ");

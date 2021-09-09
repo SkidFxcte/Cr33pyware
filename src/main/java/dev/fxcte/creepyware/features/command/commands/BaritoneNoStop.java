@@ -3,14 +3,17 @@ package dev.fxcte.creepyware.features.command.commands;
 import dev.fxcte.creepyware.CreepyWare;
 import dev.fxcte.creepyware.features.command.Command;
 
-public class BaritoneNoStop
+public
+class BaritoneNoStop
         extends Command {
-    public BaritoneNoStop() {
-        super("noStop", new String[]{"<prefix>", "<x>", "<y>", "<z>"});
+    public
+    BaritoneNoStop() {
+        super("noStop" , new String[]{"<prefix>" , "<x>" , "<y>" , "<z>"});
     }
 
     @Override
-    public void execute(String[] commands) {
+    public
+    void execute(String[] commands) {
         if (commands.length == 5) {
             CreepyWare.baritoneManager.setPrefix(commands[0]);
             int x = 0;
@@ -25,7 +28,7 @@ public class BaritoneNoStop
                 CreepyWare.baritoneManager.stop();
                 return;
             }
-            CreepyWare.baritoneManager.start(x, y, z);
+            CreepyWare.baritoneManager.start(x , y , z);
             return;
         }
         BaritoneNoStop.sendMessage("Stoping Baritone-Nostop.");

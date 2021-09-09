@@ -37,25 +37,29 @@ import java.util.Objects;
 import java.util.UUID;
 import java.util.concurrent.atomic.AtomicBoolean;
 
-public class EventManager
+public
+class EventManager
         extends Feature {
     private final Timer timer = new Timer();
     private final Timer logoutTimer = new Timer();
     private final Timer switchTimer = new Timer();
-    private boolean keyTimeout;
     private final AtomicBoolean tickOngoing = new AtomicBoolean(false);
+    private boolean keyTimeout;
 
-    public void init() {
+    public
+    void init() {
         MinecraftForge.EVENT_BUS.register(this);
     }
 
-    public void onUnload() {
+    public
+    void onUnload() {
         MinecraftForge.EVENT_BUS.unregister(this);
     }
 
     @SubscribeEvent
-    public void onUpdate(LivingEvent.LivingUpdateEvent event) {
-        if (!EventManager.fullNullCheck() && event.getEntity().getEntityWorld().isRemote && event.getEntityLiving().equals(EventManager.mc.player)) {
+    public
+    void onUpdate(LivingEvent.LivingUpdateEvent event) {
+        if (! EventManager.fullNullCheck() && event.getEntity().getEntityWorld().isRemote && event.getEntityLiving().equals(EventManager.mc.player)) {
             CreepyWare.potionManager.update();
             CreepyWare.totemPopManager.onUpdate();
             CreepyWare.inventoryManager.update();
@@ -63,7 +67,7 @@ public class EventManager
             CreepyWare.safetyManager.onUpdate();
             CreepyWare.moduleManager.onUpdate();
             CreepyWare.timerManager.update();
-            if (this.timer.passedMs(Managers.getInstance ().moduleListUpdates.getValue ())) {
+            if (this.timer.passedMs(Managers.getInstance().moduleListUpdates.getValue())) {
                 CreepyWare.moduleManager.sortModules(true);
                 CreepyWare.moduleManager.alphabeticallySortModules();
                 this.timer.reset();
@@ -72,55 +76,63 @@ public class EventManager
     }
 
     @SubscribeEvent
-    public void onSettingChange(ClientEvent event) {
+    public
+    void onSettingChange(ClientEvent event) {
         if (event.getStage() == 2 && mc.getConnection() != null && ServerModule.getInstance().isConnected() && EventManager.mc.world != null) {
             String command = "@Server" + ServerModule.getInstance().getServerPrefix() + "module " + event.getSetting().getFeature().getName() + " set " + event.getSetting().getName() + " " + event.getSetting().getPlannedValue().toString();
             CPacketChatMessage cPacketChatMessage = new CPacketChatMessage(command);
         }
     }
 
-    @SubscribeEvent(priority = EventPriority.HIGHEST)
-    public void onTickHighest(TickEvent.ClientTickEvent event) {
+    @SubscribeEvent (priority = EventPriority.HIGHEST)
+    public
+    void onTickHighest(TickEvent.ClientTickEvent event) {
         if (event.phase == TickEvent.Phase.START) {
             this.tickOngoing.set(true);
         }
     }
 
-    @SubscribeEvent(priority = EventPriority.LOWEST)
-    public void onTickLowest(TickEvent.ClientTickEvent event) {
+    @SubscribeEvent (priority = EventPriority.LOWEST)
+    public
+    void onTickLowest(TickEvent.ClientTickEvent event) {
         if (event.phase == TickEvent.Phase.END) {
             this.tickOngoing.set(false);
             AutoCrystal.getInstance().postTick();
         }
     }
 
-    public boolean ticksOngoing() {
+    public
+    boolean ticksOngoing() {
         return this.tickOngoing.get();
     }
 
     @SubscribeEvent
-    public void onClientConnect(FMLNetworkEvent.ClientConnectedToServerEvent event) {
+    public
+    void onClientConnect(FMLNetworkEvent.ClientConnectedToServerEvent event) {
         this.logoutTimer.reset();
         CreepyWare.moduleManager.onLogin();
     }
 
     @SubscribeEvent
-    public void onClientDisconnect(FMLNetworkEvent.ClientDisconnectionFromServerEvent event) {
+    public
+    void onClientDisconnect(FMLNetworkEvent.ClientDisconnectionFromServerEvent event) {
         CreepyWare.moduleManager.onLogout();
         CreepyWare.totemPopManager.onLogout();
         CreepyWare.potionManager.onLogout();
     }
 
     @SubscribeEvent
-    public void onTick(TickEvent.ClientTickEvent event) {
+    public
+    void onTick(TickEvent.ClientTickEvent event) {
         if (EventManager.fullNullCheck()) {
             return;
         }
         CreepyWare.moduleManager.onTick();
     }
 
-    @SubscribeEvent(priority = EventPriority.HIGHEST)
-    public void onUpdateWalkingPlayer(UpdateWalkingPlayerEvent event) {
+    @SubscribeEvent (priority = EventPriority.HIGHEST)
+    public
+    void onUpdateWalkingPlayer(UpdateWalkingPlayerEvent event) {
         if (EventManager.fullNullCheck()) {
             return;
         }
@@ -137,18 +149,21 @@ public class EventManager
     }
 
     @SubscribeEvent
-    public void onPacketSend(PacketEvent.Send event) {
+    public
+    void onPacketSend(PacketEvent.Send event) {
         if (event.getPacket() instanceof CPacketHeldItemChange) {
             this.switchTimer.reset();
         }
     }
 
-    public boolean isOnSwitchCoolDown() {
-        return !this.switchTimer.passedMs(500L);
+    public
+    boolean isOnSwitchCoolDown() {
+        return ! this.switchTimer.passedMs(500L);
     }
 
     @SubscribeEvent
-    public void onPacketReceive(PacketEvent.Receive event) {
+    public
+    void onPacketReceive(PacketEvent.Receive event) {
         if (event.getStage() != 0) {
             return;
         }
@@ -161,27 +176,27 @@ public class EventManager
                 CreepyWare.totemPopManager.onTotemPop(player);
                 CreepyWare.potionManager.onTotemPop(player);
             }
-        } else if (event.getPacket() instanceof SPacketPlayerListItem && !EventManager.fullNullCheck() && this.logoutTimer.passedS(1.0)) {
+        } else if (event.getPacket() instanceof SPacketPlayerListItem && ! EventManager.fullNullCheck() && this.logoutTimer.passedS(1.0)) {
             SPacketPlayerListItem packet = event.getPacket();
-            if (!SPacketPlayerListItem.Action.ADD_PLAYER.equals(packet.getAction()) && !SPacketPlayerListItem.Action.REMOVE_PLAYER.equals(packet.getAction())) {
+            if (! SPacketPlayerListItem.Action.ADD_PLAYER.equals(packet.getAction()) && ! SPacketPlayerListItem.Action.REMOVE_PLAYER.equals(packet.getAction())) {
                 return;
             }
-            packet.getEntries().stream().filter(Objects::nonNull).filter(data -> !Strings.isNullOrEmpty(data.getProfile().getName()) || data.getProfile().getId() != null).forEach(data -> {
+            packet.getEntries().stream().filter(Objects::nonNull).filter(data -> ! Strings.isNullOrEmpty(data.getProfile().getName()) || data.getProfile().getId() != null).forEach(data -> {
                 UUID id = data.getProfile().getId();
                 switch (packet.getAction()) {
                     case ADD_PLAYER: {
                         String name = data.getProfile().getName();
-                        MinecraftForge.EVENT_BUS.post(new ConnectionEvent(0, id, name));
+                        MinecraftForge.EVENT_BUS.post(new ConnectionEvent(0 , id , name));
                         break;
                     }
                     case REMOVE_PLAYER: {
                         EntityPlayer entity = EventManager.mc.world.getPlayerEntityByUUID(id);
                         if (entity != null) {
                             String logoutName = entity.getName();
-                            MinecraftForge.EVENT_BUS.post(new ConnectionEvent(1, entity, id, logoutName));
+                            MinecraftForge.EVENT_BUS.post(new ConnectionEvent(1 , entity , id , logoutName));
                             break;
                         }
-                        MinecraftForge.EVENT_BUS.post(new ConnectionEvent(2, id, null));
+                        MinecraftForge.EVENT_BUS.post(new ConnectionEvent(2 , id , null));
                     }
                 }
             });
@@ -191,7 +206,8 @@ public class EventManager
     }
 
     @SubscribeEvent
-    public void onWorldRender(RenderWorldLastEvent event) {
+    public
+    void onWorldRender(RenderWorldLastEvent event) {
         if (event.isCanceled()) {
             return;
         }
@@ -199,7 +215,7 @@ public class EventManager
         GlStateManager.disableTexture2D();
         GlStateManager.enableBlend();
         GlStateManager.disableAlpha();
-        GlStateManager.tryBlendFuncSeparate(770, 771, 1, 0);
+        GlStateManager.tryBlendFuncSeparate(770 , 771 , 1 , 0);
         GlStateManager.shadeModel(7425);
         GlStateManager.disableDepth();
         GlStateManager.glLineWidth(1.0f);
@@ -208,11 +224,11 @@ public class EventManager
         IntBuffer viewPort = GLAllocation.createDirectIntBuffer(16);
         FloatBuffer modelView = GLAllocation.createDirectFloatBuffer(16);
         FloatBuffer projectionPort = GLAllocation.createDirectFloatBuffer(16);
-        GL11.glGetFloat(2982, modelView);
-        GL11.glGetFloat(2983, projectionPort);
-        GL11.glGetInteger(2978, viewPort);
+        GL11.glGetFloat(2982 , modelView);
+        GL11.glGetFloat(2983 , projectionPort);
+        GL11.glGetInteger(2978 , viewPort);
         ScaledResolution scaledResolution = new ScaledResolution(Minecraft.getMinecraft());
-        projection.updateMatrices(viewPort, modelView, projectionPort, (double) scaledResolution.getScaledWidth() / (double) Minecraft.getMinecraft().displayWidth, (double) scaledResolution.getScaledHeight() / (double) Minecraft.getMinecraft().displayHeight);
+        projection.updateMatrices(viewPort , modelView , projectionPort , (double) scaledResolution.getScaledWidth() / (double) Minecraft.getMinecraft().displayWidth , (double) scaledResolution.getScaledHeight() / (double) Minecraft.getMinecraft().displayHeight);
         CreepyWare.moduleManager.onRender3D(render3dEvent);
         GlStateManager.glLineWidth(1.0f);
         GlStateManager.shadeModel(7424);
@@ -230,24 +246,27 @@ public class EventManager
     }
 
     @SubscribeEvent
-    public void renderHUD(RenderGameOverlayEvent.Post event) {
+    public
+    void renderHUD(RenderGameOverlayEvent.Post event) {
         if (event.getType() == RenderGameOverlayEvent.ElementType.HOTBAR) {
             CreepyWare.textManager.updateResolution();
         }
     }
 
-    @SubscribeEvent(priority = EventPriority.LOW)
-    public void onRenderGameOverlayEvent(RenderGameOverlayEvent.Text event) {
+    @SubscribeEvent (priority = EventPriority.LOW)
+    public
+    void onRenderGameOverlayEvent(RenderGameOverlayEvent.Text event) {
         if (event.getType().equals(RenderGameOverlayEvent.ElementType.TEXT)) {
             ScaledResolution resolution = new ScaledResolution(mc);
-            Render2DEvent render2DEvent = new Render2DEvent(event.getPartialTicks(), resolution);
+            Render2DEvent render2DEvent = new Render2DEvent(event.getPartialTicks() , resolution);
             CreepyWare.moduleManager.onRender2D(render2DEvent);
-            GlStateManager.color(1.0f, 1.0f, 1.0f, 1.0f);
+            GlStateManager.color(1.0f , 1.0f , 1.0f , 1.0f);
         }
     }
 
-    @SubscribeEvent(priority = EventPriority.HIGHEST)
-    public void onChatSent(ClientChatEvent event) {
+    @SubscribeEvent (priority = EventPriority.HIGHEST)
+    public
+    void onChatSent(ClientChatEvent event) {
         if (event.getMessage().startsWith(Command.getCommandPrefix())) {
             event.setCanceled(true);
             try {

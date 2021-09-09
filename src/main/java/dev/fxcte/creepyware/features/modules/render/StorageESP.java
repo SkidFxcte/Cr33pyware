@@ -45,7 +45,7 @@ public class StorageESP
         BlockPos pos;
         HashMap<BlockPos, Integer> positions = new HashMap <> ();
         for (TileEntity tileEntity : StorageESP.mc.world.loadedTileEntityList) {
-            if (!(tileEntity instanceof TileEntityChest && this.chest.getValue() != false || tileEntity instanceof TileEntityDispenser && this.dispenser.getValue() != false || tileEntity instanceof TileEntityShulkerBox && this.shulker.getValue() != false || tileEntity instanceof TileEntityEnderChest && this.echest.getValue() != false || tileEntity instanceof TileEntityFurnace && this.furnace.getValue() != false) && (!(tileEntity instanceof TileEntityHopper) || ! this.hopper.getValue ()) || !(StorageESP.mc.player.getDistanceSq(pos = tileEntity.getPos()) <= MathUtil.square(this.range.getValue ())) || (color = this.getTileEntityColor(tileEntity)) == -1)
+            if (!(tileEntity instanceof TileEntityChest && this.chest.getValue() || tileEntity instanceof TileEntityDispenser && this.dispenser.getValue() || tileEntity instanceof TileEntityShulkerBox && this.shulker.getValue() || tileEntity instanceof TileEntityEnderChest && this.echest.getValue() || tileEntity instanceof TileEntityFurnace && this.furnace.getValue()) && (!(tileEntity instanceof TileEntityHopper) || ! this.hopper.getValue ()) || !(StorageESP.mc.player.getDistanceSq(pos = tileEntity.getPos()) <= MathUtil.square(this.range.getValue ())) || (color = this.getTileEntityColor(tileEntity)) == -1)
                 continue;
             positions.put(pos, color);
         }
@@ -57,7 +57,7 @@ public class StorageESP
         for (Map.Entry entry : positions.entrySet()) {
             BlockPos blockPos = (BlockPos) entry.getKey();
             color = (Integer) entry.getValue();
-            RenderUtil.drawBoxESP(blockPos, this.colorSync.getValue() != false ? Colors.INSTANCE.getCurrentColor() : new Color(color), false, new Color(color), this.lineWidth.getValue () , this.outline.getValue(), this.box.getValue(), this.boxAlpha.getValue(), false);
+            RenderUtil.drawBoxESP(blockPos, this.colorSync.getValue() ? Colors.INSTANCE.getCurrentColor() : new Color(color), false, new Color(color), this.lineWidth.getValue () , this.outline.getValue(), this.box.getValue(), this.boxAlpha.getValue(), false);
         }
     }
 

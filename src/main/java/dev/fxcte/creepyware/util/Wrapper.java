@@ -7,25 +7,28 @@ import net.minecraft.client.multiplayer.WorldClient;
 
 import javax.annotation.Nullable;
 
-public class Wrapper
-{
+public
+class Wrapper {
     public static final Minecraft mc;
 
+    static {
+        mc = Minecraft.getMinecraft();
+    }
+
     @Nullable
-    public static EntityPlayerSP getPlayer() {
+    public static
+    EntityPlayerSP getPlayer() {
         return Wrapper.mc.player;
     }
 
     @Nullable
-    public static WorldClient getWorld() {
+    public static
+    WorldClient getWorld() {
         return Wrapper.mc.world;
     }
 
-    public static FontRenderer getFontRenderer() {
+    public static
+    FontRenderer getFontRenderer() {
         return Wrapper.mc.fontRenderer;
-    }
-
-    static {
-        mc = Minecraft.getMinecraft();
     }
 }

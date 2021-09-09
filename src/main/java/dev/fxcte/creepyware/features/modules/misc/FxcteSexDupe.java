@@ -8,16 +8,19 @@ import net.minecraft.item.ItemStack;
 
 import java.util.Random;
 
-public class FxcteSexDupe
-    extends Module {
-
-    public FxcteSexDupe() {
-        super("FxcteSexDupe", "Hacker shit", Module.Category.MISC, true, false, false);
-    }
+public
+class FxcteSexDupe
+        extends Module {
 
     private final Random random = new Random();
 
-    public void onEnable() {
+    public
+    FxcteSexDupe() {
+        super("FxcteSexDupe" , "Hacker shit" , Module.Category.MISC , true , false , false);
+    }
+
+    public
+    void onEnable() {
         EntityPlayerSP player = mc.player;
         WorldClient world = mc.world;
 
@@ -34,8 +37,8 @@ public class FxcteSexDupe
         int count = random.nextInt(31) + 1;
 
         for (int i = 0; i <= count; i++) {
-            EntityItem entityItem = player.dropItem(itemStack.copy(), false, true);
-            if (entityItem != null) world.addEntityToWorld(entityItem.entityId, entityItem);
+            EntityItem entityItem = player.dropItem(itemStack.copy() , false , true);
+            if (entityItem != null) world.addEntityToWorld(entityItem.entityId , entityItem);
         }
 
         int total = count * itemStack.getCount();
@@ -43,6 +46,7 @@ public class FxcteSexDupe
         disable();
     }
 
-    private void setDisabledMessage(String s) {
+    private
+    void setDisabledMessage(String s) {
     }
 }

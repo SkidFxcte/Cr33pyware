@@ -4,14 +4,17 @@ import dev.fxcte.creepyware.CreepyWare;
 import dev.fxcte.creepyware.features.command.Command;
 import dev.fxcte.creepyware.features.modules.client.ClickGui;
 
-public class PrefixCommand
+public
+class PrefixCommand
         extends Command {
-    public PrefixCommand() {
-        super("prefix", new String[]{"<char>"});
+    public
+    PrefixCommand() {
+        super("prefix" , new String[]{"<char>"});
     }
 
     @Override
-    public void execute(String[] commands) {
+    public
+    void execute(String[] commands) {
         if (commands.length == 1) {
             Command.sendMessage("\u00a7cSpecify a new prefix.");
             return;

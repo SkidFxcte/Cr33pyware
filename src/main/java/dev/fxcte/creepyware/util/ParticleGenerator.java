@@ -6,102 +6,101 @@ import org.lwjgl.opengl.GL11;
 import java.util.ArrayList;
 import java.util.Random;
 
-public class ParticleGenerator {
+public
+class ParticleGenerator {
 
-    private int count;
-    private int width;
-    private int height;
-    private ArrayList<Particle> particles = new ArrayList();
-    private Random random = new Random();
+    private final int count;
+    private final int width;
+    private final int height;
+    private final ArrayList <Particle> particles = new ArrayList();
+    private final Random random = new Random();
     int state = 0;
     int a = 255;
     int r = 255;
     int g = 0;
     int b = 0;
 
-    public ParticleGenerator(int count, int width, int height)
-    {
+    public
+    ParticleGenerator(int count , int width , int height) {
         this.count = count;
         this.width = width;
         this.height = height;
         for (int i = 0; i < count; i++) {
-            this.particles.add(new Particle(this.random.nextInt(width), this.random.nextInt(height)));
+            this.particles.add(new Particle(this.random.nextInt(width) , this.random.nextInt(height)));
         }
     }
 
-    public void drawParticles(int mouseX, int mouseY)
-    {
-        for (Particle p : this.particles)
-        {
-            if (p.reset)
-            {
+    public
+    void drawParticles(int mouseX , int mouseY) {
+        for (Particle p : this.particles) {
+            if (p.reset) {
                 p.resetPosSize();
                 p.reset = false;
             }
-            p.draw(mouseX, mouseY);
+            p.draw(mouseX , mouseY);
 
         }
     }
 
-    public class Particle
-    {
+    public
+    class Particle {
+        private final Random random = new Random();
         private int x;
         private int y;
         private int k;
         private float size;
         private boolean reset;
-        private Random random = new Random();
 
-        public Particle(int x, int y)
-        {
+        public
+        Particle(int x , int y) {
             this.x = x;
             this.y = y;
-            this.size = genRandom(1.0F, 4.0F);
+            this.size = genRandom(1.0F , 3.0F);
         }
 
-        public void draw(int mouseX, int mouseY)
-        {
+        public
+        void draw(int mouseX , int mouseY) {
             if (this.size <= 0.0F) {
                 this.reset = true;
             }
             this.size -= 0.05F;
             this.k += 1;
-            int xx = (int)(MathHelper.cos(0.1F * (this.x + this.k)) * 10.0F);
-            int yy = (int)(MathHelper.cos(0.1F * (this.y + this.k)) * 10.0F);
-            Utils.drawBorderedCircle(this.x + xx, this.y + yy, this.size, 0, 553648127);
+            int xx = (int) (MathHelper.cos(0.1F * (this.x + this.k)) * 10.0F);
+            int yy = (int) (MathHelper.cos(0.1F * (this.y + this.k)) * 10.0F);
+            Utils.drawBorderedCircle(this.x + xx , this.y + yy , this.size , 0 , 553648127);
 
 
-            float distance = (float) Utils.distance(this.x + xx, this.y + yy, mouseX, mouseY);
+            float distance = (float) Utils.distance(this.x + xx , this.y + yy , mouseX , mouseY);
 
-            if (distance < 80) {
-                float alpha1 = Math.min(1.0f, Math.min(1.0f, 1.0f - distance / 80));
+            if (distance < 50) {
+                float alpha1 = Math.min(1.0f , Math.min(1.0f , 1.0f - distance / 50));
 
                 GL11.glEnable(GL11.GL_LINE_SMOOTH);
                 GL11.glDisable(GL11.GL_DEPTH_TEST);
-                GL11.glColor4f(255F, 255F, 255F, 255F);
+                GL11.glColor4f(255F , 255F , 255F , 255F);
                 GL11.glDisable(GL11.GL_TEXTURE_2D);
                 GL11.glDepthMask(false);
-                GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
+                GL11.glBlendFunc(GL11.GL_SRC_ALPHA , GL11.GL_ONE_MINUS_SRC_ALPHA);
                 GL11.glEnable(GL11.GL_BLEND);
-                GL11.glLineWidth(0.5F);
+                GL11.glLineWidth(0.1F);
                 GL11.glBegin(GL11.GL_LINES);
 
-                GL11.glVertex2f(this.x + xx, this.y + yy);
-                GL11.glVertex2f(mouseX, mouseY);
+                GL11.glVertex2f(this.x + xx , this.y + yy);
+                GL11.glVertex2f(mouseX , mouseY);
                 GL11.glEnd();
             }
         }
 
-        public void resetPosSize()
-        {
+        public
+        void resetPosSize() {
             this.x = this.random.nextInt(ParticleGenerator.this.width);
             this.y = this.random.nextInt(ParticleGenerator.this.height);
-            this.size = genRandom(1.0F, 4.0F);
+            this.size = genRandom(1.0F , 3.0F);
         }
 
-        public float genRandom(float min, float max)
-        {
-            return (float)(min + Math.random() * (max - min + 1.0F));
+        public
+        float genRandom(float min , float max) {
+            return (float) (min + Math.random() * (max - min + 1.0F));
         }
     }
 }

@@ -6,15 +6,16 @@ import net.minecraft.util.Timer;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.gen.Accessor;
 
-@Mixin(Minecraft.class)
-public interface IMinecraft {
+@Mixin (Minecraft.class)
+public
+interface IMinecraft {
 
-    @Accessor("session")
+    @Accessor ("session")
     void setSession(Session session);
 
-    @Accessor("rightClickDelayTimer")
+    @Accessor ("rightClickDelayTimer")
     void setRightClickDelayTimer(int rightClickDelayTimer);
 
-    @Accessor("timer")
+    @Accessor ("timer")
     Timer getTimer();
 }

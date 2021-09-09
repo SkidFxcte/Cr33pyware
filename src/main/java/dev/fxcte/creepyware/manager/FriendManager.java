@@ -9,83 +9,100 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
-public class FriendManager
+public
+class FriendManager
         extends Feature {
-    private final Map<String, UUID> friends = new HashMap <> ();
+    private final Map <String, UUID> friends = new HashMap <>();
 
-    public FriendManager() {
+    public
+    FriendManager() {
         super("Friends");
     }
 
-    public boolean isFriend(String name) {
+    public
+    boolean isFriend(String name) {
         return this.friends.get(name) != null;
     }
 
-    public boolean isFriend(EntityPlayer player) {
+    public
+    boolean isFriend(EntityPlayer player) {
         return this.isFriend(player.getName());
     }
 
-    public void addFriend(String name) {
+    public
+    void addFriend(String name) {
         Friend friend = this.getFriendByName(name);
         if (friend != null) {
-            this.friends.put(friend.getUsername(), friend.getUuid());
+            this.friends.put(friend.getUsername() , friend.getUuid());
         }
     }
 
-    public void removeFriend(String name) {
+    public
+    void removeFriend(String name) {
         this.friends.remove(name);
     }
 
-    public void onLoad() {
+    public
+    void onLoad() {
         this.friends.clear();
         this.clearSettings();
     }
 
-    public void saveFriends() {
+    public
+    void saveFriends() {
         this.clearSettings();
-        for (Map.Entry<String, UUID> entry : this.friends.entrySet()) {
-            this.register(new Setting <> ("Speed" , entry.getValue ().toString () , 0.0 , 0.0 , entry.getKey () , 0));
+        for (Map.Entry <String, UUID> entry : this.friends.entrySet()) {
+            this.register(new Setting <>("Speed" , entry.getValue().toString() , 0.0 , 0.0 , entry.getKey() , 0));
         }
     }
 
-    public Map<String, UUID> getFriends() {
+    public
+    Map <String, UUID> getFriends() {
         return this.friends;
     }
 
-    public Friend getFriendByName(String input) {
+    public
+    Friend getFriendByName(String input) {
         UUID uuid = PlayerUtil.getUUIDFromName(input);
         if (uuid != null) {
-            return new Friend(input, uuid);
+            return new Friend(input , uuid);
         }
         return null;
     }
 
-    public void addFriend(Friend friend) {
-        this.friends.put(friend.getUsername(), friend.getUuid());
+    public
+    void addFriend(Friend friend) {
+        this.friends.put(friend.getUsername() , friend.getUuid());
     }
 
-    public static class Friend {
+    public static
+    class Friend {
         private final String username;
         private final UUID uuid;
 
-        public Friend(String username, UUID uuid) {
+        public
+        Friend(String username , UUID uuid) {
             this.username = username;
             this.uuid = uuid;
         }
 
-        public String getUsername() {
+        public
+        String getUsername() {
             return this.username;
         }
 
-        public UUID getUuid() {
+        public
+        UUID getUuid() {
             return this.uuid;
         }
 
-        public boolean equals(Object other) {
+        public
+        boolean equals(Object other) {
             return other instanceof Friend && ((Friend) other).getUsername().equals(this.username) && ((Friend) other).getUuid().equals(this.uuid);
         }
 
-        public int hashCode() {
+        public
+        int hashCode() {
             return this.username.hashCode() + this.uuid.hashCode();
         }
     }

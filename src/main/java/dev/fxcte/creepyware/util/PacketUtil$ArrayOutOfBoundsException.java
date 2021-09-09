@@ -1,6 +1,7 @@
 package dev.fxcte.creepyware.util;
 
-public class PacketUtil$ArrayOutOfBoundsException
+public
+class PacketUtil$ArrayOutOfBoundsException
         extends RuntimeException {
 }
 

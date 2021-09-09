@@ -13,16 +13,18 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
-@Mixin(value={BlockEndPortalFrame.class})
-public class MixinBlockEndPortalFrame {
+@Mixin (value = {BlockEndPortalFrame.class})
+public
+class MixinBlockEndPortalFrame {
     @Shadow
     @Final
     protected static AxisAlignedBB AABB_BLOCK;
 
-    @Inject(method={"getBoundingBox"}, at={@At(value="HEAD")}, cancellable=true)
-    public void getBoundingBox(IBlockState state, IBlockAccess source, BlockPos pos, CallbackInfoReturnable<AxisAlignedBB> info) {
-        if (NoSlowDown.getInstance().isOn() && NoSlowDown.getInstance ().endPortal.getValue ()) {
-            info.setReturnValue(new AxisAlignedBB(0.0, 0.0, 0.0, 1.0, 1.0, 1.0));
+    @Inject (method = {"getBoundingBox"}, at = {@At (value = "HEAD")}, cancellable = true)
+    public
+    void getBoundingBox(IBlockState state , IBlockAccess source , BlockPos pos , CallbackInfoReturnable <AxisAlignedBB> info) {
+        if (NoSlowDown.getInstance().isOn() && NoSlowDown.getInstance().endPortal.getValue()) {
+            info.setReturnValue(new AxisAlignedBB(0.0 , 0.0 , 0.0 , 1.0 , 1.0 , 1.0));
         }
     }
 }

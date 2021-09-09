@@ -31,10 +31,10 @@ public class VoidESP
     private final Setting<Integer> alpha = this.register(new Setting <> ("Alpha" , 255 , 0 , 255));
     private final Setting<Integer> boxAlpha = this.register(new Setting<Object>("BoxAlpha", 125 , 0 , 255 , v -> this.box.getValue()));
     private final Setting<Float> lineWidth = this.register(new Setting<Object>("LineWidth", 1.0f , 0.1f , 5.0f , v -> this.outline.getValue()));
-    private final Setting<Integer> cRed = this.register(new Setting<Object>("OL-Red", 0 , 0 , 255 , v -> this.customOutline.getValue() != false && this.outline.getValue() != false));
-    private final Setting<Integer> cGreen = this.register(new Setting<Object>("OL-Green", 0 , 0 , 255 , v -> this.customOutline.getValue() != false && this.outline.getValue() != false));
-    private final Setting<Integer> cBlue = this.register(new Setting<Object>("OL-Blue", 255 , 0 , 255 , v -> this.customOutline.getValue() != false && this.outline.getValue() != false));
-    private final Setting<Integer> cAlpha = this.register(new Setting<Object>("OL-Alpha", 255 , 0 , 255 , v -> this.customOutline.getValue() != false && this.outline.getValue() != false));
+    private final Setting<Integer> cRed = this.register(new Setting<Object>("OL-Red", 0 , 0 , 255 , v -> this.customOutline.getValue() && this.outline.getValue()));
+    private final Setting<Integer> cGreen = this.register(new Setting<Object>("OL-Green", 0 , 0 , 255 , v -> this.customOutline.getValue() && this.outline.getValue()));
+    private final Setting<Integer> cBlue = this.register(new Setting<Object>("OL-Blue", 255 , 0 , 255 , v -> this.customOutline.getValue() && this.outline.getValue()));
+    private final Setting<Integer> cAlpha = this.register(new Setting<Object>("OL-Alpha", 255 , 0 , 255 , v -> this.customOutline.getValue() && this.outline.getValue()));
     private List<BlockPos> voidHoles = new CopyOnWriteArrayList <> ();
 
     public VoidESP() {
@@ -80,7 +80,7 @@ public class VoidESP
     }
 
     private boolean isVoid(BlockPos pos) {
-        return (VoidESP.mc.world.getBlockState(pos).getBlock() == Blocks.AIR || this.air.getValue() == false && VoidESP.mc.world.getBlockState(pos).getBlock() != Blocks.BEDROCK) && pos.getY() < 1 && pos.getY() >= 0;
+        return (VoidESP.mc.world.getBlockState(pos).getBlock() == Blocks.AIR || ! this.air.getValue() && VoidESP.mc.world.getBlockState(pos).getBlock() != Blocks.BEDROCK) && pos.getY() < 1 && pos.getY() >= 0;
     }
 }
 

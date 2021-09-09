@@ -6,15 +6,18 @@ import dev.fxcte.creepyware.util.PlayerUtil;
 import java.util.List;
 import java.util.UUID;
 
-public class HistoryCommand
+public
+class HistoryCommand
         extends Command {
-    public HistoryCommand() {
-        super("history", new String[]{"<player>"});
+    public
+    HistoryCommand() {
+        super("history" , new String[]{"<player>"});
     }
 
     @Override
-    public void execute(String[] commands) {
-        List<String> names;
+    public
+    void execute(String[] commands) {
+        List <String> names;
         UUID uuid;
         if (commands.length == 1 || commands.length == 0) {
             HistoryCommand.sendMessage("Please specify a player.");

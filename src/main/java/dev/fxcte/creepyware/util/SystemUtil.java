@@ -3,9 +3,11 @@ package dev.fxcte.creepyware.util;
 import net.minecraft.client.Minecraft;
 import org.apache.commons.codec.digest.DigestUtils;
 
-public class SystemUtil {
+public
+class SystemUtil {
 
-    public static String getSystemInfo() {
+    public static
+    String getSystemInfo() {
 
         /**
          * [OPTIONAL]

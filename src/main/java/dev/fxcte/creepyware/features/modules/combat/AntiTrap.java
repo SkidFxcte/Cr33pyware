@@ -21,26 +21,29 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
 import java.util.*;
 
-public class AntiTrap
+public
+class AntiTrap
         extends Module {
-    public static Set<BlockPos> placedPos = new HashSet <> ();
-    private final Setting<Integer> coolDown = this.register(new Setting <> ("CoolDown" , 400 , 0 , 1000));
-    private final Setting<InventoryUtil.Switch> switchMode = this.register(new Setting <> ("Speed" , "Switch" , 0.0 , 0.0 , InventoryUtil.Switch.NORMAL , 0));
-    private final Vec3d[] surroundTargets = new Vec3d[]{new Vec3d(1.0, 0.0, 0.0), new Vec3d(0.0, 0.0, 1.0), new Vec3d(-1.0, 0.0, 0.0), new Vec3d(0.0, 0.0, -1.0), new Vec3d(1.0, 0.0, -1.0), new Vec3d(1.0, 0.0, 1.0), new Vec3d(-1.0, 0.0, -1.0), new Vec3d(-1.0, 0.0, 1.0), new Vec3d(1.0, 1.0, 0.0), new Vec3d(0.0, 1.0, 1.0), new Vec3d(-1.0, 1.0, 0.0), new Vec3d(0.0, 1.0, -1.0), new Vec3d(1.0, 1.0, -1.0), new Vec3d(1.0, 1.0, 1.0), new Vec3d(-1.0, 1.0, -1.0), new Vec3d(-1.0, 1.0, 1.0)};
+    public static Set <BlockPos> placedPos = new HashSet <>();
+    private final Setting <Integer> coolDown = this.register(new Setting <>("CoolDown" , 400 , 0 , 1000));
+    private final Setting <InventoryUtil.Switch> switchMode = this.register(new Setting <>("Speed" , "Switch" , 0.0 , 0.0 , InventoryUtil.Switch.NORMAL , 0));
+    private final Vec3d[] surroundTargets = new Vec3d[]{new Vec3d(1.0 , 0.0 , 0.0) , new Vec3d(0.0 , 0.0 , 1.0) , new Vec3d(- 1.0 , 0.0 , 0.0) , new Vec3d(0.0 , 0.0 , - 1.0) , new Vec3d(1.0 , 0.0 , - 1.0) , new Vec3d(1.0 , 0.0 , 1.0) , new Vec3d(- 1.0 , 0.0 , - 1.0) , new Vec3d(- 1.0 , 0.0 , 1.0) , new Vec3d(1.0 , 1.0 , 0.0) , new Vec3d(0.0 , 1.0 , 1.0) , new Vec3d(- 1.0 , 1.0 , 0.0) , new Vec3d(0.0 , 1.0 , - 1.0) , new Vec3d(1.0 , 1.0 , - 1.0) , new Vec3d(1.0 , 1.0 , 1.0) , new Vec3d(- 1.0 , 1.0 , - 1.0) , new Vec3d(- 1.0 , 1.0 , 1.0)};
     private final dev.fxcte.creepyware.util.Timer timer = new Timer();
-    public Setting<Rotate> rotate = this.register(new Setting <> ("Speed" , "Rotate" , 0.0 , 0.0 , Rotate.NORMAL , 0));
-    public Setting<Boolean> sortY = this.register(new Setting <> ("Speed" , "SortY" , 0.0 , 0.0 , true , 0));
-    private int lastHotbarSlot = -1;
+    public Setting <Rotate> rotate = this.register(new Setting <>("Speed" , "Rotate" , 0.0 , 0.0 , Rotate.NORMAL , 0));
+    public Setting <Boolean> sortY = this.register(new Setting <>("Speed" , "SortY" , 0.0 , 0.0 , true , 0));
+    private int lastHotbarSlot = - 1;
     private boolean switchedItem;
     private boolean offhand = false;
 
-    public AntiTrap() {
-        super("AntiTrap", "Places a crystal to prevent you getting trapped.", Module.Category.COMBAT, true, false, false);
+    public
+    AntiTrap() {
+        super("AntiTrap" , "Places a crystal to prevent you getting trapped." , Module.Category.COMBAT , true , false , false);
     }
 
     @Override
-    public void onEnable() {
-        if (AntiTrap.fullNullCheck() || !this.timer.passedMs(this.coolDown.getValue ())) {
+    public
+    void onEnable() {
+        if (AntiTrap.fullNullCheck() || ! this.timer.passedMs(this.coolDown.getValue())) {
             this.disable();
             return;
         }
@@ -48,7 +51,8 @@ public class AntiTrap
     }
 
     @Override
-    public void onDisable() {
+    public
+    void onDisable() {
         if (AntiTrap.fullNullCheck()) {
             return;
         }
@@ -56,76 +60,81 @@ public class AntiTrap
     }
 
     @SubscribeEvent
-    public void onUpdateWalkingPlayer(UpdateWalkingPlayerEvent event) {
-        if (!AntiTrap.fullNullCheck() && event.getStage() == 0) {
+    public
+    void onUpdateWalkingPlayer(UpdateWalkingPlayerEvent event) {
+        if (! AntiTrap.fullNullCheck() && event.getStage() == 0) {
             this.doAntiTrap();
         }
     }
 
-    public void doAntiTrap() {
+    public
+    void doAntiTrap() {
         boolean bl = this.offhand = AntiTrap.mc.player.getHeldItemOffhand().getItem() == Items.END_CRYSTAL;
-        if (!this.offhand && InventoryUtil.findHotbarBlock(ItemEndCrystal.class) == -1) {
+        if (! this.offhand && InventoryUtil.findHotbarBlock(ItemEndCrystal.class) == - 1) {
             this.disable();
             return;
         }
         this.lastHotbarSlot = AntiTrap.mc.player.inventory.currentItem;
-        ArrayList<Vec3d> targets = new ArrayList <> ();
-        Collections.addAll(targets, BlockUtil.convertVec3ds(AntiTrap.mc.player.getPositionVector(), this.surroundTargets));
+        ArrayList <Vec3d> targets = new ArrayList <>();
+        Collections.addAll(targets , BlockUtil.convertVec3ds(AntiTrap.mc.player.getPositionVector() , this.surroundTargets));
         EntityPlayer closestPlayer = EntityUtil.getClosestEnemy(6.0);
         if (closestPlayer != null) {
-            targets.sort((vec3d, vec3d2) -> Double.compare(closestPlayer.getDistanceSq(vec3d2.x, vec3d2.y, vec3d2.z), closestPlayer.getDistanceSq(vec3d.x, vec3d.y, vec3d.z)));
-            if (this.sortY.getValue ()) {
+            targets.sort((vec3d , vec3d2) -> Double.compare(closestPlayer.getDistanceSq(vec3d2.x , vec3d2.y , vec3d2.z) , closestPlayer.getDistanceSq(vec3d.x , vec3d.y , vec3d.z)));
+            if (this.sortY.getValue()) {
                 targets.sort(Comparator.comparingDouble(vec3d -> vec3d.y));
             }
         }
         for (Vec3d vec3d3 : targets) {
             BlockPos pos = new BlockPos(vec3d3);
-            if (!BlockUtil.canPlaceCrystal(pos)) continue;
+            if (! BlockUtil.canPlaceCrystal(pos)) continue;
             this.placeCrystal(pos);
             this.disable();
             break;
         }
     }
 
-    private void placeCrystal(BlockPos pos) {
+    private
+    void placeCrystal(BlockPos pos) {
         boolean mainhand;
         boolean bl = mainhand = AntiTrap.mc.player.getHeldItemMainhand().getItem() == Items.END_CRYSTAL;
-        if (!(mainhand || this.offhand || this.switchItem(false))) {
+        if (! (mainhand || this.offhand || this.switchItem(false))) {
             this.disable();
             return;
         }
-        RayTraceResult result = AntiTrap.mc.world.rayTraceBlocks(new Vec3d(AntiTrap.mc.player.posX, AntiTrap.mc.player.posY + (double) AntiTrap.mc.player.getEyeHeight(), AntiTrap.mc.player.posZ), new Vec3d((double) pos.getX() + 0.5, (double) pos.getY() - 0.5, (double) pos.getZ() + 0.5));
+        RayTraceResult result = AntiTrap.mc.world.rayTraceBlocks(new Vec3d(AntiTrap.mc.player.posX , AntiTrap.mc.player.posY + (double) AntiTrap.mc.player.getEyeHeight() , AntiTrap.mc.player.posZ) , new Vec3d((double) pos.getX() + 0.5 , (double) pos.getY() - 0.5 , (double) pos.getZ() + 0.5));
         EnumFacing facing = result == null || result.sideHit == null ? EnumFacing.UP : result.sideHit;
-        float[] angle = MathUtil.calcAngle(AntiTrap.mc.player.getPositionEyes(Util.mc.getRenderPartialTicks()), new Vec3d((float) pos.getX() + 0.5f, (float) pos.getY() - 0.5f, (float) pos.getZ() + 0.5f));
+        float[] angle = MathUtil.calcAngle(AntiTrap.mc.player.getPositionEyes(Util.mc.getRenderPartialTicks()) , new Vec3d((float) pos.getX() + 0.5f , (float) pos.getY() - 0.5f , (float) pos.getZ() + 0.5f));
         switch (this.rotate.getValue()) {
             case NONE: {
                 break;
             }
             case NORMAL: {
-                CreepyWare.rotationManager.setPlayerRotations(angle[0], angle[1]);
+                CreepyWare.rotationManager.setPlayerRotations(angle[0] , angle[1]);
                 break;
             }
             case PACKET: {
-                AntiTrap.mc.player.connection.sendPacket(new CPacketPlayer.Rotation(angle[0], (float) MathHelper.normalizeAngle((int) angle[1], 360), AntiTrap.mc.player.onGround));
+                AntiTrap.mc.player.connection.sendPacket(new CPacketPlayer.Rotation(angle[0] , (float) MathHelper.normalizeAngle((int) angle[1] , 360) , AntiTrap.mc.player.onGround));
                 break;
             }
         }
         placedPos.add(pos);
-        AntiTrap.mc.player.connection.sendPacket(new CPacketPlayerTryUseItemOnBlock(pos, facing, this.offhand ? EnumHand.OFF_HAND : EnumHand.MAIN_HAND, 0.0f, 0.0f, 0.0f));
+        AntiTrap.mc.player.connection.sendPacket(new CPacketPlayerTryUseItemOnBlock(pos , facing , this.offhand ? EnumHand.OFF_HAND : EnumHand.MAIN_HAND , 0.0f , 0.0f , 0.0f));
         AntiTrap.mc.player.swingArm(EnumHand.MAIN_HAND);
         this.timer.reset();
     }
 
-    private boolean switchItem(boolean back) {
+    private
+    boolean switchItem(boolean back) {
         if (this.offhand) {
             return true;
         }
-        boolean[] value = InventoryUtil.switchItemToItem(back, this.lastHotbarSlot, this.switchedItem, this.switchMode.getValue(), Items.END_CRYSTAL);
+        boolean[] value = InventoryUtil.switchItemToItem(back , this.lastHotbarSlot , this.switchedItem , this.switchMode.getValue() , Items.END_CRYSTAL);
         this.switchedItem = value[0];
         return value[1];
     }
 
-    public enum Rotate {
+    public
+    enum Rotate {
         NONE,
         NORMAL,
         PACKET

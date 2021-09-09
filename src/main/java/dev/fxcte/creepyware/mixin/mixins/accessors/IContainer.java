@@ -4,9 +4,10 @@ import net.minecraft.inventory.Container;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.gen.Accessor;
 
-@Mixin(value={Container.class})
-public interface IContainer {
-    @Accessor(value="transactionID")
-    void setTransactionID (short var1);
+@Mixin (value = {Container.class})
+public
+interface IContainer {
+    @Accessor (value = "transactionID")
+    void setTransactionID(short var1);
 }
 

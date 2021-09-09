@@ -81,14 +81,14 @@ public class ESP
                 GL11.glEnable(2848);
                 GL11.glHint(3154, 4354);
                 GL11.glLineWidth(1.0f);
-                RenderGlobal.renderFilledBox(bb, this.colorSync.getValue() != false ? (float) Colors.INSTANCE.getCurrentColor().getRed() / 255.0f : (float) this.red.getValue () / 255.0f, this.colorSync.getValue() != false ? (float) Colors.INSTANCE.getCurrentColor().getGreen() / 255.0f : (float) this.green.getValue () / 255.0f, this.colorSync.getValue() != false ? (float) Colors.INSTANCE.getCurrentColor().getBlue() / 255.0f : (float) this.blue.getValue () / 255.0f, this.colorSync.getValue() != false ? (float) Colors.INSTANCE.getCurrentColor().getAlpha() : (float) this.boxAlpha.getValue () / 255.0f);
+                RenderGlobal.renderFilledBox(bb, this.colorSync.getValue() ? (float) Colors.INSTANCE.getCurrentColor().getRed() / 255.0f : (float) this.red.getValue () / 255.0f, this.colorSync.getValue() ? (float) Colors.INSTANCE.getCurrentColor().getGreen() / 255.0f : (float) this.green.getValue () / 255.0f, this.colorSync.getValue() ? (float) Colors.INSTANCE.getCurrentColor().getBlue() / 255.0f : (float) this.blue.getValue () / 255.0f, this.colorSync.getValue() ? (float) Colors.INSTANCE.getCurrentColor().getAlpha() : (float) this.boxAlpha.getValue () / 255.0f);
                 GL11.glDisable(2848);
                 GlStateManager.depthMask(true);
                 GlStateManager.enableDepth();
                 GlStateManager.enableTexture2D();
                 GlStateManager.disableBlend();
                 GlStateManager.popMatrix();
-                RenderUtil.drawBlockOutline(bb, this.colorSync.getValue() != false ? Colors.INSTANCE.getCurrentColor() : new Color(this.red.getValue(), this.green.getValue(), this.blue.getValue(), this.alpha.getValue()), 1.0f);
+                RenderUtil.drawBlockOutline(bb, this.colorSync.getValue() ? Colors.INSTANCE.getCurrentColor() : new Color(this.red.getValue(), this.green.getValue(), this.blue.getValue(), this.alpha.getValue()), 1.0f);
                 if (++i < 50) continue;
                 break;
             }
@@ -108,14 +108,14 @@ public class ESP
                 GL11.glEnable(2848);
                 GL11.glHint(3154, 4354);
                 GL11.glLineWidth(1.0f);
-                RenderGlobal.renderFilledBox(bb, this.colorSync.getValue() != false ? (float) Colors.INSTANCE.getCurrentColor().getRed() / 255.0f : (float) this.red.getValue () / 255.0f, this.colorSync.getValue() != false ? (float) Colors.INSTANCE.getCurrentColor().getGreen() / 255.0f : (float) this.green.getValue () / 255.0f, this.colorSync.getValue() != false ? (float) Colors.INSTANCE.getCurrentColor().getBlue() / 255.0f : (float) this.blue.getValue () / 255.0f, this.colorSync.getValue() != false ? (float) Colors.INSTANCE.getCurrentColor().getAlpha() / 255.0f : (float) this.boxAlpha.getValue () / 255.0f);
+                RenderGlobal.renderFilledBox(bb, this.colorSync.getValue() ? (float) Colors.INSTANCE.getCurrentColor().getRed() / 255.0f : (float) this.red.getValue () / 255.0f, this.colorSync.getValue() ? (float) Colors.INSTANCE.getCurrentColor().getGreen() / 255.0f : (float) this.green.getValue () / 255.0f, this.colorSync.getValue() ? (float) Colors.INSTANCE.getCurrentColor().getBlue() / 255.0f : (float) this.blue.getValue () / 255.0f, this.colorSync.getValue() ? (float) Colors.INSTANCE.getCurrentColor().getAlpha() / 255.0f : (float) this.boxAlpha.getValue () / 255.0f);
                 GL11.glDisable(2848);
                 GlStateManager.depthMask(true);
                 GlStateManager.enableDepth();
                 GlStateManager.enableTexture2D();
                 GlStateManager.disableBlend();
                 GlStateManager.popMatrix();
-                RenderUtil.drawBlockOutline(bb, this.colorSync.getValue() != false ? Colors.INSTANCE.getCurrentColor() : new Color(this.red.getValue(), this.green.getValue(), this.blue.getValue(), this.alpha.getValue()), 1.0f);
+                RenderUtil.drawBlockOutline(bb, this.colorSync.getValue() ? Colors.INSTANCE.getCurrentColor() : new Color(this.red.getValue(), this.green.getValue(), this.blue.getValue(), this.alpha.getValue()), 1.0f);
                 if (++i < 50) continue;
                 break;
             }
@@ -135,14 +135,14 @@ public class ESP
                 GL11.glEnable(2848);
                 GL11.glHint(3154, 4354);
                 GL11.glLineWidth(1.0f);
-                RenderGlobal.renderFilledBox(bb, this.colorSync.getValue() != false ? (float) Colors.INSTANCE.getCurrentColor().getRed() / 255.0f : (float) this.red.getValue () / 255.0f, this.colorSync.getValue() != false ? (float) Colors.INSTANCE.getCurrentColor().getGreen() / 255.0f : (float) this.green.getValue () / 255.0f, this.colorSync.getValue() != false ? (float) Colors.INSTANCE.getCurrentColor().getBlue() / 255.0f : (float) this.blue.getValue () / 255.0f, this.colorSync.getValue() != false ? (float) Colors.INSTANCE.getCurrentColor().getAlpha() / 255.0f : (float) this.boxAlpha.getValue () / 255.0f);
+                RenderGlobal.renderFilledBox(bb, this.colorSync.getValue() ? (float) Colors.INSTANCE.getCurrentColor().getRed() / 255.0f : (float) this.red.getValue () / 255.0f, this.colorSync.getValue() ? (float) Colors.INSTANCE.getCurrentColor().getGreen() / 255.0f : (float) this.green.getValue () / 255.0f, this.colorSync.getValue() ? (float) Colors.INSTANCE.getCurrentColor().getBlue() / 255.0f : (float) this.blue.getValue () / 255.0f, this.colorSync.getValue() ? (float) Colors.INSTANCE.getCurrentColor().getAlpha() / 255.0f : (float) this.boxAlpha.getValue () / 255.0f);
                 GL11.glDisable(2848);
                 GlStateManager.depthMask(true);
                 GlStateManager.enableDepth();
                 GlStateManager.enableTexture2D();
                 GlStateManager.disableBlend();
                 GlStateManager.popMatrix();
-                RenderUtil.drawBlockOutline(bb, this.colorSync.getValue() != false ? Colors.INSTANCE.getCurrentColor() : new Color(this.red.getValue(), this.green.getValue(), this.blue.getValue(), this.alpha.getValue()), 1.0f);
+                RenderUtil.drawBlockOutline(bb, this.colorSync.getValue() ? Colors.INSTANCE.getCurrentColor() : new Color(this.red.getValue(), this.green.getValue(), this.blue.getValue(), this.alpha.getValue()), 1.0f);
                 if (++i < 50) continue;
                 break;
             }
@@ -162,14 +162,14 @@ public class ESP
                 GL11.glEnable(2848);
                 GL11.glHint(3154, 4354);
                 GL11.glLineWidth(1.0f);
-                RenderGlobal.renderFilledBox(bb, this.colorSync.getValue() != false ? (float) Colors.INSTANCE.getCurrentColor().getRed() / 255.0f : (float) this.red.getValue () / 255.0f, this.colorSync.getValue() != false ? (float) Colors.INSTANCE.getCurrentColor().getGreen() / 255.0f : (float) this.green.getValue () / 255.0f, this.colorSync.getValue() != false ? (float) Colors.INSTANCE.getCurrentColor().getBlue() / 255.0f : (float) this.blue.getValue () / 255.0f, this.colorSync.getValue() != false ? (float) Colors.INSTANCE.getCurrentColor().getAlpha() / 255.0f : (float) this.boxAlpha.getValue () / 255.0f);
+                RenderGlobal.renderFilledBox(bb, this.colorSync.getValue() ? (float) Colors.INSTANCE.getCurrentColor().getRed() / 255.0f : (float) this.red.getValue () / 255.0f, this.colorSync.getValue() ? (float) Colors.INSTANCE.getCurrentColor().getGreen() / 255.0f : (float) this.green.getValue () / 255.0f, this.colorSync.getValue() ? (float) Colors.INSTANCE.getCurrentColor().getBlue() / 255.0f : (float) this.blue.getValue () / 255.0f, this.colorSync.getValue() ? (float) Colors.INSTANCE.getCurrentColor().getAlpha() / 255.0f : (float) this.boxAlpha.getValue () / 255.0f);
                 GL11.glDisable(2848);
                 GlStateManager.depthMask(true);
                 GlStateManager.enableDepth();
                 GlStateManager.enableTexture2D();
                 GlStateManager.disableBlend();
                 GlStateManager.popMatrix();
-                RenderUtil.drawBlockOutline(bb, this.colorSync.getValue() != false ? Colors.INSTANCE.getCurrentColor() : new Color(this.red.getValue(), this.green.getValue(), this.blue.getValue(), this.alpha.getValue()), 1.0f);
+                RenderUtil.drawBlockOutline(bb, this.colorSync.getValue() ? Colors.INSTANCE.getCurrentColor() : new Color(this.red.getValue(), this.green.getValue(), this.blue.getValue(), this.alpha.getValue()), 1.0f);
                 if (++i < 50) continue;
                 break;
             }
@@ -177,10 +177,10 @@ public class ESP
     }
 
     public void onRenderModel(RenderEntityModelEvent event) {
-        if (event.getStage() != 0 || event.entity == null || event.entity.isInvisible() && this.invisibles.getValue() == false || this.self.getValue() == false && event.entity.equals(ESP.mc.player) || this.players.getValue() == false && event.entity instanceof EntityPlayer || this.animals.getValue() == false && EntityUtil.isPassive(event.entity) || ! this.mobs.getValue () && !EntityUtil.isPassive(event.entity) && !(event.entity instanceof EntityPlayer)) {
+        if (event.getStage() != 0 || event.entity == null || event.entity.isInvisible() && ! this.invisibles.getValue() || ! this.self.getValue() && event.entity.equals(ESP.mc.player) || ! this.players.getValue() && event.entity instanceof EntityPlayer || ! this.animals.getValue() && EntityUtil.isPassive(event.entity) || ! this.mobs.getValue () && !EntityUtil.isPassive(event.entity) && !(event.entity instanceof EntityPlayer)) {
             return;
         }
-        Color color = this.colorSync.getValue() != false ? Colors.INSTANCE.getCurrentColor() : EntityUtil.getColor(event.entity, this.red.getValue(), this.green.getValue(), this.blue.getValue(), this.alpha.getValue(), this.colorFriends.getValue());
+        Color color = this.colorSync.getValue() ? Colors.INSTANCE.getCurrentColor() : EntityUtil.getColor(event.entity, this.red.getValue(), this.green.getValue(), this.blue.getValue(), this.alpha.getValue(), this.colorFriends.getValue());
         boolean fancyGraphics = ESP.mc.gameSettings.fancyGraphics;
         ESP.mc.gameSettings.fancyGraphics = false;
         float gamma = ESP.mc.gameSettings.gammaSetting;

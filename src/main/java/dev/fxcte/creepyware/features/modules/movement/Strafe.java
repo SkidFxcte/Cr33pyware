@@ -158,7 +158,7 @@ public class Strafe
                 this.moveSpeed = this.lastDist - difference;
             } else {
                 if (Strafe.mc.world.getCollisionBoxes(Strafe.mc.player, Strafe.mc.player.getEntityBoundingBox().offset(0.0, Strafe.mc.player.motionY, 0.0)).size() > 0 || Strafe.mc.player.collidedVertically && this.stage > 0) {
-                    this.stage = this.bhop2.getValue() != false && CreepyWare.speedManager.getSpeedKpH() >= (double) this.speedLimit.getValue () ? 0 : (Strafe.mc.player.moveForward != 0.0f || Strafe.mc.player.moveStrafing != 0.0f ? 1 : 0);
+                    this.stage = this.bhop2.getValue() && CreepyWare.speedManager.getSpeedKpH() >= (double) this.speedLimit.getValue () ? 0 : (Strafe.mc.player.moveForward != 0.0f || Strafe.mc.player.moveStrafing != 0.0f ? 1 : 0);
                 }
                 this.moveSpeed = this.lastDist - this.lastDist / (double) this.dFactor.getValue ();
             }
@@ -229,7 +229,7 @@ public class Strafe
             }
             default: {
                 if (Strafe.mc.world.getCollisionBoxes(Strafe.mc.player, Strafe.mc.player.getEntityBoundingBox().offset(0.0, Strafe.mc.player.motionY, 0.0)).size() > 0 || Strafe.mc.player.collidedVertically && this.stage > 0) {
-                    this.stage = this.bhop2.getValue() != false && CreepyWare.speedManager.getSpeedKpH() >= (double) this.speedLimit.getValue () ? 0 : (Strafe.mc.player.moveForward != 0.0f || Strafe.mc.player.moveStrafing != 0.0f ? 1 : 0);
+                    this.stage = this.bhop2.getValue() && CreepyWare.speedManager.getSpeedKpH() >= (double) this.speedLimit.getValue () ? 0 : (Strafe.mc.player.moveForward != 0.0f || Strafe.mc.player.moveStrafing != 0.0f ? 1 : 0);
                 }
                 this.moveSpeed = this.lastDist - this.lastDist / 159.0;
             }
@@ -266,7 +266,7 @@ public class Strafe
     @SubscribeEvent
     public void onPacketReceive(PacketEvent.Receive event) {
         if (event.getPacket() instanceof SPacketPlayerPosLook && this.noLag.getValue ()) {
-            this.stage = this.mode.getValue() == Mode.BHOP && (this.limiter2.getValue() != false || this.bhop2.getValue() != false) ? 1 : 4;
+            this.stage = this.mode.getValue() == Mode.BHOP && (this.limiter2.getValue() || this.bhop2.getValue()) ? 1 : 4;
         }
     }
 

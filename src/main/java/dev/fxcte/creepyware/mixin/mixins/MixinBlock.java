@@ -11,23 +11,24 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
-@Mixin(value={Block.class})
-public abstract class MixinBlock {
+@Mixin (value = {Block.class})
+public abstract
+class MixinBlock {
     @Shadow
     @Deprecated
-    public abstract float getBlockHardness(IBlockState var1, World var2, BlockPos var3);
+    public abstract
+    float getBlockHardness(IBlockState var1 , World var2 , BlockPos var3);
 
 
-
-    @Inject(method={"isFullCube"}, at={@At(value="HEAD")}, cancellable=true)
-    public void isFullCubeHook(IBlockState blockState, CallbackInfoReturnable<Boolean> info) {
+    @Inject (method = {"isFullCube"}, at = {@At (value = "HEAD")}, cancellable = true)
+    public
+    void isFullCubeHook(IBlockState blockState , CallbackInfoReturnable <Boolean> info) {
         try {
             if (XRay.getInstance().isOn()) {
                 info.setReturnValue(XRay.getInstance().shouldRender(Block.class.cast(this)));
                 info.cancel();
             }
-        }
-        catch (Exception exception) {
+        } catch (Exception exception) {
             // empty catch block
         }
     }

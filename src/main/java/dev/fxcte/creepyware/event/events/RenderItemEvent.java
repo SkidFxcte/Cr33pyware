@@ -13,12 +13,12 @@ class RenderItemEvent extends EventStage {
 
 
     public
-    RenderItemEvent ( double mainX , double mainY , double mainZ ,
-                      double offX , double offY , double offZ ,
-                      double mainRotX , double mainRotY , double mainRotZ ,
-                      double offRotX , double offRotY , double offRotZ ,
-                      double mainHandScaleX , double mainHandScaleY , double mainHandScaleZ , /*double mainHandItemWidth ,*/
-                      double offHandScaleX , double offHandScaleY , double offHandScaleZ /*, double offHandItemWidth*/ ) {
+    RenderItemEvent(double mainX , double mainY , double mainZ ,
+                    double offX , double offY , double offZ ,
+                    double mainRotX , double mainRotY , double mainRotZ ,
+                    double offRotX , double offRotY , double offRotZ ,
+                    double mainHandScaleX , double mainHandScaleY , double mainHandScaleZ , /*double mainHandItemWidth ,*/
+                    double offHandScaleX , double offHandScaleY , double offHandScaleZ /*, double offHandItemWidth*/) {
         this.mainX = mainX;
         this.mainY = mainY;
         this.mainZ = mainZ;
@@ -42,152 +42,152 @@ class RenderItemEvent extends EventStage {
     }
 
     public
-    double getMainX ( ) {
+    double getMainX() {
         return mainX;
     }
 
     public
-    void setMainX ( double v ) {
+    void setMainX(double v) {
         this.mainX = v;
     }
 
     public
-    double getMainY ( ) {
+    double getMainY() {
         return mainY;
     }
 
     public
-    void setMainY ( double v ) {
+    void setMainY(double v) {
         this.mainY = v;
     }
 
     public
-    double getMainZ ( ) {
+    double getMainZ() {
         return mainZ;
     }
 
     public
-    void setMainZ ( double v ) {
+    void setMainZ(double v) {
         this.mainZ = v;
     }
 
     public
-    double getOffX ( ) {
+    double getOffX() {
         return offX;
     }
 
     public
-    void setOffX ( double v ) {
+    void setOffX(double v) {
         this.offX = v;
     }
 
     public
-    double getOffY ( ) {
+    double getOffY() {
         return offY;
     }
 
     public
-    void setOffY ( double v ) {
+    void setOffY(double v) {
         this.offY = v;
     }
 
     public
-    double getOffZ ( ) {
+    double getOffZ() {
         return offZ;
     }
 
     public
-    void setOffZ ( double v ) {
+    void setOffZ(double v) {
         this.offZ = v;
     }
 
     public
-    double getMainRotX ( ) {
+    double getMainRotX() {
         return mainRotX;
     }
 
     public
-    void setMainRotX ( double v ) {
+    void setMainRotX(double v) {
         this.mainRotX = v;
     }
 
     public
-    double getMainRotY ( ) {
+    double getMainRotY() {
         return mainRotY;
     }
 
     public
-    void setMainRotY ( double v ) {
+    void setMainRotY(double v) {
         this.mainRotY = v;
     }
 
     public
-    double getMainRotZ ( ) {
+    double getMainRotZ() {
         return mainRotZ;
     }
 
     public
-    void setMainRotZ ( double v ) {
+    void setMainRotZ(double v) {
         this.mainRotZ = v;
     }
 
     public
-    double getOffRotX ( ) {
+    double getOffRotX() {
         return offRotX;
     }
 
     public
-    void setOffRotX ( double v ) {
+    void setOffRotX(double v) {
         this.offRotX = v;
     }
 
     public
-    double getOffRotY ( ) {
+    double getOffRotY() {
         return offRotY;
     }
 
     public
-    void setOffRotY ( double v ) {
+    void setOffRotY(double v) {
         this.offRotY = v;
     }
 
     public
-    double getOffRotZ ( ) {
+    double getOffRotZ() {
         return offRotZ;
     }
 
     public
-    void setOffRotZ ( double v ) {
+    void setOffRotZ(double v) {
         this.offRotZ = v;
     }
 
     public
-    double getMainHandScaleX ( ) {
+    double getMainHandScaleX() {
         return mainHandScaleX;
     }
 
     public
-    void setMainHandScaleX ( double v ) {
+    void setMainHandScaleX(double v) {
         this.mainHandScaleX = v;
     }
 
     public
-    double getMainHandScaleY ( ) {
+    double getMainHandScaleY() {
         return mainHandScaleY;
     }
 
     public
-    void setMainHandScaleY ( double v ) {
+    void setMainHandScaleY(double v) {
         this.mainHandScaleY = v;
     }
 
     public
-    double getMainHandScaleZ ( ) {
+    double getMainHandScaleZ() {
         return mainHandScaleZ;
     }
 
     public
-    void setMainHandScaleZ ( double v ) {
+    void setMainHandScaleZ(double v) {
         this.mainHandScaleZ = v;
     }
 
@@ -202,32 +202,32 @@ class RenderItemEvent extends EventStage {
     //}
 
     public
-    double getOffHandScaleX ( ) {
+    double getOffHandScaleX() {
         return offHandScaleX;
     }
 
     public
-    void setOffHandScaleX ( double v ) {
+    void setOffHandScaleX(double v) {
         this.offHandScaleX = v;
     }
 
     public
-    double getOffHandScaleY ( ) {
+    double getOffHandScaleY() {
         return offHandScaleY;
     }
 
     public
-    void setOffHandScaleY ( double v ) {
+    void setOffHandScaleY(double v) {
         this.offHandScaleY = v;
     }
 
     public
-    double getOffHandScaleZ ( ) {
+    double getOffHandScaleZ() {
         return offHandScaleZ;
     }
 
     public
-    void setOffHandScaleZ ( double v ) {
+    void setOffHandScaleZ(double v) {
         this.offHandScaleZ = v;
     }
 

@@ -12,15 +12,18 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 import javax.annotation.Nullable;
 
-@Mixin(value={AbstractClientPlayer.class})
-public abstract class MixinAbstractClientPlayer {
+@Mixin (value = {AbstractClientPlayer.class})
+public abstract
+class MixinAbstractClientPlayer {
     @Shadow
     @Nullable
-    protected abstract NetworkPlayerInfo getPlayerInfo();
+    protected abstract
+    NetworkPlayerInfo getPlayerInfo();
 
-    @Inject(method = {"getLocationSkin()Lnet/minecraft/util/ResourceLocation;"}, at = {@At(value = "HEAD")}, cancellable = true)
-    public void getLocationSkin(CallbackInfoReturnable<ResourceLocation> callbackInfoReturnable) {
-        if (Chams.getInstance ().textured.getValue () && Chams.getInstance().isEnabled()) {
+    @Inject (method = {"getLocationSkin()Lnet/minecraft/util/ResourceLocation;"}, at = {@At (value = "HEAD")}, cancellable = true)
+    public
+    void getLocationSkin(CallbackInfoReturnable <ResourceLocation> callbackInfoReturnable) {
+        if (Chams.getInstance().textured.getValue() && Chams.getInstance().isEnabled()) {
             callbackInfoReturnable.setReturnValue(new ResourceLocation("textures/shinechams3.png"));
         }
     }

@@ -8,31 +8,36 @@ import java.text.DecimalFormat;
 import java.util.Arrays;
 import java.util.Objects;
 
-public class ServerManager
+public
+class ServerManager
         extends Feature {
     private final float[] tpsCounts = new float[10];
     private final DecimalFormat format = new DecimalFormat("##.00#");
     private final Timer timer = new Timer();
     private float TPS = 20.0f;
-    private long lastUpdate = -1L;
+    private long lastUpdate = - 1L;
     private String serverBrand = "";
 
-    public void onPacketReceived() {
+    public
+    void onPacketReceived() {
         this.timer.reset();
     }
 
-    public boolean isServerNotResponding() {
-        return this.timer.passedMs(Managers.getInstance ().respondTime.getValue ());
+    public
+    boolean isServerNotResponding() {
+        return this.timer.passedMs(Managers.getInstance().respondTime.getValue());
     }
 
-    public long serverRespondingTime() {
+    public
+    long serverRespondingTime() {
         return this.timer.getPassedTimeMs();
     }
 
-    public void update() {
+    public
+    void update() {
         float tps;
         long currentTime = System.currentTimeMillis();
-        if (this.lastUpdate == -1L) {
+        if (this.lastUpdate == - 1L) {
             this.lastUpdate = currentTime;
             return;
         }
@@ -44,7 +49,7 @@ public class ServerManager
         if ((tps = 1000.0f / tickTime) > 20.0f) {
             tps = 20.0f;
         }
-        System.arraycopy(this.tpsCounts, 0, this.tpsCounts, 1, this.tpsCounts.length - 1);
+        System.arraycopy(this.tpsCounts , 0 , this.tpsCounts , 1 , this.tpsCounts.length - 1);
         this.tpsCounts[0] = tps;
         double total = 0.0;
         for (float f : this.tpsCounts) {
@@ -58,28 +63,34 @@ public class ServerManager
     }
 
     @Override
-    public void reset() {
-        Arrays.fill(this.tpsCounts, 20.0f);
+    public
+    void reset() {
+        Arrays.fill(this.tpsCounts , 20.0f);
         this.TPS = 20.0f;
     }
 
-    public float getTpsFactor() {
+    public
+    float getTpsFactor() {
         return 20.0f / this.TPS;
     }
 
-    public float getTPS() {
+    public
+    float getTPS() {
         return this.TPS;
     }
 
-    public String getServerBrand() {
+    public
+    String getServerBrand() {
         return this.serverBrand;
     }
 
-    public void setServerBrand(String brand) {
+    public
+    void setServerBrand(String brand) {
         this.serverBrand = brand;
     }
 
-    public int getPing() {
+    public
+    int getPing() {
         if (ServerManager.fullNullCheck()) {
             return 0;
         }

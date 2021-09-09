@@ -33,15 +33,15 @@ public class CrystalScale
     public Setting<Integer> saturation = this.register(new Setting<Object>("Saturation", 50 , 0 , 100 , v -> this.rainbow.getValue()));
     public Setting<Integer> brightness = this.register(new Setting<Object>("Brightness", 100 , 0 , 100 , v -> this.rainbow.getValue()));
     public Setting<Integer> speed = this.register(new Setting<Object>("Speed", 40 , 1 , 100 , v -> this.rainbow.getValue()));
-    public Setting<Boolean> xqz = this.register(new Setting<Object>("XQZ", false , v -> this.rainbow.getValue() == false && this.throughWalls.getValue() != false));
-    public Setting<Integer> red = this.register(new Setting<Object>("Red", 0 , 0 , 255 , v -> this.rainbow.getValue() == false));
-    public Setting<Integer> green = this.register(new Setting<Object>("Green", 255 , 0 , 255 , v -> this.rainbow.getValue() == false));
-    public Setting<Integer> blue = this.register(new Setting<Object>("Blue", 0 , 0 , 255 , v -> this.rainbow.getValue() == false));
+    public Setting<Boolean> xqz = this.register(new Setting<Object>("XQZ", false , v -> ! this.rainbow.getValue() && this.throughWalls.getValue()));
+    public Setting<Integer> red = this.register(new Setting<Object>("Red", 0 , 0 , 255 , v -> ! this.rainbow.getValue()));
+    public Setting<Integer> green = this.register(new Setting<Object>("Green", 255 , 0 , 255 , v -> ! this.rainbow.getValue()));
+    public Setting<Integer> blue = this.register(new Setting<Object>("Blue", 0 , 0 , 255 , v -> ! this.rainbow.getValue()));
     public Setting<Integer> alpha = this.register(new Setting <> ("Alpha" , 255 , 0 , 255));
-    public Setting<Integer> hiddenRed = this.register(new Setting<Object>("Hidden Red", 255 , 0 , 255 , v -> this.xqz.getValue() != false && this.rainbow.getValue() == false));
-    public Setting<Integer> hiddenGreen = this.register(new Setting<Object>("Hidden Green", 0 , 0 , 255 , v -> this.xqz.getValue() != false && this.rainbow.getValue() == false));
-    public Setting<Integer> hiddenBlue = this.register(new Setting<Object>("Hidden Blue", 255 , 0 , 255 , v -> this.xqz.getValue() != false && this.rainbow.getValue() == false));
-    public Setting<Integer> hiddenAlpha = this.register(new Setting<Object>("Hidden Alpha", 255 , 0 , 255 , v -> this.xqz.getValue() != false && this.rainbow.getValue() == false));
+    public Setting<Integer> hiddenRed = this.register(new Setting<Object>("Hidden Red", 255 , 0 , 255 , v -> this.xqz.getValue() && ! this.rainbow.getValue()));
+    public Setting<Integer> hiddenGreen = this.register(new Setting<Object>("Hidden Green", 0 , 0 , 255 , v -> this.xqz.getValue() && ! this.rainbow.getValue()));
+    public Setting<Integer> hiddenBlue = this.register(new Setting<Object>("Hidden Blue", 255 , 0 , 255 , v -> this.xqz.getValue() && ! this.rainbow.getValue()));
+    public Setting<Integer> hiddenAlpha = this.register(new Setting<Object>("Hidden Alpha", 255 , 0 , 255 , v -> this.xqz.getValue() && ! this.rainbow.getValue()));
     public Map<EntityEnderCrystal, Float> scaleMap = new ConcurrentHashMap <> ();
 
     public CrystalScale() {
@@ -80,7 +80,7 @@ public class CrystalScale
         if (event.getStage() != 0 || !(event.entity instanceof EntityEnderCrystal) || ! this.wireframe.getValue ()) {
             return;
         }
-        Color color = this.colorSync.getValue() != false ? Colors.INSTANCE.getCurrentColor() : EntityUtil.getColor(event.entity, this.red.getValue(), this.green.getValue(), this.blue.getValue(), this.alpha.getValue(), false);
+        Color color = this.colorSync.getValue() ? Colors.INSTANCE.getCurrentColor() : EntityUtil.getColor(event.entity, this.red.getValue(), this.green.getValue(), this.blue.getValue(), this.alpha.getValue(), false);
         boolean fancyGraphics = CrystalScale.mc.gameSettings.fancyGraphics;
         CrystalScale.mc.gameSettings.fancyGraphics = false;
         float gamma = CrystalScale.mc.gameSettings.gammaSetting;

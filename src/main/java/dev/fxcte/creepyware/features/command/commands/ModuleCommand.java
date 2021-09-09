@@ -7,14 +7,17 @@ import dev.fxcte.creepyware.features.modules.Module;
 import dev.fxcte.creepyware.features.setting.Setting;
 import dev.fxcte.creepyware.manager.ConfigManager;
 
-public class ModuleCommand
+public
+class ModuleCommand
         extends Command {
-    public ModuleCommand() {
-        super("module", new String[]{"<module>", "<set/reset>", "<setting>", "<value>"});
+    public
+    ModuleCommand() {
+        super("module" , new String[]{"<module>" , "<set/reset>" , "<setting>" , "<value>"});
     }
 
     @Override
-    public void execute(String[] commands) {
+    public
+    void execute(String[] commands) {
         Setting setting;
         if (commands.length == 1) {
             ModuleCommand.sendMessage("Modules: ");
@@ -76,7 +79,7 @@ public class ModuleCommand
                         module.disable();
                     }
                 }
-                ConfigManager.setValueFromJson(module, setting, jp.parse(commands[3]));
+                ConfigManager.setValueFromJson(module , setting , jp.parse(commands[3]));
             } catch (Exception e) {
                 ModuleCommand.sendMessage("\u00a7cBad Value! This setting requires a: " + setting.getType() + " value.");
                 return;

@@ -9,11 +9,13 @@ import java.nio.file.StandardOpenOption;
 import java.util.Collections;
 import java.util.List;
 
-public class FileUtil {
-    public static boolean appendTextFile(String data, String file) {
+public
+class FileUtil {
+    public static
+    boolean appendTextFile(String data , String file) {
         try {
             Path path = Paths.get(file);
-            Files.write(path, Collections.singletonList(data), StandardCharsets.UTF_8, Files.exists(path) ? StandardOpenOption.APPEND : StandardOpenOption.CREATE);
+            Files.write(path , Collections.singletonList(data) , StandardCharsets.UTF_8 , Files.exists(path) ? StandardOpenOption.APPEND : StandardOpenOption.CREATE);
         } catch (IOException e) {
             System.out.println("WARNING: Unable to write file: " + file);
             return false;
@@ -21,13 +23,14 @@ public class FileUtil {
         return true;
     }
 
-    public static List<String> readTextFileAllLines(String file) {
+    public static
+    List <String> readTextFileAllLines(String file) {
         try {
             Path path = Paths.get(file);
-            return Files.readAllLines(path, StandardCharsets.UTF_8);
+            return Files.readAllLines(path , StandardCharsets.UTF_8);
         } catch (IOException e) {
             System.out.println("WARNING: Unable to read file, creating new file: " + file);
-            FileUtil.appendTextFile("", file);
+            FileUtil.appendTextFile("" , file);
             return Collections.emptyList();
         }
     }

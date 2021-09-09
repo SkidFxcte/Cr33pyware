@@ -60,12 +60,11 @@ public class LogoutSpots
     @Override
     public void onRender3D(Render3DEvent event) {
         if (!this.spots.isEmpty()) {
-            List<LogoutPos> list = this.spots;
-            synchronized (list) {
+            synchronized (this.spots) {
                 this.spots.forEach(spot -> {
                     if (spot.getEntity() != null) {
                         AxisAlignedBB bb = RenderUtil.interpolateAxis(spot.getEntity().getEntityBoundingBox());
-                        RenderUtil.drawBlockOutline(bb, this.colorSync.getValue() != false ? Colors.INSTANCE.getCurrentColor() : new Color(this.red.getValue(), this.green.getValue(), this.blue.getValue(), this.alpha.getValue()), 1.0f);
+                        RenderUtil.drawBlockOutline(bb, this.colorSync.getValue() ? Colors.INSTANCE.getCurrentColor() : new Color(this.red.getValue(), this.green.getValue(), this.blue.getValue(), this.alpha.getValue()), 1.0f);
                         double x = this.interpolate(spot.getEntity().lastTickPosX, spot.getEntity().posX, event.getPartialTicks()) - LogoutSpots.mc.getRenderManager().renderPosX;
                         double y = this.interpolate(spot.getEntity().lastTickPosY, spot.getEntity().posY, event.getPartialTicks()) - LogoutSpots.mc.getRenderManager().renderPosY;
                         double z = this.interpolate(spot.getEntity().lastTickPosZ, spot.getEntity().posZ, event.getPartialTicks()) - LogoutSpots.mc.getRenderManager().renderPosZ;
@@ -89,7 +88,7 @@ public class LogoutSpots
             UUID uuid = event.getUuid();
             EntityPlayer entity = LogoutSpots.mc.world.getPlayerEntityByUUID(uuid);
             if (entity != null && this.message.getValue ()) {
-                Command.sendMessage("\u00a7a" + entity.getName() + " just logged in" + (this.coords.getValue() != false ? " at (" + (int) entity.posX + ", " + (int) entity.posY + ", " + (int) entity.posZ + ")!" : "!"), this.notification.getValue());
+                Command.sendMessage("\u00a7a" + entity.getName() + " just logged in" + (this.coords.getValue() ? " at (" + (int) entity.posX + ", " + (int) entity.posY + ", " + (int) entity.posZ + ")!" : "!"), this.notification.getValue());
             }
             this.spots.removeIf(pos -> pos.getName().equalsIgnoreCase(event.getName()));
         } else if (event.getStage() == 1) {
@@ -97,7 +96,7 @@ public class LogoutSpots
             UUID uuid = event.getUuid();
             String name = event.getName();
             if (this.message.getValue ()) {
-                Command.sendMessage("\u00a7c" + event.getName() + " just logged out" + (this.coords.getValue() != false ? " at (" + (int) entity.posX + ", " + (int) entity.posY + ", " + (int) entity.posZ + ")!" : "!"), this.notification.getValue());
+                Command.sendMessage("\u00a7c" + event.getName() + " just logged out" + (this.coords.getValue() ? " at (" + (int) entity.posX + ", " + (int) entity.posY + ", " + (int) entity.posZ + ")!" : "!"), this.notification.getValue());
             }
             if (name != null && entity != null && uuid != null) {
                 this.spots.add(new LogoutPos(name, uuid, entity));
@@ -141,7 +140,7 @@ public class LogoutSpots
             RenderUtil.drawRect(-width - 2, -(this.renderer.getFontHeight() + 1), (float) width + 2.0f, 1.5f, 0x55000000);
         }
         GlStateManager.disableBlend();
-        this.renderer.drawStringWithShadow(displayTag, -width, -(this.renderer.getFontHeight() - 1), this.colorSync.getValue() != false ? Colors.INSTANCE.getCurrentColorHex() : ColorUtil.toRGBA(new Color(this.red.getValue(), this.green.getValue(), this.blue.getValue(), this.alpha.getValue())));
+        this.renderer.drawStringWithShadow(displayTag, -width, -(this.renderer.getFontHeight() - 1), this.colorSync.getValue() ? Colors.INSTANCE.getCurrentColorHex() : ColorUtil.toRGBA(new Color(this.red.getValue(), this.green.getValue(), this.blue.getValue(), this.alpha.getValue())));
         camera.posX = originalPositionX;
         camera.posY = originalPositionY;
         camera.posZ = originalPositionZ;

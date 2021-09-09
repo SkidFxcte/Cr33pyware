@@ -6,14 +6,17 @@ import dev.fxcte.creepyware.features.modules.Module;
 import dev.fxcte.creepyware.features.setting.Bind;
 import org.lwjgl.input.Keyboard;
 
-public class BindCommand
+public
+class BindCommand
         extends Command {
-    public BindCommand() {
-        super("bind", new String[]{"<module>", "<bind>"});
+    public
+    BindCommand() {
+        super("bind" , new String[]{"<module>" , "<bind>"});
     }
 
     @Override
-    public void execute(String[] commands) {
+    public
+    void execute(String[] commands) {
         if (commands.length == 1) {
             BindCommand.sendMessage("Please specify a module.");
             return;
@@ -31,7 +34,7 @@ public class BindCommand
         }
         int key = Keyboard.getKeyIndex(rkey.toUpperCase());
         if (rkey.equalsIgnoreCase("none")) {
-            key = -1;
+            key = - 1;
         }
         if (key == 0) {
             BindCommand.sendMessage("Unknown key '" + rkey + "'!");

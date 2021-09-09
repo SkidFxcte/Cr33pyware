@@ -17,14 +17,16 @@ import java.nio.file.Paths;
 import java.util.*;
 import java.util.stream.Collectors;
 
-public class ConfigManager
+public
+class ConfigManager
         implements Util {
-    public ArrayList<Feature> features = new ArrayList();
+    public ArrayList <Feature> features = new ArrayList();
     public String config = "creepyware/config/";
     public boolean loadingConfig;
     public boolean savingConfig;
 
-    public static void setValueFromJson(Feature feature, Setting setting, JsonElement element) {
+    public static
+    void setValueFromJson(Feature feature , Setting setting , JsonElement element) {
         switch (setting.getType()) {
             case "Boolean": {
                 setting.setValue(element.getAsBoolean());
@@ -35,7 +37,7 @@ public class ConfigManager
                 break;
             }
             case "Float": {
-                setting.setValue(element.getAsFloat ());
+                setting.setValue(element.getAsFloat());
                 break;
             }
             case "Integer": {
@@ -44,7 +46,7 @@ public class ConfigManager
             }
             case "String": {
                 String str = element.getAsString();
-                setting.setValue(str.replace("_", " "));
+                setting.setValue(str.replace("_" , " "));
                 break;
             }
             case "Bind": {
@@ -66,22 +68,23 @@ public class ConfigManager
         }
     }
 
-    private static void loadFile(JsonObject input, Feature feature) {
+    private static
+    void loadFile(JsonObject input , Feature feature) {
         for (Map.Entry entry : input.entrySet()) {
             String settingName = (String) entry.getKey();
             JsonElement element = (JsonElement) entry.getValue();
             if (feature instanceof FriendManager) {
                 try {
-                    CreepyWare.friendManager.addFriend(new FriendManager.Friend(element.getAsString(), UUID.fromString(settingName)));
+                    CreepyWare.friendManager.addFriend(new FriendManager.Friend(element.getAsString() , UUID.fromString(settingName)));
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
             } else {
                 boolean settingFound = false;
                 for (Setting setting : feature.getSettings()) {
-                    if (!settingName.equals(setting.getName())) continue;
+                    if (! settingName.equals(setting.getName())) continue;
                     try {
-                        ConfigManager.setValueFromJson(feature, setting, element);
+                        ConfigManager.setValueFromJson(feature , setting , element);
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
@@ -90,15 +93,16 @@ public class ConfigManager
                 if (settingFound) continue;
             }
             if (feature instanceof XRay) {
-                feature.register(new Setting <> (settingName , true , v -> ((XRay) feature).showBlocks.getValue ()));
+                feature.register(new Setting <>(settingName , true , v -> ((XRay) feature).showBlocks.getValue()));
                 continue;
             }
         }
     }
 
-    public void loadConfig(String name) {
+    public
+    void loadConfig(String name) {
         this.loadingConfig = true;
-        final List<File> files = Arrays.stream(Objects.requireNonNull(new File("creepyware").listFiles())).filter(File::isDirectory).collect(Collectors.toList());
+        final List <File> files = Arrays.stream(Objects.requireNonNull(new File("creepyware").listFiles())).filter(File::isDirectory).collect(Collectors.toList());
         this.config = files.contains(new File("creepyware/" + name + "/")) ? "creepyware/" + name + "/" : "creepyware/config/";
         CreepyWare.friendManager.onLoad();
         for (Feature feature : this.features) {
@@ -112,11 +116,12 @@ public class ConfigManager
         this.loadingConfig = false;
     }
 
-    public void saveConfig(String name) {
+    public
+    void saveConfig(String name) {
         this.savingConfig = true;
         this.config = "creepyware/" + name + "/";
         File path = new File(this.config);
-        if (!path.exists()) {
+        if (! path.exists()) {
             path.mkdir();
         }
         CreepyWare.friendManager.saveFriends();
@@ -131,19 +136,20 @@ public class ConfigManager
         this.savingConfig = false;
     }
 
-    public void saveCurrentConfig() {
+    public
+    void saveCurrentConfig() {
         File currentConfig = new File("creepyware/currentconfig.txt");
         try {
             if (currentConfig.exists()) {
                 FileWriter writer = new FileWriter(currentConfig);
-                String tempConfig = this.config.replaceAll("/", "");
-                writer.write(tempConfig.replaceAll("creepyware", ""));
+                String tempConfig = this.config.replaceAll("/" , "");
+                writer.write(tempConfig.replaceAll("creepyware" , ""));
                 writer.close();
             } else {
                 currentConfig.createNewFile();
                 FileWriter writer = new FileWriter(currentConfig);
-                String tempConfig = this.config.replaceAll("/", "");
-                writer.write(tempConfig.replaceAll("creepyware", ""));
+                String tempConfig = this.config.replaceAll("/" , "");
+                writer.write(tempConfig.replaceAll("creepyware" , ""));
                 writer.close();
             }
         } catch (Exception e) {
@@ -151,7 +157,8 @@ public class ConfigManager
         }
     }
 
-    public String loadCurrentConfig() {
+    public
+    String loadCurrentConfig() {
         File currentConfig = new File("creepyware/currentconfig.txt");
         String name = "config";
         try {
@@ -168,7 +175,8 @@ public class ConfigManager
         return name;
     }
 
-    public void resetConfig(boolean saveConfig, String name) {
+    public
+    void resetConfig(boolean saveConfig , String name) {
         for (Feature feature : this.features) {
             feature.reset();
         }
@@ -177,15 +185,16 @@ public class ConfigManager
         }
     }
 
-    public void saveSettings(Feature feature) throws IOException {
+    public
+    void saveSettings(Feature feature) throws IOException {
         String featureName;
         Path outputFile;
         JsonObject object = new JsonObject();
         File directory = new File(this.config + this.getDirectory(feature));
-        if (!directory.exists()) {
+        if (! directory.exists()) {
             directory.mkdir();
         }
-        if (!Files.exists(outputFile = Paths.get(featureName = this.config + this.getDirectory(feature) + feature.getName() + ".json"))) {
+        if (! Files.exists(outputFile = Paths.get(featureName = this.config + this.getDirectory(feature) + feature.getName() + ".json"))) {
             Files.createFile(outputFile);
         }
         Gson gson = new GsonBuilder().setPrettyPrinting().create();
@@ -195,7 +204,8 @@ public class ConfigManager
         writer.close();
     }
 
-    public void init() {
+    public
+    void init() {
         this.features.addAll(CreepyWare.moduleManager.modules);
         this.features.add(CreepyWare.friendManager);
         String name = this.loadCurrentConfig();
@@ -203,41 +213,44 @@ public class ConfigManager
         CreepyWare.LOGGER.info("Config loaded.");
     }
 
-    private void loadSettings(Feature feature) throws IOException {
+    private
+    void loadSettings(Feature feature) throws IOException {
         String featureName = this.config + this.getDirectory(feature) + feature.getName() + ".json";
         Path featurePath = Paths.get(featureName);
-        if (!Files.exists(featurePath)) {
+        if (! Files.exists(featurePath)) {
             return;
         }
-        this.loadPath(featurePath, feature);
+        this.loadPath(featurePath , feature);
     }
 
-    private void loadPath(Path path, Feature feature) throws IOException {
+    private
+    void loadPath(Path path , Feature feature) throws IOException {
         InputStream stream = Files.newInputStream(path);
         try {
-            ConfigManager.loadFile(new JsonParser().parse(new InputStreamReader(stream)).getAsJsonObject(), feature);
+            ConfigManager.loadFile(new JsonParser().parse(new InputStreamReader(stream)).getAsJsonObject() , feature);
         } catch (IllegalStateException e) {
             CreepyWare.LOGGER.error("Bad Config File for: " + feature.getName() + ". Resetting...");
-            ConfigManager.loadFile(new JsonObject(), feature);
+            ConfigManager.loadFile(new JsonObject() , feature);
         }
         stream.close();
     }
 
-    public JsonObject writeSettings(Feature feature) {
+    public
+    JsonObject writeSettings(Feature feature) {
         JsonObject object = new JsonObject();
         JsonParser jp = new JsonParser();
         for (Setting setting : feature.getSettings()) {
             if (setting.isEnumSetting()) {
                 EnumConverter converter = new EnumConverter(((Enum) setting.getValue()).getClass());
-                object.add(setting.getName(), converter.doForward((Enum) setting.getValue()));
+                object.add(setting.getName() , converter.doForward((Enum) setting.getValue()));
                 continue;
             }
             if (setting.isStringSetting()) {
                 String str = (String) setting.getValue();
-                setting.setValue(str.replace(" ", "_"));
+                setting.setValue(str.replace(" " , "_"));
             }
             try {
-                object.add(setting.getName(), jp.parse(setting.getValueAsString()));
+                object.add(setting.getName() , jp.parse(setting.getValueAsString()));
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -245,7 +258,8 @@ public class ConfigManager
         return object;
     }
 
-    public String getDirectory(Feature feature) {
+    public
+    String getDirectory(Feature feature) {
         String directory = "";
         if (feature instanceof Module) {
             directory = directory + ((Module) feature).getCategory().getName() + "/";

@@ -6,7 +6,8 @@ import net.minecraft.entity.Entity;
 import net.minecraftforge.fml.common.eventhandler.Cancelable;
 
 @Cancelable
-public class RenderEntityModelEvent
+public
+class RenderEntityModelEvent
         extends EventStage {
     public ModelBase modelBase;
     public Entity entity;
@@ -17,7 +18,8 @@ public class RenderEntityModelEvent
     public float headPitch;
     public float scale;
 
-    public RenderEntityModelEvent(int stage, ModelBase modelBase, Entity entity, float limbSwing, float limbSwingAmount, float age, float headYaw, float headPitch, float scale) {
+    public
+    RenderEntityModelEvent(int stage , ModelBase modelBase , Entity entity , float limbSwing , float limbSwingAmount , float age , float headYaw , float headPitch , float scale) {
         super(stage);
         this.modelBase = modelBase;
         this.entity = entity;

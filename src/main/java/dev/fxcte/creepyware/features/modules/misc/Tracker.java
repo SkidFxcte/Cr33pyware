@@ -26,14 +26,15 @@ import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
 
-public class Tracker
+public
+class Tracker
         extends Module {
     private static Tracker instance;
     private final Timer timer = new Timer();
-    private final Set<BlockPos> manuallyPlaced = new HashSet <> ();
-    public Setting<TextUtil.Color> color = this.register(new Setting <> ("Speed" , "Color" , 0.0 , 0.0 , TextUtil.Color.RED , 0));
-    public Setting<Boolean> autoEnable = this.register(new Setting <> ("Speed" , "AutoEnable" , 0.0 , 0.0 , false , 0));
-    public Setting<Boolean> autoDisable = this.register(new Setting <> ("Speed" , "AutoDisable" , 0.0 , 0.0 , true , 0));
+    private final Set <BlockPos> manuallyPlaced = new HashSet <>();
+    public Setting <TextUtil.Color> color = this.register(new Setting <>("Speed" , "Color" , 0.0 , 0.0 , TextUtil.Color.RED , 0));
+    public Setting <Boolean> autoEnable = this.register(new Setting <>("Speed" , "AutoEnable" , 0.0 , 0.0 , false , 0));
+    public Setting <Boolean> autoDisable = this.register(new Setting <>("Speed" , "AutoDisable" , 0.0 , 0.0 , true , 0));
     private EntityPlayer trackedPlayer;
     private int usedExp = 0;
     private int usedStacks = 0;
@@ -41,12 +42,14 @@ public class Tracker
     private int usedCStacks = 0;
     private boolean shouldEnable = false;
 
-    public Tracker() {
-        super("Tracker", "Tracks players in 1v1s. Only good in duels tho!", Module.Category.MISC, true, false, true);
+    public
+    Tracker() {
+        super("Tracker" , "Tracks players in 1v1s. Only good in duels tho!" , Module.Category.MISC , true , false , true);
         instance = this;
     }
 
-    public static Tracker getInstance() {
+    public static
+    Tracker getInstance() {
         if (instance == null) {
             instance = new Tracker();
         }
@@ -54,39 +57,43 @@ public class Tracker
     }
 
     @SubscribeEvent
-    public void onPacketReceive(PacketEvent.Receive event) {
-        if (!Tracker.fullNullCheck() && (this.autoEnable.getValue () || this.autoDisable.getValue ()) && event.getPacket() instanceof SPacketChat) {
+    public
+    void onPacketReceive(PacketEvent.Receive event) {
+        if (! Tracker.fullNullCheck() && (this.autoEnable.getValue() || this.autoDisable.getValue()) && event.getPacket() instanceof SPacketChat) {
             SPacketChat packet = event.getPacket();
             String message = packet.getChatComponent().getFormattedText();
-            if (this.autoEnable.getValue () && (message.contains("has accepted your duel request") || message.contains("Accepted the duel request from")) && !message.contains("<")) {
+            if (this.autoEnable.getValue() && (message.contains("has accepted your duel request") || message.contains("Accepted the duel request from")) && ! message.contains("<")) {
                 Command.sendMessage("Tracker will enable in 5 seconds.");
                 this.timer.reset();
                 this.shouldEnable = true;
-            } else if (this.autoDisable.getValue () && message.contains("has defeated") && message.contains(Tracker.mc.player.getName()) && !message.contains("<")) {
+            } else if (this.autoDisable.getValue() && message.contains("has defeated") && message.contains(Tracker.mc.player.getName()) && ! message.contains("<")) {
                 this.disable();
             }
         }
     }
 
     @SubscribeEvent
-    public void onPacketSend(PacketEvent.Send event) {
-        if (!Tracker.fullNullCheck() && this.isOn() && event.getPacket() instanceof CPacketPlayerTryUseItemOnBlock) {
+    public
+    void onPacketSend(PacketEvent.Send event) {
+        if (! Tracker.fullNullCheck() && this.isOn() && event.getPacket() instanceof CPacketPlayerTryUseItemOnBlock) {
             CPacketPlayerTryUseItemOnBlock packet = event.getPacket();
-            if (Tracker.mc.player.getHeldItem(packet.hand).getItem() == Items.END_CRYSTAL && !AntiTrap.placedPos.contains(packet.position) && !AutoCrystal.placedPos.contains(packet.position)) {
+            if (Tracker.mc.player.getHeldItem(packet.hand).getItem() == Items.END_CRYSTAL && ! AntiTrap.placedPos.contains(packet.position) && ! AutoCrystal.placedPos.contains(packet.position)) {
                 this.manuallyPlaced.add(packet.position);
             }
         }
     }
 
     @SubscribeEvent
-    public void onUpdateWalkingPlayer(UpdateWalkingPlayerEvent event) {
+    public
+    void onUpdateWalkingPlayer(UpdateWalkingPlayerEvent event) {
         if (this.shouldEnable && this.timer.passedS(5.0) && this.isOff()) {
             this.enable();
         }
     }
 
     @Override
-    public void onUpdate() {
+    public
+    void onUpdate() {
         if (this.isOff()) {
             return;
         }
@@ -95,47 +102,50 @@ public class Tracker
         } else {
             if (this.usedStacks != this.usedExp / 64) {
                 this.usedStacks = this.usedExp / 64;
-                Command.sendMessage(TextUtil.coloredString(this.trackedPlayer.getName() + " used: " + this.usedStacks + " Stacks of EXP.", this.color.getValue()));
+                Command.sendMessage(TextUtil.coloredString(this.trackedPlayer.getName() + " used: " + this.usedStacks + " Stacks of EXP." , this.color.getValue()));
             }
             if (this.usedCStacks != this.usedCrystals / 64) {
                 this.usedCStacks = this.usedCrystals / 64;
-                Command.sendMessage(TextUtil.coloredString(this.trackedPlayer.getName() + " used: " + this.usedCStacks + " Stacks of Crystals.", this.color.getValue()));
+                Command.sendMessage(TextUtil.coloredString(this.trackedPlayer.getName() + " used: " + this.usedCStacks + " Stacks of Crystals." , this.color.getValue()));
             }
         }
     }
 
-    public void onSpawnEntity(Entity entity) {
+    public
+    void onSpawnEntity(Entity entity) {
         if (this.isOff()) {
             return;
         }
-        if (entity instanceof EntityExpBottle && Objects.equals(Tracker.mc.world.getClosestPlayerToEntity(entity, 3.0), this.trackedPlayer)) {
-            ++this.usedExp;
+        if (entity instanceof EntityExpBottle && Objects.equals(Tracker.mc.world.getClosestPlayerToEntity(entity , 3.0) , this.trackedPlayer)) {
+            ++ this.usedExp;
         }
         if (entity instanceof EntityEnderCrystal) {
             if (AntiTrap.placedPos.contains(entity.getPosition().down())) {
                 AntiTrap.placedPos.remove(entity.getPosition().down());
             } else if (this.manuallyPlaced.contains(entity.getPosition().down())) {
                 this.manuallyPlaced.remove(entity.getPosition().down());
-            } else if (!AutoCrystal.placedPos.contains(entity.getPosition().down())) {
-                ++this.usedCrystals;
+            } else if (! AutoCrystal.placedPos.contains(entity.getPosition().down())) {
+                ++ this.usedCrystals;
             }
         }
     }
 
     @SubscribeEvent
-    public void onConnection(ConnectionEvent event) {
+    public
+    void onConnection(ConnectionEvent event) {
         if (this.isOff() || event.getStage() != 1) {
             return;
         }
         String name = event.getName();
-        if (this.trackedPlayer != null && name != null && name.equals(this.trackedPlayer.getName()) && this.autoDisable.getValue ()) {
+        if (this.trackedPlayer != null && name != null && name.equals(this.trackedPlayer.getName()) && this.autoDisable.getValue()) {
             Command.sendMessage(name + " logged, Tracker disableing.");
             this.disable();
         }
     }
 
     @Override
-    public void onToggle() {
+    public
+    void onToggle() {
         this.manuallyPlaced.clear();
         AntiTrap.placedPos.clear();
         this.shouldEnable = false;
@@ -147,27 +157,30 @@ public class Tracker
     }
 
     @Override
-    public void onLogout() {
-        if (this.autoDisable.getValue ()) {
+    public
+    void onLogout() {
+        if (this.autoDisable.getValue()) {
             this.disable();
         }
     }
 
     @SubscribeEvent
-    public void onDeath(DeathEvent event) {
+    public
+    void onDeath(DeathEvent event) {
         if (this.isOn() && (event.player.equals(this.trackedPlayer) || event.player.equals(Tracker.mc.player))) {
             this.usedExp = 0;
             this.usedStacks = 0;
             this.usedCrystals = 0;
             this.usedCStacks = 0;
-            if (this.autoDisable.getValue ()) {
+            if (this.autoDisable.getValue()) {
                 this.disable();
             }
         }
     }
 
     @Override
-    public String getDisplayInfo() {
+    public
+    String getDisplayInfo() {
         if (this.trackedPlayer != null) {
             return this.trackedPlayer.getName();
         }

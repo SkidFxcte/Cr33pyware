@@ -23,7 +23,8 @@ import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.util.*;
 
-public class PlayerUtil implements Util {
+public
+class PlayerUtil implements Util {
     public static dev.fxcte.creepyware.util.Timer timer;
     private static JsonParser PARSER;
 
@@ -32,7 +33,8 @@ public class PlayerUtil implements Util {
         PlayerUtil.PARSER = new JsonParser();
     }
 
-    public static String getNameFromUUID(final UUID uuid) {
+    public static
+    String getNameFromUUID(final UUID uuid) {
         try {
             final lookUpName process = new lookUpName(uuid);
             final Thread thread = new Thread(process);
@@ -44,7 +46,8 @@ public class PlayerUtil implements Util {
         }
     }
 
-    public static String getNameFromUUID(final String uuid) {
+    public static
+    String getNameFromUUID(final String uuid) {
         try {
             final lookUpName process = new lookUpName(uuid);
             final Thread thread = new Thread(process);
@@ -56,7 +59,8 @@ public class PlayerUtil implements Util {
         }
     }
 
-    public static UUID getUUIDFromName(final String name) {
+    public static
+    UUID getUUIDFromName(final String name) {
         try {
             final lookUpUUID process = new lookUpUUID(name);
             final Thread thread = new Thread(process);
@@ -68,13 +72,14 @@ public class PlayerUtil implements Util {
         }
     }
 
-    public static String requestIDs(final String data) {
+    public static
+    String requestIDs(final String data) {
         try {
             final String query = "https://api.mojang.com/profiles/minecraft";
             final URL url = new URL(query);
             final HttpURLConnection conn = (HttpURLConnection) url.openConnection();
             conn.setConnectTimeout(5000);
-            conn.setRequestProperty("Content-Type", "application/json; charset=UTF-8");
+            conn.setRequestProperty("Content-Type" , "application/json; charset=UTF-8");
             conn.setDoOutput(true);
             conn.setDoInput(true);
             conn.setRequestMethod("POST");
@@ -91,14 +96,16 @@ public class PlayerUtil implements Util {
         }
     }
 
-    public static String convertStreamToString(final InputStream is) {
+    public static
+    String convertStreamToString(final InputStream is) {
         final Scanner s = new Scanner(is).useDelimiter("\\A");
         return s.hasNext() ? s.next() : "/";
     }
 
-    public static List<String> getHistoryOfNames(final UUID id) {
+    public static
+    List <String> getHistoryOfNames(final UUID id) {
         try {
-            final JsonArray array = getResources(new URL("https://api.mojang.com/user/profiles/" + getIdNoHyphens(id) + "/names"), "GET").getAsJsonArray();
+            final JsonArray array = getResources(new URL("https://api.mojang.com/user/profiles/" + getIdNoHyphens(id) + "/names") , "GET").getAsJsonArray();
             final ArrayList temp = Lists.newArrayList();
             //final List<String> temp = (List<String>)Lists.newArrayList();
             for (final JsonElement e : array) {
@@ -114,21 +121,24 @@ public class PlayerUtil implements Util {
         }
     }
 
-    public static String getIdNoHyphens(final UUID uuid) {
-        return uuid.toString().replaceAll("-", "");
+    public static
+    String getIdNoHyphens(final UUID uuid) {
+        return uuid.toString().replaceAll("-" , "");
     }
 
-    private static JsonElement getResources(final URL url, final String request) throws Exception {
-        return getResources(url, request, null);
+    private static
+    JsonElement getResources(final URL url , final String request) throws Exception {
+        return getResources(url , request , null);
     }
 
-    private static JsonElement getResources(final URL url, final String request, final JsonElement element) throws Exception {
+    private static
+    JsonElement getResources(final URL url , final String request , final JsonElement element) throws Exception {
         HttpsURLConnection connection = null;
         try {
             connection = (HttpsURLConnection) url.openConnection();
             connection.setDoOutput(true);
             connection.setRequestMethod(request);
-            connection.setRequestProperty("Content-Type", "application/json");
+            connection.setRequestProperty("Content-Type" , "application/json");
             if (element != null) {
                 final DataOutputStream output = new DataOutputStream(connection.getOutputStream());
                 output.writeBytes(AdvancementManager.GSON.toJson(element));
@@ -142,8 +152,7 @@ public class PlayerUtil implements Util {
             }
             scanner.close();
             final String json = builder.toString();
-            final JsonElement data = PlayerUtil.PARSER.parse(json);
-            return data;
+            return PlayerUtil.PARSER.parse(json);
         } finally {
             if (connection != null) {
                 connection.disconnect();
@@ -151,19 +160,22 @@ public class PlayerUtil implements Util {
         }
     }
 
-    public static class lookUpUUID implements Runnable {
+    public static
+    class lookUpUUID implements Runnable {
         private final String name;
         private volatile UUID uuid;
 
-        public lookUpUUID(final String name) {
+        public
+        lookUpUUID(final String name) {
             this.name = name;
         }
 
         @Override
-        public void run() {
+        public
+        void run() {
             NetworkPlayerInfo profile;
             try {
-                final ArrayList<NetworkPlayerInfo> infoMap = new ArrayList <> (Objects.requireNonNull (mc.getConnection ()).getPlayerInfoMap ());
+                final ArrayList <NetworkPlayerInfo> infoMap = new ArrayList <>(Objects.requireNonNull(mc.getConnection()).getPlayerInfoMap());
                 profile = infoMap.stream().filter(networkPlayerInfo -> networkPlayerInfo.getGameProfile().getName().equalsIgnoreCase(this.name)).findFirst().orElse(null);
                 assert profile != null;
                 this.uuid = profile.getGameProfile().getId();
@@ -192,42 +204,49 @@ public class PlayerUtil implements Util {
             }
         }
 
-        public UUID getUUID() {
+        public
+        UUID getUUID() {
             return this.uuid;
         }
 
-        public String getName() {
+        public
+        String getName() {
             return this.name;
         }
     }
 
-    public static class lookUpName implements Runnable {
+    public static
+    class lookUpName implements Runnable {
         private final String uuid;
         private final UUID uuidID;
         private volatile String name;
 
-        public lookUpName(final String input) {
+        public
+        lookUpName(final String input) {
             this.uuid = input;
             this.uuidID = UUID.fromString(input);
         }
 
-        public lookUpName(final UUID input) {
+        public
+        lookUpName(final UUID input) {
             this.uuidID = input;
             this.uuid = input.toString();
         }
 
         @Override
-        public void run() {
+        public
+        void run() {
             this.name = this.lookUpName();
         }
 
-        public String lookUpName() {
+        public
+        String lookUpName() {
             EntityPlayer player = null;
             if (mc.world != null) {
                 player = mc.world.getPlayerEntityByUUID(this.uuidID);
             }
             if (player == null) {
-                final String url = "https://api.mojang.com/user/profiles/" + this.uuid.replace("-", "") + "/names";
+                final String url = "https://api.mojang.com/user/profiles/" + this.uuid.replace("-" , "") + "/names";
                 try {
                     final String nameJson = IOUtils.toString(new URL(url));
                     final JSONArray nameValue = (JSONArray) JSONValue.parseWithException(nameJson);
@@ -248,7 +267,8 @@ public class PlayerUtil implements Util {
             return player.getName();
         }
 
-        public String getName() {
+        public
+        String getName() {
             return this.name;
         }
     }

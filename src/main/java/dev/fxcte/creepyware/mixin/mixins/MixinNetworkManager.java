@@ -11,56 +11,57 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
-@Mixin(value={NetworkManager.class})
-public class MixinNetworkManager {
-    @Inject(method={"sendPacket(Lnet/minecraft/network/Packet;)V"}, at={@At(value="HEAD")}, cancellable=true)
-    private void onSendPacketPre(Packet<?> packet, CallbackInfo info) {
-        PacketEvent.Send event = new PacketEvent.Send(0, packet);
+@Mixin (value = {NetworkManager.class})
+public
+class MixinNetworkManager {
+    @Inject (method = {"sendPacket(Lnet/minecraft/network/Packet;)V"}, at = {@At (value = "HEAD")}, cancellable = true)
+    private
+    void onSendPacketPre(Packet <?> packet , CallbackInfo info) {
+        PacketEvent.Send event = new PacketEvent.Send(0 , packet);
         MinecraftForge.EVENT_BUS.post(event);
         if (event.isCanceled()) {
             info.cancel();
         }
     }
 
-    @Inject(method={"sendPacket(Lnet/minecraft/network/Packet;)V"}, at={@At(value="RETURN")}, cancellable=true)
-    private void onSendPacketPost(Packet<?> packet, CallbackInfo info) {
-        PacketEvent.Send event = new PacketEvent.Send(1, packet);
+    @Inject (method = {"sendPacket(Lnet/minecraft/network/Packet;)V"}, at = {@At (value = "RETURN")}, cancellable = true)
+    private
+    void onSendPacketPost(Packet <?> packet , CallbackInfo info) {
+        PacketEvent.Send event = new PacketEvent.Send(1 , packet);
         MinecraftForge.EVENT_BUS.post(event);
         if (event.isCanceled()) {
             info.cancel();
         }
     }
 
-    @Inject(method={"channelRead0"}, at={@At(value="HEAD")}, cancellable=true)
-    private void onChannelReadPre(ChannelHandlerContext context, Packet<?> packet, CallbackInfo info) {
-        PacketEvent.Receive event = new PacketEvent.Receive(0, packet);
+    @Inject (method = {"channelRead0"}, at = {@At (value = "HEAD")}, cancellable = true)
+    private
+    void onChannelReadPre(ChannelHandlerContext context , Packet <?> packet , CallbackInfo info) {
+        PacketEvent.Receive event = new PacketEvent.Receive(0 , packet);
         MinecraftForge.EVENT_BUS.post(event);
         if (event.isCanceled()) {
             info.cancel();
         }
     }
 
-    @Inject(method = "sendPacket(Lnet/minecraft/network/Packet;)V", at = @At("HEAD"), cancellable = true)
-    private void onSendPacket(Packet<?> p_Packet, CallbackInfo callbackInfo)
-    {
+    @Inject (method = "sendPacket(Lnet/minecraft/network/Packet;)V", at = @At ("HEAD"), cancellable = true)
+    private
+    void onSendPacket(Packet <?> p_Packet , CallbackInfo callbackInfo) {
         EventNetworkPacketEvent l_Event = new EventNetworkPacketEvent(p_Packet);
         MinecraftForge.EVENT_BUS.post(l_Event);
 
-        if (l_Event.isCanceled())
-        {
+        if (l_Event.isCanceled()) {
             callbackInfo.cancel();
         }
     }
 
-    @Inject(method = "channelRead0", at = @At("HEAD"), cancellable = true)
-    private void onChannelRead(ChannelHandlerContext context, Packet<?> p_Packet, CallbackInfo callbackInfo)
-    {
+    @Inject (method = "channelRead0", at = @At ("HEAD"), cancellable = true)
+    private
+    void onChannelRead(ChannelHandlerContext context , Packet <?> p_Packet , CallbackInfo callbackInfo) {
         EventNetworkPacketEvent l_Event = new EventNetworkPacketEvent(p_Packet);
         MinecraftForge.EVENT_BUS.post(l_Event);
 
-        if (l_Event.isCanceled())
-
-        {
+        if (l_Event.isCanceled()) {
             callbackInfo.cancel();
         }
     }

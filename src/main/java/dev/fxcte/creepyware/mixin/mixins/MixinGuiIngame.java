@@ -16,35 +16,40 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
-@Mixin(value={GuiIngame.class})
-public class MixinGuiIngame
-extends Gui {
+@Mixin (value = {GuiIngame.class})
+public
+class MixinGuiIngame
+        extends Gui {
     @Shadow
     @Final
     public GuiNewChat persistantChatGUI;
 
-    @Inject(method={"<init>"}, at={@At(value="RETURN")})
-    public void init(Minecraft mcIn, CallbackInfo ci) {
+    @Inject (method = {"<init>"}, at = {@At (value = "RETURN")})
+    public
+    void init(Minecraft mcIn , CallbackInfo ci) {
         this.persistantChatGUI = new GuiCustomNewChat(mcIn);
     }
 
-    @Inject(method={"renderPortal"}, at={@At(value="HEAD")}, cancellable=true)
-    protected void renderPortalHook(float n, ScaledResolution scaledResolution, CallbackInfo info) {
-        if (NoRender.getInstance().isOn() && NoRender.getInstance ().portal.getValue ()) {
+    @Inject (method = {"renderPortal"}, at = {@At (value = "HEAD")}, cancellable = true)
+    protected
+    void renderPortalHook(float n , ScaledResolution scaledResolution , CallbackInfo info) {
+        if (NoRender.getInstance().isOn() && NoRender.getInstance().portal.getValue()) {
             info.cancel();
         }
     }
 
-    @Inject(method={"renderPumpkinOverlay"}, at={@At(value="HEAD")}, cancellable=true)
-    protected void renderPumpkinOverlayHook(ScaledResolution scaledRes, CallbackInfo info) {
-        if (NoRender.getInstance().isOn() && NoRender.getInstance ().pumpkin.getValue ()) {
+    @Inject (method = {"renderPumpkinOverlay"}, at = {@At (value = "HEAD")}, cancellable = true)
+    protected
+    void renderPumpkinOverlayHook(ScaledResolution scaledRes , CallbackInfo info) {
+        if (NoRender.getInstance().isOn() && NoRender.getInstance().pumpkin.getValue()) {
             info.cancel();
         }
     }
 
-    @Inject(method={"renderPotionEffects"}, at={@At(value="HEAD")}, cancellable=true)
-    protected void renderPotionEffectsHook(ScaledResolution scaledRes, CallbackInfo info) {
-        if (CreepyWare.moduleManager != null && ! HUD.getInstance ().potionIcons.getValue ()) {
+    @Inject (method = {"renderPotionEffects"}, at = {@At (value = "HEAD")}, cancellable = true)
+    protected
+    void renderPotionEffectsHook(ScaledResolution scaledRes , CallbackInfo info) {
+        if (CreepyWare.moduleManager != null && ! HUD.getInstance().potionIcons.getValue()) {
             info.cancel();
         }
     }

@@ -7,9 +7,9 @@ import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 
-@Mixin(Render.class)
+@Mixin (Render.class)
 abstract
-class MixinRenderer< T extends Entity > {
+class MixinRenderer<T extends Entity> {
 
     @Shadow
     protected boolean renderOutlines;
@@ -19,9 +19,9 @@ class MixinRenderer< T extends Entity > {
 
     @Shadow
     protected abstract
-    boolean bindEntityTexture ( T entity );
+    boolean bindEntityTexture(T entity);
 
     @Shadow
     protected abstract
-    int getTeamColor ( T entityIn );
+    int getTeamColor(T entityIn);
 }

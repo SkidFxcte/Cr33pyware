@@ -10,20 +10,23 @@ import net.minecraft.network.play.client.CPacketChatMessage;
 import java.util.Map;
 import java.util.UUID;
 
-public class FriendCommand
+public
+class FriendCommand
         extends Command {
-    public FriendCommand() {
-        super("friend", new String[]{"<add/del/name/clear>", "<name>"});
+    public
+    FriendCommand() {
+        super("friend" , new String[]{"<add/del/name/clear>" , "<name>"});
     }
 
     @Override
-    public void execute(String[] commands) {
+    public
+    void execute(String[] commands) {
         if (commands.length == 1) {
             if (CreepyWare.friendManager.getFriends().isEmpty()) {
                 FriendCommand.sendMessage("You currently dont have any friends added.");
             } else {
                 FriendCommand.sendMessage("Friends: ");
-                for (Map.Entry<String, UUID> entry : CreepyWare.friendManager.getFriends().entrySet()) {
+                for (Map.Entry <String, UUID> entry : CreepyWare.friendManager.getFriends().entrySet()) {
                     FriendCommand.sendMessage(entry.getKey());
                 }
             }

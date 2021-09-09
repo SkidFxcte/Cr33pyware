@@ -138,7 +138,7 @@ public class Speed
         }
         if (EntityUtil.isEntityMoving(Speed.mc.player) && !Speed.mc.player.collidedHorizontally && !BlockUtil.isBlockAboveEntitySolid(Speed.mc.player) && BlockUtil.isBlockBelowEntitySolid(Speed.mc.player)) {
             this.oneTime = true;
-            this.antiShake = this.noShake.getValue() != false && Speed.mc.player.getRidingEntity() == null;
+            this.antiShake = this.noShake.getValue() && Speed.mc.player.getRidingEntity() == null;
             Random random = new Random();
             boolean rnd = random.nextBoolean();
             if (Speed.mc.player.posY >= this.startY + this.bounceHeight) {
@@ -223,7 +223,7 @@ public class Speed
         }
         if (EntityUtil.isEntityMoving(Speed.mc.player) && !Speed.mc.player.collidedHorizontally && !BlockUtil.isBlockAboveEntitySolid(Speed.mc.player) && BlockUtil.isBlockBelowEntitySolid(Speed.mc.player)) {
             this.oneTime = true;
-            this.antiShake = this.noShake.getValue() != false && Speed.mc.player.getRidingEntity() == null;
+            this.antiShake = this.noShake.getValue() && Speed.mc.player.getRidingEntity() == null;
             Random random = new Random();
             boolean rnd = random.nextBoolean();
             if (Speed.mc.player.posY >= this.startY + this.bounceHeight) {
@@ -371,7 +371,7 @@ public class Speed
         }
         if (EntityUtil.isEntityMoving(Speed.mc.player) && !Speed.mc.player.collidedHorizontally && !BlockUtil.isBlockAboveEntitySolid(Speed.mc.player) && BlockUtil.isBlockBelowEntitySolid(Speed.mc.player)) {
             this.oneTime = true;
-            this.antiShake = this.noShake.getValue() != false && Speed.mc.player.getRidingEntity() == null;
+            this.antiShake = this.noShake.getValue() && Speed.mc.player.getRidingEntity() == null;
             Random random = new Random();
             boolean rnd = random.nextBoolean();
             if (Speed.mc.player.posY >= this.startY + this.bounceHeight) {

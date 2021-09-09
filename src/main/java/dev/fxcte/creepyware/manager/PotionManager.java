@@ -14,27 +14,31 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.concurrent.ConcurrentHashMap;
 
-public class PotionManager
+public
+class PotionManager
         extends Feature {
-    private final Map<EntityPlayer, PotionList> potions = new ConcurrentHashMap <> ();
+    private final Map <EntityPlayer, PotionList> potions = new ConcurrentHashMap <>();
 
-    public void onLogout() {
+    public
+    void onLogout() {
         this.potions.clear();
     }
 
-    public void updatePlayer() {
+    public
+    void updatePlayer() {
         PotionList list = new PotionList();
         for (PotionEffect effect : PotionManager.mc.player.getActivePotionEffects()) {
             list.addEffect(effect);
         }
-        this.potions.put(PotionManager.mc.player, list);
+        this.potions.put(PotionManager.mc.player , list);
     }
 
-    public void update() {
+    public
+    void update() {
         this.updatePlayer();
-        if (HUD.getInstance().isOn() && HUD.getInstance ().textRadar.getValue () && Managers.getInstance ().potions.getValue ()) {
-            ArrayList<EntityPlayer> removeList = new ArrayList <> ();
-            for (Map.Entry<EntityPlayer, PotionList> potionEntry : this.potions.entrySet()) {
+        if (HUD.getInstance().isOn() && HUD.getInstance().textRadar.getValue() && Managers.getInstance().potions.getValue()) {
+            ArrayList <EntityPlayer> removeList = new ArrayList <>();
+            for (Map.Entry <EntityPlayer, PotionList> potionEntry : this.potions.entrySet()) {
                 boolean notFound = true;
                 for (EntityPlayer player : PotionManager.mc.world.playerEntities) {
                     if (this.potions.get(player) == null) {
@@ -42,13 +46,13 @@ public class PotionManager
                         for (PotionEffect effect : player.getActivePotionEffects()) {
                             list.addEffect(effect);
                         }
-                        this.potions.put(player, list);
+                        this.potions.put(player , list);
                         notFound = false;
                     }
-                    if (!potionEntry.getKey().equals(player)) continue;
+                    if (! potionEntry.getKey().equals(player)) continue;
                     notFound = false;
                 }
-                if (!notFound) continue;
+                if (! notFound) continue;
                 removeList.add(potionEntry.getKey());
             }
             for (EntityPlayer player : removeList) {
@@ -57,25 +61,29 @@ public class PotionManager
         }
     }
 
-    public List<PotionEffect> getOwnPotions() {
+    public
+    List <PotionEffect> getOwnPotions() {
         return this.getPlayerPotions(PotionManager.mc.player);
     }
 
-    public List<PotionEffect> getPlayerPotions(EntityPlayer player) {
+    public
+    List <PotionEffect> getPlayerPotions(EntityPlayer player) {
         PotionList list = this.potions.get(player);
-        List<PotionEffect> potions = new ArrayList <> ();
+        List <PotionEffect> potions = new ArrayList <>();
         if (list != null) {
             potions = list.getEffects();
         }
         return potions;
     }
 
-    public void onTotemPop(EntityPlayer player) {
+    public
+    void onTotemPop(EntityPlayer player) {
         PotionList list = new PotionList();
-        this.potions.put(player, list);
+        this.potions.put(player , list);
     }
 
-    public PotionEffect[] getImportantPotions(EntityPlayer player) {
+    public
+    PotionEffect[] getImportantPotions(EntityPlayer player) {
         PotionEffect[] array = new PotionEffect[3];
         for (PotionEffect effect : this.getPlayerPotions(player)) {
             Potion potion = effect.getPotion();
@@ -97,12 +105,14 @@ public class PotionManager
         return array;
     }
 
-    public String getPotionString(PotionEffect effect) {
+    public
+    String getPotionString(PotionEffect effect) {
         Potion potion = effect.getPotion();
-        return I18n.format(potion.getName()) + " " + (HUD.getInstance().potions1.getValue() == false && effect.getAmplifier() == 0 ? "" : effect.getAmplifier() + 1 + " ") + "\u00a7f" + Potion.getPotionDurationString(effect, 1.0f);
+        return I18n.format(potion.getName()) + " " + (! HUD.getInstance().potions1.getValue() && effect.getAmplifier() == 0 ? "" : effect.getAmplifier() + 1 + " ") + "\u00a7f" + Potion.getPotionDurationString(effect , 1.0f);
     }
 
-    public String getColoredPotionString(PotionEffect effect) {
+    public
+    String getColoredPotionString(PotionEffect effect) {
         Potion potion = effect.getPotion();
         switch (I18n.format(potion.getName())) {
             case "Jump Boost":
@@ -136,15 +146,17 @@ public class PotionManager
         return "\u00a7f" + this.getPotionString(effect);
     }
 
-    public String getTextRadarPotionWithDuration(EntityPlayer player) {
+    public
+    String getTextRadarPotionWithDuration(EntityPlayer player) {
         PotionEffect[] array = this.getImportantPotions(player);
         PotionEffect strength = array[0];
         PotionEffect weakness = array[1];
         PotionEffect speed = array[2];
-        return "" + (strength != null ? "\u00a7c S" + (strength.getAmplifier() + 1) + " " + Potion.getPotionDurationString(strength, 1.0f) : "") + (weakness != null ? "\u00a78 W " + Potion.getPotionDurationString(weakness, 1.0f) : "") + (speed != null ? "\u00a7b S" + (speed.getAmplifier() + 1) + " " + Potion.getPotionDurationString(Objects.requireNonNull (weakness) , 1.0f) : "");
+        return "" + (strength != null ? "\u00a7c S" + (strength.getAmplifier() + 1) + " " + Potion.getPotionDurationString(strength , 1.0f) : "") + (weakness != null ? "\u00a78 W " + Potion.getPotionDurationString(weakness , 1.0f) : "") + (speed != null ? "\u00a7b S" + (speed.getAmplifier() + 1) + " " + Potion.getPotionDurationString(Objects.requireNonNull(weakness) , 1.0f) : "");
     }
 
-    public String getTextRadarPotion(EntityPlayer player) {
+    public
+    String getTextRadarPotion(EntityPlayer player) {
         PotionEffect[] array = this.getImportantPotions(player);
         PotionEffect strength = array[0];
         PotionEffect weakness = array[1];
@@ -152,16 +164,19 @@ public class PotionManager
         return "" + (strength != null ? "\u00a7c S" + (strength.getAmplifier() + 1) + " " : "") + (weakness != null ? "\u00a78 W " : "") + (speed != null ? "\u00a7b S" + (speed.getAmplifier() + 1) + " " : "");
     }
 
-    public static class PotionList {
-        private final List<PotionEffect> effects = new ArrayList <> ();
+    public static
+    class PotionList {
+        private final List <PotionEffect> effects = new ArrayList <>();
 
-        public void addEffect(PotionEffect effect) {
+        public
+        void addEffect(PotionEffect effect) {
             if (effect != null) {
                 this.effects.add(effect);
             }
         }
 
-        public List<PotionEffect> getEffects() {
+        public
+        List <PotionEffect> getEffects() {
             return this.effects;
         }
     }

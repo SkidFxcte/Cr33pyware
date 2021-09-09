@@ -22,11 +22,11 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 public class FastPlace
         extends Module {
     private final Setting<Boolean> all = this.register(new Setting <> ("Speed" , "All" , 0.0 , 0.0 , false , 0));
-    private final Setting<Boolean> obby = this.register(new Setting<Object>("Obsidian", false , v -> this.all.getValue() == false));
-    private final Setting<Boolean> enderChests = this.register(new Setting<Object>("EnderChests", false , v -> this.all.getValue() == false));
-    private final Setting<Boolean> crystals = this.register(new Setting<Object>("Crystals", false , v -> this.all.getValue() == false));
-    private final Setting<Boolean> exp = this.register(new Setting<Object>("Experience", false , v -> this.all.getValue() == false));
-    private final Setting<Boolean> Minecart = this.register(new Setting<Object>("Minecarts", false , v -> this.all.getValue() == false));
+    private final Setting<Boolean> obby = this.register(new Setting<Object>("Obsidian", false , v -> ! this.all.getValue()));
+    private final Setting<Boolean> enderChests = this.register(new Setting<Object>("EnderChests", false , v -> ! this.all.getValue()));
+    private final Setting<Boolean> crystals = this.register(new Setting<Object>("Crystals", false , v -> ! this.all.getValue()));
+    private final Setting<Boolean> exp = this.register(new Setting<Object>("Experience", false , v -> ! this.all.getValue()));
+    private final Setting<Boolean> Minecart = this.register(new Setting<Object>("Minecarts", false , v -> ! this.all.getValue()));
     private final Setting<Boolean> feetExp = this.register(new Setting <> ("Speed" , "ExpFeet" , 0.0 , 0.0 , false , 0));
     private final Setting<Boolean> fastCrystal = this.register(new Setting <> ("Speed" , "PacketCrystal" , 0.0 , 0.0 , false , 0));
     private BlockPos mousePos = null;

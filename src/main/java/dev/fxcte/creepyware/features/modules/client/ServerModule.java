@@ -18,52 +18,58 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicBoolean;
 
-public class ServerModule
+public
+class ServerModule
         extends Module {
     private static ServerModule instance;
     private final AtomicBoolean connected = new AtomicBoolean(false);
     private final Timer pingTimer = new Timer();
-    private final List<Long> pingList = new ArrayList <> ();
-    public Setting<String> ip = this.register(new Setting <> ("Speed" , "PhobosIP" , 0.0 , 0.0 , "0.0.0.0.0" , 0));
-    public Setting<String> port = this.register(new Setting <> ("Speed" , "Port" , 0.0 , 0.0 , "0" , 0).setRenderName(true));
-    public Setting<String> serverIP = this.register(new Setting <> ("Speed" , "ServerIP" , 0.0 , 0.0 , "AnarchyHvH.eu" , 0));
-    public Setting<Boolean> noFML = this.register(new Setting <> ("Speed" , "RemoveFML" , 0.0 , 0.0 , false , 0));
-    public Setting<Boolean> getName = this.register(new Setting <> ("Speed" , "GetName" , 0.0 , 0.0 , false , 0));
-    public Setting<Boolean> average = this.register(new Setting <> ("Speed" , "Average" , 0.0 , 0.0 , false , 0));
-    public Setting<Boolean> clear = this.register(new Setting <> ("Speed" , "ClearPings" , 0.0 , 0.0 , false , 0));
-    public Setting<Boolean> oneWay = this.register(new Setting <> ("Speed" , "OneWay" , 0.0 , 0.0 , false , 0));
-    public Setting<Integer> delay = this.register(new Setting <> ("KeepAlives" , 10 , 1 , 50));
+    private final List <Long> pingList = new ArrayList <>();
+    public Setting <String> ip = this.register(new Setting <>("Speed" , "PhobosIP" , 0.0 , 0.0 , "0.0.0.0.0" , 0));
+    public Setting <String> port = this.register(new Setting <>("Speed" , "Port" , 0.0 , 0.0 , "0" , 0).setRenderName(true));
+    public Setting <String> serverIP = this.register(new Setting <>("Speed" , "ServerIP" , 0.0 , 0.0 , "AnarchyHvH.eu" , 0));
+    public Setting <Boolean> noFML = this.register(new Setting <>("Speed" , "RemoveFML" , 0.0 , 0.0 , false , 0));
+    public Setting <Boolean> getName = this.register(new Setting <>("Speed" , "GetName" , 0.0 , 0.0 , false , 0));
+    public Setting <Boolean> average = this.register(new Setting <>("Speed" , "Average" , 0.0 , 0.0 , false , 0));
+    public Setting <Boolean> clear = this.register(new Setting <>("Speed" , "ClearPings" , 0.0 , 0.0 , false , 0));
+    public Setting <Boolean> oneWay = this.register(new Setting <>("Speed" , "OneWay" , 0.0 , 0.0 , false , 0));
+    public Setting <Integer> delay = this.register(new Setting <>("KeepAlives" , 10 , 1 , 50));
     private long currentPing = 0L;
     private long serverPing = 0L;
     private StringBuffer name = null;
     private long averagePing = 0L;
     private String serverPrefix = "idk";
 
-    public ServerModule() {
-        super("PingBypass", "Manages Creepyware`s internal Server", Module.Category.CLIENT, false, false, true);
+    public
+    ServerModule() {
+        super("PingBypass" , "Manages Creepyware`s internal Server" , Module.Category.CLIENT , false , false , true);
         instance = this;
     }
 
-    public static ServerModule getInstance() {
+    public static
+    ServerModule getInstance() {
         if (instance == null) {
             instance = new ServerModule();
         }
         return instance;
     }
 
-    public String getPlayerName() {
+    public
+    String getPlayerName() {
         if (this.name == null) {
             return null;
         }
         return this.name.toString();
     }
 
-    public String getServerPrefix() {
+    public
+    String getServerPrefix() {
         return this.serverPrefix;
     }
 
     @Override
-    public void onLogout() {
+    public
+    void onLogout() {
         this.averagePing = 0L;
         this.currentPing = 0L;
         this.serverPing = 0L;
@@ -73,20 +79,22 @@ public class ServerModule
     }
 
     @SubscribeEvent
-    public void onReceivePacket(PacketEvent.Receive event) {
+    public
+    void onReceivePacket(PacketEvent.Receive event) {
         if (event.getPacket() instanceof SPacketChat) {
             SPacketChat packet = event.getPacket();
             if (packet.chatComponent.getUnformattedText().startsWith("@Clientprefix")) {
                 String prefix;
-                this.serverPrefix = prefix = packet.chatComponent.getFormattedText().replace("@Clientprefix", "");
+                this.serverPrefix = prefix = packet.chatComponent.getFormattedText().replace("@Clientprefix" , "");
             }
         }
     }
 
     @Override
-    public void onTick() {
+    public
+    void onTick() {
         if (Util.mc.getConnection() != null && this.isConnected()) {
-            if (this.getName.getValue ()) {
+            if (this.getName.getValue()) {
                 Util.mc.getConnection().sendPacket(new CPacketChatMessage("@Servername"));
                 this.getName.setValue(false);
             }
@@ -97,31 +105,33 @@ public class ServerModule
                 Util.mc.getConnection().sendPacket(new CPacketKeepAlive(100L));
                 this.pingTimer.reset();
             }
-            if (this.clear.getValue ()) {
+            if (this.clear.getValue()) {
                 this.pingList.clear();
             }
         }
     }
 
     @SubscribeEvent
-    public void onPacketReceive(PacketEvent.Receive event) {
+    public
+    void onPacketReceive(PacketEvent.Receive event) {
         SPacketKeepAlive alive;
         if (event.getPacket() instanceof SPacketChat) {
             SPacketChat packetChat = event.getPacket();
             if (packetChat.getChatComponent().getFormattedText().startsWith("@Client")) {
-                this.name = new StringBuffer(TextUtil.stripColor(packetChat.getChatComponent().getFormattedText().replace("@Client", "")));
+                this.name = new StringBuffer(TextUtil.stripColor(packetChat.getChatComponent().getFormattedText().replace("@Client" , "")));
                 event.setCanceled(true);
             }
         } else if (event.getPacket() instanceof SPacketKeepAlive && (alive = event.getPacket()).getId() > 0L && alive.getId() < 1000L) {
             this.serverPing = alive.getId();
-            this.currentPing = this.oneWay.getValue() != false ? this.pingTimer.getPassedTimeMs() / 2L : this.pingTimer.getPassedTimeMs();
+            this.currentPing = this.oneWay.getValue() ? this.pingTimer.getPassedTimeMs() / 2L : this.pingTimer.getPassedTimeMs();
             this.pingList.add(this.currentPing);
             this.averagePing = this.getAveragePing();
         }
     }
 
     @SubscribeEvent
-    public void onPacketSend(PacketEvent.Send event) {
+    public
+    void onPacketSend(PacketEvent.Send event) {
         IC00Handshake packet;
         String ip;
         if (event.getPacket() instanceof C00Handshake && (ip = (packet = event.getPacket()).getIp()).equals(this.ip.getValue())) {
@@ -132,12 +142,14 @@ public class ServerModule
     }
 
     @Override
-    public String getDisplayInfo() {
+    public
+    String getDisplayInfo() {
         return this.averagePing + "ms";
     }
 
-    private long getAveragePing() {
-        if (! this.average.getValue () || this.pingList.isEmpty()) {
+    private
+    long getAveragePing() {
+        if (! this.average.getValue() || this.pingList.isEmpty()) {
             return this.currentPing;
         }
         int full = 0;
@@ -147,21 +159,24 @@ public class ServerModule
         return full / this.pingList.size();
     }
 
-    public boolean isConnected() {
+    public
+    boolean isConnected() {
         return this.connected.get();
     }
 
-    public int getPort() {
+    public
+    int getPort() {
         int result;
         try {
             result = Integer.parseInt(this.port.getValue());
         } catch (NumberFormatException e) {
-            return -1;
+            return - 1;
         }
         return result;
     }
 
-    public long getServerPing() {
+    public
+    long getServerPing() {
         return this.serverPing;
     }
 }

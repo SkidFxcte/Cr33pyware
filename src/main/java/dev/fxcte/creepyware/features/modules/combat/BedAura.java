@@ -15,53 +15,56 @@ import net.minecraft.util.math.Vec3d;
 
 import java.util.Comparator;
 
-public class BedAura
+public
+class BedAura
         extends Module {
     boolean moving = false;
-    Setting<Double> range = this.register(new Setting <> ("Range" , 4.5 , 0.0 , 10.0));
-    Setting<Boolean> rotate = this.register(new Setting <> ("Speed" , "Rotate" , 0.0 , 0.0 , true , 0));
-    Setting<Boolean> dimensionCheck = this.register(new Setting <> ("Speed" , "DimensionCheck" , 0.0 , 0.0 , true , 0));
-    Setting<Boolean> refill = this.register(new Setting <> ("Speed" , "RefillBed" , 0.0 , 0.0 , true , 0));
+    Setting <Double> range = this.register(new Setting <>("Range" , 4.5 , 0.0 , 10.0));
+    Setting <Boolean> rotate = this.register(new Setting <>("Speed" , "Rotate" , 0.0 , 0.0 , true , 0));
+    Setting <Boolean> dimensionCheck = this.register(new Setting <>("Speed" , "DimensionCheck" , 0.0 , 0.0 , true , 0));
+    Setting <Boolean> refill = this.register(new Setting <>("Speed" , "RefillBed" , 0.0 , 0.0 , true , 0));
 
-    public BedAura() {
-        super("BedAura", "Fucked (Future)", Module.Category.COMBAT, true, false, false);
+    public
+    BedAura() {
+        super("BedAura" , "Fucked (Future)" , Module.Category.COMBAT , true , false , false);
     }
 
     @Override
-    public void onUpdate() {
-        if (this.refill.getValue ()) {
-            int slot = -1;
-            for (int i = 0; i < 9; ++i) {
+    public
+    void onUpdate() {
+        if (this.refill.getValue()) {
+            int slot = - 1;
+            for (int i = 0; i < 9; ++ i) {
                 if (BedAura.mc.player.inventory.getStackInSlot(i) != ItemStack.EMPTY) continue;
                 slot = i;
                 break;
             }
-            if (this.moving && slot != -1) {
-                BedAura.mc.playerController.windowClick(0, slot + 36, 0, ClickType.PICKUP, BedAura.mc.player);
+            if (this.moving && slot != - 1) {
+                BedAura.mc.playerController.windowClick(0 , slot + 36 , 0 , ClickType.PICKUP , BedAura.mc.player);
                 this.moving = false;
-                slot = -1;
+                slot = - 1;
             }
-            if (slot != -1 && !(BedAura.mc.currentScreen instanceof GuiContainer) && BedAura.mc.player.inventory.getItemStack().isEmpty()) {
-                int t = -1;
-                for (int i = 0; i < 45; ++i) {
+            if (slot != - 1 && ! (BedAura.mc.currentScreen instanceof GuiContainer) && BedAura.mc.player.inventory.getItemStack().isEmpty()) {
+                int t = - 1;
+                for (int i = 0; i < 45; ++ i) {
                     if (BedAura.mc.player.inventory.getStackInSlot(i).getItem() != Items.BED || i < 9) continue;
                     t = i;
                     break;
                 }
-                if (t != -1) {
-                    BedAura.mc.playerController.windowClick(0, t, 0, ClickType.PICKUP, BedAura.mc.player);
+                if (t != - 1) {
+                    BedAura.mc.playerController.windowClick(0 , t , 0 , ClickType.PICKUP , BedAura.mc.player);
                     this.moving = true;
                 }
             }
         }
         BedAura.mc.world.loadedTileEntityList.stream().filter(e -> e instanceof TileEntityBed).filter(e -> BedAura.mc.player.getDistance(e.getPos().getX() , e.getPos().getY() , e.getPos().getZ()) <= this.range.getValue()).sorted(Comparator.comparing(e -> BedAura.mc.player.getDistance(e.getPos().getX() , e.getPos().getY() , e.getPos().getZ()))).forEach(bed -> {
-            if (this.dimensionCheck.getValue () && BedAura.mc.player.dimension == 0) {
+            if (this.dimensionCheck.getValue() && BedAura.mc.player.dimension == 0) {
                 return;
             }
-            if (this.rotate.getValue ()) {
-                BlockUtil.faceVectorPacketInstant(new Vec3d(bed.getPos().add(0.5, 0.5, 0.5)));
+            if (this.rotate.getValue()) {
+                BlockUtil.faceVectorPacketInstant(new Vec3d(bed.getPos().add(0.5 , 0.5 , 0.5)));
             }
-            BedAura.mc.player.connection.sendPacket(new CPacketPlayerTryUseItemOnBlock(bed.getPos(), EnumFacing.UP, EnumHand.MAIN_HAND, 0.0f, 0.0f, 0.0f));
+            BedAura.mc.player.connection.sendPacket(new CPacketPlayerTryUseItemOnBlock(bed.getPos() , EnumFacing.UP , EnumHand.MAIN_HAND , 0.0f , 0.0f , 0.0f));
         });
     }
 }
