@@ -9,11 +9,11 @@ public class Chams
     public Setting<Boolean> colorSync = this.register(new Setting <> ("Speed" , "Sync" , 0.0 , 0.0 , false , 0));
     public Setting<Boolean> colored = this.register(new Setting <> ("Speed" , "Colored" , 0.0 , 0.0 , false , 0));
     public Setting<Boolean> textured = this.register(new Setting <> ("Speed" , "Textured" , 0.0 , 0.0 , false , 0));
-    public Setting<Boolean> rainbow = this.register(new Setting<Object>("Rainbow", Boolean.FALSE , v -> this.colored.getValue()));
+    public Setting<Boolean> rainbow = this.register(new Setting<Object>("Rainbow", false , v -> this.colored.getValue()));
     public Setting<Integer> saturation = this.register(new Setting<Object>("Saturation", 50 , 0 , 100 , v -> this.colored.getValue() != false && this.rainbow.getValue() != false));
     public Setting<Integer> brightness = this.register(new Setting<Object>("Brightness", 100 , 0 , 100 , v -> this.colored.getValue() != false && this.rainbow.getValue() != false));
     public Setting<Integer> speed = this.register(new Setting<Object>("Speed", 40 , 1 , 100 , v -> this.colored.getValue() != false && this.rainbow.getValue() != false));
-    public Setting<Boolean> xqz = this.register(new Setting<Object>("XQZ", Boolean.FALSE , v -> this.colored.getValue() != false && this.rainbow.getValue() == false));
+    public Setting<Boolean> xqz = this.register(new Setting<Object>("XQZ", false , v -> this.colored.getValue() != false && this.rainbow.getValue() == false));
     public Setting<Integer> red = this.register(new Setting<Object>("Red", 0 , 0 , 255 , v -> this.colored.getValue() != false && this.rainbow.getValue() == false));
     public Setting<Integer> green = this.register(new Setting<Object>("Green", 255 , 0 , 255 , v -> this.colored.getValue() != false && this.rainbow.getValue() == false));
     public Setting<Integer> blue = this.register(new Setting<Object>("Blue", 0 , 0 , 255 , v -> this.colored.getValue() != false && this.rainbow.getValue() == false));

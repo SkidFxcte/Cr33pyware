@@ -47,10 +47,10 @@ public class ToolTips
     public Setting<Boolean> shulkers = this.register(new Setting <> ("Speed" , "ShulkerViewer" , 0.0 , 0.0 , true , 0));
     public Setting<Bind> peek = this.register(new Setting <> ("Speed" , "Peek" , 0.0 , 0.0 , new Bind (- 1) , 0));
     public Setting<Boolean> shulkerSpy = this.register(new Setting <> ("Speed" , "ShulkerSpy" , 0.0 , 0.0 , true , 0));
-    public Setting<Boolean> render = this.register(new Setting<Object>("Render", Boolean.TRUE , v -> this.shulkerSpy.getValue()));
-    public Setting<Boolean> own = this.register(new Setting<Object>("OwnShulker", Boolean.TRUE , v -> this.shulkerSpy.getValue()));
+    public Setting<Boolean> render = this.register(new Setting<Object>("Render", true , v -> this.shulkerSpy.getValue()));
+    public Setting<Boolean> own = this.register(new Setting<Object>("OwnShulker", true , v -> this.shulkerSpy.getValue()));
     public Setting<Integer> cooldown = this.register(new Setting<Object>("ShowForS", 2 , 0 , 5 , v -> this.shulkerSpy.getValue()));
-    public Setting<Boolean> textColor = this.register(new Setting<Object>("TextColor", Boolean.FALSE , v -> this.shulkers.getValue()));
+    public Setting<Boolean> textColor = this.register(new Setting<Object>("TextColor", false , v -> this.shulkers.getValue()));
     private final Setting<Integer> red = this.register(new Setting<Object>("Red", 255 , 0 , 255 , v -> this.textColor.getValue()));
     private final Setting<Integer> green = this.register(new Setting<Object>("Green", 0 , 0 , 255 , v -> this.textColor.getValue()));
     private final Setting<Integer> blue = this.register(new Setting<Object>("Blue", 0 , 0 , 255 , v -> this.textColor.getValue()));

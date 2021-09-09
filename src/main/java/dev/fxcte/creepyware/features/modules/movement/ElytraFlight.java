@@ -36,8 +36,8 @@ public class ElytraFlight
     public Setting<Boolean> autoStart = this.register(new Setting <> ("Speed" , "AutoStart" , 0.0 , 0.0 , true , 0));
     public Setting<Boolean> disableInLiquid = this.register(new Setting <> ("Speed" , "NoLiquid" , 0.0 , 0.0 , true , 0));
     public Setting<Boolean> infiniteDura = this.register(new Setting <> ("Speed" , "InfiniteDura" , 0.0 , 0.0 , false , 0));
-    public Setting<Boolean> noKick = this.register(new Setting<Object>("NoKick", Boolean.FALSE , v -> this.mode.getValue() == Mode.PACKET));
-    public Setting<Boolean> allowUp = this.register(new Setting<Object>("AllowUp", Boolean.TRUE , v -> this.mode.getValue() == Mode.BETTER));
+    public Setting<Boolean> noKick = this.register(new Setting<Object>("NoKick", false , v -> this.mode.getValue() == Mode.PACKET));
+    public Setting<Boolean> allowUp = this.register(new Setting<Object>("AllowUp", true , v -> this.mode.getValue() == Mode.BETTER));
     public Setting<Boolean> lockPitch = this.register(new Setting <> ("Speed" , "LockPitch" , 0.0 , 0.0 , false , 0));
     private boolean vertical;
     private Double posX;

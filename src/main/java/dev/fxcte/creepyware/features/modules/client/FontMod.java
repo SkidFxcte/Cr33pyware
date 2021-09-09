@@ -15,10 +15,10 @@ public class FontMod
     public Setting<String> fontName = this.register(new Setting <> ("FontName" , "Arial" , "Name of the font."));
     public Setting<Integer> fontSize = this.register(new Setting <> ("FontSize" , 18 , "Size of the font."));
     public Setting<Integer> fontStyle = this.register(new Setting <> ("FontStyle" , 0 , "Style of the font."));
-    public Setting<Boolean> antiAlias = this.register(new Setting <> ("AntiAlias" , Boolean.TRUE , "Smoother font."));
-    public Setting<Boolean> fractionalMetrics = this.register(new Setting <> ("Metrics" , Boolean.TRUE , "Thinner font."));
-    public Setting<Boolean> shadow = this.register(new Setting <> ("Shadow" , Boolean.TRUE , "Less shadow offset font."));
-    public Setting<Boolean> showFonts = this.register(new Setting <> ("Fonts" , Boolean.FALSE , "Shows all fonts."));
+    public Setting<Boolean> antiAlias = this.register(new Setting <> ("AntiAlias" , true , "Smoother font."));
+    public Setting<Boolean> fractionalMetrics = this.register(new Setting <> ("Metrics" , true , "Thinner font."));
+    public Setting<Boolean> shadow = this.register(new Setting <> ("Shadow" , true , "Less shadow offset font."));
+    public Setting<Boolean> showFonts = this.register(new Setting <> ("Fonts" , false , "Shows all fonts."));
     public Setting<Boolean> full = this.register(new Setting <> ("Speed" , "Full" , 0.0 , 0.0 , false , 0));
     private boolean reloadFont = false;
 

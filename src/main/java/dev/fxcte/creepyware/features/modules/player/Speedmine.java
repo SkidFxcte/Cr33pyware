@@ -48,9 +48,9 @@ class Speedmine
     public Setting < Integer > red = this.register ( new Setting < Object > ( "Red" , 125 , 0 , 255 , v -> this.render.getValue ( ) ) );
     public Setting < Integer > green = this.register ( new Setting < Object > ( "Green" , 0 , 0 , 255 , v -> this.render.getValue ( ) ) );
     public Setting < Integer > blue = this.register ( new Setting < Object > ( "Blue" , 255 , 0 , 255 , v -> this.render.getValue ( ) ) );
-    public Setting < Boolean > box = this.register ( new Setting < Object > ( "Box" , Boolean.FALSE , v -> this.render.getValue ( ) ) );
+    public Setting < Boolean > box = this.register ( new Setting < Object > ( "Box" , false , v -> this.render.getValue ( ) ) );
     private final Setting < Integer > boxAlpha = this.register ( new Setting < Object > ( "BoxAlpha" , 85 , 0 , 255 , v -> this.box.getValue ( ) && this.render.getValue ( ) ) );
-    public Setting < Boolean > outline = this.register ( new Setting < Object > ( "Outline" , Boolean.TRUE , v -> this.render.getValue ( ) ) );
+    public Setting < Boolean > outline = this.register ( new Setting < Object > ( "Outline" , true , v -> this.render.getValue ( ) ) );
     public final Setting < Float > lineWidth = this.register ( new Setting < Object > ( "LineWidth" , 1.0f , 0.1f , 5.0f , v -> this.outline.getValue ( ) && this.render.getValue ( ) ) );
     public BlockPos currentPos;
     public IBlockState currentBlockState;

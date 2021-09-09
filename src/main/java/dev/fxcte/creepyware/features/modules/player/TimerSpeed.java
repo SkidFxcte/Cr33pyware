@@ -14,7 +14,7 @@ public class TimerSpeed
     public Setting<Float> fastSpeed = this.register(new Setting<Object>("Fast", 10.0f , 0.1f , 100.0f , v -> this.mode.getValue() == TimerMode.SWITCH, "Fast Speed for switch."));
     public Setting<Integer> fastTime = this.register(new Setting<Object>("FastTime", 20, 1, 500, v -> this.mode.getValue() == TimerMode.SWITCH, "How long you want to go fast.(ms * 10)"));
     public Setting<Integer> slowTime = this.register(new Setting<Object>("SlowTime", 20, 1, 500, v -> this.mode.getValue() == TimerMode.SWITCH, "Recover from too fast.(ms * 10)"));
-    public Setting<Boolean> startFast = this.register(new Setting<Object>("StartFast", Boolean.FALSE , v -> this.mode.getValue() == TimerMode.SWITCH));
+    public Setting<Boolean> startFast = this.register(new Setting<Object>("StartFast", false , v -> this.mode.getValue() == TimerMode.SWITCH));
     public float speed = 1.0f;
     private final Timer timer = new Timer();
     private final Timer turnOffTimer = new Timer();

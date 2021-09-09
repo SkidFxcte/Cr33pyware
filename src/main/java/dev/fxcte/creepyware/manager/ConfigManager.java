@@ -90,7 +90,7 @@ public class ConfigManager
                 if (settingFound) continue;
             }
             if (feature instanceof XRay) {
-                feature.register(new Setting <> (settingName , Boolean.TRUE , v -> ((XRay) feature).showBlocks.getValue ()));
+                feature.register(new Setting <> (settingName , true , v -> ((XRay) feature).showBlocks.getValue ()));
                 continue;
             }
         }

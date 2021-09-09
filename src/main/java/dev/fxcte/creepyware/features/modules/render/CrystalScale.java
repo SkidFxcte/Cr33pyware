@@ -24,7 +24,7 @@ public class CrystalScale
     public Setting<Boolean> chams = this.register(new Setting <> ("Speed" , "Chams" , 0.0 , 0.0 , false , 0));
     public Setting<Boolean> throughWalls = this.register(new Setting <> ("Speed" , "ThroughWalls" , 0.0 , 0.0 , true , 0));
     public Setting<Boolean> wireframeThroughWalls = this.register(new Setting <> ("Speed" , "WireThroughWalls" , 0.0 , 0.0 , true , 0));
-    public Setting<Boolean> glint = this.register(new Setting<Object>("Glint", Boolean.FALSE , v -> this.chams.getValue()));
+    public Setting<Boolean> glint = this.register(new Setting<Object>("Glint", false , v -> this.chams.getValue()));
     public Setting<Boolean> wireframe = this.register(new Setting <> ("Speed" , "Wireframe" , 0.0 , 0.0 , false , 0));
     public Setting<Float> scale = this.register(new Setting <> ("Scale" , 1.0f , 0.1f , 10.0f));
     public Setting<Float> lineWidth = this.register(new Setting <> ("LineWidth" , 1.0f , 0.1f , 3.0f));
@@ -33,7 +33,7 @@ public class CrystalScale
     public Setting<Integer> saturation = this.register(new Setting<Object>("Saturation", 50 , 0 , 100 , v -> this.rainbow.getValue()));
     public Setting<Integer> brightness = this.register(new Setting<Object>("Brightness", 100 , 0 , 100 , v -> this.rainbow.getValue()));
     public Setting<Integer> speed = this.register(new Setting<Object>("Speed", 40 , 1 , 100 , v -> this.rainbow.getValue()));
-    public Setting<Boolean> xqz = this.register(new Setting<Object>("XQZ", Boolean.FALSE , v -> this.rainbow.getValue() == false && this.throughWalls.getValue() != false));
+    public Setting<Boolean> xqz = this.register(new Setting<Object>("XQZ", false , v -> this.rainbow.getValue() == false && this.throughWalls.getValue() != false));
     public Setting<Integer> red = this.register(new Setting<Object>("Red", 0 , 0 , 255 , v -> this.rainbow.getValue() == false));
     public Setting<Integer> green = this.register(new Setting<Object>("Green", 255 , 0 , 255 , v -> this.rainbow.getValue() == false));
     public Setting<Integer> blue = this.register(new Setting<Object>("Blue", 0 , 0 , 255 , v -> this.rainbow.getValue() == false));

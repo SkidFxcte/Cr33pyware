@@ -47,7 +47,7 @@ public class XRay
         }
         if (event.getStage() == 2 && event.getSetting() != null && event.getSetting().getFeature() != null && event.getSetting().getFeature().equals(this)) {
             if (event.getSetting().equals(this.newBlock) && !this.shouldRender(this.newBlock.getPlannedValue())) {
-                this.register(new Setting<Object>(this.newBlock.getPlannedValue(), Boolean.TRUE , v -> this.showBlocks.getValue()));
+                this.register(new Setting<Object>(this.newBlock.getPlannedValue(), true , v -> this.showBlocks.getValue()));
                 Command.sendMessage("<Xray> Added new Block: " + this.newBlock.getPlannedValue());
                 if (this.isOn()) {
                     XRay.mc.renderGlobal.loadRenderers();

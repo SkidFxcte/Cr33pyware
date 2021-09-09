@@ -26,21 +26,21 @@ public class Notifications
     private static Notifications INSTANCE = new Notifications();
     private final Timer timer = new Timer();
     public Setting<Boolean> totemPops = this.register(new Setting <> ("Speed" , "TotemPops" , 0.0 , 0.0 , false , 0));
-    public Setting<Boolean> totemNoti = this.register(new Setting<Object>("TotemNoti", Boolean.TRUE , v -> this.totemPops.getValue()));
+    public Setting<Boolean> totemNoti = this.register(new Setting<Object>("TotemNoti", true , v -> this.totemPops.getValue()));
     public Setting<Integer> delay = this.register(new Setting<Object>("Delay", 2000, 0, 5000, v -> this.totemPops.getValue(), "Delays messages."));
     public Setting<Boolean> clearOnLogout = this.register(new Setting <> ("Speed" , "LogoutClear" , 0.0 , 0.0 , false , 0));
     public Setting<Boolean> moduleMessage = this.register(new Setting <> ("Speed" , "ModuleMessage" , 0.0 , 0.0 , false , 0));
-    public Setting<Boolean> list = this.register(new Setting<Object>("List", Boolean.FALSE , v -> this.moduleMessage.getValue()));
-    public Setting<Boolean> watermark = this.register(new Setting<Object>("Watermark", Boolean.TRUE , v -> this.moduleMessage.getValue()));
+    public Setting<Boolean> list = this.register(new Setting<Object>("List", false , v -> this.moduleMessage.getValue()));
+    public Setting<Boolean> watermark = this.register(new Setting<Object>("Watermark", true , v -> this.moduleMessage.getValue()));
     public Setting<Boolean> visualRange = this.register(new Setting <> ("Speed" , "VisualRange" , 0.0 , 0.0 , false , 0));
     public Setting<Boolean> VisualRangeSound = this.register(new Setting <> ("Speed" , "VisualRangeSound" , 0.0 , 0.0 , false , 0));
-    public Setting<Boolean> coords = this.register(new Setting<Object>("Coords", Boolean.TRUE , v -> this.visualRange.getValue()));
-    public Setting<Boolean> leaving = this.register(new Setting<Object>("Leaving", Boolean.FALSE , v -> this.visualRange.getValue()));
+    public Setting<Boolean> coords = this.register(new Setting<Object>("Coords", true , v -> this.visualRange.getValue()));
+    public Setting<Boolean> leaving = this.register(new Setting<Object>("Leaving", false , v -> this.visualRange.getValue()));
     public Setting<Boolean> pearls = this.register(new Setting <> ("Speed" , "PearlNotifs" , 0.0 , 0.0 , false , 0));
     public Setting<Boolean> crash = this.register(new Setting <> ("Speed" , "Crash" , 0.0 , 0.0 , false , 0));
     public Setting<Boolean> popUp = this.register(new Setting <> ("Speed" , "PopUpVisualRange" , 0.0 , 0.0 , false , 0));
     public Timer totemAnnounce = new Timer();
-    private final Setting<Boolean> readfile = this.register(new Setting<Object>("LoadFile", Boolean.FALSE , v -> this.moduleMessage.getValue()));
+    private final Setting<Boolean> readfile = this.register(new Setting<Object>("LoadFile", false , v -> this.moduleMessage.getValue()));
     private List<EntityPlayer> knownPlayers = new ArrayList <> ();
     private boolean check;
 

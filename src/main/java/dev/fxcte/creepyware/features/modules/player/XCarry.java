@@ -39,7 +39,7 @@ public class XCarry
     private final Setting<Integer> tasks = this.register(new Setting<Object>("Actions", 3 , 1 , 12 , v -> this.autoStore.getValue().getKey() != -1));
     private final Setting<Boolean> store = this.register(new Setting <> ("Speed" , "Store" , 0.0 , 0.0 , false , 0));
     private final Setting<Boolean> shiftClicker = this.register(new Setting <> ("Speed" , "ShiftClick" , 0.0 , 0.0 , false , 0));
-    private final Setting<Boolean> withShift = this.register(new Setting<Object>("WithShift", Boolean.TRUE , v -> this.shiftClicker.getValue()));
+    private final Setting<Boolean> withShift = this.register(new Setting<Object>("WithShift", true , v -> this.shiftClicker.getValue()));
     private final Setting<Bind> keyBind = this.register(new Setting<Object>("ShiftBind", new Bind(-1), v -> this.shiftClicker.getValue()));
     private final AtomicBoolean guiNeedsClose = new AtomicBoolean(false);
     private final Queue<InventoryUtil.Task> taskList = new ConcurrentLinkedQueue <> ();

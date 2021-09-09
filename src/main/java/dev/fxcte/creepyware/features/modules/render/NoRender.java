@@ -38,23 +38,23 @@ public class NoRender
         NoRender.INSTANCE = new NoRender();
     }
 
-    public Setting<Boolean> fire = this.register(new Setting <> ("Fire" , Boolean.FALSE , "Removes the portal overlay."));
-    public Setting<Boolean> portal = this.register(new Setting <> ("Portal" , Boolean.FALSE , "Removes the portal overlay."));
-    public Setting<Boolean> pumpkin = this.register(new Setting <> ("Pumpkin" , Boolean.FALSE , "Removes the pumpkin overlay."));
-    public Setting<Boolean> totemPops = this.register(new Setting <> ("TotemPop" , Boolean.FALSE , "Removes the Totem overlay."));
-    public Setting<Boolean> items = this.register(new Setting <> ("Items" , Boolean.FALSE , "Removes items on the ground."));
-    public Setting<Boolean> nausea = this.register(new Setting <> ("Nausea" , Boolean.FALSE , "Removes Portal Nausea."));
-    public Setting<Boolean> hurtcam = this.register(new Setting <> ("HurtCam" , Boolean.FALSE , "Removes shaking after taking damage."));
+    public Setting<Boolean> fire = this.register(new Setting <> ("Fire" , false , "Removes the portal overlay."));
+    public Setting<Boolean> portal = this.register(new Setting <> ("Portal" , false , "Removes the portal overlay."));
+    public Setting<Boolean> pumpkin = this.register(new Setting <> ("Pumpkin" , false , "Removes the pumpkin overlay."));
+    public Setting<Boolean> totemPops = this.register(new Setting <> ("TotemPop" , false , "Removes the Totem overlay."));
+    public Setting<Boolean> items = this.register(new Setting <> ("Items" , false , "Removes items on the ground."));
+    public Setting<Boolean> nausea = this.register(new Setting <> ("Nausea" , false , "Removes Portal Nausea."));
+    public Setting<Boolean> hurtcam = this.register(new Setting <> ("HurtCam" , false , "Removes shaking after taking damage."));
     public Setting<Fog> fog = this.register(new Setting <> ("Fog" , Fog.NONE , "Removes Fog."));
-    public Setting<Boolean> noWeather = this.register(new Setting <> ("Weather" , Boolean.FALSE , "AntiWeather"));
+    public Setting<Boolean> noWeather = this.register(new Setting <> ("Weather" , false , "AntiWeather"));
     public Setting<Boss> boss = this.register(new Setting <> ("BossBars" , Boss.NONE , "Modifies the bossbars."));
     public Setting<Float> scale = this.register(new Setting<Object>("Scale", 0.0f , 0.5f , 1.0f , v -> this.boss.getValue() == Boss.MINIMIZE || this.boss.getValue() != Boss.STACK, "Scale of the bars."));
-    public Setting<Boolean> bats = this.register(new Setting <> ("Bats" , Boolean.FALSE , "Removes bats."));
+    public Setting<Boolean> bats = this.register(new Setting <> ("Bats" , false , "Removes bats."));
     public Setting<NoArmor> noArmor = this.register(new Setting <> ("NoArmor" , NoArmor.NONE , "Doesnt Render Armor on players."));
-    public Setting<Boolean> glint = this.register(new Setting<Object>("Glint", Boolean.FALSE , v -> this.noArmor.getValue() != NoArmor.NONE));
+    public Setting<Boolean> glint = this.register(new Setting<Object>("Glint", false , v -> this.noArmor.getValue() != NoArmor.NONE));
     public Setting<Skylight> skylight = this.register(new Setting <> ("Speed" , "Skylight" , 0.0 , 0.0 , Skylight.NONE , 0));
-    public Setting<Boolean> barriers = this.register(new Setting <> ("Barriers" , Boolean.FALSE , "Barriers"));
-    public Setting<Boolean> blocks = this.register(new Setting <> ("Blocks" , Boolean.FALSE , "Blocks"));
+    public Setting<Boolean> barriers = this.register(new Setting <> ("Barriers" , false , "Barriers"));
+    public Setting<Boolean> blocks = this.register(new Setting <> ("Blocks" , false , "Blocks"));
     public Setting<Boolean> advancements = this.register(new Setting <> ("Speed" , "Advancements" , 0.0 , 0.0 , false , 0));
     public Setting<Boolean> pigmen = this.register(new Setting <> ("Speed" , "Pigmen" , 0.0 , 0.0 , false , 0));
     public Setting<Boolean> timeChange = this.register(new Setting <> ("Speed" , "TimeChange" , 0.0 , 0.0 , false , 0));

@@ -23,14 +23,14 @@ public class Killaura
     public Setting<Boolean> autoSwitch = this.register(new Setting <> ("Speed" , "AutoSwitch" , 0.0 , 0.0 , false , 0));
     public Setting<Boolean> delay = this.register(new Setting <> ("Speed" , "Delay" , 0.0 , 0.0 , true , 0));
     public Setting<Boolean> rotate = this.register(new Setting <> ("Speed" , "Rotate" , 0.0 , 0.0 , true , 0));
-    public Setting<Boolean> stay = this.register(new Setting<Object>("Stay", Boolean.TRUE , v -> this.rotate.getValue()));
+    public Setting<Boolean> stay = this.register(new Setting<Object>("Stay", true , v -> this.rotate.getValue()));
     public Setting<Boolean> armorBreak = this.register(new Setting <> ("Speed" , "ArmorBreak" , 0.0 , 0.0 , false , 0));
     public Setting<Boolean> eating = this.register(new Setting <> ("Speed" , "Eating" , 0.0 , 0.0 , true , 0));
     public Setting<Boolean> onlySharp = this.register(new Setting <> ("Speed" , "Axe/Sword" , 0.0 , 0.0 , true , 0));
     public Setting<Boolean> teleport = this.register(new Setting <> ("Speed" , "Teleport" , 0.0 , 0.0 , false , 0));
     public Setting<Float> raytrace = this.register(new Setting<Object>("Raytrace", 6.0f , 0.1f , 7.0f , v -> this.teleport.getValue() == false, "Wall Range."));
     public Setting<Float> teleportRange = this.register(new Setting<Object>("TpRange", 15.0f , 0.1f , 50.0f , v -> this.teleport.getValue(), "Teleport Range."));
-    public Setting<Boolean> lagBack = this.register(new Setting<Object>("LagBack", Boolean.TRUE , v -> this.teleport.getValue()));
+    public Setting<Boolean> lagBack = this.register(new Setting<Object>("LagBack", true , v -> this.teleport.getValue()));
     public Setting<Boolean> teekaydelay = this.register(new Setting <> ("Speed" , "32kDelay" , 0.0 , 0.0 , false , 0));
     public Setting<Integer> time32k = this.register(new Setting <> ("32kTime" , 5 , 1 , 50));
     public Setting<Integer> multi = this.register(new Setting<Object>("32kPackets", 2 , v -> this.teekaydelay.getValue() == false));

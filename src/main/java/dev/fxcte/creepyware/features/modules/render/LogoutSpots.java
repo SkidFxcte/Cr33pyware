@@ -32,7 +32,7 @@ public class LogoutSpots
     private final Setting<Boolean> scaleing = this.register(new Setting <> ("Speed" , "Scale" , 0.0 , 0.0 , false , 0));
     private final Setting<Float> scaling = this.register(new Setting <> ("Size" , 4.0f , 0.1f , 20.0f));
     private final Setting<Float> factor = this.register(new Setting<Object>("Factor", 0.3f , 0.1f , 1.0f , v -> this.scaleing.getValue()));
-    private final Setting<Boolean> smartScale = this.register(new Setting<Object>("SmartScale", Boolean.FALSE , v -> this.scaleing.getValue()));
+    private final Setting<Boolean> smartScale = this.register(new Setting<Object>("SmartScale", false , v -> this.scaleing.getValue()));
     private final Setting<Boolean> rect = this.register(new Setting <> ("Speed" , "Rectangle" , 0.0 , 0.0 , true , 0));
     private final Setting<Boolean> coords = this.register(new Setting <> ("Speed" , "Coords" , 0.0 , 0.0 , true , 0));
     private final Setting<Boolean> notification = this.register(new Setting <> ("Speed" , "Notification" , 0.0 , 0.0 , true , 0));

@@ -22,7 +22,7 @@ public class VoidESP
     public Setting<Boolean> outline = this.register(new Setting <> ("Speed" , "Outline" , 0.0 , 0.0 , true , 0));
     public Setting<Boolean> colorSync = this.register(new Setting <> ("Speed" , "Sync" , 0.0 , 0.0 , false , 0));
     public Setting<Double> height = this.register(new Setting <> ("Height" , 0.0 , - 2.0 , 2.0));
-    public Setting<Boolean> customOutline = this.register(new Setting<Object>("CustomLine", Boolean.FALSE , v -> this.outline.getValue()));
+    public Setting<Boolean> customOutline = this.register(new Setting<Object>("CustomLine", false , v -> this.outline.getValue()));
     private final Setting<Integer> updates = this.register(new Setting <> ("Updates" , 500 , 0 , 1000));
     private final Setting<Integer> voidCap = this.register(new Setting <> ("VoidCap" , 500 , 0 , 1000));
     private final Setting<Integer> red = this.register(new Setting <> ("Red" , 0 , 0 , 255));

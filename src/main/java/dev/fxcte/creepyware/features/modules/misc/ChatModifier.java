@@ -22,16 +22,16 @@ public class ChatModifier
     private static ChatModifier INSTANCE = new ChatModifier();
     private final Timer timer = new Timer();
     public Setting<Suffix> suffix = this.register(new Setting <> ("Suffix" , Suffix.NONE , "Your Suffix."));
-    public Setting<Boolean> clean = this.register(new Setting <> ("CleanChat" , Boolean.FALSE , "Cleans your chat"));
-    public Setting<Boolean> infinite = this.register(new Setting <> ("Infinite" , Boolean.FALSE , "Makes your chat infinite."));
-    public Setting<Boolean> autoQMain = this.register(new Setting <> ("AutoQMain" , Boolean.FALSE , "Spams AutoQMain"));
-    public Setting<Boolean> qNotification = this.register(new Setting<Object>("QNotification", Boolean.FALSE , v -> this.autoQMain.getValue()));
+    public Setting<Boolean> clean = this.register(new Setting <> ("CleanChat" , false , "Cleans your chat"));
+    public Setting<Boolean> infinite = this.register(new Setting <> ("Infinite" , false , "Makes your chat infinite."));
+    public Setting<Boolean> autoQMain = this.register(new Setting <> ("AutoQMain" , false , "Spams AutoQMain"));
+    public Setting<Boolean> qNotification = this.register(new Setting<Object>("QNotification", false , v -> this.autoQMain.getValue()));
     public Setting<Integer> qDelay = this.register(new Setting<Object>("QDelay", 9 , 1 , 90 , v -> this.autoQMain.getValue()));
     public Setting<TextUtil.Color> timeStamps = this.register(new Setting <> ("Speed" , "Time" , 0.0 , 0.0 , TextUtil.Color.NONE , 0));
-    public Setting<Boolean> rainbowTimeStamps = this.register(new Setting<Object>("RainbowTimeStamps", Boolean.FALSE , v -> this.timeStamps.getValue() != TextUtil.Color.NONE));
+    public Setting<Boolean> rainbowTimeStamps = this.register(new Setting<Object>("RainbowTimeStamps", false , v -> this.timeStamps.getValue() != TextUtil.Color.NONE));
     public Setting<TextUtil.Color> bracket = this.register(new Setting<Object>("Bracket", TextUtil.Color.WHITE, v -> this.timeStamps.getValue() != TextUtil.Color.NONE));
-    public Setting<Boolean> space = this.register(new Setting<Object>("Space", Boolean.TRUE , v -> this.timeStamps.getValue() != TextUtil.Color.NONE));
-    public Setting<Boolean> all = this.register(new Setting<Object>("All", Boolean.FALSE , v -> this.timeStamps.getValue() != TextUtil.Color.NONE));
+    public Setting<Boolean> space = this.register(new Setting<Object>("Space", true , v -> this.timeStamps.getValue() != TextUtil.Color.NONE));
+    public Setting<Boolean> all = this.register(new Setting<Object>("All", false , v -> this.timeStamps.getValue() != TextUtil.Color.NONE));
     public Setting<Boolean> shrug = this.register(new Setting <> ("Speed" , "Shrug" , 0.0 , 0.0 , false , 0));
 
     public ChatModifier() {

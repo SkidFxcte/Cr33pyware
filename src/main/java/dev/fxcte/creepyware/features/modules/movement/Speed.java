@@ -20,9 +20,9 @@ public class Speed
         extends Module {
     private static Speed INSTANCE = new Speed();
     public Setting<Mode> mode = this.register(new Setting <> ("Speed" , "Mode" , 0.0 , 0.0 , Mode.INSTANT , 0));
-    public Setting<Boolean> strafeJump = this.register(new Setting<Object>("Jump", Boolean.FALSE , v -> this.mode.getValue() == Mode.INSTANT));
-    public Setting<Boolean> noShake = this.register(new Setting<Object>("NoShake", Boolean.TRUE , v -> this.mode.getValue() != Mode.INSTANT));
-    public Setting<Boolean> useTimer = this.register(new Setting<Object>("UseTimer", Boolean.FALSE , v -> this.mode.getValue() != Mode.INSTANT));
+    public Setting<Boolean> strafeJump = this.register(new Setting<Object>("Jump", false , v -> this.mode.getValue() == Mode.INSTANT));
+    public Setting<Boolean> noShake = this.register(new Setting<Object>("NoShake", true , v -> this.mode.getValue() != Mode.INSTANT));
+    public Setting<Boolean> useTimer = this.register(new Setting<Object>("UseTimer", false , v -> this.mode.getValue() != Mode.INSTANT));
     public Setting<Double> zeroSpeed = this.register(new Setting<Object>("0-Speed", 0.0 , 0.0 , 100.0 , v -> this.mode.getValue() == Mode.VANILLA));
     public Setting<Double> speed = this.register(new Setting<Object>("Speed", 10.0 , 0.1 , 100.0 , v -> this.mode.getValue() == Mode.VANILLA));
     public Setting<Double> blocked = this.register(new Setting<Object>("Blocked", 10.0 , 0.0 , 100.0 , v -> this.mode.getValue() == Mode.VANILLA));

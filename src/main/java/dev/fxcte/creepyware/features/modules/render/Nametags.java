@@ -42,8 +42,8 @@ class Nametags
     private final Setting < Boolean > gamemode = this.register ( new Setting <> ( "Gamemode" , false ) );
     private final Setting < Boolean > entityID = this.register ( new Setting <> ( "ID" , false ) );
     private final Setting < Boolean > rect = this.register ( new Setting <> ( "Rectangle" , true ) );
-    private final Setting < Boolean > outline = this.register ( new Setting < Object > ( "Outline" , Boolean.FALSE , v -> this.rect.getValue ( ) ) );
-    private final Setting < Boolean > colorSync = this.register ( new Setting < Object > ( "Sync" , Boolean.FALSE , v -> this.outline.getValue ( ) ) );
+    private final Setting < Boolean > outline = this.register ( new Setting < Object > ( "Outline" , false , v -> this.rect.getValue ( ) ) );
+    private final Setting < Boolean > colorSync = this.register ( new Setting < Object > ( "Sync" , false , v -> this.outline.getValue ( ) ) );
     private final Setting < Integer > redSetting = this.register ( new Setting < Object > ( "Red" , 0 , 0 , 255 , v -> this.outline.getValue ( ) ) );
     private final Setting < Integer > greenSetting = this.register ( new Setting < Object > ( "Green" , 0 , 0 , 255 , v -> this.outline.getValue ( ) ) );
     private final Setting < Integer > blueSetting = this.register ( new Setting < Object > ( "Blue" , 0 , 0 , 255 , v -> this.outline.getValue ( ) ) );
@@ -55,7 +55,7 @@ class Nametags
     private final Setting < Boolean > onlyFov = this.register ( new Setting <> ( "OnlyFov" , false ) );
     private final Setting < Boolean > scaleing = this.register ( new Setting <> ( "Scale" , false ) );
     private final Setting < Float > factor = this.register ( new Setting < Object > ( "Factor" , 0.3f , 0.1f , 1.0f , v -> this.scaleing.getValue ( ) ) );
-    private final Setting < Boolean > smartScale = this.register ( new Setting < Object > ( "SmartScale" , Boolean.FALSE , v -> this.scaleing.getValue ( ) ) );
+    private final Setting < Boolean > smartScale = this.register ( new Setting < Object > ( "SmartScale" , false , v -> this.scaleing.getValue ( ) ) );
 
     public
     Nametags ( ) {

@@ -37,7 +37,7 @@ public class HoleFiller
     private final Setting<Integer> disableTime = this.register(new Setting <> ("Ms/Disable" , 200 , 1 , 250));
     private final Setting<Boolean> offhand = this.register(new Setting <> ("Speed" , "OffHand" , 0.0 , 0.0 , true , 0));
     private final Setting<InventoryUtil.Switch> switchMode = this.register(new Setting <> ("Speed" , "Switch" , 0.0 , 0.0 , InventoryUtil.Switch.NORMAL , 0));
-    private final Setting<Boolean> onlySafe = this.register(new Setting<Object>("OnlySafe", Boolean.TRUE , v -> this.offhand.getValue()));
+    private final Setting<Boolean> onlySafe = this.register(new Setting<Object>("OnlySafe", true , v -> this.offhand.getValue()));
     private final Setting<Boolean> webSelf = this.register(new Setting <> ("Speed" , "SelfWeb" , 0.0 , 0.0 , false , 0));
     private final Setting<Boolean> highWeb = this.register(new Setting <> ("Speed" , "HighWeb" , 0.0 , 0.0 , false , 0));
     private final Setting<Boolean> freecam = this.register(new Setting <> ("Speed" , "Freecam" , 0.0 , 0.0 , false , 0));

@@ -12,7 +12,7 @@ import java.util.Map;
 public class Colors
         extends Module {
     public static Colors INSTANCE;
-    public Setting<Boolean> rainbow = this.register(new Setting <> ("Rainbow" , Boolean.FALSE , "Rainbow colors."));
+    public Setting<Boolean> rainbow = this.register(new Setting <> ("Rainbow" , false , "Rainbow colors."));
     public Setting<Integer> rainbowSpeed = this.register(new Setting<Object>("Speed", 20 , 0 , 100 , v -> this.rainbow.getValue()));
     public Setting<Integer> rainbowSaturation = this.register(new Setting<Object>("Saturation", 255 , 0 , 255 , v -> this.rainbow.getValue()));
     public Setting<Integer> rainbowBrightness = this.register(new Setting<Object>("Brightness", 255 , 0 , 255 , v -> this.rainbow.getValue()));
