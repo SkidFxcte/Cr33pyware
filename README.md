@@ -1,6 +1,6 @@
 # Cr33pyware
 
-Client that using OyVey base, made by _Fxcte#9716, kurohere#0909 , SSLWasTaken 🐴#9123 and FaxHack™#1211
+Client that using OyVey base, made by _Fxcte#9716, kurohere#0909 , naterrk#6969 , SSLWasTaken 🐴#9123 and FaxHack™#1211
 Cr33py is best pvper,coder, and the richest person ever. Cope nns.💀
 
 ## ClickGui
@@ -16,6 +16,9 @@ Cr33py is best pvper,coder, and the richest person ever. Cope nns.💀
 
 ### Devs
 
+
+> **Naterrk** : ` Cleaned 
+>
 > **Perry** : `Huge code cleanups.`
 >
 > **Fxcte** : `creator of this client`
