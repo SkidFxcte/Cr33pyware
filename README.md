@@ -16,7 +16,7 @@ Creepy is best pvper
 ### Devs
 
 
-> **naterrk**: 'edited the read me'
+> **naterrk**: `edited the read me`
 >
 > **Fxcte** : `creator of this client`
 >
