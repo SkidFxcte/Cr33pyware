@@ -17,7 +17,7 @@ class ClickGui
     private static ClickGui INSTANCE = new ClickGui();
     public Setting <Boolean> colorSync = this.register(new Setting <>("Speed", "Sync", 0.0, 0.0, false, 0));
     public Setting <Boolean> outline = this.register(new Setting <>("Speed", "Outline", 0.0, 0.0, false, 0));
-    public Setting <Boolean> gear = register(new Setting("gear", true, "draws gear like future"));
+    public Setting <Boolean> gear = register(new Setting <>("gear", true, "draws gear like future"));
     public Setting <Boolean> blurEffect = this.register(new Setting <>("Speed", "Blur", 0.0, 0.0, true, 0));
     public Setting <Boolean> rainbowRolling = this.register(new Setting <Object>("RollingRainbow", false, v -> this.colorSync.getValue() && Colors.INSTANCE.rainbow.getValue()));
     public Setting <String> prefix = this.register(new Setting <>("Speed", "Prefix", 0.0, 0.0, ".", 0).setRenderName(true));

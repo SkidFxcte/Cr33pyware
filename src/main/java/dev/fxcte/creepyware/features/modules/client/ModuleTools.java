@@ -8,8 +8,8 @@ class ModuleTools extends Module {
 
     private static ModuleTools INSTANCE;
 
-    public Setting <Notifier> notifier = register(new Setting("Speed", "ModuleNotifier", 0.0, 0.0, Notifier.FUTURE, 0));
-    public Setting <PopNotifier> popNotifier = register(new Setting("Speed", "PopNotifier", 0.0, 0.0, PopNotifier.FUTURE, 0));
+    public Setting <Notifier> notifier = register(new Setting <>("Speed", "ModuleNotifier", 0.0, 0.0, Notifier.FUTURE, 0));
+    public Setting <PopNotifier> popNotifier = register(new Setting <>("Speed", "PopNotifier", 0.0, 0.0, PopNotifier.FUTURE, 0));
 
     public
     ModuleTools() {

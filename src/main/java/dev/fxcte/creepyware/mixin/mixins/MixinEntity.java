@@ -268,19 +268,19 @@ class MixinEntity {
                     d4 = z;
                 }
             }
-            List list1 = this.world.getCollisionBoxes(_this, this.getEntityBoundingBox().expand(x, y, z));
+            List <AxisAlignedBB> list1 = this.world.getCollisionBoxes(_this, this.getEntityBoundingBox().expand(x, y, z));
             AxisAlignedBB axisalignedbb = this.getEntityBoundingBox();
             if (y != 0.0) {
                 int l = list1.size();
-                for (Object o : list1) {
-                    y = ((AxisAlignedBB) o).calculateYOffset(this.getEntityBoundingBox(), y);
+                for (AxisAlignedBB o : list1) {
+                    y = (o).calculateYOffset(this.getEntityBoundingBox(), y);
                 }
                 this.setEntityBoundingBox(this.getEntityBoundingBox().offset(0.0, y, 0.0));
             }
             if (x != 0.0) {
                 int l5 = list1.size();
-                for (Object o : list1) {
-                    x = ((AxisAlignedBB) o).calculateXOffset(this.getEntityBoundingBox(), x);
+                for (AxisAlignedBB o : list1) {
+                    x = (o).calculateXOffset(this.getEntityBoundingBox(), x);
                 }
                 if (x != 0.0) {
                     this.setEntityBoundingBox(this.getEntityBoundingBox().offset(x, 0.0, 0.0));
@@ -288,8 +288,8 @@ class MixinEntity {
             }
             if (z != 0.0) {
                 int i6 = list1.size();
-                for (Object o : list1) {
-                    z = ((AxisAlignedBB) o).calculateZOffset(this.getEntityBoundingBox(), z);
+                for (AxisAlignedBB o : list1) {
+                    z = (o).calculateZOffset(this.getEntityBoundingBox(), z);
                 }
                 if (z != 0.0) {
                     this.setEntityBoundingBox(this.getEntityBoundingBox().offset(0.0, 0.0, z));
@@ -305,44 +305,44 @@ class MixinEntity {
                 AxisAlignedBB axisalignedbb1 = this.getEntityBoundingBox();
                 this.setEntityBoundingBox(axisalignedbb);
                 y = preEvent.getHeight();
-                List list = this.world.getCollisionBoxes(_this, this.getEntityBoundingBox().expand(d2, y, d4));
+                List <AxisAlignedBB> list = this.world.getCollisionBoxes(_this, this.getEntityBoundingBox().expand(d2, y, d4));
                 AxisAlignedBB axisalignedbb2 = this.getEntityBoundingBox();
                 AxisAlignedBB axisalignedbb3 = axisalignedbb2.expand(d2, 0.0, d4);
                 double d8 = y;
                 int k1 = list.size();
-                for (Object o3 : list) {
-                    d8 = ((AxisAlignedBB) o3).calculateYOffset(axisalignedbb3, d8);
+                for (AxisAlignedBB o3 : list) {
+                    d8 = (o3).calculateYOffset(axisalignedbb3, d8);
                 }
                 axisalignedbb2 = axisalignedbb2.offset(0.0, d8, 0.0);
                 double d18 = d2;
                 int i2 = list.size();
-                for (Object o2 : list) {
-                    d18 = ((AxisAlignedBB) o2).calculateXOffset(axisalignedbb2, d18);
+                for (AxisAlignedBB o2 : list) {
+                    d18 = (o2).calculateXOffset(axisalignedbb2, d18);
                 }
                 axisalignedbb2 = axisalignedbb2.offset(d18, 0.0, 0.0);
                 double d19 = d4;
                 int k2 = list.size();
-                for (Object o1 : list) {
-                    d19 = ((AxisAlignedBB) o1).calculateZOffset(axisalignedbb2, d19);
+                for (AxisAlignedBB o1 : list) {
+                    d19 = (o1).calculateZOffset(axisalignedbb2, d19);
                 }
                 axisalignedbb2 = axisalignedbb2.offset(0.0, 0.0, d19);
                 AxisAlignedBB axisalignedbb4 = this.getEntityBoundingBox();
                 double d20 = y;
                 int i3 = list.size();
-                for (Object element : list) {
-                    d20 = ((AxisAlignedBB) element).calculateYOffset(axisalignedbb4, d20);
+                for (AxisAlignedBB element : list) {
+                    d20 = (element).calculateYOffset(axisalignedbb4, d20);
                 }
                 axisalignedbb4 = axisalignedbb4.offset(0.0, d20, 0.0);
                 double d21 = d2;
                 int k3 = list.size();
-                for (Object item : list) {
-                    d21 = ((AxisAlignedBB) item).calculateXOffset(axisalignedbb4, d21);
+                for (AxisAlignedBB item : list) {
+                    d21 = (item).calculateXOffset(axisalignedbb4, d21);
                 }
                 axisalignedbb4 = axisalignedbb4.offset(d21, 0.0, 0.0);
                 double d22 = d4;
                 int i4 = list.size();
-                for (Object value : list) {
-                    d22 = ((AxisAlignedBB) value).calculateZOffset(axisalignedbb4, d22);
+                for (AxisAlignedBB value : list) {
+                    d22 = (value).calculateZOffset(axisalignedbb4, d22);
                 }
                 axisalignedbb4 = axisalignedbb4.offset(0.0, 0.0, d22);
                 double d23 = d18 * d18 + d19 * d19;
@@ -359,8 +359,8 @@ class MixinEntity {
                     this.setEntityBoundingBox(axisalignedbb4);
                 }
                 int k4 = list.size();
-                for (Object o : list) {
-                    y = ((AxisAlignedBB) o).calculateYOffset(this.getEntityBoundingBox(), y);
+                for (AxisAlignedBB o : list) {
+                    y = (o).calculateYOffset(this.getEntityBoundingBox(), y);
                 }
                 this.setEntityBoundingBox(this.getEntityBoundingBox().offset(0.0, y, 0.0));
                 if (d14 * d14 + d7 * d7 >= x * x + z * z) {

@@ -15,7 +15,7 @@ public
 class HoleESP
         extends Module {
     private static HoleESP INSTANCE = new HoleESP();
-    private final Setting <Boolean> x = this.register(new Setting("Speed", "X", 0.0, 0.0, true, 0));
+    private final Setting <Boolean> x = this.register(new Setting <>("Speed", "X", 0.0, 0.0, true, 0));
     private final Setting <Integer> holes = this.register(new Setting <>("Holes", 3, 1, 500));
     private final Setting <Integer> red = this.register(new Setting <>("Red", 0, 0, 255));
     private final Setting <Integer> green = this.register(new Setting <>("Green", 255, 0, 255));

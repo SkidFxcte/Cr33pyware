@@ -9,8 +9,8 @@ class RPC extends Module {
     public static RPC INSTANCE;
     public Setting <Boolean> showIP = this.register(new Setting <>("Speed", "IP", 0.0, 0.0, false, 0));
     public Setting <Boolean> users = this.register(new Setting <>("Speed", "Users", 0.0, 0.0, false, 0));
-    public Setting <String> largeImageText = (Setting <String>) this.register(new Setting("LargeImageText", "CreepyWare", "Sets the large image text of the DiscordRPC."));
-    public Setting <String> smallImageText = (Setting <String>) this.register(new Setting("SmallImageText", "UwU", "Sets the small image text of the DiscordRPC."));
+    public Setting <String> largeImageText = (Setting <String>) this.register(new Setting <>("LargeImageText", "CreepyWare", "Sets the large image text of the DiscordRPC."));
+    public Setting <String> smallImageText = (Setting <String>) this.register(new Setting <>("SmallImageText", "UwU", "Sets the small image text of the DiscordRPC."));
 
 
     public

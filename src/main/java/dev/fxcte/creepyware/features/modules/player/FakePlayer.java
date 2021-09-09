@@ -12,7 +12,7 @@ import java.util.UUID;
 
 public
 class FakePlayer extends Module {
-    public Setting <Boolean> hollow = this.register(new Setting("Speed", "Move", 0.0, 0.0, false, 0));
+    public Setting <Boolean> hollow = this.register(new Setting <>("Speed", "Move", 0.0, 0.0, false, 0));
     private EntityOtherPlayerMP otherPlayer;
 
     public
