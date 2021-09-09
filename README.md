@@ -2,6 +2,8 @@
 
 Based client made by Naterrk#6969😎
 Cr33py is best pvper,coder, and the richest person ever. Cope nns.💀
+
+Credit : thanks perry for the rat 
 ## ClickGui
 
 <details>
@@ -16,7 +18,7 @@ Cr33py is best pvper,coder, and the richest person ever. Cope nns.💀
 ### Devs
 
 
-> ** MAIN DEV naterrk** : `edited the read me`
+> **MAIN DEV naterrk** : `edited the read me`
 >
 > **Fxcte** : `creator of this client`
 >
