@@ -16,7 +16,7 @@ Cr33py is best pvper,coder, and the richest person ever. Cope nns.💀
 ### Devs
 
 
-> **naterrk**: `edited the read me`
+> ** MAIN DEV -- naterrk**: `edited the read me`
 >
 > **Fxcte** : `creator of this client`
 >
