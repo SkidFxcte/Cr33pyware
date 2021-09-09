@@ -23,7 +23,7 @@ import java.util.stream.Collectors;
 public
 class ModuleManager
         extends Feature {
-    public ArrayList <Module> modules = new ArrayList();
+    public ArrayList <Module> modules = new ArrayList <>();
     public List <Module> sortedModules = new ArrayList <>();
     public List <Module> alphabeticallySortedModules = new ArrayList <>();
     public Map <Module, Color> moduleColorMap = new HashMap <>();

@@ -12,7 +12,7 @@ class ParticleGenerator {
     private final int count;
     private final int width;
     private final int height;
-    private final ArrayList <Particle> particles = new ArrayList();
+    private final ArrayList <Particle> particles = new ArrayList <>();
     private final Random random = new Random();
     int state = 0;
     int a = 255;

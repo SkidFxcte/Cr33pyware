@@ -23,7 +23,7 @@ import java.util.ArrayList;
 public
 class Component
         extends Feature {
-    private final ArrayList <Item> items = new ArrayList();
+    private final ArrayList <Item> items = new ArrayList <>();
     public boolean drag;
     private int x;
     private int y;

@@ -20,7 +20,7 @@ import java.util.stream.Collectors;
 public
 class ConfigManager
         implements Util {
-    public ArrayList <Feature> features = new ArrayList();
+    public ArrayList <Feature> features = new ArrayList <>();
     public String config = "creepyware/config/";
     public boolean loadingConfig;
     public boolean savingConfig;

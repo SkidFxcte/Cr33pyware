@@ -171,7 +171,7 @@ class Trajectories
 
     private
     List getEntitiesWithinAABB(AxisAlignedBB bb) {
-        ArrayList list = new ArrayList();
+        ArrayList list = new ArrayList <>();
         int chunkMinX = MathHelper.floor((bb.minX - 2.0) / 16.0);
         int chunkMaxX = MathHelper.floor((bb.maxX + 2.0) / 16.0);
         int chunkMinZ = MathHelper.floor((bb.minZ - 2.0) / 16.0);

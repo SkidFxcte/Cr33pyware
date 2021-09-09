@@ -23,7 +23,7 @@ class SpeedManager
     public long jumpInfoStartTime = 0L;
     public boolean wasFirstJump = true;
     public double speedometerCurrentSpeed = 0.0;
-    public HashMap <EntityPlayer, Double> playerSpeeds = new HashMap();
+    public HashMap <EntityPlayer, Double> playerSpeeds = new HashMap <>();
 
     public static
     void setDidJumpThisTick(boolean val) {

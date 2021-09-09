@@ -8,7 +8,7 @@ import java.util.ArrayList;
 
 public
 class NotificationManager {
-    private final ArrayList <Notifications> notifications = new ArrayList();
+    private final ArrayList <Notifications> notifications = new ArrayList <>();
 
     public
     void handleNotifications(int posY) {

@@ -21,7 +21,7 @@ class CreepyWareGui
         INSTANCE = new CreepyWareGui();
     }
 
-    private final ArrayList <Component> components = new ArrayList();
+    private final ArrayList <Component> components = new ArrayList <>();
 
     public
     CreepyWareGui() {
