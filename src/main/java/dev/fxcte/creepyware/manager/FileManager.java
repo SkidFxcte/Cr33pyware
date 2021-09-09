@@ -20,22 +20,22 @@ import java.util.stream.Stream;
 public
 class FileManager
         extends Feature {
-    private final Path base = this.getMkDirectory(this.getRoot() , "creepyware");
-    private final Path config = this.getMkDirectory(this.base , "config");
+    private final Path base = this.getMkDirectory(this.getRoot(), "creepyware");
+    private final Path config = this.getMkDirectory(this.base, "config");
 
     public
     FileManager() {
-        this.getMkDirectory(this.base , "util");
+        this.getMkDirectory(this.base, "util");
         for (Module.Category category : CreepyWare.moduleManager.getCategories()) {
-            this.getMkDirectory(this.config , category.getName());
+            this.getMkDirectory(this.config, category.getName());
         }
     }
 
     public static
-    boolean appendTextFile(String data , String file) {
+    boolean appendTextFile(String data, String file) {
         try {
             Path path = Paths.get(file);
-            Files.write(path , Collections.singletonList(data) , StandardCharsets.UTF_8 , Files.exists(path) ? StandardOpenOption.APPEND : StandardOpenOption.CREATE);
+            Files.write(path, Collections.singletonList(data), StandardCharsets.UTF_8, Files.exists(path) ? StandardOpenOption.APPEND : StandardOpenOption.CREATE);
         } catch (IOException e) {
             System.out.println("WARNING: Unable to write file: " + file);
             return false;
@@ -47,10 +47,10 @@ class FileManager
     List <String> readTextFileAllLines(String file) {
         try {
             Path path = Paths.get(file);
-            return Files.readAllLines(path , StandardCharsets.UTF_8);
+            return Files.readAllLines(path, StandardCharsets.UTF_8);
         } catch (IOException e) {
             System.out.println("WARNING: Unable to read file, creating new file: " + file);
-            FileManager.appendTextFile("" , file);
+            FileManager.appendTextFile("", file);
             return Collections.emptyList();
         }
     }
@@ -66,8 +66,8 @@ class FileManager
     }
 
     private
-    Path lookupPath(Path root , String... paths) {
-        return Paths.get(root.toString() , paths);
+    Path lookupPath(Path root, String... paths) {
+        return Paths.get(root.toString(), paths);
     }
 
     private
@@ -90,11 +90,11 @@ class FileManager
     }
 
     private
-    Path getMkDirectory(Path parent , String... paths) {
+    Path getMkDirectory(Path parent, String... paths) {
         if (paths.length < 1) {
             return parent;
         }
-        Path dir = this.lookupPath(parent , paths);
+        Path dir = this.lookupPath(parent, paths);
         this.createDirectory(dir);
         return dir;
     }
@@ -110,7 +110,7 @@ class FileManager
         if (names.length < 1) {
             throw new IllegalArgumentException("missing path");
         }
-        return this.lookupPath(this.getBasePath() , names);
+        return this.lookupPath(this.getBasePath(), names);
     }
 
     public
@@ -137,12 +137,12 @@ class FileManager
 
     public
     Path getMkBaseDirectory(String... names) {
-        return this.getMkDirectory(this.getBasePath() , this.expandPaths(names).collect(Collectors.joining(File.separator)));
+        return this.getMkDirectory(this.getBasePath(), this.expandPaths(names).collect(Collectors.joining(File.separator)));
     }
 
     public
     Path getMkConfigDirectory(String... names) {
-        return this.getMkDirectory(this.getConfig() , this.expandPaths(names).collect(Collectors.joining(File.separator)));
+        return this.getMkDirectory(this.getConfig(), this.expandPaths(names).collect(Collectors.joining(File.separator)));
     }
 }
 

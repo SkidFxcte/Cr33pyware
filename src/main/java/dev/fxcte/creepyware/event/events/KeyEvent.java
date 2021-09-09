@@ -9,7 +9,7 @@ class KeyEvent
     public boolean pressed;
 
     public
-    KeyEvent(int stage , boolean info , boolean pressed) {
+    KeyEvent(int stage, boolean info, boolean pressed) {
         super(stage);
         this.info = info;
         this.pressed = pressed;

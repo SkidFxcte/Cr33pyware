@@ -11,7 +11,7 @@ public abstract
 class MixinEntityPlayer
         extends EntityLivingBase {
     public
-    MixinEntityPlayer(World worldIn , GameProfile gameProfileIn) {
+    MixinEntityPlayer(World worldIn, GameProfile gameProfileIn) {
         super(worldIn);
     }
 

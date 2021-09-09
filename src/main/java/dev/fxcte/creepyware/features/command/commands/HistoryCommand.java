@@ -11,7 +11,7 @@ class HistoryCommand
         extends Command {
     public
     HistoryCommand() {
-        super("history" , new String[]{"<player>"});
+        super("history", new String[]{"<player>"});
     }
 
     @Override

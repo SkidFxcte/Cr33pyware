@@ -23,12 +23,12 @@ public
 class AutoTrap
         extends Module {
     public static boolean isPlacing = false;
-    private final Setting <Integer> delay = this.register(new Setting <>("Delay" , 50 , 0 , 250));
-    private final Setting <Integer> blocksPerPlace = this.register(new Setting <>("BlocksPerTick" , 8 , 1 , 30));
-    private final Setting <Boolean> rotate = this.register(new Setting <>("Speed" , "Rotate" , 0.0 , 0.0 , true , 0));
-    private final Setting <Boolean> raytrace = this.register(new Setting <>("Speed" , "Raytrace" , 0.0 , 0.0 , false , 0));
-    private final Setting <Boolean> antiScaffold = this.register(new Setting <>("Speed" , "AntiScaffold" , 0.0 , 0.0 , false , 0));
-    private final Setting <Boolean> antiStep = this.register(new Setting <>("Speed" , "AntiStep" , 0.0 , 0.0 , false , 0));
+    private final Setting <Integer> delay = this.register(new Setting <>("Delay", 50, 0, 250));
+    private final Setting <Integer> blocksPerPlace = this.register(new Setting <>("BlocksPerTick", 8, 1, 30));
+    private final Setting <Boolean> rotate = this.register(new Setting <>("Speed", "Rotate", 0.0, 0.0, true, 0));
+    private final Setting <Boolean> raytrace = this.register(new Setting <>("Speed", "Raytrace", 0.0, 0.0, false, 0));
+    private final Setting <Boolean> antiScaffold = this.register(new Setting <>("Speed", "AntiScaffold", 0.0, 0.0, false, 0));
+    private final Setting <Boolean> antiStep = this.register(new Setting <>("Speed", "AntiStep", 0.0, 0.0, false, 0));
     private final Timer timer = new Timer();
     private final Map <BlockPos, Integer> retries = new HashMap <>();
     private final Timer retryTimer = new Timer();
@@ -43,7 +43,7 @@ class AutoTrap
 
     public
     AutoTrap() {
-        super("AutoTrap" , "Traps other players" , Module.Category.COMBAT , true , false , false);
+        super("AutoTrap", "Traps other players", Module.Category.COMBAT, true, false, false);
     }
 
     @Override
@@ -96,20 +96,20 @@ class AutoTrap
 
     private
     void doStaticTrap() {
-        List <Vec3d> placeTargets = CreepyWareUtils.targets(this.target.getPositionVector() , this.antiScaffold.getValue() , this.antiStep.getValue() , false , false , false , this.raytrace.getValue());
+        List <Vec3d> placeTargets = CreepyWareUtils.targets(this.target.getPositionVector(), this.antiScaffold.getValue(), this.antiStep.getValue(), false, false, false, this.raytrace.getValue());
         this.placeList(placeTargets);
     }
 
     private
     void placeList(List <Vec3d> list) {
-        list.sort((vec3d , vec3d2) -> Double.compare(AutoTrap.mc.player.getDistanceSq(vec3d2.x , vec3d2.y , vec3d2.z) , AutoTrap.mc.player.getDistanceSq(vec3d.x , vec3d.y , vec3d.z)));
+        list.sort((vec3d, vec3d2) -> Double.compare(AutoTrap.mc.player.getDistanceSq(vec3d2.x, vec3d2.y, vec3d2.z), AutoTrap.mc.player.getDistanceSq(vec3d.x, vec3d.y, vec3d.z)));
         list.sort(Comparator.comparingDouble(vec3d -> vec3d.y));
         for (Vec3d vec3d3 : list) {
             BlockPos position = new BlockPos(vec3d3);
-            int placeability = BlockUtil.isPositionPlaceable(position , this.raytrace.getValue());
+            int placeability = BlockUtil.isPositionPlaceable(position, this.raytrace.getValue());
             if (placeability == 1 && (this.retries.get(position) == null || this.retries.get(position) < 4)) {
                 this.placeBlock(position);
-                this.retries.put(position , this.retries.get(position) == null ? 1 : this.retries.get(position) + 1);
+                this.retries.put(position, this.retries.get(position) == null ? 1 : this.retries.get(position) + 1);
                 this.retryTimer.reset();
                 continue;
             }
@@ -148,16 +148,16 @@ class AutoTrap
             this.lastHotbarSlot = AutoTrap.mc.player.inventory.currentItem;
         }
         this.isSneaking = EntityUtil.stopSneaking(this.isSneaking);
-        this.target = this.getTarget(10.0 , true);
+        this.target = this.getTarget(10.0, true);
         return this.target == null || ! this.timer.passedMs(this.delay.getValue());
     }
 
     private
-    EntityPlayer getTarget(double range , boolean trapped) {
+    EntityPlayer getTarget(double range, boolean trapped) {
         EntityPlayer target = null;
-        double distance = Math.pow(range , 2.0) + 1.0;
+        double distance = Math.pow(range, 2.0) + 1.0;
         for (EntityPlayer player : AutoTrap.mc.world.playerEntities) {
-            if (EntityUtil.isntValid(player , range) || trapped && CreepyWareUtils.isTrapped(player , this.antiScaffold.getValue() , this.antiStep.getValue() , false , false , false) || CreepyWare.speedManager.getPlayerSpeed(player) > 10.0)
+            if (EntityUtil.isntValid(player, range) || trapped && CreepyWareUtils.isTrapped(player, this.antiScaffold.getValue(), this.antiStep.getValue(), false, false, false) || CreepyWare.speedManager.getPlayerSpeed(player) > 10.0)
                 continue;
             if (target == null) {
                 target = player;
@@ -184,13 +184,13 @@ class AutoTrap
             if (this.smartRotate) {
                 AutoTrap.mc.player.inventory.currentItem = obbySlot == - 1 ? eChestSot : obbySlot;
                 AutoTrap.mc.playerController.updateController();
-                this.isSneaking = BlockUtil.placeBlockSmartRotate(pos , EnumHand.MAIN_HAND , true , true , this.isSneaking);
+                this.isSneaking = BlockUtil.placeBlockSmartRotate(pos, EnumHand.MAIN_HAND, true, true, this.isSneaking);
                 AutoTrap.mc.player.inventory.currentItem = originalSlot;
                 AutoTrap.mc.playerController.updateController();
             } else {
                 AutoTrap.mc.player.inventory.currentItem = obbySlot == - 1 ? eChestSot : obbySlot;
                 AutoTrap.mc.playerController.updateController();
-                this.isSneaking = BlockUtil.placeBlock(pos , EnumHand.MAIN_HAND , this.rotate.getValue() , true , this.isSneaking);
+                this.isSneaking = BlockUtil.placeBlock(pos, EnumHand.MAIN_HAND, this.rotate.getValue(), true, this.isSneaking);
                 AutoTrap.mc.player.inventory.currentItem = originalSlot;
                 AutoTrap.mc.playerController.updateController();
             }

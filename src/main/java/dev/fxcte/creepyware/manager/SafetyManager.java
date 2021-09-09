@@ -46,14 +46,14 @@ class SafetyManager
             }
             ArrayList <Entity> crystals = new ArrayList <>(SafetyManager.mc.world.loadedEntityList);
             for (Entity crystal : crystals) {
-                if (! (crystal instanceof EntityEnderCrystal) || ! ((double) DamageUtil.calculateDamage(crystal , SafetyManager.mc.player) > 4.0) || closest != null && ! (closest.getDistanceSq(crystal) < 40.0))
+                if (! (crystal instanceof EntityEnderCrystal) || ! ((double) DamageUtil.calculateDamage(crystal, SafetyManager.mc.player) > 4.0) || closest != null && ! (closest.getDistanceSq(crystal) < 40.0))
                     continue;
                 safe = false;
                 break;
             }
             if (safe) {
-                for (BlockPos pos : BlockUtil.possiblePlacePositions(4.0f , false , Managers.getInstance().oneDot15.getValue())) {
-                    if (! ((double) DamageUtil.calculateDamage(pos , SafetyManager.mc.player) > 4.0) || closest != null && ! (closest.getDistanceSq(pos) < 40.0))
+                for (BlockPos pos : BlockUtil.possiblePlacePositions(4.0f, false, Managers.getInstance().oneDot15.getValue())) {
+                    if (! ((double) DamageUtil.calculateDamage(pos, SafetyManager.mc.player) > 4.0) || closest != null && ! (closest.getDistanceSq(pos) < 40.0))
                         continue;
                     safe = false;
                     break;
@@ -84,7 +84,7 @@ class SafetyManager
     public
     ScheduledExecutorService getService() {
         ScheduledExecutorService service = Executors.newSingleThreadScheduledExecutor();
-        service.scheduleAtFixedRate(this , 0L , Managers.getInstance().safetyCheck.getValue() , TimeUnit.MILLISECONDS);
+        service.scheduleAtFixedRate(this, 0L, Managers.getInstance().safetyCheck.getValue(), TimeUnit.MILLISECONDS);
         return service;
     }
 }

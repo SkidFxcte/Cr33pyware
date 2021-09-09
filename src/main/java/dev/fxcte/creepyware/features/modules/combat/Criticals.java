@@ -11,25 +11,28 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
 import java.util.Objects;
 
-public class Criticals
+public
+class Criticals
         extends Module {
-    public Setting<Boolean> noDesync = this.register(new Setting <> ("Speed" , "NoDesync" , 0.0 , 0.0 , true , 0));
-    public Setting<Boolean> cancelFirst = this.register(new Setting <> ("Speed" , "CancelFirst32k" , 0.0 , 0.0 , true , 0));
-    public Setting<Integer> delay32k = this.register(new Setting<Object>("32kDelay", 25 , 0 , 500 , v -> this.cancelFirst.getValue()));
-    private final Setting<Mode> mode = this.register(new Setting <> ("Speed" , "Mode" , 0.0 , 0.0 , Mode.PACKET , 0));
-    private final Setting<Integer> packets = this.register(new Setting<Object>("Packets", 2, 1, 5, v -> this.mode.getValue() == Mode.PACKET, "Amount of packets you want to send."));
-    private final Setting<Integer> desyncDelay = this.register(new Setting<Object>("DesyncDelay", 10, 0, 500, v -> this.mode.getValue() == Mode.PACKET, "Amount of packets you want to send."));
+    private final Setting <Mode> mode = this.register(new Setting <>("Speed", "Mode", 0.0, 0.0, Mode.PACKET, 0));
+    private final Setting <Integer> packets = this.register(new Setting <Object>("Packets", 2, 1, 5, v -> this.mode.getValue() == Mode.PACKET, "Amount of packets you want to send."));
+    private final Setting <Integer> desyncDelay = this.register(new Setting <Object>("DesyncDelay", 10, 0, 500, v -> this.mode.getValue() == Mode.PACKET, "Amount of packets you want to send."));
     private final Timer timer = new Timer();
     private final Timer timer32k = new Timer();
+    public Setting <Boolean> noDesync = this.register(new Setting <>("Speed", "NoDesync", 0.0, 0.0, true, 0));
+    public Setting <Boolean> cancelFirst = this.register(new Setting <>("Speed", "CancelFirst32k", 0.0, 0.0, true, 0));
+    public Setting <Integer> delay32k = this.register(new Setting <Object>("32kDelay", 25, 0, 500, v -> this.cancelFirst.getValue()));
     private boolean firstCanceled = false;
     private boolean resetTimer = false;
 
-    public Criticals() {
+    public
+    Criticals() {
         super("Criticals", "Scores criticals for you", Module.Category.COMBAT, true, false, false);
     }
 
     @SubscribeEvent
-    public void onPacketSend(PacketEvent.Send event) {
+    public
+    void onPacketSend(PacketEvent.Send event) {
         CPacketUseEntity packet;
         if (event.getPacket() instanceof CPacketUseEntity && (packet = event.getPacket()).getAction() == CPacketUseEntity.Action.ATTACK) {
             if (this.firstCanceled) {
@@ -39,16 +42,16 @@ public class Criticals
                 this.firstCanceled = false;
                 return;
             }
-            if (this.resetTimer && !this.timer32k.passedMs(this.delay32k.getValue ())) {
+            if (this.resetTimer && ! this.timer32k.passedMs(this.delay32k.getValue())) {
                 return;
             }
-            if (this.resetTimer && this.timer32k.passedMs(this.delay32k.getValue ())) {
+            if (this.resetTimer && this.timer32k.passedMs(this.delay32k.getValue())) {
                 this.resetTimer = false;
             }
-            if (!this.timer.passedMs(this.desyncDelay.getValue ())) {
+            if (! this.timer.passedMs(this.desyncDelay.getValue())) {
                 return;
             }
-            if (!(!Criticals.mc.player.onGround || Criticals.mc.gameSettings.keyBindJump.isKeyDown() || !(packet.getEntityFromWorld(Criticals.mc.world) instanceof EntityLivingBase) && this.noDesync.getValue () || Criticals.mc.player.isInWater() || Criticals.mc.player.isInLava())) {
+            if (! (! Criticals.mc.player.onGround || Criticals.mc.gameSettings.keyBindJump.isKeyDown() || ! (packet.getEntityFromWorld(Criticals.mc.world) instanceof EntityLivingBase) && this.noDesync.getValue() || Criticals.mc.player.isInWater() || Criticals.mc.player.isInLava())) {
                 if (this.mode.getValue() == Mode.PACKET) {
                     switch (this.packets.getValue()) {
                         case 1: {
@@ -105,11 +108,13 @@ public class Criticals
     }
 
     @Override
-    public String getDisplayInfo() {
+    public
+    String getDisplayInfo() {
         return this.mode.currentEnumName();
     }
 
-    public enum Mode {
+    public
+    enum Mode {
         JUMP,
         MINIJUMP,
         PACKET,

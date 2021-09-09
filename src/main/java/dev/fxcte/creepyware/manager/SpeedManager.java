@@ -72,7 +72,7 @@ class SpeedManager
             double distTraveledLastTickX = player.posX - player.prevPosX;
             double distTraveledLastTickZ = player.posZ - player.prevPosZ;
             double playerSpeed = distTraveledLastTickX * distTraveledLastTickX + distTraveledLastTickZ * distTraveledLastTickZ;
-            this.playerSpeeds.put(player , playerSpeed);
+            this.playerSpeeds.put(player, playerSpeed);
         }
     }
 

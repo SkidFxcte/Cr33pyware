@@ -30,7 +30,7 @@ class PotionManager
         for (PotionEffect effect : PotionManager.mc.player.getActivePotionEffects()) {
             list.addEffect(effect);
         }
-        this.potions.put(PotionManager.mc.player , list);
+        this.potions.put(PotionManager.mc.player, list);
     }
 
     public
@@ -46,7 +46,7 @@ class PotionManager
                         for (PotionEffect effect : player.getActivePotionEffects()) {
                             list.addEffect(effect);
                         }
-                        this.potions.put(player , list);
+                        this.potions.put(player, list);
                         notFound = false;
                     }
                     if (! potionEntry.getKey().equals(player)) continue;
@@ -79,7 +79,7 @@ class PotionManager
     public
     void onTotemPop(EntityPlayer player) {
         PotionList list = new PotionList();
-        this.potions.put(player , list);
+        this.potions.put(player, list);
     }
 
     public
@@ -108,7 +108,7 @@ class PotionManager
     public
     String getPotionString(PotionEffect effect) {
         Potion potion = effect.getPotion();
-        return I18n.format(potion.getName()) + " " + (! HUD.getInstance().potions1.getValue() && effect.getAmplifier() == 0 ? "" : effect.getAmplifier() + 1 + " ") + "\u00a7f" + Potion.getPotionDurationString(effect , 1.0f);
+        return I18n.format(potion.getName()) + " " + (! HUD.getInstance().potions1.getValue() && effect.getAmplifier() == 0 ? "" : effect.getAmplifier() + 1 + " ") + "\u00a7f" + Potion.getPotionDurationString(effect, 1.0f);
     }
 
     public
@@ -152,7 +152,7 @@ class PotionManager
         PotionEffect strength = array[0];
         PotionEffect weakness = array[1];
         PotionEffect speed = array[2];
-        return "" + (strength != null ? "\u00a7c S" + (strength.getAmplifier() + 1) + " " + Potion.getPotionDurationString(strength , 1.0f) : "") + (weakness != null ? "\u00a78 W " + Potion.getPotionDurationString(weakness , 1.0f) : "") + (speed != null ? "\u00a7b S" + (speed.getAmplifier() + 1) + " " + Potion.getPotionDurationString(Objects.requireNonNull(weakness) , 1.0f) : "");
+        return "" + (strength != null ? "\u00a7c S" + (strength.getAmplifier() + 1) + " " + Potion.getPotionDurationString(strength, 1.0f) : "") + (weakness != null ? "\u00a78 W " + Potion.getPotionDurationString(weakness, 1.0f) : "") + (speed != null ? "\u00a7b S" + (speed.getAmplifier() + 1) + " " + Potion.getPotionDurationString(Objects.requireNonNull(weakness), 1.0f) : "");
     }
 
     public

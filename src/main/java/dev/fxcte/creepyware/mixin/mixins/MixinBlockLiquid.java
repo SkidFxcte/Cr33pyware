@@ -27,8 +27,8 @@ class MixinBlockLiquid
 
     @Inject (method = {"getCollisionBoundingBox"}, at = {@At (value = "HEAD")}, cancellable = true)
     public
-    void getCollisionBoundingBoxHook(IBlockState blockState , IBlockAccess worldIn , BlockPos pos , CallbackInfoReturnable <AxisAlignedBB> info) {
-        JesusEvent event = new JesusEvent(0 , pos);
+    void getCollisionBoundingBoxHook(IBlockState blockState, IBlockAccess worldIn, BlockPos pos, CallbackInfoReturnable <AxisAlignedBB> info) {
+        JesusEvent event = new JesusEvent(0, pos);
         MinecraftForge.EVENT_BUS.post(event);
         if (event.isCanceled()) {
             info.setReturnValue(event.getBoundingBox());
@@ -37,7 +37,7 @@ class MixinBlockLiquid
 
     @Inject (method = {"canCollideCheck"}, at = {@At (value = "HEAD")}, cancellable = true)
     public
-    void canCollideCheckHook(IBlockState blockState , boolean hitIfLiquid , CallbackInfoReturnable <Boolean> info) {
+    void canCollideCheckHook(IBlockState blockState, boolean hitIfLiquid, CallbackInfoReturnable <Boolean> info) {
         info.setReturnValue(hitIfLiquid && (Integer) blockState.getValue((IProperty) BlockLiquid.LEVEL) == 0 || LiquidInteract.getInstance().isOn());
     }
 }

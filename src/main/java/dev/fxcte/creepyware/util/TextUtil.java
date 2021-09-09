@@ -49,7 +49,7 @@ class TextUtil {
     }
 
     public static
-    String coloredString(String string , Color color) {
+    String coloredString(String string, Color color) {
         String coloredString = string;
         switch (color) {
             case AQUA: {
@@ -121,10 +121,10 @@ class TextUtil {
     }
 
     public static
-    String cropMaxLengthMessage(String s , int i) {
+    String cropMaxLengthMessage(String s, int i) {
         String output = "";
         if (s.length() >= 256 - i) {
-            output = s.substring(0 , 256 - i);
+            output = s.substring(0, 256 - i);
         }
         return output;
     }

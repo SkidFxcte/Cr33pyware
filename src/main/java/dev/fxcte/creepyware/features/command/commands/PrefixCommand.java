@@ -9,7 +9,7 @@ class PrefixCommand
         extends Command {
     public
     PrefixCommand() {
-        super("prefix" , new String[]{"<char>"});
+        super("prefix", new String[]{"<char>"});
     }
 
     @Override

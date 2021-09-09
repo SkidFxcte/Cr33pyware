@@ -26,7 +26,7 @@ class NoStopManager
         if (this.running && this.pos != null) {
             BlockPos currentPos = NoStopManager.mc.player.getPosition();
             if (currentPos.equals(this.pos)) {
-                BlockUtil.debugPos("<Baritone> Arrived at Position: " , this.pos);
+                BlockUtil.debugPos("<Baritone> Arrived at Position: ", this.pos);
                 this.running = false;
                 return;
             }
@@ -57,8 +57,8 @@ class NoStopManager
     }
 
     public
-    void start(int x , int y , int z) {
-        this.pos = new BlockPos(x , y , z);
+    void start(int x, int y, int z) {
+        this.pos = new BlockPos(x, y, z);
         this.sentMessage = false;
         this.running = true;
     }

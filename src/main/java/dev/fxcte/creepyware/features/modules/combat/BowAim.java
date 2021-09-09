@@ -13,7 +13,7 @@ public
 class BowAim extends Module {
     public
     BowAim() {
-        super("BowAim" , "Automatically aim ur bow at ppl because lazy." , Module.Category.COMBAT , true , false , false);
+        super("BowAim", "Automatically aim ur bow at ppl because lazy.", Module.Category.COMBAT, true, false, false);
     }
 
     @Override
@@ -31,8 +31,8 @@ class BowAim extends Module {
                 }
             }
             if (player != null) {
-                Vec3d pos = EntityUtil.getInterpolatedPos(player , mc.getRenderPartialTicks());
-                float[] angels = MathUtil.calcAngle(EntityUtil.getInterpolatedPos(mc.player , mc.getRenderPartialTicks()) , pos);
+                Vec3d pos = EntityUtil.getInterpolatedPos(player, mc.getRenderPartialTicks());
+                float[] angels = MathUtil.calcAngle(EntityUtil.getInterpolatedPos(mc.player, mc.getRenderPartialTicks()), pos);
                 mc.player.rotationYaw = angels[0];
                 mc.player.rotationPitch = angels[1];
             }

@@ -27,7 +27,7 @@ class RotationManager
     }
 
     public
-    void setPlayerRotations(float yaw , float pitch) {
+    void setPlayerRotations(float yaw, float pitch) {
         RotationManager.mc.player.rotationYaw = yaw;
         RotationManager.mc.player.rotationYawHead = yaw;
         RotationManager.mc.player.rotationPitch = pitch;
@@ -41,26 +41,26 @@ class RotationManager
 
     public
     void lookAtPos(BlockPos pos) {
-        float[] angle = MathUtil.calcAngle(RotationManager.mc.player.getPositionEyes(mc.getRenderPartialTicks()) , new Vec3d((float) pos.getX() + 0.5f , (float) pos.getY() + 0.5f , (float) pos.getZ() + 0.5f));
-        this.setPlayerRotations(angle[0] , angle[1]);
+        float[] angle = MathUtil.calcAngle(RotationManager.mc.player.getPositionEyes(mc.getRenderPartialTicks()), new Vec3d((float) pos.getX() + 0.5f, (float) pos.getY() + 0.5f, (float) pos.getZ() + 0.5f));
+        this.setPlayerRotations(angle[0], angle[1]);
     }
 
     public
     void lookAtVec3d(Vec3d vec3d) {
-        float[] angle = MathUtil.calcAngle(RotationManager.mc.player.getPositionEyes(mc.getRenderPartialTicks()) , new Vec3d(vec3d.x , vec3d.y , vec3d.z));
-        this.setPlayerRotations(angle[0] , angle[1]);
+        float[] angle = MathUtil.calcAngle(RotationManager.mc.player.getPositionEyes(mc.getRenderPartialTicks()), new Vec3d(vec3d.x, vec3d.y, vec3d.z));
+        this.setPlayerRotations(angle[0], angle[1]);
     }
 
     public
-    void lookAtVec3d(double x , double y , double z) {
-        Vec3d vec3d = new Vec3d(x , y , z);
+    void lookAtVec3d(double x, double y, double z) {
+        Vec3d vec3d = new Vec3d(x, y, z);
         this.lookAtVec3d(vec3d);
     }
 
     public
     void lookAtEntity(Entity entity) {
-        float[] angle = MathUtil.calcAngle(RotationManager.mc.player.getPositionEyes(mc.getRenderPartialTicks()) , entity.getPositionEyes(mc.getRenderPartialTicks()));
-        this.setPlayerRotations(angle[0] , angle[1]);
+        float[] angle = MathUtil.calcAngle(RotationManager.mc.player.getPositionEyes(mc.getRenderPartialTicks()), entity.getPositionEyes(mc.getRenderPartialTicks()));
+        this.setPlayerRotations(angle[0], angle[1]);
     }
 
     public

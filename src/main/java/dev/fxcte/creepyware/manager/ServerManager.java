@@ -49,7 +49,7 @@ class ServerManager
         if ((tps = 1000.0f / tickTime) > 20.0f) {
             tps = 20.0f;
         }
-        System.arraycopy(this.tpsCounts , 0 , this.tpsCounts , 1 , this.tpsCounts.length - 1);
+        System.arraycopy(this.tpsCounts, 0, this.tpsCounts, 1, this.tpsCounts.length - 1);
         this.tpsCounts[0] = tps;
         double total = 0.0;
         for (float f : this.tpsCounts) {
@@ -65,7 +65,7 @@ class ServerManager
     @Override
     public
     void reset() {
-        Arrays.fill(this.tpsCounts , 20.0f);
+        Arrays.fill(this.tpsCounts, 20.0f);
         this.TPS = 20.0f;
     }
 

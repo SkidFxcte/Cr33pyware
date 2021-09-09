@@ -8,7 +8,7 @@ class BaritoneNoStop
         extends Command {
     public
     BaritoneNoStop() {
-        super("noStop" , new String[]{"<prefix>" , "<x>" , "<y>" , "<z>"});
+        super("noStop", new String[]{"<prefix>", "<x>", "<y>", "<z>"});
     }
 
     @Override
@@ -28,7 +28,7 @@ class BaritoneNoStop
                 CreepyWare.baritoneManager.stop();
                 return;
             }
-            CreepyWare.baritoneManager.start(x , y , z);
+            CreepyWare.baritoneManager.start(x, y, z);
             return;
         }
         BaritoneNoStop.sendMessage("Stoping Baritone-Nostop.");

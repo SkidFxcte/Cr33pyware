@@ -18,7 +18,7 @@ public
 class MixinBlockModelRenderer {
     @Inject (method = {"renderModel(Lnet/minecraft/world/IBlockAccess;Lnet/minecraft/client/renderer/block/model/IBakedModel;Lnet/minecraft/block/state/IBlockState;Lnet/minecraft/util/math/BlockPos;Lnet/minecraft/client/renderer/BufferBuilder;Z)Z"}, at = {@At (value = "HEAD")}, cancellable = true)
     private
-    void renderModelHook(IBlockAccess blockAccess , IBakedModel bakedModel , IBlockState blockState , BlockPos blockPos , BufferBuilder bufferBuilder , boolean b , CallbackInfoReturnable <Boolean> info) {
+    void renderModelHook(IBlockAccess blockAccess, IBakedModel bakedModel, IBlockState blockState, BlockPos blockPos, BufferBuilder bufferBuilder, boolean b, CallbackInfoReturnable <Boolean> info) {
         try {
             if (XRay.getInstance().isOn() && ! XRay.getInstance().shouldRender(blockState.getBlock())) {
                 info.setReturnValue(false);

@@ -35,7 +35,7 @@ class CommandManager
     }
 
     public static
-    String[] removeElement(String[] input , int indexToDelete) {
+    String[] removeElement(String[] input, int indexToDelete) {
         LinkedList <String> result = new LinkedList <>();
         for (int i = 0; i < input.length; ++ i) {
             if (i == indexToDelete) continue;
@@ -45,9 +45,9 @@ class CommandManager
     }
 
     private static
-    String strip(String str , String key) {
+    String strip(String str, String key) {
         if (str.startsWith(key) && str.endsWith(key)) {
-            return str.substring(key.length() , str.length() - key.length());
+            return str.substring(key.length(), str.length() - key.length());
         }
         return str;
     }
@@ -56,10 +56,10 @@ class CommandManager
     void executeCommand(String command) {
         String[] parts = command.split(" (?=(?:[^\"]*\"[^\"]*\")*[^\"]*$)");
         String name = parts[0].substring(1);
-        String[] args = CommandManager.removeElement(parts , 0);
+        String[] args = CommandManager.removeElement(parts, 0);
         for (int i = 0; i < args.length; ++ i) {
             if (args[i] == null) continue;
-            args[i] = CommandManager.strip(args[i] , "\"");
+            args[i] = CommandManager.strip(args[i], "\"");
         }
         for (Command c : this.commands) {
             if (! c.getName().equalsIgnoreCase(name)) continue;

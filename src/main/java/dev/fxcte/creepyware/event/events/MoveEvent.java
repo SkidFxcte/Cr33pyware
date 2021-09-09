@@ -14,7 +14,7 @@ class MoveEvent
     private double z;
 
     public
-    MoveEvent(int stage , MoverType type , double x , double y , double z) {
+    MoveEvent(int stage, MoverType type, double x, double y, double z) {
         super(stage);
         this.type = type;
         this.x = x;

@@ -13,12 +13,12 @@ class RenderItemEvent extends EventStage {
 
 
     public
-    RenderItemEvent(double mainX , double mainY , double mainZ ,
-                    double offX , double offY , double offZ ,
-                    double mainRotX , double mainRotY , double mainRotZ ,
-                    double offRotX , double offRotY , double offRotZ ,
-                    double mainHandScaleX , double mainHandScaleY , double mainHandScaleZ , /*double mainHandItemWidth ,*/
-                    double offHandScaleX , double offHandScaleY , double offHandScaleZ /*, double offHandItemWidth*/) {
+    RenderItemEvent(double mainX, double mainY, double mainZ,
+                    double offX, double offY, double offZ,
+                    double mainRotX, double mainRotY, double mainRotZ,
+                    double offRotX, double offRotY, double offRotZ,
+                    double mainHandScaleX, double mainHandScaleY, double mainHandScaleZ, /*double mainHandItemWidth ,*/
+                    double offHandScaleX, double offHandScaleY, double offHandScaleZ /*, double offHandItemWidth*/) {
         this.mainX = mainX;
         this.mainY = mainY;
         this.mainZ = mainZ;

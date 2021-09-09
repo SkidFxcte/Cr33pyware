@@ -8,7 +8,7 @@ class ReloadCommand
         extends Command {
     public
     ReloadCommand() {
-        super("reload" , new String[0]);
+        super("reload", new String[0]);
     }
 
     @Override

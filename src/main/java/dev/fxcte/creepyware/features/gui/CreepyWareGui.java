@@ -51,7 +51,7 @@ class CreepyWareGui
     void load() {
         int x = - 74;
         for (final Module.Category category : CreepyWare.moduleManager.getCategories()) {
-            this.components.add(new Component(category.getName() , x += 90 , 4 , true) {
+            this.components.add(new Component(category.getName(), x += 90, 4, true) {
 
                 @Override
                 public
@@ -64,7 +64,7 @@ class CreepyWareGui
                 }
             });
         }
-        this.components.forEach(components -> components.getItems().sort((item1 , item2) -> item1.getName().compareTo(item2.getName())));
+        this.components.forEach(components -> components.getItems().sort((item1, item2) -> item1.getName().compareTo(item2.getName())));
     }
 
     public
@@ -83,20 +83,20 @@ class CreepyWareGui
     }
 
     public
-    void drawScreen(int mouseX , int mouseY , float partialTicks) {
+    void drawScreen(int mouseX, int mouseY, float partialTicks) {
         this.checkMouseWheel();
         this.drawDefaultBackground();
-        this.components.forEach(components -> components.drawScreen(mouseX , mouseY , partialTicks));
+        this.components.forEach(components -> components.drawScreen(mouseX, mouseY, partialTicks));
     }
 
     public
-    void mouseClicked(int mouseX , int mouseY , int clickedButton) {
-        this.components.forEach(components -> components.mouseClicked(mouseX , mouseY , clickedButton));
+    void mouseClicked(int mouseX, int mouseY, int clickedButton) {
+        this.components.forEach(components -> components.mouseClicked(mouseX, mouseY, clickedButton));
     }
 
     public
-    void mouseReleased(int mouseX , int mouseY , int releaseButton) {
-        this.components.forEach(components -> components.mouseReleased(mouseX , mouseY , releaseButton));
+    void mouseReleased(int mouseX, int mouseY, int releaseButton) {
+        this.components.forEach(components -> components.mouseReleased(mouseX, mouseY, releaseButton));
     }
 
     public
@@ -134,9 +134,9 @@ class CreepyWareGui
     }
 
     public
-    void keyTyped(char typedChar , int keyCode) throws IOException {
-        super.keyTyped(typedChar , keyCode);
-        this.components.forEach(component -> component.onKeyTyped(typedChar , keyCode));
+    void keyTyped(char typedChar, int keyCode) throws IOException {
+        super.keyTyped(typedChar, keyCode);
+        this.components.forEach(component -> component.onKeyTyped(typedChar, keyCode));
     }
 }
 

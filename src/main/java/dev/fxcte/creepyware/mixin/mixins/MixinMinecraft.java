@@ -35,7 +35,7 @@ class MixinMinecraft {
 
     @Inject (method = {"runTickKeyboard"}, at = {@At (value = "FIELD", target = "Lnet/minecraft/client/Minecraft;currentScreen:Lnet/minecraft/client/gui/GuiScreen;", ordinal = 0)}, locals = LocalCapture.CAPTURE_FAILSOFT)
     private
-    void onRunTickKeyboard(CallbackInfo ci , int i) {
+    void onRunTickKeyboard(CallbackInfo ci, int i) {
         if (Keyboard.getEventKeyState() && CreepyWare.moduleManager != null) {
             CreepyWare.moduleManager.onKeyPressed(i);
         }
@@ -73,7 +73,7 @@ class MixinMinecraft {
 
     @Inject (method = {"displayGuiScreen"}, at = {@At (value = "HEAD")})
     private
-    void displayGuiScreen(GuiScreen screen , CallbackInfo ci) {
+    void displayGuiScreen(GuiScreen screen, CallbackInfo ci) {
         if (screen instanceof GuiMainMenu) {
             this.displayGuiScreen(new GuiCustomMainScreen());
         }
@@ -81,14 +81,14 @@ class MixinMinecraft {
 
     @Redirect (method = {"run"}, at = @At (value = "INVOKE", target = "Lnet/minecraft/client/Minecraft;displayCrashReport(Lnet/minecraft/crash/CrashReport;)V"))
     public
-    void displayCrashReportHook(Minecraft minecraft , CrashReport crashReport) {
+    void displayCrashReportHook(Minecraft minecraft, CrashReport crashReport) {
         this.unload();
     }
 
     @Redirect (method = {"runTick"}, at = @At (value = "INVOKE", target = "Lnet/minecraft/client/multiplayer/WorldClient;doVoidFogParticles(III)V"))
     public
-    void doVoidFogParticlesHook(WorldClient world , int x , int y , int z) {
-        NoRender.getInstance().doVoidFogParticles(x , y , z);
+    void doVoidFogParticlesHook(WorldClient world, int x, int y, int z) {
+        NoRender.getInstance().doVoidFogParticles(x, y, z);
     }
 
     @Inject (method = {"shutdown"}, at = {@At (value = "HEAD")})

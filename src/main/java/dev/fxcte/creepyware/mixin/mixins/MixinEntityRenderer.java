@@ -46,7 +46,7 @@ class MixinEntityRenderer {
 
     @Inject (method = {"updateLightmap"}, at = {@At (value = "HEAD")}, cancellable = true)
     private
-    void updateLightmap(float partialTicks , CallbackInfo info) {
+    void updateLightmap(float partialTicks, CallbackInfo info) {
         if (NoRender.getInstance().isOn() && (NoRender.getInstance().skylight.getValue() == NoRender.Skylight.ENTITY || NoRender.getInstance().skylight.getValue() == NoRender.Skylight.ALL)) {
             info.cancel();
         }
@@ -54,7 +54,7 @@ class MixinEntityRenderer {
 
     @Inject (method = {"getMouseOver(F)V"}, at = {@At (value = "HEAD")}, cancellable = true)
     public
-    void getMouseOverHook(float partialTicks , CallbackInfo info) {
+    void getMouseOverHook(float partialTicks, CallbackInfo info) {
         if (this.injection) {
             block3:
             {
@@ -84,7 +84,7 @@ class MixinEntityRenderer {
 
     @Inject (method = {"setupFog"}, at = {@At (value = "HEAD")}, cancellable = true)
     public
-    void setupFogHook(int startCoords , float partialTicks , CallbackInfo info) {
+    void setupFogHook(int startCoords, float partialTicks, CallbackInfo info) {
         if (NoRender.getInstance().isOn() && NoRender.getInstance().fog.getValue() == NoRender.Fog.NOFOG) {
             info.cancel();
         }
@@ -92,16 +92,16 @@ class MixinEntityRenderer {
 
     @Redirect (method = {"setupFog"}, at = @At (value = "INVOKE", target = "Lnet/minecraft/client/renderer/ActiveRenderInfo;getBlockStateAtEntityViewpoint(Lnet/minecraft/world/World;Lnet/minecraft/entity/Entity;F)Lnet/minecraft/block/state/IBlockState;"))
     public
-    IBlockState getBlockStateAtEntityViewpointHook(World worldIn , Entity entityIn , float p_186703_2_) {
+    IBlockState getBlockStateAtEntityViewpointHook(World worldIn, Entity entityIn, float p_186703_2_) {
         if (NoRender.getInstance().isOn() && NoRender.getInstance().fog.getValue() == NoRender.Fog.AIR) {
             return Blocks.AIR.defaultBlockState;
         }
-        return ActiveRenderInfo.getBlockStateAtEntityViewpoint(worldIn , entityIn , p_186703_2_);
+        return ActiveRenderInfo.getBlockStateAtEntityViewpoint(worldIn, entityIn, p_186703_2_);
     }
 
     @Inject (method = {"hurtCameraEffect"}, at = {@At (value = "HEAD")}, cancellable = true)
     public
-    void hurtCameraEffectHook(float ticks , CallbackInfo info) {
+    void hurtCameraEffectHook(float ticks, CallbackInfo info) {
         if (NoRender.getInstance().isOn() && NoRender.getInstance().hurtcam.getValue()) {
             info.cancel();
         }

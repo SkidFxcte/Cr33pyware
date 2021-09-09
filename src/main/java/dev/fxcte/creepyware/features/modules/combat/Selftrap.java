@@ -23,29 +23,30 @@ import org.lwjgl.input.Keyboard;
 
 import java.util.*;
 
-public class Selftrap
+public
+class Selftrap
         extends Module {
-    private final Setting<Boolean> smart = this.register(new Setting <> ("Speed" , "Smart" , 0.0 , 0.0 , false , 0));
-    private final Setting<Double> smartRange = this.register(new Setting <> ("SmartRange" , 6.0 , 0.0 , 10.0));
-    private final Setting<Integer> delay = this.register(new Setting <> ("Delay/Place" , 50 , 0 , 250));
-    private final Setting<Integer> blocksPerTick = this.register(new Setting <> ("Block/Place" , 8 , 1 , 20));
-    private final Setting<Boolean> rotate = this.register(new Setting <> ("Speed" , "Rotate" , 0.0 , 0.0 , true , 0));
-    private final Setting<Boolean> disable = this.register(new Setting <> ("Speed" , "Disable" , 0.0 , 0.0 , true , 0));
-    private final Setting<Integer> disableTime = this.register(new Setting <> ("Ms/Disable" , 200 , 1 , 250));
-    private final Setting<Boolean> offhand = this.register(new Setting <> ("Speed" , "OffHand" , 0.0 , 0.0 , true , 0));
-    private final Setting<InventoryUtil.Switch> switchMode = this.register(new Setting <> ("Speed" , "Switch" , 0.0 , 0.0 , InventoryUtil.Switch.NORMAL , 0));
-    private final Setting<Boolean> onlySafe = this.register(new Setting<Object>("OnlySafe", true , v -> this.offhand.getValue()));
-    private final Setting<Boolean> highWeb = this.register(new Setting <> ("Speed" , "HighWeb" , 0.0 , 0.0 , false , 0));
-    private final Setting<Boolean> freecam = this.register(new Setting <> ("Speed" , "Freecam" , 0.0 , 0.0 , false , 0));
-    private final Setting<Boolean> packet = this.register(new Setting <> ("Speed" , "Packet" , 0.0 , 0.0 , false , 0));
+    private final Setting <Boolean> smart = this.register(new Setting <>("Speed", "Smart", 0.0, 0.0, false, 0));
+    private final Setting <Double> smartRange = this.register(new Setting <>("SmartRange", 6.0, 0.0, 10.0));
+    private final Setting <Integer> delay = this.register(new Setting <>("Delay/Place", 50, 0, 250));
+    private final Setting <Integer> blocksPerTick = this.register(new Setting <>("Block/Place", 8, 1, 20));
+    private final Setting <Boolean> rotate = this.register(new Setting <>("Speed", "Rotate", 0.0, 0.0, true, 0));
+    private final Setting <Boolean> disable = this.register(new Setting <>("Speed", "Disable", 0.0, 0.0, true, 0));
+    private final Setting <Integer> disableTime = this.register(new Setting <>("Ms/Disable", 200, 1, 250));
+    private final Setting <Boolean> offhand = this.register(new Setting <>("Speed", "OffHand", 0.0, 0.0, true, 0));
+    private final Setting <InventoryUtil.Switch> switchMode = this.register(new Setting <>("Speed", "Switch", 0.0, 0.0, InventoryUtil.Switch.NORMAL, 0));
+    private final Setting <Boolean> onlySafe = this.register(new Setting <Object>("OnlySafe", true, v -> this.offhand.getValue()));
+    private final Setting <Boolean> highWeb = this.register(new Setting <>("Speed", "HighWeb", 0.0, 0.0, false, 0));
+    private final Setting <Boolean> freecam = this.register(new Setting <>("Speed", "Freecam", 0.0, 0.0, false, 0));
+    private final Setting <Boolean> packet = this.register(new Setting <>("Speed", "Packet", 0.0, 0.0, false, 0));
     private final dev.fxcte.creepyware.util.Timer offTimer = new dev.fxcte.creepyware.util.Timer();
     private final dev.fxcte.creepyware.util.Timer timer = new dev.fxcte.creepyware.util.Timer();
-    private final Map<BlockPos, Integer> retries = new HashMap <> ();
+    private final Map <BlockPos, Integer> retries = new HashMap <>();
     private final dev.fxcte.creepyware.util.Timer retryTimer = new Timer();
-    public Setting<Mode> mode = this.register(new Setting <> ("Speed" , "Mode" , 0.0 , 0.0 , Mode.OBSIDIAN , 0));
-    public Setting<PlaceMode> placeMode = this.register(new Setting<Object>("PlaceMode", PlaceMode.NORMAL, v -> this.mode.getValue() == Mode.OBSIDIAN));
-    public Setting<Bind> obbyBind = this.register(new Setting <> ("Speed" , "Obsidian" , 0.0 , 0.0 , new Bind (- 1) , 0));
-    public Setting<Bind> webBind = this.register(new Setting <> ("Speed" , "Webs" , 0.0 , 0.0 , new Bind (- 1) , 0));
+    public Setting <Mode> mode = this.register(new Setting <>("Speed", "Mode", 0.0, 0.0, Mode.OBSIDIAN, 0));
+    public Setting <PlaceMode> placeMode = this.register(new Setting <Object>("PlaceMode", PlaceMode.NORMAL, v -> this.mode.getValue() == Mode.OBSIDIAN));
+    public Setting <Bind> obbyBind = this.register(new Setting <>("Speed", "Obsidian", 0.0, 0.0, new Bind(- 1), 0));
+    public Setting <Bind> webBind = this.register(new Setting <>("Speed", "Webs", 0.0, 0.0, new Bind(- 1), 0));
     public Mode currentMode = Mode.OBSIDIAN;
     private boolean accessedViaBind = false;
     private int blocksThisTick = 0;
@@ -54,26 +55,28 @@ public class Selftrap
     private boolean isSneaking;
     private boolean hasOffhand = false;
     private boolean placeHighWeb = false;
-    private int lastHotbarSlot = -1;
+    private int lastHotbarSlot = - 1;
     private boolean switchedItem = false;
 
-    public Selftrap() {
+    public
+    Selftrap() {
         super("Selftrap", "Lure your enemies in!", Module.Category.COMBAT, true, false, true);
     }
 
     @Override
-    public void onEnable() {
+    public
+    void onEnable() {
         if (Selftrap.fullNullCheck()) {
             this.disable();
         }
         this.lastHotbarSlot = Selftrap.mc.player.inventory.currentItem;
-        if (!this.accessedViaBind) {
+        if (! this.accessedViaBind) {
             this.currentMode = this.mode.getValue();
         }
         Offhand module = CreepyWare.moduleManager.getModuleByClass(Offhand.class);
         this.offhandMode = module.mode;
         this.offhandMode2 = module.currentMode;
-        if (this.offhand.getValue () && (EntityUtil.isSafe(Selftrap.mc.player) || ! this.onlySafe.getValue ())) {
+        if (this.offhand.getValue() && (EntityUtil.isSafe(Selftrap.mc.player) || ! this.onlySafe.getValue())) {
             if (module.type.getValue() == Offhand.Type.OLD) {
                 if (this.currentMode == Mode.WEBS) {
                     module.setMode(Offhand.Mode2.WEBS);
@@ -93,22 +96,25 @@ public class Selftrap
     }
 
     @Override
-    public void onTick() {
-        if (this.isOn() && (this.blocksPerTick.getValue() != 1 || ! this.rotate.getValue ())) {
+    public
+    void onTick() {
+        if (this.isOn() && (this.blocksPerTick.getValue() != 1 || ! this.rotate.getValue())) {
             this.doHoleFill();
         }
     }
 
     @SubscribeEvent
-    public void onUpdateWalkingPlayer(UpdateWalkingPlayerEvent event) {
-        if (this.isOn() && event.getStage() == 0 && this.blocksPerTick.getValue() == 1 && this.rotate.getValue ()) {
+    public
+    void onUpdateWalkingPlayer(UpdateWalkingPlayerEvent event) {
+        if (this.isOn() && event.getStage() == 0 && this.blocksPerTick.getValue() == 1 && this.rotate.getValue()) {
             this.doHoleFill();
         }
     }
 
     @Override
-    public void onDisable() {
-        if (this.offhand.getValue ()) {
+    public
+    void onDisable() {
+        if (this.offhand.getValue()) {
             CreepyWare.moduleManager.getModuleByClass(Offhand.class).setMode(this.offhandMode);
             CreepyWare.moduleManager.getModuleByClass(Offhand.class).setMode(this.offhandMode2);
         }
@@ -119,8 +125,9 @@ public class Selftrap
         this.hasOffhand = false;
     }
 
-    @SubscribeEvent(priority = EventPriority.NORMAL, receiveCanceled = true)
-    public void onKeyInput(InputEvent.KeyInputEvent event) {
+    @SubscribeEvent (priority = EventPriority.NORMAL, receiveCanceled = true)
+    public
+    void onKeyInput(InputEvent.KeyInputEvent event) {
         if (Keyboard.getEventKeyState()) {
             if (this.obbyBind.getValue().getKey() == Keyboard.getEventKey()) {
                 this.accessedViaBind = true;
@@ -135,7 +142,8 @@ public class Selftrap
         }
     }
 
-    private void doHoleFill() {
+    private
+    void doHoleFill() {
         if (this.check()) {
             return;
         }
@@ -145,7 +153,7 @@ public class Selftrap
             this.placeHighWeb = false;
         }
         for (BlockPos position : this.getPositions()) {
-            if (this.smart.getValue () && !this.isPlayerInRange()) continue;
+            if (this.smart.getValue() && ! this.isPlayerInRange()) continue;
             int placeability = BlockUtil.isPositionPlaceable(position, false);
             if (placeability == 1) {
                 switch (this.currentMode) {
@@ -166,7 +174,8 @@ public class Selftrap
         }
     }
 
-    private boolean isPlayerInRange() {
+    private
+    boolean isPlayerInRange() {
         for (EntityPlayer player : Selftrap.mc.world.playerEntities) {
             if (EntityUtil.isntValid(player, this.smartRange.getValue())) continue;
             return true;
@@ -174,13 +183,14 @@ public class Selftrap
         return false;
     }
 
-    private List<BlockPos> getPositions() {
-        ArrayList<BlockPos> positions = new ArrayList <> ();
+    private
+    List <BlockPos> getPositions() {
+        ArrayList <BlockPos> positions = new ArrayList <>();
         block0:
         switch (this.currentMode) {
             case WEBS: {
                 positions.add(new BlockPos(Selftrap.mc.player.posX, Selftrap.mc.player.posY, Selftrap.mc.player.posZ));
-                if (! this.highWeb.getValue ()) break;
+                if (! this.highWeb.getValue()) break;
                 positions.add(new BlockPos(Selftrap.mc.player.posX, Selftrap.mc.player.posY + 1.0, Selftrap.mc.player.posZ));
                 break;
             }
@@ -190,7 +200,7 @@ public class Selftrap
                     int placeability = BlockUtil.isPositionPlaceable(positions.get(0), false);
                     switch (placeability) {
                         case 0: {
-                            return new ArrayList <> ();
+                            return new ArrayList <>();
                         }
                         case 3: {
                             return positions;
@@ -215,7 +225,7 @@ public class Selftrap
                 int placeability = BlockUtil.isPositionPlaceable(positions.get(0), false);
                 switch (placeability) {
                     case 0: {
-                        return new ArrayList <> ();
+                        return new ArrayList <>();
                     }
                     case 3: {
                         return positions;
@@ -235,18 +245,20 @@ public class Selftrap
         return positions;
     }
 
-    private void placeBlock(BlockPos pos) {
+    private
+    void placeBlock(BlockPos pos) {
         if (this.blocksThisTick < this.blocksPerTick.getValue() && this.switchItem(false)) {
             boolean smartRotate;
             boolean bl = smartRotate = this.blocksPerTick.getValue() == 1 && this.rotate.getValue();
             this.isSneaking = smartRotate ? BlockUtil.placeBlockSmartRotate(pos, this.hasOffhand ? EnumHand.OFF_HAND : EnumHand.MAIN_HAND, true, this.packet.getValue(), this.isSneaking) : BlockUtil.placeBlock(pos, this.hasOffhand ? EnumHand.OFF_HAND : EnumHand.MAIN_HAND, this.rotate.getValue(), this.packet.getValue(), this.isSneaking);
             this.timer.reset();
-            ++this.blocksThisTick;
+            ++ this.blocksThisTick;
         }
     }
 
-    private boolean check() {
-        if (Selftrap.fullNullCheck() || this.disable.getValue () && this.offTimer.passedMs(this.disableTime.getValue ())) {
+    private
+    boolean check() {
+        if (Selftrap.fullNullCheck() || this.disable.getValue() && this.offTimer.passedMs(this.disableTime.getValue())) {
             this.disable();
             return true;
         }
@@ -254,7 +266,7 @@ public class Selftrap
             this.lastHotbarSlot = Selftrap.mc.player.inventory.currentItem;
         }
         this.switchItem(true);
-        if (! this.freecam.getValue () && CreepyWare.moduleManager.isModuleEnabled(Freecam.class)) {
+        if (! this.freecam.getValue() && CreepyWare.moduleManager.isModuleEnabled(Freecam.class)) {
             return true;
         }
         this.blocksThisTick = 0;
@@ -263,7 +275,7 @@ public class Selftrap
             this.retries.clear();
             this.retryTimer.reset();
         }
-        int targetSlot = -1;
+        int targetSlot = - 1;
         switch (this.currentMode) {
             case WEBS: {
                 this.hasOffhand = InventoryUtil.isBlock(Selftrap.mc.player.getHeldItemOffhand().getItem(), BlockWeb.class);
@@ -276,21 +288,22 @@ public class Selftrap
                 break;
             }
         }
-        if (this.onlySafe.getValue () && !EntityUtil.isSafe(Selftrap.mc.player)) {
+        if (this.onlySafe.getValue() && ! EntityUtil.isSafe(Selftrap.mc.player)) {
             this.disable();
             return true;
         }
-        if (!this.hasOffhand && targetSlot == -1 && (! this.offhand.getValue () || !EntityUtil.isSafe(Selftrap.mc.player) && this.onlySafe.getValue ())) {
+        if (! this.hasOffhand && targetSlot == - 1 && (! this.offhand.getValue() || ! EntityUtil.isSafe(Selftrap.mc.player) && this.onlySafe.getValue())) {
             return true;
         }
-        if (this.offhand.getValue () && !this.hasOffhand) {
+        if (this.offhand.getValue() && ! this.hasOffhand) {
             return true;
         }
-        return !this.timer.passedMs(this.delay.getValue ());
+        return ! this.timer.passedMs(this.delay.getValue());
     }
 
-    private boolean switchItem(boolean back) {
-        if (this.offhand.getValue ()) {
+    private
+    boolean switchItem(boolean back) {
+        if (this.offhand.getValue()) {
             return true;
         }
         boolean[] value = InventoryUtil.switchItem(back, this.lastHotbarSlot, this.switchedItem, this.switchMode.getValue(), this.currentMode == Mode.WEBS ? BlockWeb.class : BlockObsidian.class);
@@ -298,14 +311,16 @@ public class Selftrap
         return value[1];
     }
 
-    public enum PlaceMode {
+    public
+    enum PlaceMode {
         NORMAL,
         SELF,
         SELFHIGH
 
     }
 
-    public enum Mode {
+    public
+    enum Mode {
         WEBS,
         OBSIDIAN
 

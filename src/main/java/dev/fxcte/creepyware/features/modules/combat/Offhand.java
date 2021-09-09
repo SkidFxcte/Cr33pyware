@@ -51,43 +51,43 @@ class Offhand
     private final Timer timer = new Timer();
     private final Timer secondTimer = new Timer();
     private final Timer serverTimer = new Timer();
-    public Setting <Type> type = this.register(new Setting <>("Speed" , "Mode" , 0.0 , 0.0 , Type.NEW , 0));
-    public Setting <Boolean> cycle = this.register(new Setting <Object>("Cycle" , false , v -> this.type.getValue() == Type.OLD));
-    public Setting <Bind> cycleKey = this.register(new Setting <Object>("Key" , new Bind(- 1) , v -> this.cycle.getValue() && this.type.getValue() == Type.OLD));
-    public Setting <Bind> offHandGapple = this.register(new Setting <>("Speed" , "Gapple" , 0.0 , 0.0 , new Bind(- 1) , 0));
-    public Setting <Float> gappleHealth = this.register(new Setting <>("G-Health" , 13.0f , 0.1f , 36.0f));
-    public Setting <Float> gappleHoleHealth = this.register(new Setting <>("G-H-Health" , 3.5f , 0.1f , 36.0f));
-    public Setting <Bind> offHandCrystal = this.register(new Setting <>("Speed" , "Crystal" , 0.0 , 0.0 , new Bind(- 1) , 0));
-    public Setting <Float> crystalHealth = this.register(new Setting <>("C-Health" , 13.0f , 0.1f , 36.0f));
-    public Setting <Float> crystalHoleHealth = this.register(new Setting <>("C-H-Health" , 3.5f , 0.1f , 36.0f));
-    public Setting <Float> cTargetDistance = this.register(new Setting <>("C-Distance" , 10.0f , 1.0f , 20.0f));
-    public Setting <Bind> obsidian = this.register(new Setting <>("Speed" , "Obsidian" , 0.0 , 0.0 , new Bind(- 1) , 0));
-    public Setting <Float> obsidianHealth = this.register(new Setting <>("O-Health" , 13.0f , 0.1f , 36.0f));
-    public Setting <Float> obsidianHoleHealth = this.register(new Setting <>("O-H-Health" , 8.0f , 0.1f , 36.0f));
-    public Setting <Bind> webBind = this.register(new Setting <>("Speed" , "Webs" , 0.0 , 0.0 , new Bind(- 1) , 0));
-    public Setting <Float> webHealth = this.register(new Setting <>("W-Health" , 13.0f , 0.1f , 36.0f));
-    public Setting <Float> webHoleHealth = this.register(new Setting <>("W-H-Health" , 8.0f , 0.1f , 36.0f));
-    public Setting <Boolean> holeCheck = this.register(new Setting <>("Speed" , "Hole-Check" , 0.0 , 0.0 , true , 0));
-    public Setting <Boolean> crystalCheck = this.register(new Setting <>("Speed" , "Crystal-Check" , 0.0 , 0.0 , false , 0));
-    public Setting <Boolean> gapSwap = this.register(new Setting <>("Speed" , "Gap-Swap" , 0.0 , 0.0 , true , 0));
-    public Setting <Integer> updates = this.register(new Setting <>("Updates" , 1 , 1 , 2));
-    public Setting <Boolean> cycleObby = this.register(new Setting <Object>("CycleObby" , false , v -> this.type.getValue() == Type.OLD));
-    public Setting <Boolean> cycleWebs = this.register(new Setting <Object>("CycleWebs" , false , v -> this.type.getValue() == Type.OLD));
-    public Setting <Boolean> crystalToTotem = this.register(new Setting <Object>("Crystal-Totem" , true , v -> this.type.getValue() == Type.OLD));
-    public Setting <Boolean> absorption = this.register(new Setting <Object>("Absorption" , false , v -> this.type.getValue() == Type.OLD));
-    public Setting <Boolean> autoGapple = this.register(new Setting <Object>("AutoGapple" , false , v -> this.type.getValue() == Type.OLD));
-    public Setting <Boolean> onlyWTotem = this.register(new Setting <Object>("OnlyWTotem" , true , v -> this.autoGapple.getValue() && this.type.getValue() == Type.OLD));
-    public Setting <Boolean> unDrawTotem = this.register(new Setting <Object>("DrawTotems" , true , v -> this.type.getValue() == Type.OLD));
-    public Setting <Boolean> noOffhandGC = this.register(new Setting <>("Speed" , "NoOGC" , 0.0 , 0.0 , false , 0));
-    public Setting <Boolean> retardOGC = this.register(new Setting <>("Speed" , "RetardOGC" , 0.0 , 0.0 , false , 0));
-    public Setting <Boolean> returnToCrystal = this.register(new Setting <>("Speed" , "RecoverySwitch" , 0.0 , 0.0 , false , 0));
-    public Setting <Integer> timeout = this.register(new Setting <>("Timeout" , 50 , 0 , 500));
-    public Setting <Integer> timeout2 = this.register(new Setting <>("Timeout2" , 50 , 0 , 500));
-    public Setting <Integer> actions = this.register(new Setting <Object>("Actions" , 4 , 1 , 4 , v -> this.type.getValue() == Type.OLD));
-    public Setting <NameMode> displayNameChange = this.register(new Setting <Object>("Name" , NameMode.TOTEM , v -> this.type.getValue() == Type.OLD));
-    public Setting <Boolean> guis = this.register(new Setting <>("Speed" , "Guis" , 0.0 , 0.0 , false , 0));
-    public Setting <Integer> serverTimeOut = this.register(new Setting <>("S-Timeout" , 1000 , 0 , 5000));
-    public Setting <Boolean> bedcheck = this.register(new Setting <>("Speed" , "BedCheck" , 0.0 , 0.0 , false , 0));
+    public Setting <Type> type = this.register(new Setting <>("Speed", "Mode", 0.0, 0.0, Type.NEW, 0));
+    public Setting <Boolean> cycle = this.register(new Setting <Object>("Cycle", false, v -> this.type.getValue() == Type.OLD));
+    public Setting <Bind> cycleKey = this.register(new Setting <Object>("Key", new Bind(- 1), v -> this.cycle.getValue() && this.type.getValue() == Type.OLD));
+    public Setting <Bind> offHandGapple = this.register(new Setting <>("Speed", "Gapple", 0.0, 0.0, new Bind(- 1), 0));
+    public Setting <Float> gappleHealth = this.register(new Setting <>("G-Health", 13.0f, 0.1f, 36.0f));
+    public Setting <Float> gappleHoleHealth = this.register(new Setting <>("G-H-Health", 3.5f, 0.1f, 36.0f));
+    public Setting <Bind> offHandCrystal = this.register(new Setting <>("Speed", "Crystal", 0.0, 0.0, new Bind(- 1), 0));
+    public Setting <Float> crystalHealth = this.register(new Setting <>("C-Health", 13.0f, 0.1f, 36.0f));
+    public Setting <Float> crystalHoleHealth = this.register(new Setting <>("C-H-Health", 3.5f, 0.1f, 36.0f));
+    public Setting <Float> cTargetDistance = this.register(new Setting <>("C-Distance", 10.0f, 1.0f, 20.0f));
+    public Setting <Bind> obsidian = this.register(new Setting <>("Speed", "Obsidian", 0.0, 0.0, new Bind(- 1), 0));
+    public Setting <Float> obsidianHealth = this.register(new Setting <>("O-Health", 13.0f, 0.1f, 36.0f));
+    public Setting <Float> obsidianHoleHealth = this.register(new Setting <>("O-H-Health", 8.0f, 0.1f, 36.0f));
+    public Setting <Bind> webBind = this.register(new Setting <>("Speed", "Webs", 0.0, 0.0, new Bind(- 1), 0));
+    public Setting <Float> webHealth = this.register(new Setting <>("W-Health", 13.0f, 0.1f, 36.0f));
+    public Setting <Float> webHoleHealth = this.register(new Setting <>("W-H-Health", 8.0f, 0.1f, 36.0f));
+    public Setting <Boolean> holeCheck = this.register(new Setting <>("Speed", "Hole-Check", 0.0, 0.0, true, 0));
+    public Setting <Boolean> crystalCheck = this.register(new Setting <>("Speed", "Crystal-Check", 0.0, 0.0, false, 0));
+    public Setting <Boolean> gapSwap = this.register(new Setting <>("Speed", "Gap-Swap", 0.0, 0.0, true, 0));
+    public Setting <Integer> updates = this.register(new Setting <>("Updates", 1, 1, 2));
+    public Setting <Boolean> cycleObby = this.register(new Setting <Object>("CycleObby", false, v -> this.type.getValue() == Type.OLD));
+    public Setting <Boolean> cycleWebs = this.register(new Setting <Object>("CycleWebs", false, v -> this.type.getValue() == Type.OLD));
+    public Setting <Boolean> crystalToTotem = this.register(new Setting <Object>("Crystal-Totem", true, v -> this.type.getValue() == Type.OLD));
+    public Setting <Boolean> absorption = this.register(new Setting <Object>("Absorption", false, v -> this.type.getValue() == Type.OLD));
+    public Setting <Boolean> autoGapple = this.register(new Setting <Object>("AutoGapple", false, v -> this.type.getValue() == Type.OLD));
+    public Setting <Boolean> onlyWTotem = this.register(new Setting <Object>("OnlyWTotem", true, v -> this.autoGapple.getValue() && this.type.getValue() == Type.OLD));
+    public Setting <Boolean> unDrawTotem = this.register(new Setting <Object>("DrawTotems", true, v -> this.type.getValue() == Type.OLD));
+    public Setting <Boolean> noOffhandGC = this.register(new Setting <>("Speed", "NoOGC", 0.0, 0.0, false, 0));
+    public Setting <Boolean> retardOGC = this.register(new Setting <>("Speed", "RetardOGC", 0.0, 0.0, false, 0));
+    public Setting <Boolean> returnToCrystal = this.register(new Setting <>("Speed", "RecoverySwitch", 0.0, 0.0, false, 0));
+    public Setting <Integer> timeout = this.register(new Setting <>("Timeout", 50, 0, 500));
+    public Setting <Integer> timeout2 = this.register(new Setting <>("Timeout2", 50, 0, 500));
+    public Setting <Integer> actions = this.register(new Setting <Object>("Actions", 4, 1, 4, v -> this.type.getValue() == Type.OLD));
+    public Setting <NameMode> displayNameChange = this.register(new Setting <Object>("Name", NameMode.TOTEM, v -> this.type.getValue() == Type.OLD));
+    public Setting <Boolean> guis = this.register(new Setting <>("Speed", "Guis", 0.0, 0.0, false, 0));
+    public Setting <Integer> serverTimeOut = this.register(new Setting <>("S-Timeout", 1000, 0, 5000));
+    public Setting <Boolean> bedcheck = this.register(new Setting <>("Speed", "BedCheck", 0.0, 0.0, false, 0));
     public Mode mode = Mode.CRYSTALS;
     public Mode oldMode = Mode.CRYSTALS;
     public Mode2 currentMode = Mode2.TOTEMS;
@@ -117,7 +117,7 @@ class Offhand
 
     public
     Offhand() {
-        super("Offhand" , "Allows you to switch up your Offhand." , Module.Category.COMBAT , true , false , false);
+        super("Offhand", "Allows you to switch up your Offhand.", Module.Category.COMBAT, true, false, false);
         instance = this;
     }
 
@@ -130,7 +130,7 @@ class Offhand
     }
 
     public
-    void onItemFinish(ItemStack stack , EntityLivingBase base) {
+    void onItemFinish(ItemStack stack, EntityLivingBase base) {
         if (this.noOffhandGC.getValue() && base.equals(Offhand.mc.player) && stack.getItem() == Offhand.mc.player.getHeldItemOffhand().getItem()) {
             this.secondTimer.reset();
             this.second = true;
@@ -152,7 +152,7 @@ class Offhand
         if (this.noOffhandGC.getValue() && event.hand == EnumHand.MAIN_HAND && event.stack.getItem() == Items.END_CRYSTAL && Offhand.mc.player.getHeldItemOffhand().getItem() == Items.GOLDEN_APPLE && Offhand.mc.objectMouseOver != null && event.pos == Offhand.mc.objectMouseOver.getBlockPos()) {
             event.setCanceled(true);
             Offhand.mc.player.setActiveHand(EnumHand.OFF_HAND);
-            Offhand.mc.playerController.processRightClick(Offhand.mc.player , Offhand.mc.world , EnumHand.OFF_HAND);
+            Offhand.mc.playerController.processRightClick(Offhand.mc.player, Offhand.mc.world, EnumHand.OFF_HAND);
         }
     }
 
@@ -378,22 +378,22 @@ class Offhand
                     int n = slot = this.getSlot(this.mode) < 9 ? this.getSlot(this.mode) + 36 : this.getSlot(this.mode);
                     if (this.getSlot(this.mode) != - 1) {
                         if (this.oldSlot != - 1) {
-                            Offhand.mc.playerController.windowClick(0 , 45 , 0 , ClickType.PICKUP , Offhand.mc.player);
-                            Offhand.mc.playerController.windowClick(0 , this.oldSlot , 0 , ClickType.PICKUP , Offhand.mc.player);
+                            Offhand.mc.playerController.windowClick(0, 45, 0, ClickType.PICKUP, Offhand.mc.player);
+                            Offhand.mc.playerController.windowClick(0, this.oldSlot, 0, ClickType.PICKUP, Offhand.mc.player);
                         }
                         this.oldSlot = slot;
-                        Offhand.mc.playerController.windowClick(0 , slot , 0 , ClickType.PICKUP , Offhand.mc.player);
-                        Offhand.mc.playerController.windowClick(0 , 45 , 0 , ClickType.PICKUP , Offhand.mc.player);
-                        Offhand.mc.playerController.windowClick(0 , slot , 0 , ClickType.PICKUP , Offhand.mc.player);
+                        Offhand.mc.playerController.windowClick(0, slot, 0, ClickType.PICKUP, Offhand.mc.player);
+                        Offhand.mc.playerController.windowClick(0, 45, 0, ClickType.PICKUP, Offhand.mc.player);
+                        Offhand.mc.playerController.windowClick(0, slot, 0, ClickType.PICKUP, Offhand.mc.player);
                     }
                 }
             } else if (! (this.eatingApple || Offhand.mc.player.getHeldItemOffhand() != ItemStack.EMPTY && Offhand.mc.player.getHeldItemOffhand().getItem() == Items.TOTEM_OF_UNDYING)) {
                 int slot;
                 int n = slot = this.getTotemSlot() < 9 ? this.getTotemSlot() + 36 : this.getTotemSlot();
                 if (this.getTotemSlot() != - 1) {
-                    Offhand.mc.playerController.windowClick(0 , slot , 0 , ClickType.PICKUP , Offhand.mc.player);
-                    Offhand.mc.playerController.windowClick(0 , 45 , 0 , ClickType.PICKUP , Offhand.mc.player);
-                    Offhand.mc.playerController.windowClick(0 , this.oldSlot , 0 , ClickType.PICKUP , Offhand.mc.player);
+                    Offhand.mc.playerController.windowClick(0, slot, 0, ClickType.PICKUP, Offhand.mc.player);
+                    Offhand.mc.playerController.windowClick(0, 45, 0, ClickType.PICKUP, Offhand.mc.player);
+                    Offhand.mc.playerController.windowClick(0, this.oldSlot, 0, ClickType.PICKUP, Offhand.mc.player);
                     this.oldSlot = - 1;
                 }
             }
@@ -405,8 +405,8 @@ class Offhand
             this.holdingCrystal = Offhand.mc.player.getHeldItemOffhand().getItem() == Items.END_CRYSTAL;
             this.holdingTotem = Offhand.mc.player.getHeldItemOffhand().getItem() == Items.TOTEM_OF_UNDYING;
             this.holdingGapple = Offhand.mc.player.getHeldItemOffhand().getItem() == Items.GOLDEN_APPLE;
-            this.holdingObby = InventoryUtil.isBlock(Offhand.mc.player.getHeldItemOffhand().getItem() , BlockObsidian.class);
-            this.holdingWeb = InventoryUtil.isBlock(Offhand.mc.player.getHeldItemOffhand().getItem() , BlockWeb.class);
+            this.holdingObby = InventoryUtil.isBlock(Offhand.mc.player.getHeldItemOffhand().getItem(), BlockObsidian.class);
+            this.holdingWeb = InventoryUtil.isBlock(Offhand.mc.player.getHeldItemOffhand().getItem(), BlockWeb.class);
             this.totems = Offhand.mc.player.inventory.mainInventory.stream().filter(itemStack -> itemStack.getItem() == Items.TOTEM_OF_UNDYING).mapToInt(ItemStack::getCount).sum();
             if (this.holdingTotem) {
                 this.totems += Offhand.mc.player.inventory.offHandInventory.stream().filter(itemStack -> itemStack.getItem() == Items.TOTEM_OF_UNDYING).mapToInt(ItemStack::getCount).sum();
@@ -420,13 +420,13 @@ class Offhand
                 this.gapples += Offhand.mc.player.inventory.offHandInventory.stream().filter(itemStack -> itemStack.getItem() == Items.GOLDEN_APPLE).mapToInt(ItemStack::getCount).sum();
             }
             if (this.currentMode == Mode2.WEBS || this.currentMode == Mode2.OBSIDIAN) {
-                this.obby = Offhand.mc.player.inventory.mainInventory.stream().filter(itemStack -> InventoryUtil.isBlock(itemStack.getItem() , BlockObsidian.class)).mapToInt(ItemStack::getCount).sum();
+                this.obby = Offhand.mc.player.inventory.mainInventory.stream().filter(itemStack -> InventoryUtil.isBlock(itemStack.getItem(), BlockObsidian.class)).mapToInt(ItemStack::getCount).sum();
                 if (this.holdingObby) {
-                    this.obby += Offhand.mc.player.inventory.offHandInventory.stream().filter(itemStack -> InventoryUtil.isBlock(itemStack.getItem() , BlockObsidian.class)).mapToInt(ItemStack::getCount).sum();
+                    this.obby += Offhand.mc.player.inventory.offHandInventory.stream().filter(itemStack -> InventoryUtil.isBlock(itemStack.getItem(), BlockObsidian.class)).mapToInt(ItemStack::getCount).sum();
                 }
-                this.webs = Offhand.mc.player.inventory.mainInventory.stream().filter(itemStack -> InventoryUtil.isBlock(itemStack.getItem() , BlockWeb.class)).mapToInt(ItemStack::getCount).sum();
+                this.webs = Offhand.mc.player.inventory.mainInventory.stream().filter(itemStack -> InventoryUtil.isBlock(itemStack.getItem(), BlockWeb.class)).mapToInt(ItemStack::getCount).sum();
                 if (this.holdingWeb) {
-                    this.webs += Offhand.mc.player.inventory.offHandInventory.stream().filter(itemStack -> InventoryUtil.isBlock(itemStack.getItem() , BlockWeb.class)).mapToInt(ItemStack::getCount).sum();
+                    this.webs += Offhand.mc.player.inventory.offHandInventory.stream().filter(itemStack -> InventoryUtil.isBlock(itemStack.getItem(), BlockWeb.class)).mapToInt(ItemStack::getCount).sum();
                 }
             }
             this.doSwitch();
@@ -456,13 +456,13 @@ class Offhand
                 this.autoGappleSwitch = false;
             }
         }
-        if (this.currentMode == Mode2.GAPPLES && ((! EntityUtil.isSafe(Offhand.mc.player) || this.bedPlaceable()) && EntityUtil.getHealth(Offhand.mc.player , this.absorption.getValue()) <= this.gappleHealth.getValue() || EntityUtil.getHealth(Offhand.mc.player , this.absorption.getValue()) <= this.gappleHoleHealth.getValue()) || this.currentMode == Mode2.CRYSTALS && ((! EntityUtil.isSafe(Offhand.mc.player) || this.bedPlaceable()) && EntityUtil.getHealth(Offhand.mc.player , this.absorption.getValue()) <= this.crystalHealth.getValue() || EntityUtil.getHealth(Offhand.mc.player , this.absorption.getValue()) <= this.crystalHoleHealth.getValue()) || this.currentMode == Mode2.OBSIDIAN && ((! EntityUtil.isSafe(Offhand.mc.player) || this.bedPlaceable()) && EntityUtil.getHealth(Offhand.mc.player , this.absorption.getValue()) <= this.obsidianHealth.getValue() || EntityUtil.getHealth(Offhand.mc.player , this.absorption.getValue()) <= this.obsidianHoleHealth.getValue()) || this.currentMode == Mode2.WEBS && ((! EntityUtil.isSafe(Offhand.mc.player) || this.bedPlaceable()) && EntityUtil.getHealth(Offhand.mc.player , this.absorption.getValue()) <= this.webHealth.getValue() || EntityUtil.getHealth(Offhand.mc.player , this.absorption.getValue()) <= this.webHoleHealth.getValue())) {
+        if (this.currentMode == Mode2.GAPPLES && ((! EntityUtil.isSafe(Offhand.mc.player) || this.bedPlaceable()) && EntityUtil.getHealth(Offhand.mc.player, this.absorption.getValue()) <= this.gappleHealth.getValue() || EntityUtil.getHealth(Offhand.mc.player, this.absorption.getValue()) <= this.gappleHoleHealth.getValue()) || this.currentMode == Mode2.CRYSTALS && ((! EntityUtil.isSafe(Offhand.mc.player) || this.bedPlaceable()) && EntityUtil.getHealth(Offhand.mc.player, this.absorption.getValue()) <= this.crystalHealth.getValue() || EntityUtil.getHealth(Offhand.mc.player, this.absorption.getValue()) <= this.crystalHoleHealth.getValue()) || this.currentMode == Mode2.OBSIDIAN && ((! EntityUtil.isSafe(Offhand.mc.player) || this.bedPlaceable()) && EntityUtil.getHealth(Offhand.mc.player, this.absorption.getValue()) <= this.obsidianHealth.getValue() || EntityUtil.getHealth(Offhand.mc.player, this.absorption.getValue()) <= this.obsidianHoleHealth.getValue()) || this.currentMode == Mode2.WEBS && ((! EntityUtil.isSafe(Offhand.mc.player) || this.bedPlaceable()) && EntityUtil.getHealth(Offhand.mc.player, this.absorption.getValue()) <= this.webHealth.getValue() || EntityUtil.getHealth(Offhand.mc.player, this.absorption.getValue()) <= this.webHoleHealth.getValue())) {
             if (this.returnToCrystal.getValue() && this.currentMode == Mode2.CRYSTALS) {
                 this.switchedForHealthReason = true;
             }
             this.setMode(Mode2.TOTEMS);
         }
-        if (this.switchedForHealthReason && (EntityUtil.isSafe(Offhand.mc.player) && ! this.bedPlaceable() && EntityUtil.getHealth(Offhand.mc.player , this.absorption.getValue()) > this.crystalHoleHealth.getValue() || EntityUtil.getHealth(Offhand.mc.player , this.absorption.getValue()) > this.crystalHealth.getValue())) {
+        if (this.switchedForHealthReason && (EntityUtil.isSafe(Offhand.mc.player) && ! this.bedPlaceable() && EntityUtil.getHealth(Offhand.mc.player, this.absorption.getValue()) > this.crystalHoleHealth.getValue() || EntityUtil.getHealth(Offhand.mc.player, this.absorption.getValue()) > this.crystalHealth.getValue())) {
             this.setMode(Mode2.CRYSTALS);
             this.switchedForHealthReason = false;
         }
@@ -473,37 +473,37 @@ class Offhand
         switch (this.currentMode) {
             case TOTEMS: {
                 if (this.totems <= 0 || this.holdingTotem) break;
-                this.lastTotemSlot = InventoryUtil.findItemInventorySlot(Items.TOTEM_OF_UNDYING , false);
-                int lastSlot = this.getLastSlot(currentOffhandItem , this.lastTotemSlot);
-                this.putItemInOffhand(this.lastTotemSlot , lastSlot);
+                this.lastTotemSlot = InventoryUtil.findItemInventorySlot(Items.TOTEM_OF_UNDYING, false);
+                int lastSlot = this.getLastSlot(currentOffhandItem, this.lastTotemSlot);
+                this.putItemInOffhand(this.lastTotemSlot, lastSlot);
                 break;
             }
             case GAPPLES: {
                 if (this.gapples <= 0 || this.holdingGapple) break;
-                this.lastGappleSlot = InventoryUtil.findItemInventorySlot(Items.GOLDEN_APPLE , false);
-                int lastSlot = this.getLastSlot(currentOffhandItem , this.lastGappleSlot);
-                this.putItemInOffhand(this.lastGappleSlot , lastSlot);
+                this.lastGappleSlot = InventoryUtil.findItemInventorySlot(Items.GOLDEN_APPLE, false);
+                int lastSlot = this.getLastSlot(currentOffhandItem, this.lastGappleSlot);
+                this.putItemInOffhand(this.lastGappleSlot, lastSlot);
                 break;
             }
             case WEBS: {
                 if (this.webs <= 0 || this.holdingWeb) break;
-                this.lastWebSlot = InventoryUtil.findInventoryBlock(BlockWeb.class , false);
-                int lastSlot = this.getLastSlot(currentOffhandItem , this.lastWebSlot);
-                this.putItemInOffhand(this.lastWebSlot , lastSlot);
+                this.lastWebSlot = InventoryUtil.findInventoryBlock(BlockWeb.class, false);
+                int lastSlot = this.getLastSlot(currentOffhandItem, this.lastWebSlot);
+                this.putItemInOffhand(this.lastWebSlot, lastSlot);
                 break;
             }
             case OBSIDIAN: {
                 if (this.obby <= 0 || this.holdingObby) break;
-                this.lastObbySlot = InventoryUtil.findInventoryBlock(BlockObsidian.class , false);
-                int lastSlot = this.getLastSlot(currentOffhandItem , this.lastObbySlot);
-                this.putItemInOffhand(this.lastObbySlot , lastSlot);
+                this.lastObbySlot = InventoryUtil.findInventoryBlock(BlockObsidian.class, false);
+                int lastSlot = this.getLastSlot(currentOffhandItem, this.lastObbySlot);
+                this.putItemInOffhand(this.lastObbySlot, lastSlot);
                 break;
             }
             default: {
                 if (this.crystals <= 0 || this.holdingCrystal) break;
-                this.lastCrystalSlot = InventoryUtil.findItemInventorySlot(Items.END_CRYSTAL , false);
-                int lastSlot = this.getLastSlot(currentOffhandItem , this.lastCrystalSlot);
-                this.putItemInOffhand(this.lastCrystalSlot , lastSlot);
+                this.lastCrystalSlot = InventoryUtil.findItemInventorySlot(Items.END_CRYSTAL, false);
+                int lastSlot = this.getLastSlot(currentOffhandItem, this.lastCrystalSlot);
+                this.putItemInOffhand(this.lastCrystalSlot, lastSlot);
             }
         }
         for (int i = 0; i < this.actions.getValue(); ++ i) {
@@ -516,7 +516,7 @@ class Offhand
     }
 
     private
-    int getLastSlot(Item item , int slotIn) {
+    int getLastSlot(Item item, int slotIn) {
         if (item == Items.END_CRYSTAL) {
             return this.lastCrystalSlot;
         }
@@ -526,10 +526,10 @@ class Offhand
         if (item == Items.TOTEM_OF_UNDYING) {
             return this.lastTotemSlot;
         }
-        if (InventoryUtil.isBlock(item , BlockObsidian.class)) {
+        if (InventoryUtil.isBlock(item, BlockObsidian.class)) {
             return this.lastObbySlot;
         }
-        if (InventoryUtil.isBlock(item , BlockWeb.class)) {
+        if (InventoryUtil.isBlock(item, BlockWeb.class)) {
             return this.lastWebSlot;
         }
         if (item == Items.AIR) {
@@ -539,7 +539,7 @@ class Offhand
     }
 
     private
-    void putItemInOffhand(int slotIn , int slotOut) {
+    void putItemInOffhand(int slotIn, int slotOut) {
         if (slotIn != - 1 && this.taskList.isEmpty()) {
             this.taskList.add(new InventoryUtil.Task(slotIn));
             this.taskList.add(new InventoryUtil.Task(45));
@@ -604,7 +604,7 @@ class Offhand
 
     private
     boolean isNotEmpty(BlockPos pos) {
-        return Offhand.mc.world.getEntitiesWithinAABBExcludingEntity(null , new AxisAlignedBB(pos)).stream().anyMatch(e -> e instanceof EntityEnderCrystal);
+        return Offhand.mc.world.getEntitiesWithinAABBExcludingEntity(null, new AxisAlignedBB(pos)).stream().anyMatch(e -> e instanceof EntityEnderCrystal);
     }
 
     private
@@ -641,7 +641,7 @@ class Offhand
 
     private
     boolean isCrystalsAABBEmpty() {
-        return this.isNotEmpty(Offhand.mc.player.getPosition().add(1 , 0 , 0)) || this.isNotEmpty(Offhand.mc.player.getPosition().add(- 1 , 0 , 0)) || this.isNotEmpty(Offhand.mc.player.getPosition().add(0 , 0 , 1)) || this.isNotEmpty(Offhand.mc.player.getPosition().add(0 , 0 , - 1)) || this.isNotEmpty(Offhand.mc.player.getPosition());
+        return this.isNotEmpty(Offhand.mc.player.getPosition().add(1, 0, 0)) || this.isNotEmpty(Offhand.mc.player.getPosition().add(- 1, 0, 0)) || this.isNotEmpty(Offhand.mc.player.getPosition().add(0, 0, 1)) || this.isNotEmpty(Offhand.mc.player.getPosition().add(0, 0, - 1)) || this.isNotEmpty(Offhand.mc.player.getPosition());
     }
 
     int getStackSize() {

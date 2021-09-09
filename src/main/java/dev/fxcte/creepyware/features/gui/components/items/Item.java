@@ -17,21 +17,21 @@ class Item
     }
 
     public
-    void setLocation(float x , float y) {
+    void setLocation(float x, float y) {
         this.x = x;
         this.y = y;
     }
 
     public
-    void drawScreen(int mouseX , int mouseY , float partialTicks) {
+    void drawScreen(int mouseX, int mouseY, float partialTicks) {
     }
 
     public
-    void mouseClicked(int mouseX , int mouseY , int mouseButton) {
+    void mouseClicked(int mouseX, int mouseY, int mouseButton) {
     }
 
     public
-    void mouseReleased(int mouseX , int mouseY , int releaseButton) {
+    void mouseReleased(int mouseX, int mouseY, int releaseButton) {
     }
 
     public
@@ -39,7 +39,7 @@ class Item
     }
 
     public
-    void onKeyTyped(char typedChar , int keyCode) {
+    void onKeyTyped(char typedChar, int keyCode) {
     }
 
     public

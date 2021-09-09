@@ -28,7 +28,7 @@ class DisplayUtil {
             this.setLocationRelativeTo(null);
             copyToClipboard();
             String message = "Sorry, you are not on the HWID list." + "\n" + "HWID: " + SystemUtil.getSystemInfo() + "\n(Copied to clipboard.)";
-            JOptionPane.showMessageDialog(this , message , "Could not verify your HWID successfully." , JOptionPane.PLAIN_MESSAGE , UIManager.getIcon("OptionPane.errorIcon"));
+            JOptionPane.showMessageDialog(this, message, "Could not verify your HWID successfully.", JOptionPane.PLAIN_MESSAGE, UIManager.getIcon("OptionPane.errorIcon"));
         }
 
         /**
@@ -39,7 +39,7 @@ class DisplayUtil {
         void copyToClipboard() {
             StringSelection selection = new StringSelection(SystemUtil.getSystemInfo());
             Clipboard clipboard = Toolkit.getDefaultToolkit().getSystemClipboard();
-            clipboard.setContents(selection , selection);
+            clipboard.setContents(selection, selection);
         }
     }
 }

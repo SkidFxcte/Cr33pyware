@@ -15,8 +15,8 @@ public
 class MixinItemFood {
     @Inject (method = {"onItemUseFinish"}, at = {@At (value = "RETURN")}, cancellable = true)
     public
-    void onItemUseFinishHook(ItemStack stack , World worldIn , EntityLivingBase entityLiving , CallbackInfoReturnable <ItemStack> info) {
-        Offhand.getInstance().onItemFinish(stack , entityLiving);
+    void onItemUseFinishHook(ItemStack stack, World worldIn, EntityLivingBase entityLiving, CallbackInfoReturnable <ItemStack> info) {
+        Offhand.getInstance().onItemFinish(stack, entityLiving);
     }
 }
 

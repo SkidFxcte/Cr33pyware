@@ -20,7 +20,7 @@ class BookCommand
         extends Command {
     public
     BookCommand() {
-        super("book" , new String[0]);
+        super("book", new String[0]);
     }
 
     @Override
@@ -30,26 +30,26 @@ class BookCommand
         if (heldItem.getItem() == Items.WRITABLE_BOOK) {
             int limit = 50;
             Random rand = new Random();
-            IntStream characterGenerator = rand.ints(128 , 1112063).map(i -> i < 55296 ? i : i + 2048);
+            IntStream characterGenerator = rand.ints(128, 1112063).map(i -> i < 55296 ? i : i + 2048);
             String joinedPages = characterGenerator.limit(10500L).mapToObj(i -> String.valueOf((char) i)).collect(Collectors.joining());
             NBTTagList pages = new NBTTagList();
             for (int page = 0; page < 50; ++ page) {
-                pages.appendTag(new NBTTagString(joinedPages.substring(page * 210 , (page + 1) * 210)));
+                pages.appendTag(new NBTTagString(joinedPages.substring(page * 210, (page + 1) * 210)));
             }
             if (heldItem.hasTagCompound()) {
-                Objects.requireNonNull(heldItem.getTagCompound()).setTag("pages" , pages);
+                Objects.requireNonNull(heldItem.getTagCompound()).setTag("pages", pages);
             } else {
-                heldItem.setTagInfo("pages" , pages);
+                heldItem.setTagInfo("pages", pages);
             }
             StringBuilder stackName = new StringBuilder();
             for (int i2 = 0; i2 < 16; ++ i2) {
                 stackName.append("\u0014\f");
             }
-            heldItem.setTagInfo("author" , new NBTTagString(BookCommand.mc.player.getName()));
-            heldItem.setTagInfo("title" , new NBTTagString(stackName.toString()));
+            heldItem.setTagInfo("author", new NBTTagString(BookCommand.mc.player.getName()));
+            heldItem.setTagInfo("title", new NBTTagString(stackName.toString()));
             PacketBuffer buf = new PacketBuffer(Unpooled.buffer());
             buf.writeItemStack(heldItem);
-            BookCommand.mc.player.connection.sendPacket(new CPacketCustomPayload("MC|BSign" , buf));
+            BookCommand.mc.player.connection.sendPacket(new CPacketCustomPayload("MC|BSign", buf));
             BookCommand.sendMessage(CreepyWare.commandManager.getPrefix() + "Book Hack Success!");
         } else {
             BookCommand.sendMessage(CreepyWare.commandManager.getPrefix() + "b1g 3rr0r!");

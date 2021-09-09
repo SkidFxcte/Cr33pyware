@@ -21,15 +21,15 @@ import org.lwjgl.input.Mouse;
 public
 class MCF
         extends Module {
-    private final Setting <Boolean> middleClick = this.register(new Setting <>("Speed" , "MiddleClick" , 0.0 , 0.0 , true , 0));
-    private final Setting <Boolean> keyboard = this.register(new Setting <>("Speed" , "Keyboard" , 0.0 , 0.0 , false , 0));
-    private final Setting <Boolean> server = this.register(new Setting <>("Speed" , "Server" , 0.0 , 0.0 , true , 0));
-    private final Setting <Bind> key = this.register(new Setting <Object>("KeyBind" , new Bind(- 1) , v -> this.keyboard.getValue()));
+    private final Setting <Boolean> middleClick = this.register(new Setting <>("Speed", "MiddleClick", 0.0, 0.0, true, 0));
+    private final Setting <Boolean> keyboard = this.register(new Setting <>("Speed", "Keyboard", 0.0, 0.0, false, 0));
+    private final Setting <Boolean> server = this.register(new Setting <>("Speed", "Server", 0.0, 0.0, true, 0));
+    private final Setting <Bind> key = this.register(new Setting <Object>("KeyBind", new Bind(- 1), v -> this.keyboard.getValue()));
     private boolean clicked = false;
 
     public
     MCF() {
-        super("MCF" , "Middleclick Friends." , Module.Category.MISC , true , false , false);
+        super("MCF", "Middleclick Friends.", Module.Category.MISC, true, false, false);
     }
 
     @Override

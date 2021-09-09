@@ -28,14 +28,14 @@ class PositionManager
     }
 
     public
-    void setPlayerPosition(double x , double y , double z) {
+    void setPlayerPosition(double x, double y, double z) {
         PositionManager.mc.player.posX = x;
         PositionManager.mc.player.posY = y;
         PositionManager.mc.player.posZ = z;
     }
 
     public
-    void setPlayerPosition(double x , double y , double z , boolean onground) {
+    void setPlayerPosition(double x, double y, double z, boolean onground) {
         PositionManager.mc.player.posX = x;
         PositionManager.mc.player.posY = y;
         PositionManager.mc.player.posZ = z;
@@ -43,10 +43,10 @@ class PositionManager
     }
 
     public
-    void setPositionPacket(double x , double y , double z , boolean onGround , boolean setPos , boolean noLagBack) {
-        PositionManager.mc.player.connection.sendPacket(new CPacketPlayer.Position(x , y , z , onGround));
+    void setPositionPacket(double x, double y, double z, boolean onGround, boolean setPos, boolean noLagBack) {
+        PositionManager.mc.player.connection.sendPacket(new CPacketPlayer.Position(x, y, z, onGround));
         if (setPos) {
-            PositionManager.mc.player.setPosition(x , y , z);
+            PositionManager.mc.player.setPosition(x, y, z);
             if (noLagBack) {
                 this.updatePosition();
             }

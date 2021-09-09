@@ -33,7 +33,7 @@ class FriendManager
     void addFriend(String name) {
         Friend friend = this.getFriendByName(name);
         if (friend != null) {
-            this.friends.put(friend.getUsername() , friend.getUuid());
+            this.friends.put(friend.getUsername(), friend.getUuid());
         }
     }
 
@@ -52,7 +52,7 @@ class FriendManager
     void saveFriends() {
         this.clearSettings();
         for (Map.Entry <String, UUID> entry : this.friends.entrySet()) {
-            this.register(new Setting <>("Speed" , entry.getValue().toString() , 0.0 , 0.0 , entry.getKey() , 0));
+            this.register(new Setting <>("Speed", entry.getValue().toString(), 0.0, 0.0, entry.getKey(), 0));
         }
     }
 
@@ -65,14 +65,14 @@ class FriendManager
     Friend getFriendByName(String input) {
         UUID uuid = PlayerUtil.getUUIDFromName(input);
         if (uuid != null) {
-            return new Friend(input , uuid);
+            return new Friend(input, uuid);
         }
         return null;
     }
 
     public
     void addFriend(Friend friend) {
-        this.friends.put(friend.getUsername() , friend.getUuid());
+        this.friends.put(friend.getUsername(), friend.getUuid());
     }
 
     public static
@@ -81,7 +81,7 @@ class FriendManager
         private final UUID uuid;
 
         public
-        Friend(String username , UUID uuid) {
+        Friend(String username, UUID uuid) {
             this.username = username;
             this.uuid = uuid;
         }

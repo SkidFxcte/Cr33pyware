@@ -16,8 +16,8 @@ public
 class MixinNetworkManager {
     @Inject (method = {"sendPacket(Lnet/minecraft/network/Packet;)V"}, at = {@At (value = "HEAD")}, cancellable = true)
     private
-    void onSendPacketPre(Packet <?> packet , CallbackInfo info) {
-        PacketEvent.Send event = new PacketEvent.Send(0 , packet);
+    void onSendPacketPre(Packet <?> packet, CallbackInfo info) {
+        PacketEvent.Send event = new PacketEvent.Send(0, packet);
         MinecraftForge.EVENT_BUS.post(event);
         if (event.isCanceled()) {
             info.cancel();
@@ -26,8 +26,8 @@ class MixinNetworkManager {
 
     @Inject (method = {"sendPacket(Lnet/minecraft/network/Packet;)V"}, at = {@At (value = "RETURN")}, cancellable = true)
     private
-    void onSendPacketPost(Packet <?> packet , CallbackInfo info) {
-        PacketEvent.Send event = new PacketEvent.Send(1 , packet);
+    void onSendPacketPost(Packet <?> packet, CallbackInfo info) {
+        PacketEvent.Send event = new PacketEvent.Send(1, packet);
         MinecraftForge.EVENT_BUS.post(event);
         if (event.isCanceled()) {
             info.cancel();
@@ -36,8 +36,8 @@ class MixinNetworkManager {
 
     @Inject (method = {"channelRead0"}, at = {@At (value = "HEAD")}, cancellable = true)
     private
-    void onChannelReadPre(ChannelHandlerContext context , Packet <?> packet , CallbackInfo info) {
-        PacketEvent.Receive event = new PacketEvent.Receive(0 , packet);
+    void onChannelReadPre(ChannelHandlerContext context, Packet <?> packet, CallbackInfo info) {
+        PacketEvent.Receive event = new PacketEvent.Receive(0, packet);
         MinecraftForge.EVENT_BUS.post(event);
         if (event.isCanceled()) {
             info.cancel();
@@ -46,7 +46,7 @@ class MixinNetworkManager {
 
     @Inject (method = "sendPacket(Lnet/minecraft/network/Packet;)V", at = @At ("HEAD"), cancellable = true)
     private
-    void onSendPacket(Packet <?> p_Packet , CallbackInfo callbackInfo) {
+    void onSendPacket(Packet <?> p_Packet, CallbackInfo callbackInfo) {
         EventNetworkPacketEvent l_Event = new EventNetworkPacketEvent(p_Packet);
         MinecraftForge.EVENT_BUS.post(l_Event);
 
@@ -57,7 +57,7 @@ class MixinNetworkManager {
 
     @Inject (method = "channelRead0", at = @At ("HEAD"), cancellable = true)
     private
-    void onChannelRead(ChannelHandlerContext context , Packet <?> p_Packet , CallbackInfo callbackInfo) {
+    void onChannelRead(ChannelHandlerContext context, Packet <?> p_Packet, CallbackInfo callbackInfo) {
         EventNetworkPacketEvent l_Event = new EventNetworkPacketEvent(p_Packet);
         MinecraftForge.EVENT_BUS.post(l_Event);
 

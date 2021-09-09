@@ -18,7 +18,7 @@ public
 class MixinNetHandlerPlayClient {
     @Inject (method = {"handleEntityMetadata"}, at = {@At (value = "RETURN")}, cancellable = true)
     private
-    void handleEntityMetadataHook(SPacketEntityMetadata packetIn , CallbackInfo info) {
+    void handleEntityMetadataHook(SPacketEntityMetadata packetIn, CallbackInfo info) {
         EntityPlayer player;
         Entity entity;
         if (Util.mc.world != null && (entity = Util.mc.world.getEntityByID(packetIn.getEntityId())) instanceof EntityPlayer && (player = (EntityPlayer) entity).getHealth() <= 0.0f) {

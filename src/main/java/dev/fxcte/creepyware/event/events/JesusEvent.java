@@ -13,7 +13,7 @@ class JesusEvent
     private AxisAlignedBB boundingBox;
 
     public
-    JesusEvent(int stage , BlockPos pos) {
+    JesusEvent(int stage, BlockPos pos) {
         super(stage);
         this.pos = pos;
     }

@@ -14,11 +14,11 @@ import java.util.Objects;
 public
 class Quiver
         extends Module {
-    private final Setting <Integer> tickDelay = this.register(new Setting <>("TickDelay" , 3 , 0 , 8));
+    private final Setting <Integer> tickDelay = this.register(new Setting <>("TickDelay", 3, 0, 8));
 
     public
     Quiver() {
-        super("Quiver" , "Rotates and shoots yourself with good potion effects" , Module.Category.COMBAT , true , false , false);
+        super("Quiver", "Rotates and shoots yourself with good potion effects", Module.Category.COMBAT, true, false, false);
     }
 
     @Override
@@ -27,7 +27,7 @@ class Quiver
         if (Quiver.mc.player != null) {
             List <Integer> arrowSlots;
             if (Quiver.mc.player.inventory.getCurrentItem().getItem() instanceof ItemBow && Quiver.mc.player.isHandActive() && Quiver.mc.player.getItemInUseMaxCount() >= this.tickDelay.getValue()) {
-                Quiver.mc.player.connection.sendPacket(new CPacketPlayer.Rotation(Quiver.mc.player.cameraYaw , - 90.0f , Quiver.mc.player.onGround));
+                Quiver.mc.player.connection.sendPacket(new CPacketPlayer.Rotation(Quiver.mc.player.cameraYaw, - 90.0f, Quiver.mc.player.onGround));
                 Quiver.mc.playerController.onStoppedUsingItem(Quiver.mc.player);
             }
             if ((arrowSlots = InventoryUtil.getItemInventory(Items.TIPPED_ARROW)).get(0) == - 1) {

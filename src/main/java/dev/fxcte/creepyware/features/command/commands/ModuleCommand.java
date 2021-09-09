@@ -12,7 +12,7 @@ class ModuleCommand
         extends Command {
     public
     ModuleCommand() {
-        super("module" , new String[]{"<module>" , "<set/reset>" , "<setting>" , "<value>"});
+        super("module", new String[]{"<module>", "<set/reset>", "<setting>", "<value>"});
     }
 
     @Override
@@ -79,7 +79,7 @@ class ModuleCommand
                         module.disable();
                     }
                 }
-                ConfigManager.setValueFromJson(module , setting , jp.parse(commands[3]));
+                ConfigManager.setValueFromJson(module, setting, jp.parse(commands[3]));
             } catch (Exception e) {
                 ModuleCommand.sendMessage("\u00a7cBad Value! This setting requires a: " + setting.getType() + " value.");
                 return;

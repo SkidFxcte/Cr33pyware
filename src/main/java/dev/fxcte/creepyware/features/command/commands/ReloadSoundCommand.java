@@ -11,14 +11,14 @@ class ReloadSoundCommand
         extends Command {
     public
     ReloadSoundCommand() {
-        super("sound" , new String[0]);
+        super("sound", new String[0]);
     }
 
     @Override
     public
     void execute(String[] commands) {
         try {
-            SoundManager sndManager = ObfuscationReflectionHelper.getPrivateValue(SoundHandler.class , Util.mc.getSoundHandler() , new String[]{"sndManager" , "field_147694_f"});
+            SoundManager sndManager = ObfuscationReflectionHelper.getPrivateValue(SoundHandler.class, Util.mc.getSoundHandler(), new String[]{"sndManager", "field_147694_f"});
             sndManager.reloadSoundSystem();
             ReloadSoundCommand.sendMessage("\u00a7aReloaded Sound System.");
         } catch (Exception e) {

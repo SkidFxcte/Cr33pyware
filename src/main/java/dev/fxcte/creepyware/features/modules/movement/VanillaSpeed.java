@@ -4,16 +4,19 @@ import dev.fxcte.creepyware.features.modules.Module;
 import dev.fxcte.creepyware.features.setting.Setting;
 import dev.fxcte.creepyware.util.MathUtil;
 
-public class VanillaSpeed
+public
+class VanillaSpeed
         extends Module {
-    public Setting<Double> speed = this.register(new Setting <> ("Speed" , 1.0 , 1.0 , 10.0));
+    public Setting <Double> speed = this.register(new Setting <>("Speed", 1.0, 1.0, 10.0));
 
-    public VanillaSpeed() {
+    public
+    VanillaSpeed() {
         super("VanillaSpeed", "ec.me", Module.Category.MOVEMENT, true, false, false);
     }
 
     @Override
-    public void onUpdate() {
+    public
+    void onUpdate() {
         if (VanillaSpeed.mc.player == null || VanillaSpeed.mc.world == null) {
             return;
         }

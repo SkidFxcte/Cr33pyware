@@ -12,7 +12,7 @@ class StepEvent
     private float height;
 
     public
-    StepEvent(int stage , Entity entity) {
+    StepEvent(int stage, Entity entity) {
         super(stage);
         this.entity = entity;
         this.height = entity.stepHeight;

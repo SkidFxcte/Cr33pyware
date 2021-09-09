@@ -14,20 +14,20 @@ class RotationUtil
         implements Util {
     public static
     Vec3d getEyesPos() {
-        return new Vec3d(mc.player.posX , mc.player.posY + (double) mc.player.getEyeHeight() , mc.player.posZ);
+        return new Vec3d(mc.player.posX, mc.player.posY + (double) mc.player.getEyeHeight(), mc.player.posZ);
     }
 
     public static
-    double[] calculateLookAt(double px , double py , double pz , EntityPlayer me) {
+    double[] calculateLookAt(double px, double py, double pz, EntityPlayer me) {
         double dirx = me.posX - px;
         double diry = me.posY - py;
         double dirz = me.posZ - pz;
         double len = Math.sqrt(dirx * dirx + diry * diry + dirz * dirz);
         double pitch = Math.asin(diry /= len);
-        double yaw = Math.atan2(dirz /= len , dirx /= len);
+        double yaw = Math.atan2(dirz /= len, dirx /= len);
         pitch = pitch * 180.0 / Math.PI;
         yaw = yaw * 180.0 / Math.PI;
-        return new double[]{yaw += 90.0 , pitch};
+        return new double[]{yaw += 90.0, pitch};
     }
 
     public static
@@ -37,53 +37,53 @@ class RotationUtil
         double diffY = vec.y - eyesPos.y;
         double diffZ = vec.z - eyesPos.z;
         double diffXZ = Math.sqrt(diffX * diffX + diffZ * diffZ);
-        float yaw = (float) Math.toDegrees(Math.atan2(diffZ , diffX)) - 90.0f;
-        float pitch = (float) (- Math.toDegrees(Math.atan2(diffY , diffXZ)));
-        return new float[]{mc.player.rotationYaw + MathHelper.wrapDegrees(yaw - mc.player.rotationYaw) , mc.player.rotationPitch + MathHelper.wrapDegrees(pitch - mc.player.rotationPitch)};
+        float yaw = (float) Math.toDegrees(Math.atan2(diffZ, diffX)) - 90.0f;
+        float pitch = (float) (- Math.toDegrees(Math.atan2(diffY, diffXZ)));
+        return new float[]{mc.player.rotationYaw + MathHelper.wrapDegrees(yaw - mc.player.rotationYaw), mc.player.rotationPitch + MathHelper.wrapDegrees(pitch - mc.player.rotationPitch)};
     }
 
     public static
     float[] simpleFacing(EnumFacing facing) {
         switch (facing) {
             case DOWN: {
-                return new float[]{mc.player.rotationYaw , 90.0f};
+                return new float[]{mc.player.rotationYaw, 90.0f};
             }
             case UP: {
-                return new float[]{mc.player.rotationYaw , - 90.0f};
+                return new float[]{mc.player.rotationYaw, - 90.0f};
             }
             case NORTH: {
-                return new float[]{180.0f , 0.0f};
+                return new float[]{180.0f, 0.0f};
             }
             case SOUTH: {
-                return new float[]{0.0f , 0.0f};
+                return new float[]{0.0f, 0.0f};
             }
             case WEST: {
-                return new float[]{90.0f , 0.0f};
+                return new float[]{90.0f, 0.0f};
             }
         }
-        return new float[]{270.0f , 0.0f};
+        return new float[]{270.0f, 0.0f};
     }
 
     public static
-    void faceYawAndPitch(float yaw , float pitch) {
-        mc.player.connection.sendPacket(new CPacketPlayer.Rotation(yaw , pitch , mc.player.onGround));
+    void faceYawAndPitch(float yaw, float pitch) {
+        mc.player.connection.sendPacket(new CPacketPlayer.Rotation(yaw, pitch, mc.player.onGround));
     }
 
     public static
-    void faceVector(Vec3d vec , boolean normalizeAngle) {
+    void faceVector(Vec3d vec, boolean normalizeAngle) {
         float[] rotations = RotationUtil.getLegitRotations(vec);
-        mc.player.connection.sendPacket(new CPacketPlayer.Rotation(rotations[0] , normalizeAngle ? (float) MathHelper.normalizeAngle((int) rotations[1] , 360) : rotations[1] , mc.player.onGround));
+        mc.player.connection.sendPacket(new CPacketPlayer.Rotation(rotations[0], normalizeAngle ? (float) MathHelper.normalizeAngle((int) rotations[1], 360) : rotations[1], mc.player.onGround));
     }
 
     public static
     void faceEntity(Entity entity) {
-        float[] angle = MathUtil.calcAngle(mc.player.getPositionEyes(mc.getRenderPartialTicks()) , entity.getPositionEyes(mc.getRenderPartialTicks()));
-        RotationUtil.faceYawAndPitch(angle[0] , angle[1]);
+        float[] angle = MathUtil.calcAngle(mc.player.getPositionEyes(mc.getRenderPartialTicks()), entity.getPositionEyes(mc.getRenderPartialTicks()));
+        RotationUtil.faceYawAndPitch(angle[0], angle[1]);
     }
 
     public static
     float[] getAngle(Entity entity) {
-        return MathUtil.calcAngle(mc.player.getPositionEyes(mc.getRenderPartialTicks()) , entity.getPositionEyes(mc.getRenderPartialTicks()));
+        return MathUtil.calcAngle(mc.player.getPositionEyes(mc.getRenderPartialTicks()), entity.getPositionEyes(mc.getRenderPartialTicks()));
     }
 
     public static
@@ -116,7 +116,7 @@ class RotationUtil
     double yawDist(BlockPos pos) {
         if (pos != null) {
             Vec3d difference = new Vec3d(pos).subtract(mc.player.getPositionEyes(mc.getRenderPartialTicks()));
-            double d = Math.abs((double) mc.player.rotationYaw - (Math.toDegrees(Math.atan2(difference.z , difference.x)) - 90.0)) % 360.0;
+            double d = Math.abs((double) mc.player.rotationYaw - (Math.toDegrees(Math.atan2(difference.z, difference.x)) - 90.0)) % 360.0;
             return d > 180.0 ? 360.0 - d : d;
         }
         return 0.0;
@@ -125,19 +125,19 @@ class RotationUtil
     public static
     double yawDist(Entity e) {
         if (e != null) {
-            Vec3d difference = e.getPositionVector().add(0.0 , e.getEyeHeight() / 2.0f , 0.0).subtract(mc.player.getPositionEyes(mc.getRenderPartialTicks()));
-            double d = Math.abs((double) mc.player.rotationYaw - (Math.toDegrees(Math.atan2(difference.z , difference.x)) - 90.0)) % 360.0;
+            Vec3d difference = e.getPositionVector().add(0.0, e.getEyeHeight() / 2.0f, 0.0).subtract(mc.player.getPositionEyes(mc.getRenderPartialTicks()));
+            double d = Math.abs((double) mc.player.rotationYaw - (Math.toDegrees(Math.atan2(difference.z, difference.x)) - 90.0)) % 360.0;
             return d > 180.0 ? 360.0 - d : d;
         }
         return 0.0;
     }
 
     public static
-    boolean isInFov(Vec3d vec3d , Vec3d other) {
+    boolean isInFov(Vec3d vec3d, Vec3d other) {
         if (mc.player.rotationPitch > 30.0f ? other.y > mc.player.posY : mc.player.rotationPitch < - 30.0f && other.y < mc.player.posY) {
             return true;
         }
-        float angle = MathUtil.calcAngleNoY(vec3d , other)[0] - RotationUtil.transformYaw();
+        float angle = MathUtil.calcAngleNoY(vec3d, other)[0] - RotationUtil.transformYaw();
         if (angle < - 270.0f) {
             return true;
         }

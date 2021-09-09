@@ -8,7 +8,7 @@ import java.util.Objects;
 public
 class ReflectionUtil {
     public static
-    <F, T extends F> void copyOf(F from , T to , boolean ignoreFinal) throws NoSuchFieldException, IllegalAccessException {
+    <F, T extends F> void copyOf(F from, T to, boolean ignoreFinal) throws NoSuchFieldException, IllegalAccessException {
         Objects.requireNonNull(from);
         Objects.requireNonNull(to);
         Class <?> clazz = from.getClass();
@@ -16,13 +16,13 @@ class ReflectionUtil {
             ReflectionUtil.makePublic(field);
             if (ReflectionUtil.isStatic(field) || ignoreFinal && ReflectionUtil.isFinal(field)) continue;
             ReflectionUtil.makeMutable(field);
-            field.set(to , field.get(from));
+            field.set(to, field.get(from));
         }
     }
 
     public static
-    <F, T extends F> void copyOf(F from , T to) throws NoSuchFieldException, IllegalAccessException {
-        ReflectionUtil.copyOf(from , to , false);
+    <F, T extends F> void copyOf(F from, T to) throws NoSuchFieldException, IllegalAccessException {
+        ReflectionUtil.copyOf(from, to, false);
     }
 
     public static
@@ -36,19 +36,19 @@ class ReflectionUtil {
     }
 
     public static
-    void makeAccessible(AccessibleObject instance , boolean accessible) {
+    void makeAccessible(AccessibleObject instance, boolean accessible) {
         Objects.requireNonNull(instance);
         instance.setAccessible(accessible);
     }
 
     public static
     void makePublic(AccessibleObject instance) {
-        ReflectionUtil.makeAccessible(instance , true);
+        ReflectionUtil.makeAccessible(instance, true);
     }
 
     public static
     void makePrivate(AccessibleObject instance) {
-        ReflectionUtil.makeAccessible(instance , false);
+        ReflectionUtil.makeAccessible(instance, false);
     }
 
     public static
@@ -56,7 +56,7 @@ class ReflectionUtil {
         Objects.requireNonNull(instance);
         Field modifiers = Field.class.getDeclaredField("modifiers");
         ReflectionUtil.makePublic(modifiers);
-        modifiers.setInt(instance , instance.getModifiers() & 0xFFFFFFEF);
+        modifiers.setInt(instance, instance.getModifiers() & 0xFFFFFFEF);
     }
 
     public static
@@ -64,7 +64,7 @@ class ReflectionUtil {
         Objects.requireNonNull(instance);
         Field modifiers = Field.class.getDeclaredField("modifiers");
         ReflectionUtil.makePublic(modifiers);
-        modifiers.setInt(instance , instance.getModifiers() & 0x10);
+        modifiers.setInt(instance, instance.getModifiers() & 0x10);
     }
 }
 

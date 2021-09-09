@@ -8,7 +8,7 @@ class UnloadCommand
         extends Command {
     public
     UnloadCommand() {
-        super("unload" , new String[0]);
+        super("unload", new String[0]);
     }
 
     @Override

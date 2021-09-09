@@ -7,11 +7,11 @@ public
 class MainMenu
         extends Module {
     public static MainMenu INSTANCE;
-    public Setting <Boolean> mainScreen = this.register(new Setting <>("MainScreen" , false));
+    public Setting <Boolean> mainScreen = this.register(new Setting <>("MainScreen", false));
 
     public
     MainMenu() {
-        super("MainMenu" , "Controls custom screens used by the client" , Module.Category.CLIENT , true , false , false);
+        super("MainMenu", "Controls custom screens used by the client", Module.Category.CLIENT, true, false, false);
         INSTANCE = this;
     }
 

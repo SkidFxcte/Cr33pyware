@@ -15,7 +15,7 @@ class PushEvent
     public boolean airbone;
 
     public
-    PushEvent(Entity entity , double x , double y , double z , boolean airbone) {
+    PushEvent(Entity entity, double x, double y, double z, boolean airbone) {
         super(0);
         this.entity = entity;
         this.x = x;
@@ -30,7 +30,7 @@ class PushEvent
     }
 
     public
-    PushEvent(int stage , Entity entity) {
+    PushEvent(int stage, Entity entity) {
         super(stage);
         this.entity = entity;
     }

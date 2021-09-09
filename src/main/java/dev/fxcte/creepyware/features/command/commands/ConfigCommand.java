@@ -14,7 +14,7 @@ class ConfigCommand
         extends Command {
     public
     ConfigCommand() {
-        super("config" , new String[]{"<save/load>"});
+        super("config", new String[]{"<save/load>"});
     }
 
     @Override

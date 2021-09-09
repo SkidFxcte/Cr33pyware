@@ -26,13 +26,13 @@ class MixinGuiIngame
 
     @Inject (method = {"<init>"}, at = {@At (value = "RETURN")})
     public
-    void init(Minecraft mcIn , CallbackInfo ci) {
+    void init(Minecraft mcIn, CallbackInfo ci) {
         this.persistantChatGUI = new GuiCustomNewChat(mcIn);
     }
 
     @Inject (method = {"renderPortal"}, at = {@At (value = "HEAD")}, cancellable = true)
     protected
-    void renderPortalHook(float n , ScaledResolution scaledResolution , CallbackInfo info) {
+    void renderPortalHook(float n, ScaledResolution scaledResolution, CallbackInfo info) {
         if (NoRender.getInstance().isOn() && NoRender.getInstance().portal.getValue()) {
             info.cancel();
         }
@@ -40,7 +40,7 @@ class MixinGuiIngame
 
     @Inject (method = {"renderPumpkinOverlay"}, at = {@At (value = "HEAD")}, cancellable = true)
     protected
-    void renderPumpkinOverlayHook(ScaledResolution scaledRes , CallbackInfo info) {
+    void renderPumpkinOverlayHook(ScaledResolution scaledRes, CallbackInfo info) {
         if (NoRender.getInstance().isOn() && NoRender.getInstance().pumpkin.getValue()) {
             info.cancel();
         }
@@ -48,7 +48,7 @@ class MixinGuiIngame
 
     @Inject (method = {"renderPotionEffects"}, at = {@At (value = "HEAD")}, cancellable = true)
     protected
-    void renderPotionEffectsHook(ScaledResolution scaledRes , CallbackInfo info) {
+    void renderPotionEffectsHook(ScaledResolution scaledRes, CallbackInfo info) {
         if (CreepyWare.moduleManager != null && ! HUD.getInstance().potionIcons.getValue()) {
             info.cancel();
         }

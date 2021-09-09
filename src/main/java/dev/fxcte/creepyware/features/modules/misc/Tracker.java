@@ -32,9 +32,9 @@ class Tracker
     private static Tracker instance;
     private final Timer timer = new Timer();
     private final Set <BlockPos> manuallyPlaced = new HashSet <>();
-    public Setting <TextUtil.Color> color = this.register(new Setting <>("Speed" , "Color" , 0.0 , 0.0 , TextUtil.Color.RED , 0));
-    public Setting <Boolean> autoEnable = this.register(new Setting <>("Speed" , "AutoEnable" , 0.0 , 0.0 , false , 0));
-    public Setting <Boolean> autoDisable = this.register(new Setting <>("Speed" , "AutoDisable" , 0.0 , 0.0 , true , 0));
+    public Setting <TextUtil.Color> color = this.register(new Setting <>("Speed", "Color", 0.0, 0.0, TextUtil.Color.RED, 0));
+    public Setting <Boolean> autoEnable = this.register(new Setting <>("Speed", "AutoEnable", 0.0, 0.0, false, 0));
+    public Setting <Boolean> autoDisable = this.register(new Setting <>("Speed", "AutoDisable", 0.0, 0.0, true, 0));
     private EntityPlayer trackedPlayer;
     private int usedExp = 0;
     private int usedStacks = 0;
@@ -44,7 +44,7 @@ class Tracker
 
     public
     Tracker() {
-        super("Tracker" , "Tracks players in 1v1s. Only good in duels tho!" , Module.Category.MISC , true , false , true);
+        super("Tracker", "Tracks players in 1v1s. Only good in duels tho!", Module.Category.MISC, true, false, true);
         instance = this;
     }
 
@@ -102,11 +102,11 @@ class Tracker
         } else {
             if (this.usedStacks != this.usedExp / 64) {
                 this.usedStacks = this.usedExp / 64;
-                Command.sendMessage(TextUtil.coloredString(this.trackedPlayer.getName() + " used: " + this.usedStacks + " Stacks of EXP." , this.color.getValue()));
+                Command.sendMessage(TextUtil.coloredString(this.trackedPlayer.getName() + " used: " + this.usedStacks + " Stacks of EXP.", this.color.getValue()));
             }
             if (this.usedCStacks != this.usedCrystals / 64) {
                 this.usedCStacks = this.usedCrystals / 64;
-                Command.sendMessage(TextUtil.coloredString(this.trackedPlayer.getName() + " used: " + this.usedCStacks + " Stacks of Crystals." , this.color.getValue()));
+                Command.sendMessage(TextUtil.coloredString(this.trackedPlayer.getName() + " used: " + this.usedCStacks + " Stacks of Crystals.", this.color.getValue()));
             }
         }
     }
@@ -116,7 +116,7 @@ class Tracker
         if (this.isOff()) {
             return;
         }
-        if (entity instanceof EntityExpBottle && Objects.equals(Tracker.mc.world.getClosestPlayerToEntity(entity , 3.0) , this.trackedPlayer)) {
+        if (entity instanceof EntityExpBottle && Objects.equals(Tracker.mc.world.getClosestPlayerToEntity(entity, 3.0), this.trackedPlayer)) {
             ++ this.usedExp;
         }
         if (entity instanceof EntityEnderCrystal) {

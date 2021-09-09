@@ -13,7 +13,7 @@ class PeekCommand
         extends Command {
     public
     PeekCommand() {
-        super("peek" , new String[]{"<player>"});
+        super("peek", new String[]{"<player>"});
     }
 
     @Override
@@ -22,7 +22,7 @@ class PeekCommand
         if (commands.length == 1) {
             ItemStack stack = PeekCommand.mc.player.getHeldItemMainhand();
             if (stack != null && stack.getItem() instanceof ItemShulkerBox) {
-                ToolTips.displayInv(stack , null);
+                ToolTips.displayInv(stack, null);
             } else {
                 Command.sendMessage("\u00a7cYou need to hold a Shulker in your mainhand.");
                 return;
@@ -33,7 +33,7 @@ class PeekCommand
                 for (Map.Entry <EntityPlayer, ItemStack> entry : ToolTips.getInstance().spiedPlayers.entrySet()) {
                     if (! entry.getKey().getName().equalsIgnoreCase(commands[0])) continue;
                     ItemStack stack = entry.getValue();
-                    ToolTips.displayInv(stack , entry.getKey().getName());
+                    ToolTips.displayInv(stack, entry.getKey().getName());
                     break;
                 }
             } else {

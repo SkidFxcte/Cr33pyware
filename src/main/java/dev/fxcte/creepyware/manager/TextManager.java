@@ -14,12 +14,12 @@ public
 class TextManager
         extends Feature {
     private final Timer idleTimer = new Timer();
-    private final CustomFont headerFont = new CustomFont(new Font("Tahoma" , Font.BOLD , 40) , true , false);
-    private final CustomFont smallString = new CustomFont(new Font("tahoma" , Font.BOLD , 10) , true , false);
+    private final CustomFont headerFont = new CustomFont(new Font("Tahoma", Font.BOLD, 40), true, false);
+    private final CustomFont smallString = new CustomFont(new Font("tahoma", Font.BOLD, 10), true, false);
     public int scaledWidth;
     public int scaledHeight;
     public int scaleFactor;
-    private CustomFont customFont = new CustomFont(new Font("Verdana" , 0 , 17) , true , false);
+    private CustomFont customFont = new CustomFont(new Font("Verdana", 0, 17), true, false);
     private boolean idling;
 
     public
@@ -31,42 +31,42 @@ class TextManager
     void init(boolean startup) {
         FontMod cFont = CreepyWare.moduleManager.getModuleByClass(FontMod.class);
         try {
-            this.setFontRenderer(new Font(cFont.fontName.getValue() , cFont.fontStyle.getValue() , cFont.fontSize.getValue()) , cFont.antiAlias.getValue() , cFont.fractionalMetrics.getValue());
+            this.setFontRenderer(new Font(cFont.fontName.getValue(), cFont.fontStyle.getValue(), cFont.fontSize.getValue()), cFont.antiAlias.getValue(), cFont.fractionalMetrics.getValue());
         } catch (Exception exception) {
             // empty catch block
         }
     }
 
     public
-    void drawStringWithShadow(String text , float x , float y , int color) {
-        this.drawString(text , x , y , color , true);
+    void drawStringWithShadow(String text, float x, float y, int color) {
+        this.drawString(text, x, y, color, true);
     }
 
     public
-    float drawString(String text , float x , float y , int color , boolean shadow) {
+    float drawString(String text, float x, float y, int color, boolean shadow) {
         if (CreepyWare.moduleManager.isModuleEnabled(FontMod.class)) {
             if (shadow) {
-                return this.customFont.drawStringWithShadow(text , x , y , color);
+                return this.customFont.drawStringWithShadow(text, x, y, color);
             }
-            return this.customFont.drawString(text , x , y , color);
+            return this.customFont.drawString(text, x, y, color);
         }
-        return TextManager.mc.fontRenderer.drawString(text , x , y , color , shadow);
+        return TextManager.mc.fontRenderer.drawString(text, x, y, color, shadow);
     }
 
     public
-    void drawRainbowString(String text , float x , float y , int startColor , float factor , boolean shadow) {
+    void drawRainbowString(String text, float x, float y, int startColor, float factor, boolean shadow) {
         Color currentColor = new Color(startColor);
         float hueIncrement = 1.0f / factor;
         String[] rainbowStrings = text.split("\u00a7.");
-        float currentHue = Color.RGBtoHSB(currentColor.getRed() , currentColor.getGreen() , currentColor.getBlue() , null)[0];
-        float saturation = Color.RGBtoHSB(currentColor.getRed() , currentColor.getGreen() , currentColor.getBlue() , null)[1];
-        float brightness = Color.RGBtoHSB(currentColor.getRed() , currentColor.getGreen() , currentColor.getBlue() , null)[2];
+        float currentHue = Color.RGBtoHSB(currentColor.getRed(), currentColor.getGreen(), currentColor.getBlue(), null)[0];
+        float saturation = Color.RGBtoHSB(currentColor.getRed(), currentColor.getGreen(), currentColor.getBlue(), null)[1];
+        float brightness = Color.RGBtoHSB(currentColor.getRed(), currentColor.getGreen(), currentColor.getBlue(), null)[2];
         int currentWidth = 0;
         boolean shouldRainbow = true;
         boolean shouldContinue = false;
         for (int i = 0; i < text.length(); ++ i) {
             char currentChar = text.charAt(i);
-            char nextChar = text.charAt(MathUtil.clamp(i + 1 , 0 , text.length() - 1));
+            char nextChar = text.charAt(MathUtil.clamp(i + 1, 0, text.length() - 1));
             if ((String.valueOf(currentChar) + nextChar).equals("\u00a7r")) {
                 shouldRainbow = false;
             } else if ((String.valueOf(currentChar) + nextChar).equals("\u00a7+")) {
@@ -78,16 +78,16 @@ class TextManager
             }
             if ((String.valueOf(currentChar) + nextChar).equals("\u00a7r")) {
                 String escapeString = text.substring(i);
-                this.drawString(escapeString , x + (float) currentWidth , y , Color.WHITE.getRGB() , shadow);
+                this.drawString(escapeString, x + (float) currentWidth, y, Color.WHITE.getRGB(), shadow);
                 break;
             }
-            this.drawString(String.valueOf(currentChar).equals("\u00a7") ? "" : String.valueOf(currentChar) , x + (float) currentWidth , y , shouldRainbow ? currentColor.getRGB() : Color.WHITE.getRGB() , shadow);
+            this.drawString(String.valueOf(currentChar).equals("\u00a7") ? "" : String.valueOf(currentChar), x + (float) currentWidth, y, shouldRainbow ? currentColor.getRGB() : Color.WHITE.getRGB(), shadow);
             if (String.valueOf(currentChar).equals("\u00a7")) {
                 shouldContinue = true;
             }
             currentWidth += this.getStringWidth(String.valueOf(currentChar));
             if (String.valueOf(currentChar).equals(" ")) continue;
-            currentColor = new Color(Color.HSBtoRGB(currentHue , saturation , brightness));
+            currentColor = new Color(Color.HSBtoRGB(currentHue, saturation, brightness));
             currentHue += hueIncrement;
         }
     }
@@ -110,8 +110,8 @@ class TextManager
     }
 
     public
-    void setFontRenderer(Font font , boolean antiAlias , boolean fractionalMetrics) {
-        this.customFont = new CustomFont(font , antiAlias , fractionalMetrics);
+    void setFontRenderer(Font font, boolean antiAlias, boolean fractionalMetrics) {
+        this.customFont = new CustomFont(font, antiAlias, fractionalMetrics);
     }
 
     public
@@ -154,20 +154,20 @@ class TextManager
     }
 
     public
-    float drawStringBig(String string , float x , float y , int colour , boolean shadow) {
+    float drawStringBig(String string, float x, float y, int colour, boolean shadow) {
         if (shadow) {
-            return this.headerFont.drawStringWithShadow(string , x , y , colour);
+            return this.headerFont.drawStringWithShadow(string, x, y, colour);
         } else {
-            return this.headerFont.drawString(string , x , y , colour);
+            return this.headerFont.drawString(string, x, y, colour);
         }
     }
 
     public
-    float drawStringSmall(String string , float x , float y , int colour , boolean shadow) {
+    float drawStringSmall(String string, float x, float y, int colour, boolean shadow) {
         if (shadow) {
-            return this.smallString.drawStringWithShadow(string , x , y , colour);
+            return this.smallString.drawStringWithShadow(string, x, y, colour);
         } else {
-            return this.smallString.drawString(string , x , y , colour);
+            return this.smallString.drawString(string, x, y, colour);
         }
     }
 }

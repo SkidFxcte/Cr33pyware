@@ -16,18 +16,19 @@ import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.Vec3d;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
-public class Freecam extends Module {
+public
+class Freecam extends Module {
     private static Freecam INSTANCE;
 
     static {
         Freecam.INSTANCE = new Freecam();
     }
 
-    public Setting<Double> speed;
-    public Setting<Boolean> view;
-    public Setting<Boolean> packet;
-    public Setting<Boolean> disable;
-    public Setting<Boolean> legit;
+    public Setting <Double> speed;
+    public Setting <Boolean> view;
+    public Setting <Boolean> packet;
+    public Setting <Boolean> disable;
+    public Setting <Boolean> legit;
     private AxisAlignedBB oldBoundingBox;
     private EntityOtherPlayerMP entity;
     private Vec3d position;
@@ -35,30 +36,34 @@ public class Freecam extends Module {
     private float yaw;
     private float pitch;
 
-    public Freecam() {
+    public
+    Freecam() {
         super("Freecam", "Look around freely.", Category.PLAYER, true, false, false);
-        this.speed = (Setting<Double>) this.register(new Setting("Speed", 0.5D, 0.1D, 5.0D));
-        this.view = (Setting<Boolean>) this.register(new Setting("Speed", "3D", 0.0, 0.0, false, 0));
-        this.packet = (Setting<Boolean>) this.register(new Setting("Speed", "Packet", 0.0, 0.0, true, 0));
-        this.disable = (Setting<Boolean>) this.register(new Setting("Speed", "Logout/Off", 0.0, 0.0, true, 0));
-        this.legit = (Setting<Boolean>) this.register(new Setting("Speed", "Legit", 0.0, 0.0, false, 0));
+        this.speed = (Setting <Double>) this.register(new Setting("Speed", 0.5D, 0.1D, 5.0D));
+        this.view = (Setting <Boolean>) this.register(new Setting("Speed", "3D", 0.0, 0.0, false, 0));
+        this.packet = (Setting <Boolean>) this.register(new Setting("Speed", "Packet", 0.0, 0.0, true, 0));
+        this.disable = (Setting <Boolean>) this.register(new Setting("Speed", "Logout/Off", 0.0, 0.0, true, 0));
+        this.legit = (Setting <Boolean>) this.register(new Setting("Speed", "Legit", 0.0, 0.0, false, 0));
         this.setInstance();
     }
 
-    public static Freecam getInstance() {
+    public static
+    Freecam getInstance() {
         if (Freecam.INSTANCE == null) {
             Freecam.INSTANCE = new Freecam();
         }
         return Freecam.INSTANCE;
     }
 
-    private void setInstance() {
+    private
+    void setInstance() {
         Freecam.INSTANCE = this;
     }
 
     @Override
-    public void onEnable() {
-        if (!Feature.fullNullCheck()) {
+    public
+    void onEnable() {
+        if (! Feature.fullNullCheck()) {
             this.oldBoundingBox = Freecam.mc.player.getEntityBoundingBox();
             Freecam.mc.player.setEntityBoundingBox(new AxisAlignedBB(Freecam.mc.player.posX, Freecam.mc.player.posY, Freecam.mc.player.posZ, Freecam.mc.player.posX, Freecam.mc.player.posY, Freecam.mc.player.posZ));
             if (Freecam.mc.player.getRidingEntity() != null) {
@@ -78,8 +83,9 @@ public class Freecam extends Module {
     }
 
     @Override
-    public void onDisable() {
-        if (!Feature.fullNullCheck()) {
+    public
+    void onDisable() {
+        if (! Feature.fullNullCheck()) {
             Freecam.mc.player.setEntityBoundingBox(this.oldBoundingBox);
             if (this.riding != null) {
                 Freecam.mc.player.startRiding(this.riding, true);
@@ -97,7 +103,8 @@ public class Freecam extends Module {
     }
 
     @Override
-    public void onUpdate() {
+    public
+    void onUpdate() {
         Freecam.mc.player.noClip = true;
         Freecam.mc.player.setVelocity(0.0, 0.0, 0.0);
         Freecam.mc.player.jumpMovementFactor = this.speed.getValue().floatValue();
@@ -110,8 +117,8 @@ public class Freecam extends Module {
             Freecam.mc.player.motionZ = 0.0;
         }
         Freecam.mc.player.setSprinting(false);
-        if (this.view.getValue() && !Freecam.mc.gameSettings.keyBindSneak.isKeyDown() && !Freecam.mc.gameSettings.keyBindJump.isKeyDown()) {
-            Freecam.mc.player.motionY = this.speed.getValue() * -MathUtil.degToRad(Freecam.mc.player.rotationPitch) * Freecam.mc.player.movementInput.moveForward;
+        if (this.view.getValue() && ! Freecam.mc.gameSettings.keyBindSneak.isKeyDown() && ! Freecam.mc.gameSettings.keyBindJump.isKeyDown()) {
+            Freecam.mc.player.motionY = this.speed.getValue() * - MathUtil.degToRad(Freecam.mc.player.rotationPitch) * Freecam.mc.player.movementInput.moveForward;
         }
         if (Freecam.mc.gameSettings.keyBindJump.isKeyDown()) {
             final EntityPlayerSP player = Freecam.mc.player;
@@ -124,14 +131,16 @@ public class Freecam extends Module {
     }
 
     @Override
-    public void onLogout() {
+    public
+    void onLogout() {
         if (this.disable.getValue()) {
             this.disable();
         }
     }
 
     @SubscribeEvent
-    public void onPacketSend(final PacketEvent.Send event) {
+    public
+    void onPacketSend(final PacketEvent.Send event) {
         if (this.legit.getValue() && this.entity != null && event.getPacket() instanceof CPacketPlayer) {
             final CPacketPlayer packetPlayer = event.getPacket();
             packetPlayer.x = this.entity.posX;
@@ -143,13 +152,14 @@ public class Freecam extends Module {
             if (event.getPacket() instanceof CPacketPlayer) {
                 event.setCanceled(true);
             }
-        } else if (!(event.getPacket() instanceof CPacketUseEntity) && !(event.getPacket() instanceof CPacketPlayerTryUseItem) && !(event.getPacket() instanceof CPacketPlayerTryUseItemOnBlock) && !(event.getPacket() instanceof CPacketPlayer) && !(event.getPacket() instanceof CPacketVehicleMove) && !(event.getPacket() instanceof CPacketChatMessage) && !(event.getPacket() instanceof CPacketKeepAlive)) {
+        } else if (! (event.getPacket() instanceof CPacketUseEntity) && ! (event.getPacket() instanceof CPacketPlayerTryUseItem) && ! (event.getPacket() instanceof CPacketPlayerTryUseItemOnBlock) && ! (event.getPacket() instanceof CPacketPlayer) && ! (event.getPacket() instanceof CPacketVehicleMove) && ! (event.getPacket() instanceof CPacketChatMessage) && ! (event.getPacket() instanceof CPacketKeepAlive)) {
             event.setCanceled(true);
         }
     }
 
     @SubscribeEvent
-    public void onPacketReceive(final PacketEvent.Receive event) {
+    public
+    void onPacketReceive(final PacketEvent.Receive event) {
         if (event.getPacket() instanceof SPacketSetPassengers) {
             final SPacketSetPassengers packet = event.getPacket();
             final Entity riding = Freecam.mc.world.getEntityByID(packet.getEntityId());
@@ -173,7 +183,8 @@ public class Freecam extends Module {
     }
 
     @SubscribeEvent
-    public void onPush(final PushEvent event) {
+    public
+    void onPush(final PushEvent event) {
         if (event.getStage() == 1) {
             event.setCanceled(true);
         }

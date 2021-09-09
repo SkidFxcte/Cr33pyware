@@ -18,21 +18,25 @@ import org.lwjgl.util.glu.Cylinder;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Trajectories
+public
+class Trajectories
         extends Module {
-    public Trajectories() {
+    public
+    Trajectories() {
         super("Trajectories", "Shows the way of projectiles.", Module.Category.RENDER, false, false, false);
     }
 
     @Override
-    public void onRender3D(Render3DEvent event) {
+    public
+    void onRender3D(Render3DEvent event) {
         if (Trajectories.mc.world == null || Trajectories.mc.player == null) {
             return;
         }
         this.drawTrajectories(Trajectories.mc.player, event.getPartialTicks());
     }
 
-    public void enableGL3D(float lineWidth) {
+    public
+    void enableGL3D(float lineWidth) {
         GL11.glDisable(3008);
         GL11.glEnable(3042);
         GL11.glBlendFunc(770, 771);
@@ -47,7 +51,8 @@ public class Trajectories
         GL11.glLineWidth(lineWidth);
     }
 
-    public void disableGL3D() {
+    public
+    void disableGL3D() {
         GL11.glEnable(3553);
         GL11.glEnable(2929);
         GL11.glDisable(3042);
@@ -59,13 +64,14 @@ public class Trajectories
         GL11.glHint(3155, 4352);
     }
 
-    private void drawTrajectories(EntityPlayer player, float partialTicks) {
+    private
+    void drawTrajectories(EntityPlayer player, float partialTicks) {
         //float pow = 0;
         double renderPosX = player.lastTickPosX + (player.posX - player.lastTickPosX) * (double) partialTicks;
         double renderPosY = player.lastTickPosY + (player.posY - player.lastTickPosY) * (double) partialTicks;
         double renderPosZ = player.lastTickPosZ + (player.posZ - player.lastTickPosZ) * (double) partialTicks;
         player.getHeldItem(EnumHand.MAIN_HAND);
-        if (!(Trajectories.mc.gameSettings.thirdPersonView == 0 && (player.getHeldItem(EnumHand.MAIN_HAND).getItem() instanceof ItemBow || player.getHeldItem(EnumHand.MAIN_HAND).getItem() instanceof ItemFishingRod || player.getHeldItem(EnumHand.MAIN_HAND).getItem() instanceof ItemEnderPearl || player.getHeldItem(EnumHand.MAIN_HAND).getItem() instanceof ItemEgg || player.getHeldItem(EnumHand.MAIN_HAND).getItem() instanceof ItemSnowball || player.getHeldItem(EnumHand.MAIN_HAND).getItem() instanceof ItemExpBottle))) {
+        if (! (Trajectories.mc.gameSettings.thirdPersonView == 0 && (player.getHeldItem(EnumHand.MAIN_HAND).getItem() instanceof ItemBow || player.getHeldItem(EnumHand.MAIN_HAND).getItem() instanceof ItemFishingRod || player.getHeldItem(EnumHand.MAIN_HAND).getItem() instanceof ItemEnderPearl || player.getHeldItem(EnumHand.MAIN_HAND).getItem() instanceof ItemEgg || player.getHeldItem(EnumHand.MAIN_HAND).getItem() instanceof ItemSnowball || player.getHeldItem(EnumHand.MAIN_HAND).getItem() instanceof ItemExpBottle))) {
             return;
         }
         GL11.glPushMatrix();
@@ -73,8 +79,8 @@ public class Trajectories
         double posX = renderPosX - (double) (MathHelper.cos(player.rotationYaw / 180.0f * (float) Math.PI) * 0.16f);
         double posY = renderPosY + (double) player.getEyeHeight() - 0.1000000014901161;
         double posZ = renderPosZ - (double) (MathHelper.sin(player.rotationYaw / 180.0f * (float) Math.PI) * 0.16f);
-        double motionX = (double) (-MathHelper.sin(player.rotationYaw / 180.0f * (float) Math.PI) * MathHelper.cos(player.rotationPitch / 180.0f * (float) Math.PI)) * (item instanceof ItemBow ? 1.0 : 0.4);
-        double motionY = (double) (-MathHelper.sin(player.rotationPitch / 180.0f * (float) Math.PI)) * (item instanceof ItemBow ? 1.0 : 0.4);
+        double motionX = (double) (- MathHelper.sin(player.rotationYaw / 180.0f * (float) Math.PI) * MathHelper.cos(player.rotationPitch / 180.0f * (float) Math.PI)) * (item instanceof ItemBow ? 1.0 : 0.4);
+        double motionY = (double) (- MathHelper.sin(player.rotationPitch / 180.0f * (float) Math.PI)) * (item instanceof ItemBow ? 1.0 : 0.4);
         double motionZ = (double) (MathHelper.cos(player.rotationYaw / 180.0f * (float) Math.PI) * MathHelper.cos(player.rotationPitch / 180.0f * (float) Math.PI)) * (item instanceof ItemBow ? 1.0 : 0.4);
         int var6 = 72000 - player.getItemInUseCount();
         float power = (float) var6 / 20.0f;
@@ -102,7 +108,7 @@ public class Trajectories
         boolean hasLanded = false;
         Entity landingOnEntity = null;
         RayTraceResult landingPosition = null;
-        while (!hasLanded && posY > 0.0) {
+        while (! hasLanded && posY > 0.0) {
             Vec3d present = new Vec3d(posX, posY, posZ);
             Vec3d future = new Vec3d(posX + motionX, posY + motionY, posZ + motionZ);
             RayTraceResult possibleLandingStrip = Trajectories.mc.world.rayTraceBlocks(present, future, false, true, false);
@@ -114,7 +120,7 @@ public class Trajectories
             List entities = this.getEntitiesWithinAABB(arrowBox.offset(motionX, motionY, motionZ).expand(1.0, 1.0, 1.0));
             for (Object entity : entities) {
                 Entity boundingBox = (Entity) entity;
-                if (!boundingBox.canBeCollidedWith() || boundingBox == player) continue;
+                if (! boundingBox.canBeCollidedWith() || boundingBox == player) continue;
                 float var7 = 0.3f;
                 AxisAlignedBB var8 = boundingBox.getEntityBoundingBox().expand(var7, var7, var7);
                 RayTraceResult possibleEntityLanding = var8.calculateIntercept(present, future);
@@ -148,7 +154,7 @@ public class Trajectories
                 GlStateManager.rotate(90.0f, 0.0f, 0.0f, 1.0f);
             }
             Cylinder c = new Cylinder();
-            GlStateManager.rotate(-90.0f, 1.0f, 0.0f, 0.0f);
+            GlStateManager.rotate(- 90.0f, 1.0f, 0.0f, 0.0f);
             c.setDrawStyle(100011);
             if (landingOnEntity != null) {
                 GlStateManager.color(0.0f, 0.0f, 0.0f, 1.0f);
@@ -163,14 +169,15 @@ public class Trajectories
         GL11.glPopMatrix();
     }
 
-    private List getEntitiesWithinAABB(AxisAlignedBB bb) {
+    private
+    List getEntitiesWithinAABB(AxisAlignedBB bb) {
         ArrayList list = new ArrayList();
         int chunkMinX = MathHelper.floor((bb.minX - 2.0) / 16.0);
         int chunkMaxX = MathHelper.floor((bb.maxX + 2.0) / 16.0);
         int chunkMinZ = MathHelper.floor((bb.minZ - 2.0) / 16.0);
         int chunkMaxZ = MathHelper.floor((bb.maxZ + 2.0) / 16.0);
-        for (int x = chunkMinX; x <= chunkMaxX; ++x) {
-            for (int z = chunkMinZ; z <= chunkMaxZ; ++z) {
+        for (int x = chunkMinX; x <= chunkMaxX; ++ x) {
+            for (int z = chunkMinZ; z <= chunkMaxZ; ++ z) {
                 if (Trajectories.mc.world.getChunkProvider().getLoadedChunk(x, z) == null) continue;
                 Trajectories.mc.world.getChunk(x, z).getEntitiesWithinAABBForEntity(Trajectories.mc.player, bb, list, null);
             }

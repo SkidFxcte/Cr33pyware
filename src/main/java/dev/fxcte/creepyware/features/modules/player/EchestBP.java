@@ -8,16 +8,19 @@ import net.minecraft.inventory.Container;
 import net.minecraft.inventory.ContainerChest;
 import net.minecraft.inventory.InventoryBasic;
 
-public class EchestBP
+public
+class EchestBP
         extends Module {
     private GuiScreen echestScreen = null;
 
-    public EchestBP() {
+    public
+    EchestBP() {
         super("EchestBP", "Allows to open your echest later.", Module.Category.PLAYER, false, false, false);
     }
 
     @Override
-    public void onUpdate() {
+    public
+    void onUpdate() {
         InventoryBasic basic;
         Container container;
         if (EchestBP.mc.currentScreen instanceof GuiContainer && (container = ((GuiContainer) EchestBP.mc.currentScreen).inventorySlots) instanceof ContainerChest && ((ContainerChest) container).getLowerChestInventory() instanceof InventoryBasic && (basic = (InventoryBasic) ((ContainerChest) container).getLowerChestInventory()).getName().equalsIgnoreCase("Ender Chest")) {
@@ -27,8 +30,9 @@ public class EchestBP
     }
 
     @Override
-    public void onDisable() {
-        if (!EchestBP.fullNullCheck() && this.echestScreen != null) {
+    public
+    void onDisable() {
+        if (! EchestBP.fullNullCheck() && this.echestScreen != null) {
             Util.mc.displayGuiScreen(this.echestScreen);
         }
         this.echestScreen = null;

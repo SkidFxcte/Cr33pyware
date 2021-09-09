@@ -24,7 +24,7 @@ public
 class InventoryUtil
         implements Util {
     public static
-    void switchToHotbarSlot(int slot , boolean silent) {
+    void switchToHotbarSlot(int slot, boolean silent) {
         if (mc.player.inventory.currentItem == slot || slot < 0) {
             return;
         }
@@ -39,10 +39,10 @@ class InventoryUtil
     }
 
     public static
-    void switchToHotbarSlot(Class clazz , boolean silent) {
+    void switchToHotbarSlot(Class clazz, boolean silent) {
         int slot = InventoryUtil.findHotbarBlock(clazz);
         if (slot > - 1) {
-            InventoryUtil.switchToHotbarSlot(slot , silent);
+            InventoryUtil.switchToHotbarSlot(slot, silent);
         }
     }
 
@@ -91,11 +91,11 @@ class InventoryUtil
 
     public static
     int findStackInventory(Item input) {
-        return InventoryUtil.findStackInventory(input , false);
+        return InventoryUtil.findStackInventory(input, false);
     }
 
     public static
-    int findStackInventory(Item input , boolean withHotbar) {
+    int findStackInventory(Item input, boolean withHotbar) {
         int i;
         int n = i = withHotbar ? 0 : 9;
         while (i < 36) {
@@ -109,7 +109,7 @@ class InventoryUtil
     }
 
     public static
-    int findItemInventorySlot(Item item , boolean offHand) {
+    int findItemInventorySlot(Item item, boolean offHand) {
         AtomicInteger slot = new AtomicInteger();
         slot.set(- 1);
         for (Map.Entry <Integer, ItemStack> entry : InventoryUtil.getInventoryAndHotbarSlots().entrySet()) {
@@ -139,11 +139,11 @@ class InventoryUtil
     }
 
     public static
-    int findInventoryBlock(Class clazz , boolean offHand) {
+    int findInventoryBlock(Class clazz, boolean offHand) {
         AtomicInteger slot = new AtomicInteger();
         slot.set(- 1);
         for (Map.Entry <Integer, ItemStack> entry : InventoryUtil.getInventoryAndHotbarSlots().entrySet()) {
-            if (! InventoryUtil.isBlock(entry.getValue().getItem() , clazz) || entry.getKey() == 45 && ! offHand)
+            if (! InventoryUtil.isBlock(entry.getValue().getItem(), clazz) || entry.getKey() == 45 && ! offHand)
                 continue;
             slot.set(entry.getKey());
             return slot.get();
@@ -192,7 +192,7 @@ class InventoryUtil
     }
 
     public static
-    boolean isBlock(Item item , Class clazz) {
+    boolean isBlock(Item item, Class clazz) {
         if (item instanceof ItemBlock) {
             Block block = ((ItemBlock) item).getBlock();
             return clazz.isInstance(block);
@@ -210,25 +210,25 @@ class InventoryUtil
     public static
     Map <Integer, ItemStack> getInventoryAndHotbarSlots() {
         if (mc.currentScreen instanceof GuiCrafting) {
-            return InventoryUtil.fuckYou3arthqu4kev2(10 , 45);
+            return InventoryUtil.fuckYou3arthqu4kev2(10, 45);
         }
-        return InventoryUtil.getInventorySlots(9 , 44);
+        return InventoryUtil.getInventorySlots(9, 44);
     }
 
     private static
-    Map <Integer, ItemStack> getInventorySlots(int currentI , int last) {
+    Map <Integer, ItemStack> getInventorySlots(int currentI, int last) {
         HashMap <Integer, ItemStack> fullInventorySlots = new HashMap <>();
         for (int current = currentI; current <= last; ++ current) {
-            fullInventorySlots.put(current , mc.player.inventoryContainer.getInventory().get(current));
+            fullInventorySlots.put(current, mc.player.inventoryContainer.getInventory().get(current));
         }
         return fullInventorySlots;
     }
 
     private static
-    Map <Integer, ItemStack> fuckYou3arthqu4kev2(int currentI , int last) {
+    Map <Integer, ItemStack> fuckYou3arthqu4kev2(int currentI, int last) {
         HashMap <Integer, ItemStack> fullInventorySlots = new HashMap <>();
         for (int current = currentI; current <= last; ++ current) {
-            fullInventorySlots.put(current , mc.player.openContainer.getInventory().get(current));
+            fullInventorySlots.put(current, mc.player.openContainer.getInventory().get(current));
         }
         return fullInventorySlots;
     }
@@ -239,15 +239,15 @@ class InventoryUtil
     }
 
     public static
-    boolean[] switchItem(boolean back , int lastHotbarSlot , boolean switchedItem , Switch mode , Class clazz) {
-        boolean[] switchedItemSwitched = new boolean[]{switchedItem , false};
+    boolean[] switchItem(boolean back, int lastHotbarSlot, boolean switchedItem, Switch mode, Class clazz) {
+        boolean[] switchedItemSwitched = new boolean[]{switchedItem, false};
         switch (mode) {
             case NORMAL: {
                 if (! back && ! switchedItem) {
-                    InventoryUtil.switchToHotbarSlot(InventoryUtil.findHotbarBlock(clazz) , false);
+                    InventoryUtil.switchToHotbarSlot(InventoryUtil.findHotbarBlock(clazz), false);
                     switchedItemSwitched[0] = true;
                 } else if (back && switchedItem) {
-                    InventoryUtil.switchToHotbarSlot(lastHotbarSlot , false);
+                    InventoryUtil.switchToHotbarSlot(lastHotbarSlot, false);
                     switchedItemSwitched[0] = false;
                 }
                 switchedItemSwitched[1] = true;
@@ -255,7 +255,7 @@ class InventoryUtil
             }
             case SILENT: {
                 if (! back && ! switchedItem) {
-                    InventoryUtil.switchToHotbarSlot(InventoryUtil.findHotbarBlock(clazz) , true);
+                    InventoryUtil.switchToHotbarSlot(InventoryUtil.findHotbarBlock(clazz), true);
                     switchedItemSwitched[0] = true;
                 } else if (back && switchedItem) {
                     switchedItemSwitched[0] = false;
@@ -272,15 +272,15 @@ class InventoryUtil
     }
 
     public static
-    boolean[] switchItemToItem(boolean back , int lastHotbarSlot , boolean switchedItem , Switch mode , Item item) {
-        boolean[] switchedItemSwitched = new boolean[]{switchedItem , false};
+    boolean[] switchItemToItem(boolean back, int lastHotbarSlot, boolean switchedItem, Switch mode, Item item) {
+        boolean[] switchedItemSwitched = new boolean[]{switchedItem, false};
         switch (mode) {
             case NORMAL: {
                 if (! back && ! switchedItem) {
-                    InventoryUtil.switchToHotbarSlot(InventoryUtil.getItemHotbar(item) , false);
+                    InventoryUtil.switchToHotbarSlot(InventoryUtil.getItemHotbar(item), false);
                     switchedItemSwitched[0] = true;
                 } else if (back && switchedItem) {
-                    InventoryUtil.switchToHotbarSlot(lastHotbarSlot , false);
+                    InventoryUtil.switchToHotbarSlot(lastHotbarSlot, false);
                     switchedItemSwitched[0] = false;
                 }
                 switchedItemSwitched[1] = true;
@@ -288,7 +288,7 @@ class InventoryUtil
             }
             case SILENT: {
                 if (! back && ! switchedItem) {
-                    InventoryUtil.switchToHotbarSlot(InventoryUtil.getItemHotbar(item) , true);
+                    InventoryUtil.switchToHotbarSlot(InventoryUtil.getItemHotbar(item), true);
                     switchedItemSwitched[0] = true;
                 } else if (back && switchedItem) {
                     switchedItemSwitched[0] = false;
@@ -308,16 +308,16 @@ class InventoryUtil
     boolean holdingItem(Class clazz) {
         boolean result = false;
         ItemStack stack = mc.player.getHeldItemMainhand();
-        result = InventoryUtil.isInstanceOf(stack , clazz);
+        result = InventoryUtil.isInstanceOf(stack, clazz);
         if (! result) {
             ItemStack offhand = mc.player.getHeldItemOffhand();
-            result = InventoryUtil.isInstanceOf(stack , clazz);
+            result = InventoryUtil.isInstanceOf(stack, clazz);
         }
         return result;
     }
 
     public static
-    boolean isInstanceOf(ItemStack stack , Class clazz) {
+    boolean isInstanceOf(ItemStack stack, Class clazz) {
         if (stack == null) {
             return false;
         }
@@ -356,7 +356,7 @@ class InventoryUtil
     }
 
     public static
-    boolean areStacksCompatible(ItemStack stack1 , ItemStack stack2) {
+    boolean areStacksCompatible(ItemStack stack1, ItemStack stack2) {
         if (! stack1.getItem().equals(stack2.getItem())) {
             return false;
         }
@@ -388,7 +388,7 @@ class InventoryUtil
     }
 
     public static
-    int findArmorSlot(EntityEquipmentSlot type , boolean binding) {
+    int findArmorSlot(EntityEquipmentSlot type, boolean binding) {
         int slot = - 1;
         float damage = 0.0f;
         for (int i = 9; i < 45; ++ i) {
@@ -397,7 +397,7 @@ class InventoryUtil
             if (s.getItem() == Items.AIR || ! (s.getItem() instanceof ItemArmor)) continue;
             ItemArmor armor = (ItemArmor) s.getItem();
             if (armor.armorType != type) continue;
-            float currentDamage = armor.damageReduceAmount + EnchantmentHelper.getEnchantmentLevel(Enchantments.PROTECTION , s);
+            float currentDamage = armor.damageReduceAmount + EnchantmentHelper.getEnchantmentLevel(Enchantments.PROTECTION, s);
             boolean bl = cursed = binding && EnchantmentHelper.hasBindingCurse(s);
             if (! (currentDamage > damage) || cursed) continue;
             damage = currentDamage;
@@ -407,8 +407,8 @@ class InventoryUtil
     }
 
     public static
-    int findArmorSlot(EntityEquipmentSlot type , boolean binding , boolean withXCarry) {
-        int slot = InventoryUtil.findArmorSlot(type , binding);
+    int findArmorSlot(EntityEquipmentSlot type, boolean binding, boolean withXCarry) {
+        int slot = InventoryUtil.findArmorSlot(type, binding);
         if (slot == - 1 && withXCarry) {
             float damage = 0.0f;
             for (int i = 1; i < 5; ++ i) {
@@ -418,7 +418,7 @@ class InventoryUtil
                 if (craftingStack.getItem() == Items.AIR || ! (craftingStack.getItem() instanceof ItemArmor)) continue;
                 ItemArmor armor = (ItemArmor) craftingStack.getItem();
                 if (armor.armorType != type) continue;
-                float currentDamage = armor.damageReduceAmount + EnchantmentHelper.getEnchantmentLevel(Enchantments.PROTECTION , craftingStack);
+                float currentDamage = armor.damageReduceAmount + EnchantmentHelper.getEnchantmentLevel(Enchantments.PROTECTION, craftingStack);
                 boolean bl = cursed = binding && EnchantmentHelper.hasBindingCurse(craftingStack);
                 if (! (currentDamage > damage) || cursed) continue;
                 damage = currentDamage;
@@ -429,8 +429,8 @@ class InventoryUtil
     }
 
     public static
-    int findItemInventorySlot(Item item , boolean offHand , boolean withXCarry) {
-        int slot = InventoryUtil.findItemInventorySlot(item , offHand);
+    int findItemInventorySlot(Item item, boolean offHand, boolean withXCarry) {
+        int slot = InventoryUtil.findItemInventorySlot(item, offHand);
         if (slot == - 1 && withXCarry) {
             for (int i = 1; i < 5; ++ i) {
                 Item craftingStackItem;
@@ -445,8 +445,8 @@ class InventoryUtil
     }
 
     public static
-    int findBlockSlotInventory(Class clazz , boolean offHand , boolean withXCarry) {
-        int slot = InventoryUtil.findInventoryBlock(clazz , offHand);
+    int findBlockSlotInventory(Class clazz, boolean offHand, boolean withXCarry) {
+        int slot = InventoryUtil.findInventoryBlock(clazz, offHand);
         if (slot == - 1 && withXCarry) {
             for (int i = 1; i < 5; ++ i) {
                 Block block;
@@ -495,7 +495,7 @@ class InventoryUtil
         }
 
         public
-        Task(int slot , boolean quickClick) {
+        Task(int slot, boolean quickClick) {
             this.slot = slot;
             this.quickClick = quickClick;
             this.update = false;
@@ -507,7 +507,7 @@ class InventoryUtil
                 mc.playerController.updateController();
             }
             if (this.slot != - 1) {
-                mc.playerController.windowClick(mc.player.inventoryContainer.windowId , this.slot , 0 , this.quickClick ? ClickType.QUICK_MOVE : ClickType.PICKUP , mc.player);
+                mc.playerController.windowClick(mc.player.inventoryContainer.windowId, this.slot, 0, this.quickClick ? ClickType.QUICK_MOVE : ClickType.PICKUP, mc.player);
             }
         }
 

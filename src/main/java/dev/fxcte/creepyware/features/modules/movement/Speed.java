@@ -16,17 +16,18 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import java.util.Objects;
 import java.util.Random;
 
-public class Speed
+public
+class Speed
         extends Module {
     private static Speed INSTANCE = new Speed();
-    public Setting<Mode> mode = this.register(new Setting <> ("Speed" , "Mode" , 0.0 , 0.0 , Mode.INSTANT , 0));
-    public Setting<Boolean> strafeJump = this.register(new Setting<Object>("Jump", false , v -> this.mode.getValue() == Mode.INSTANT));
-    public Setting<Boolean> noShake = this.register(new Setting<Object>("NoShake", true , v -> this.mode.getValue() != Mode.INSTANT));
-    public Setting<Boolean> useTimer = this.register(new Setting<Object>("UseTimer", false , v -> this.mode.getValue() != Mode.INSTANT));
-    public Setting<Double> zeroSpeed = this.register(new Setting<Object>("0-Speed", 0.0 , 0.0 , 100.0 , v -> this.mode.getValue() == Mode.VANILLA));
-    public Setting<Double> speed = this.register(new Setting<Object>("Speed", 10.0 , 0.1 , 100.0 , v -> this.mode.getValue() == Mode.VANILLA));
-    public Setting<Double> blocked = this.register(new Setting<Object>("Blocked", 10.0 , 0.0 , 100.0 , v -> this.mode.getValue() == Mode.VANILLA));
-    public Setting<Double> unblocked = this.register(new Setting<Object>("Unblocked", 10.0 , 0.0 , 100.0 , v -> this.mode.getValue() == Mode.VANILLA));
+    public Setting <Mode> mode = this.register(new Setting <>("Speed", "Mode", 0.0, 0.0, Mode.INSTANT, 0));
+    public Setting <Boolean> strafeJump = this.register(new Setting <Object>("Jump", false, v -> this.mode.getValue() == Mode.INSTANT));
+    public Setting <Boolean> noShake = this.register(new Setting <Object>("NoShake", true, v -> this.mode.getValue() != Mode.INSTANT));
+    public Setting <Boolean> useTimer = this.register(new Setting <Object>("UseTimer", false, v -> this.mode.getValue() != Mode.INSTANT));
+    public Setting <Double> zeroSpeed = this.register(new Setting <Object>("0-Speed", 0.0, 0.0, 100.0, v -> this.mode.getValue() == Mode.VANILLA));
+    public Setting <Double> speed = this.register(new Setting <Object>("Speed", 10.0, 0.1, 100.0, v -> this.mode.getValue() == Mode.VANILLA));
+    public Setting <Double> blocked = this.register(new Setting <Object>("Blocked", 10.0, 0.0, 100.0, v -> this.mode.getValue() == Mode.VANILLA));
+    public Setting <Double> unblocked = this.register(new Setting <Object>("Unblocked", 10.0, 0.0, 100.0, v -> this.mode.getValue() == Mode.VANILLA));
     public double startY = 0.0;
     public boolean antiShake = false;
     public double minY = 0.0;
@@ -38,28 +39,33 @@ public class Speed
     private float move = 0.26f;
     private int vanillaCounter = 0;
 
-    public Speed() {
+    public
+    Speed() {
         super("Speed", "Makes you faster", Module.Category.MOVEMENT, true, false, false);
         this.setInstance();
     }
 
-    public static Speed getInstance() {
+    public static
+    Speed getInstance() {
         if (INSTANCE == null) {
             INSTANCE = new Speed();
         }
         return INSTANCE;
     }
 
-    private void setInstance() {
+    private
+    void setInstance() {
         INSTANCE = this;
     }
 
-    private boolean shouldReturn() {
+    private
+    boolean shouldReturn() {
         return CreepyWare.moduleManager.isModuleEnabled("Freecam") || CreepyWare.moduleManager.isModuleEnabled("Phase") || CreepyWare.moduleManager.isModuleEnabled("ElytraFlight") || CreepyWare.moduleManager.isModuleEnabled("Strafe") || CreepyWare.moduleManager.isModuleEnabled("Flight");
     }
 
     @Override
-    public void onUpdate() {
+    public
+    void onUpdate() {
         if (this.shouldReturn() || Speed.mc.player.isSneaking() || Speed.mc.player.isInWater() || Speed.mc.player.isInLava()) {
             return;
         }
@@ -80,16 +86,17 @@ public class Speed
     }
 
     @SubscribeEvent
-    public void onUpdateWalkingPlayer(UpdateWalkingPlayerEvent event) {
+    public
+    void onUpdateWalkingPlayer(UpdateWalkingPlayerEvent event) {
         if (this.mode.getValue() != Mode.VANILLA || Speed.nullCheck()) {
             return;
         }
         switch (event.getStage()) {
             case 0: {
-                this.vanillaCounter = this.vanilla() ? ++this.vanillaCounter : 0;
+                this.vanillaCounter = this.vanilla() ? ++ this.vanillaCounter : 0;
                 if (this.vanillaCounter != 4) break;
                 this.changeY = true;
-                this.minY = Speed.mc.player.getEntityBoundingBox().minY + (Speed.mc.world.getBlockState(Speed.mc.player.getPosition()).getMaterial().blocksMovement() ? - this.blocked.getValue () / 10.0 : this.unblocked.getValue() / 10.0) + this.getJumpBoostModifier();
+                this.minY = Speed.mc.player.getEntityBoundingBox().minY + (Speed.mc.world.getBlockState(Speed.mc.player.getPosition()).getMaterial().blocksMovement() ? - this.blocked.getValue() / 10.0 : this.unblocked.getValue() / 10.0) + this.getJumpBoostModifier();
                 return;
             }
             case 1: {
@@ -106,7 +113,8 @@ public class Speed
         }
     }
 
-    private double getJumpBoostModifier() {
+    private
+    double getJumpBoostModifier() {
         double boost = 0.0;
         if (Speed.mc.player.isPotionActive(MobEffects.JUMP_BOOST)) {
             int amplifier = Objects.requireNonNull(Speed.mc.player.getActivePotionEffect(MobEffects.JUMP_BOOST)).getAmplifier();
@@ -115,18 +123,21 @@ public class Speed
         return boost;
     }
 
-    private boolean vanillaCheck() {
+    private
+    boolean vanillaCheck() {
         if (Speed.mc.player.onGround) {
             // empty if block
         }
         return false;
     }
 
-    private boolean vanilla() {
+    private
+    boolean vanilla() {
         return Speed.mc.player.onGround;
     }
 
-    private void doBoost() {
+    private
+    void doBoost() {
         this.bounceHeight = 0.4;
         this.move = 0.26f;
         if (Speed.mc.player.onGround) {
@@ -136,13 +147,13 @@ public class Speed
             this.lowChainVal = 1.0;
             this.highChainVal = 1.0;
         }
-        if (EntityUtil.isEntityMoving(Speed.mc.player) && !Speed.mc.player.collidedHorizontally && !BlockUtil.isBlockAboveEntitySolid(Speed.mc.player) && BlockUtil.isBlockBelowEntitySolid(Speed.mc.player)) {
+        if (EntityUtil.isEntityMoving(Speed.mc.player) && ! Speed.mc.player.collidedHorizontally && ! BlockUtil.isBlockAboveEntitySolid(Speed.mc.player) && BlockUtil.isBlockBelowEntitySolid(Speed.mc.player)) {
             this.oneTime = true;
             this.antiShake = this.noShake.getValue() && Speed.mc.player.getRidingEntity() == null;
             Random random = new Random();
             boolean rnd = random.nextBoolean();
             if (Speed.mc.player.posY >= this.startY + this.bounceHeight) {
-                Speed.mc.player.motionY = -this.bounceHeight;
+                Speed.mc.player.motionY = - this.bounceHeight;
                 this.lowChainVal += 1.0;
                 if (this.lowChainVal == 1.0) {
                     this.move = 0.075f;
@@ -165,7 +176,7 @@ public class Speed
                 if (this.lowChainVal >= 7.0) {
                     this.move = 0.27895f;
                 }
-                if (this.useTimer.getValue ()) {
+                if (this.useTimer.getValue()) {
                     CreepyWare.timerManager.setTimer(1.0f);
                 }
             }
@@ -190,7 +201,7 @@ public class Speed
                 if (this.highChainVal >= 6.0) {
                     this.move = 0.43395f;
                 }
-                if (this.useTimer.getValue ()) {
+                if (this.useTimer.getValue()) {
                     if (rnd) {
                         CreepyWare.timerManager.setTimer(1.3f);
                     } else {
@@ -201,7 +212,7 @@ public class Speed
             EntityUtil.moveEntityStrafe(this.move, Speed.mc.player);
         } else {
             if (this.oneTime) {
-                Speed.mc.player.motionY = -0.1;
+                Speed.mc.player.motionY = - 0.1;
                 this.oneTime = false;
             }
             this.highChainVal = 0.0;
@@ -211,7 +222,8 @@ public class Speed
         }
     }
 
-    private void doAccel() {
+    private
+    void doAccel() {
         this.bounceHeight = 0.4;
         this.move = 0.26f;
         if (Speed.mc.player.onGround) {
@@ -221,13 +233,13 @@ public class Speed
             this.lowChainVal = 1.0;
             this.highChainVal = 1.0;
         }
-        if (EntityUtil.isEntityMoving(Speed.mc.player) && !Speed.mc.player.collidedHorizontally && !BlockUtil.isBlockAboveEntitySolid(Speed.mc.player) && BlockUtil.isBlockBelowEntitySolid(Speed.mc.player)) {
+        if (EntityUtil.isEntityMoving(Speed.mc.player) && ! Speed.mc.player.collidedHorizontally && ! BlockUtil.isBlockAboveEntitySolid(Speed.mc.player) && BlockUtil.isBlockBelowEntitySolid(Speed.mc.player)) {
             this.oneTime = true;
             this.antiShake = this.noShake.getValue() && Speed.mc.player.getRidingEntity() == null;
             Random random = new Random();
             boolean rnd = random.nextBoolean();
             if (Speed.mc.player.posY >= this.startY + this.bounceHeight) {
-                Speed.mc.player.motionY = -this.bounceHeight;
+                Speed.mc.player.motionY = - this.bounceHeight;
                 this.lowChainVal += 1.0;
                 if (this.lowChainVal == 1.0) {
                     this.move = 0.075f;
@@ -280,7 +292,7 @@ public class Speed
                 if (this.lowChainVal >= 17.0) {
                     this.move = 0.545f;
                 }
-                if (this.useTimer.getValue ()) {
+                if (this.useTimer.getValue()) {
                     CreepyWare.timerManager.setTimer(1.0f);
                 }
             }
@@ -338,7 +350,7 @@ public class Speed
                 if (this.highChainVal >= 17.0) {
                     this.move = 1.175f;
                 }
-                if (this.useTimer.getValue ()) {
+                if (this.useTimer.getValue()) {
                     if (rnd) {
                         CreepyWare.timerManager.setTimer(1.3f);
                     } else {
@@ -349,7 +361,7 @@ public class Speed
             EntityUtil.moveEntityStrafe(this.move, Speed.mc.player);
         } else {
             if (this.oneTime) {
-                Speed.mc.player.motionY = -0.1;
+                Speed.mc.player.motionY = - 0.1;
                 this.oneTime = false;
             }
             this.antiShake = false;
@@ -359,7 +371,8 @@ public class Speed
         }
     }
 
-    private void doOnground() {
+    private
+    void doOnground() {
         this.bounceHeight = 0.4;
         this.move = 0.26f;
         if (Speed.mc.player.onGround) {
@@ -369,13 +382,13 @@ public class Speed
             this.lowChainVal = 1.0;
             this.highChainVal = 1.0;
         }
-        if (EntityUtil.isEntityMoving(Speed.mc.player) && !Speed.mc.player.collidedHorizontally && !BlockUtil.isBlockAboveEntitySolid(Speed.mc.player) && BlockUtil.isBlockBelowEntitySolid(Speed.mc.player)) {
+        if (EntityUtil.isEntityMoving(Speed.mc.player) && ! Speed.mc.player.collidedHorizontally && ! BlockUtil.isBlockAboveEntitySolid(Speed.mc.player) && BlockUtil.isBlockBelowEntitySolid(Speed.mc.player)) {
             this.oneTime = true;
             this.antiShake = this.noShake.getValue() && Speed.mc.player.getRidingEntity() == null;
             Random random = new Random();
             boolean rnd = random.nextBoolean();
             if (Speed.mc.player.posY >= this.startY + this.bounceHeight) {
-                Speed.mc.player.motionY = -this.bounceHeight;
+                Speed.mc.player.motionY = - this.bounceHeight;
                 this.lowChainVal += 1.0;
                 if (this.lowChainVal == 1.0) {
                     this.move = 0.075f;
@@ -428,7 +441,7 @@ public class Speed
                 if (this.lowChainVal >= 17.0) {
                     this.move = 0.545f;
                 }
-                if (this.useTimer.getValue ()) {
+                if (this.useTimer.getValue()) {
                     CreepyWare.timerManager.setTimer(1.0f);
                 }
             }
@@ -486,7 +499,7 @@ public class Speed
                 if (this.highChainVal >= 17.0) {
                     this.move = 1.2f;
                 }
-                if (this.useTimer.getValue ()) {
+                if (this.useTimer.getValue()) {
                     if (rnd) {
                         CreepyWare.timerManager.setTimer(1.3f);
                     } else {
@@ -497,7 +510,7 @@ public class Speed
             EntityUtil.moveEntityStrafe(this.move, Speed.mc.player);
         } else {
             if (this.oneTime) {
-                Speed.mc.player.motionY = -0.1;
+                Speed.mc.player.motionY = - 0.1;
                 this.oneTime = false;
             }
             this.antiShake = false;
@@ -508,9 +521,10 @@ public class Speed
     }
 
     @Override
-    public void onDisable() {
+    public
+    void onDisable() {
         if (this.mode.getValue() == Mode.ONGROUND || this.mode.getValue() == Mode.BOOST) {
-            Speed.mc.player.motionY = -0.1;
+            Speed.mc.player.motionY = - 0.1;
         }
         this.changeY = false;
         CreepyWare.timerManager.setTimer(1.0f);
@@ -520,21 +534,24 @@ public class Speed
     }
 
     @SubscribeEvent
-    public void onSettingChange(ClientEvent event) {
+    public
+    void onSettingChange(ClientEvent event) {
         if (event.getStage() == 2 && event.getSetting().equals(this.mode) && this.mode.getPlannedValue() == Mode.INSTANT) {
-            Speed.mc.player.motionY = -0.1;
+            Speed.mc.player.motionY = - 0.1;
         }
     }
 
     @Override
-    public String getDisplayInfo() {
+    public
+    String getDisplayInfo() {
         return this.mode.currentEnumName();
     }
 
     @SubscribeEvent
-    public void onMode(MoveEvent event) {
-        if (!(this.shouldReturn() || event.getStage() != 0 || this.mode.getValue() != Mode.INSTANT || Speed.nullCheck() || Speed.mc.player.isSneaking() || Speed.mc.player.isInWater() || Speed.mc.player.isInLava() || Speed.mc.player.movementInput.moveForward == 0.0f && Speed.mc.player.movementInput.moveStrafe == 0.0f)) {
-            if (Speed.mc.player.onGround && this.strafeJump.getValue ()) {
+    public
+    void onMode(MoveEvent event) {
+        if (! (this.shouldReturn() || event.getStage() != 0 || this.mode.getValue() != Mode.INSTANT || Speed.nullCheck() || Speed.mc.player.isSneaking() || Speed.mc.player.isInWater() || Speed.mc.player.isInLava() || Speed.mc.player.movementInput.moveForward == 0.0f && Speed.mc.player.movementInput.moveStrafe == 0.0f)) {
+            if (Speed.mc.player.onGround && this.strafeJump.getValue()) {
                 Speed.mc.player.motionY = 0.4;
                 event.setY(0.4);
             }
@@ -548,34 +565,35 @@ public class Speed
             } else {
                 if ((double) moveForward != 0.0) {
                     if ((double) moveStrafe > 0.0) {
-                        rotationYaw += (float) ((double) moveForward > 0.0 ? -45 : 45);
+                        rotationYaw += (float) ((double) moveForward > 0.0 ? - 45 : 45);
                     } else if ((double) moveStrafe < 0.0) {
-                        rotationYaw += (float) ((double) moveForward > 0.0 ? 45 : -45);
+                        rotationYaw += (float) ((double) moveForward > 0.0 ? 45 : - 45);
                     }
                     moveStrafe = 0.0f;
-                    float f = moveForward == 0.0f ? moveForward : (moveForward = (double) moveForward > 0.0 ? 1.0f : -1.0f);
+                    float f = moveForward == 0.0f ? moveForward : (moveForward = (double) moveForward > 0.0 ? 1.0f : - 1.0f);
                 }
-                moveStrafe = moveStrafe == 0.0f ? moveStrafe : ((double) moveStrafe > 0.0 ? 1.0f : -1.0f);
+                moveStrafe = moveStrafe == 0.0f ? moveStrafe : ((double) moveStrafe > 0.0 ? 1.0f : - 1.0f);
                 event.setX((double) moveForward * EntityUtil.getMaxSpeed() * Math.cos(Math.toRadians(rotationYaw + 90.0f)) + (double) moveStrafe * EntityUtil.getMaxSpeed() * Math.sin(Math.toRadians(rotationYaw + 90.0f)));
                 event.setZ((double) moveForward * EntityUtil.getMaxSpeed() * Math.sin(Math.toRadians(rotationYaw + 90.0f)) - (double) moveStrafe * EntityUtil.getMaxSpeed() * Math.cos(Math.toRadians(rotationYaw + 90.0f)));
             }
         }
     }
 
-    private void speedOff() {
+    private
+    void speedOff() {
         float yaw = (float) Math.toRadians(Speed.mc.player.rotationYaw);
         if (BlockUtil.isBlockAboveEntitySolid(Speed.mc.player)) {
-            if (Speed.mc.gameSettings.keyBindForward.isKeyDown() && !Speed.mc.gameSettings.keyBindSneak.isKeyDown() && Speed.mc.player.onGround) {
+            if (Speed.mc.gameSettings.keyBindForward.isKeyDown() && ! Speed.mc.gameSettings.keyBindSneak.isKeyDown() && Speed.mc.player.onGround) {
                 Speed.mc.player.motionX -= (double) MathUtil.sin(yaw) * 0.15;
                 Speed.mc.player.motionZ += (double) MathUtil.cos(yaw) * 0.15;
             }
         } else if (Speed.mc.player.collidedHorizontally) {
-            if (Speed.mc.gameSettings.keyBindForward.isKeyDown() && !Speed.mc.gameSettings.keyBindSneak.isKeyDown() && Speed.mc.player.onGround) {
+            if (Speed.mc.gameSettings.keyBindForward.isKeyDown() && ! Speed.mc.gameSettings.keyBindSneak.isKeyDown() && Speed.mc.player.onGround) {
                 Speed.mc.player.motionX -= (double) MathUtil.sin(yaw) * 0.03;
                 Speed.mc.player.motionZ += (double) MathUtil.cos(yaw) * 0.03;
             }
-        } else if (!BlockUtil.isBlockBelowEntitySolid(Speed.mc.player)) {
-            if (Speed.mc.gameSettings.keyBindForward.isKeyDown() && !Speed.mc.gameSettings.keyBindSneak.isKeyDown() && Speed.mc.player.onGround) {
+        } else if (! BlockUtil.isBlockBelowEntitySolid(Speed.mc.player)) {
+            if (Speed.mc.gameSettings.keyBindForward.isKeyDown() && ! Speed.mc.gameSettings.keyBindSneak.isKeyDown() && Speed.mc.player.onGround) {
                 Speed.mc.player.motionX -= (double) MathUtil.sin(yaw) * 0.03;
                 Speed.mc.player.motionZ += (double) MathUtil.cos(yaw) * 0.03;
             }
@@ -585,7 +603,8 @@ public class Speed
         }
     }
 
-    public enum Mode {
+    public
+    enum Mode {
         INSTANT,
         ONGROUND,
         ACCEL,

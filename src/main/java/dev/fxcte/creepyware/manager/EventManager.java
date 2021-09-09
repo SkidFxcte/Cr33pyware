@@ -186,17 +186,17 @@ class EventManager
                 switch (packet.getAction()) {
                     case ADD_PLAYER: {
                         String name = data.getProfile().getName();
-                        MinecraftForge.EVENT_BUS.post(new ConnectionEvent(0 , id , name));
+                        MinecraftForge.EVENT_BUS.post(new ConnectionEvent(0, id, name));
                         break;
                     }
                     case REMOVE_PLAYER: {
                         EntityPlayer entity = EventManager.mc.world.getPlayerEntityByUUID(id);
                         if (entity != null) {
                             String logoutName = entity.getName();
-                            MinecraftForge.EVENT_BUS.post(new ConnectionEvent(1 , entity , id , logoutName));
+                            MinecraftForge.EVENT_BUS.post(new ConnectionEvent(1, entity, id, logoutName));
                             break;
                         }
-                        MinecraftForge.EVENT_BUS.post(new ConnectionEvent(2 , id , null));
+                        MinecraftForge.EVENT_BUS.post(new ConnectionEvent(2, id, null));
                     }
                 }
             });
@@ -215,7 +215,7 @@ class EventManager
         GlStateManager.disableTexture2D();
         GlStateManager.enableBlend();
         GlStateManager.disableAlpha();
-        GlStateManager.tryBlendFuncSeparate(770 , 771 , 1 , 0);
+        GlStateManager.tryBlendFuncSeparate(770, 771, 1, 0);
         GlStateManager.shadeModel(7425);
         GlStateManager.disableDepth();
         GlStateManager.glLineWidth(1.0f);
@@ -224,11 +224,11 @@ class EventManager
         IntBuffer viewPort = GLAllocation.createDirectIntBuffer(16);
         FloatBuffer modelView = GLAllocation.createDirectFloatBuffer(16);
         FloatBuffer projectionPort = GLAllocation.createDirectFloatBuffer(16);
-        GL11.glGetFloat(2982 , modelView);
-        GL11.glGetFloat(2983 , projectionPort);
-        GL11.glGetInteger(2978 , viewPort);
+        GL11.glGetFloat(2982, modelView);
+        GL11.glGetFloat(2983, projectionPort);
+        GL11.glGetInteger(2978, viewPort);
         ScaledResolution scaledResolution = new ScaledResolution(Minecraft.getMinecraft());
-        projection.updateMatrices(viewPort , modelView , projectionPort , (double) scaledResolution.getScaledWidth() / (double) Minecraft.getMinecraft().displayWidth , (double) scaledResolution.getScaledHeight() / (double) Minecraft.getMinecraft().displayHeight);
+        projection.updateMatrices(viewPort, modelView, projectionPort, (double) scaledResolution.getScaledWidth() / (double) Minecraft.getMinecraft().displayWidth, (double) scaledResolution.getScaledHeight() / (double) Minecraft.getMinecraft().displayHeight);
         CreepyWare.moduleManager.onRender3D(render3dEvent);
         GlStateManager.glLineWidth(1.0f);
         GlStateManager.shadeModel(7424);
@@ -258,9 +258,9 @@ class EventManager
     void onRenderGameOverlayEvent(RenderGameOverlayEvent.Text event) {
         if (event.getType().equals(RenderGameOverlayEvent.ElementType.TEXT)) {
             ScaledResolution resolution = new ScaledResolution(mc);
-            Render2DEvent render2DEvent = new Render2DEvent(event.getPartialTicks() , resolution);
+            Render2DEvent render2DEvent = new Render2DEvent(event.getPartialTicks(), resolution);
             CreepyWare.moduleManager.onRender2D(render2DEvent);
-            GlStateManager.color(1.0f , 1.0f , 1.0f , 1.0f);
+            GlStateManager.color(1.0f, 1.0f, 1.0f, 1.0f);
         }
     }
 

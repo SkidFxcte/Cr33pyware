@@ -13,7 +13,7 @@ class BlockEvent
     public EnumFacing facing;
 
     public
-    BlockEvent(int stage , BlockPos pos , EnumFacing facing) {
+    BlockEvent(int stage, BlockPos pos, EnumFacing facing) {
         super(stage);
         this.pos = pos;
         this.facing = facing;

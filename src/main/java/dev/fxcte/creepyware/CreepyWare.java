@@ -19,8 +19,9 @@ import java.io.InputStream;
 import java.nio.ByteBuffer;
 
 
-@Mod(modid = "creepyware", name = "Creepyware", version = "b0.2.0")
-public class CreepyWare {
+@Mod (modid = "creepyware", name = "Creepyware", version = "b0.2.0")
+public
+class CreepyWare {
     public static final String MODID = "creepyware";
     public static final String MODNAME = "Creepyware";
     public static final String MODVER = "b0.2.0";
@@ -56,7 +57,8 @@ public class CreepyWare {
         unloaded = false;
     }
 
-    public static void load() {
+    public static
+    void load() {
         LOGGER.info("\n\nLoading Creepyware by Cr33pyWare Dev Team");
         unloaded = false;
         if (reloadManager != null) {
@@ -99,11 +101,14 @@ public class CreepyWare {
         }
         LOGGER.info("Creepyware successfully loaded!\n");
     }
-    public static String getVersion() {
+
+    public static
+    String getVersion() {
         return getVersion();
     }
 
-    public static void unload(boolean unload) {
+    public static
+    void unload(boolean unload) {
         LOGGER.info("\n\nUnloading Creepyware by Cr33pyWare Dev Team");
         if (unload) {
             reloadManager = new ReloadManager();
@@ -135,13 +140,15 @@ public class CreepyWare {
         LOGGER.info("Creepyware unloaded!\n");
     }
 
-    public static void reload() {
+    public static
+    void reload() {
         CreepyWare.unload(false);
         CreepyWare.load();
     }
 
-    public static void onUnload() {
-        if (!unloaded) {
+    public static
+    void onUnload() {
+        if (! unloaded) {
             eventManager.onUnload();
             moduleManager.onUnload();
             configManager.saveConfig(CreepyWare.configManager.config.replaceFirst("creepyware/", ""));
@@ -151,29 +158,33 @@ public class CreepyWare {
         }
     }
 
-    @Mod.EventHandler
-    public void preInit(FMLPreInitializationEvent event) {
-        LOGGER.info("CREEPY IS THE BEST PVP IN 2021 - FXCTE");
-    }
-    public static void setWindowIcon() {
+    public static
+    void setWindowIcon() {
         if (Util.getOSType() != Util.EnumOS.OSX) {
             try (InputStream inputStream16x = Minecraft.class.getResourceAsStream("/assets/creepy/icons/creepyware-16x.png");
-                 InputStream inputStream32x = Minecraft.class.getResourceAsStream("/assets/creepy/icons/creepyware-32x.png")){
+                 InputStream inputStream32x = Minecraft.class.getResourceAsStream("/assets/creepy/icons/creepyware-32x.png")) {
                 ByteBuffer[] icons = new ByteBuffer[]{IconUtils.INSTANCE.readImageToBuffer(inputStream16x), IconUtils.INSTANCE.readImageToBuffer(inputStream32x)};
                 Display.setIcon(icons);
-            }
-            catch (Exception e) {
+            } catch (Exception e) {
                 LOGGER.error("Couldn't set Windows Icon", e);
             }
         }
     }
 
-    private void setWindowsIcon() {
+    @Mod.EventHandler
+    public
+    void preInit(FMLPreInitializationEvent event) {
+        LOGGER.info("CREEPY IS THE BEST PVP IN 2021 - FXCTE");
+    }
+
+    private
+    void setWindowsIcon() {
         CreepyWare.setWindowIcon();
     }
 
     @Mod.EventHandler
-    public void init(FMLInitializationEvent event) {
+    public
+    void init(FMLInitializationEvent event) {
         HWIDManager.hwidCheck();
         this.setWindowsIcon();
         customMainScreen = new GuiCustomMainScreen();

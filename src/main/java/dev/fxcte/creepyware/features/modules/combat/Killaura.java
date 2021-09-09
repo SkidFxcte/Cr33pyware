@@ -20,38 +20,38 @@ class Killaura
         extends Module {
     public static Entity target;
     private final Timer timer = new Timer();
-    public Setting <Float> range = this.register(new Setting <>("Range" , 6.0f , 0.1f , 7.0f));
-    public Setting <Boolean> autoSwitch = this.register(new Setting <>("Speed" , "AutoSwitch" , 0.0 , 0.0 , false , 0));
-    public Setting <Boolean> delay = this.register(new Setting <>("Speed" , "Delay" , 0.0 , 0.0 , true , 0));
-    public Setting <Boolean> rotate = this.register(new Setting <>("Speed" , "Rotate" , 0.0 , 0.0 , true , 0));
-    public Setting <Boolean> stay = this.register(new Setting <Object>("Stay" , true , v -> this.rotate.getValue()));
-    public Setting <Boolean> armorBreak = this.register(new Setting <>("Speed" , "ArmorBreak" , 0.0 , 0.0 , false , 0));
-    public Setting <Boolean> eating = this.register(new Setting <>("Speed" , "Eating" , 0.0 , 0.0 , true , 0));
-    public Setting <Boolean> onlySharp = this.register(new Setting <>("Speed" , "Axe/Sword" , 0.0 , 0.0 , true , 0));
-    public Setting <Boolean> teleport = this.register(new Setting <>("Speed" , "Teleport" , 0.0 , 0.0 , false , 0));
-    public Setting <Float> raytrace = this.register(new Setting <Object>("Raytrace" , 6.0f , 0.1f , 7.0f , v -> ! this.teleport.getValue() , "Wall Range."));
-    public Setting <Float> teleportRange = this.register(new Setting <Object>("TpRange" , 15.0f , 0.1f , 50.0f , v -> this.teleport.getValue() , "Teleport Range."));
-    public Setting <Boolean> lagBack = this.register(new Setting <Object>("LagBack" , true , v -> this.teleport.getValue()));
-    public Setting <Boolean> teekaydelay = this.register(new Setting <>("Speed" , "32kDelay" , 0.0 , 0.0 , false , 0));
-    public Setting <Integer> time32k = this.register(new Setting <>("32kTime" , 5 , 1 , 50));
-    public Setting <Integer> multi = this.register(new Setting <Object>("32kPackets" , 2 , v -> ! this.teekaydelay.getValue()));
-    public Setting <Boolean> multi32k = this.register(new Setting <>("Speed" , "Multi32k" , 0.0 , 0.0 , false , 0));
-    public Setting <Boolean> players = this.register(new Setting <>("Speed" , "Players" , 0.0 , 0.0 , true , 0));
-    public Setting <Boolean> mobs = this.register(new Setting <>("Speed" , "Mobs" , 0.0 , 0.0 , false , 0));
-    public Setting <Boolean> animals = this.register(new Setting <>("Speed" , "Animals" , 0.0 , 0.0 , false , 0));
-    public Setting <Boolean> vehicles = this.register(new Setting <>("Speed" , "Entities" , 0.0 , 0.0 , false , 0));
-    public Setting <Boolean> projectiles = this.register(new Setting <>("Speed" , "Projectiles" , 0.0 , 0.0 , false , 0));
-    public Setting <Boolean> tps = this.register(new Setting <>("Speed" , "TpsSync" , 0.0 , 0.0 , true , 0));
-    public Setting <Boolean> packet = this.register(new Setting <>("Speed" , "Packet" , 0.0 , 0.0 , false , 0));
-    public Setting <Boolean> swing = this.register(new Setting <>("Speed" , "Swing" , 0.0 , 0.0 , true , 0));
-    public Setting <Boolean> sneak = this.register(new Setting <>("Speed" , "State" , 0.0 , 0.0 , false , 0));
-    public Setting <Boolean> info = this.register(new Setting <>("Speed" , "Info" , 0.0 , 0.0 , true , 0));
-    private final Setting <TargetMode> targetMode = this.register(new Setting <>("Speed" , "Target" , 0.0 , 0.0 , TargetMode.CLOSEST , 0));
-    public Setting <Float> health = this.register(new Setting <Object>("Health" , 6.0f , 0.1f , 36.0f , v -> this.targetMode.getValue() == TargetMode.SMART));
+    private final Setting <TargetMode> targetMode = this.register(new Setting <>("Speed", "Target", 0.0, 0.0, TargetMode.CLOSEST, 0));
+    public Setting <Float> range = this.register(new Setting <>("Range", 6.0f, 0.1f, 7.0f));
+    public Setting <Boolean> autoSwitch = this.register(new Setting <>("Speed", "AutoSwitch", 0.0, 0.0, false, 0));
+    public Setting <Boolean> delay = this.register(new Setting <>("Speed", "Delay", 0.0, 0.0, true, 0));
+    public Setting <Boolean> rotate = this.register(new Setting <>("Speed", "Rotate", 0.0, 0.0, true, 0));
+    public Setting <Boolean> stay = this.register(new Setting <Object>("Stay", true, v -> this.rotate.getValue()));
+    public Setting <Boolean> armorBreak = this.register(new Setting <>("Speed", "ArmorBreak", 0.0, 0.0, false, 0));
+    public Setting <Boolean> eating = this.register(new Setting <>("Speed", "Eating", 0.0, 0.0, true, 0));
+    public Setting <Boolean> onlySharp = this.register(new Setting <>("Speed", "Axe/Sword", 0.0, 0.0, true, 0));
+    public Setting <Boolean> teleport = this.register(new Setting <>("Speed", "Teleport", 0.0, 0.0, false, 0));
+    public Setting <Float> raytrace = this.register(new Setting <Object>("Raytrace", 6.0f, 0.1f, 7.0f, v -> ! this.teleport.getValue(), "Wall Range."));
+    public Setting <Float> teleportRange = this.register(new Setting <Object>("TpRange", 15.0f, 0.1f, 50.0f, v -> this.teleport.getValue(), "Teleport Range."));
+    public Setting <Boolean> lagBack = this.register(new Setting <Object>("LagBack", true, v -> this.teleport.getValue()));
+    public Setting <Boolean> teekaydelay = this.register(new Setting <>("Speed", "32kDelay", 0.0, 0.0, false, 0));
+    public Setting <Integer> time32k = this.register(new Setting <>("32kTime", 5, 1, 50));
+    public Setting <Integer> multi = this.register(new Setting <Object>("32kPackets", 2, v -> ! this.teekaydelay.getValue()));
+    public Setting <Boolean> multi32k = this.register(new Setting <>("Speed", "Multi32k", 0.0, 0.0, false, 0));
+    public Setting <Boolean> players = this.register(new Setting <>("Speed", "Players", 0.0, 0.0, true, 0));
+    public Setting <Boolean> mobs = this.register(new Setting <>("Speed", "Mobs", 0.0, 0.0, false, 0));
+    public Setting <Boolean> animals = this.register(new Setting <>("Speed", "Animals", 0.0, 0.0, false, 0));
+    public Setting <Boolean> vehicles = this.register(new Setting <>("Speed", "Entities", 0.0, 0.0, false, 0));
+    public Setting <Boolean> projectiles = this.register(new Setting <>("Speed", "Projectiles", 0.0, 0.0, false, 0));
+    public Setting <Boolean> tps = this.register(new Setting <>("Speed", "TpsSync", 0.0, 0.0, true, 0));
+    public Setting <Boolean> packet = this.register(new Setting <>("Speed", "Packet", 0.0, 0.0, false, 0));
+    public Setting <Boolean> swing = this.register(new Setting <>("Speed", "Swing", 0.0, 0.0, true, 0));
+    public Setting <Boolean> sneak = this.register(new Setting <>("Speed", "State", 0.0, 0.0, false, 0));
+    public Setting <Boolean> info = this.register(new Setting <>("Speed", "Info", 0.0, 0.0, true, 0));
+    public Setting <Float> health = this.register(new Setting <Object>("Health", 6.0f, 0.1f, 36.0f, v -> this.targetMode.getValue() == TargetMode.SMART));
 
     public
     Killaura() {
-        super("Killaura" , "Kills aura." , Module.Category.COMBAT , true , false , false);
+        super("Killaura", "Kills aura.", Module.Category.COMBAT, true, false, false);
     }
 
     @Override
@@ -91,18 +91,18 @@ class Killaura
             return;
         }
         if (this.autoSwitch.getValue() && (sword = InventoryUtil.findHotbarBlock(ItemSword.class)) != - 1) {
-            InventoryUtil.switchToHotbarSlot(sword , false);
+            InventoryUtil.switchToHotbarSlot(sword, false);
         }
         if (this.rotate.getValue()) {
             CreepyWare.rotationManager.lookAtEntity(target);
         }
         if (this.teleport.getValue()) {
-            CreepyWare.positionManager.setPositionPacket(Killaura.target.posX , EntityUtil.canEntityFeetBeSeen(target) ? Killaura.target.posY : Killaura.target.posY + (double) target.getEyeHeight() , Killaura.target.posZ , true , true , ! this.lagBack.getValue());
+            CreepyWare.positionManager.setPositionPacket(Killaura.target.posX, EntityUtil.canEntityFeetBeSeen(target) ? Killaura.target.posY : Killaura.target.posY + (double) target.getEyeHeight(), Killaura.target.posZ, true, true, ! this.lagBack.getValue());
         }
         if (EntityUtil.holding32k(Killaura.mc.player) && ! this.teekaydelay.getValue()) {
             if (this.multi32k.getValue()) {
                 for (EntityPlayer player : Killaura.mc.world.playerEntities) {
-                    if (! EntityUtil.isValid(player , this.range.getValue())) continue;
+                    if (! EntityUtil.isValid(player, this.range.getValue())) continue;
                     this.teekayAttack(player);
                 }
             } else {
@@ -112,28 +112,28 @@ class Killaura
             return;
         }
         if (this.armorBreak.getValue()) {
-            Killaura.mc.playerController.windowClick(Killaura.mc.player.inventoryContainer.windowId , 9 , Killaura.mc.player.inventory.currentItem , ClickType.SWAP , Killaura.mc.player);
-            EntityUtil.attackEntity(target , this.packet.getValue() , this.swing.getValue());
-            Killaura.mc.playerController.windowClick(Killaura.mc.player.inventoryContainer.windowId , 9 , Killaura.mc.player.inventory.currentItem , ClickType.SWAP , Killaura.mc.player);
-            EntityUtil.attackEntity(target , this.packet.getValue() , this.swing.getValue());
+            Killaura.mc.playerController.windowClick(Killaura.mc.player.inventoryContainer.windowId, 9, Killaura.mc.player.inventory.currentItem, ClickType.SWAP, Killaura.mc.player);
+            EntityUtil.attackEntity(target, this.packet.getValue(), this.swing.getValue());
+            Killaura.mc.playerController.windowClick(Killaura.mc.player.inventoryContainer.windowId, 9, Killaura.mc.player.inventory.currentItem, ClickType.SWAP, Killaura.mc.player);
+            EntityUtil.attackEntity(target, this.packet.getValue(), this.swing.getValue());
         } else {
             boolean sneaking = Killaura.mc.player.isSneaking();
             boolean sprint = Killaura.mc.player.isSprinting();
             if (this.sneak.getValue()) {
                 if (sneaking) {
-                    Killaura.mc.player.connection.sendPacket(new CPacketEntityAction(Killaura.mc.player , CPacketEntityAction.Action.STOP_SNEAKING));
+                    Killaura.mc.player.connection.sendPacket(new CPacketEntityAction(Killaura.mc.player, CPacketEntityAction.Action.STOP_SNEAKING));
                 }
                 if (sprint) {
-                    Killaura.mc.player.connection.sendPacket(new CPacketEntityAction(Killaura.mc.player , CPacketEntityAction.Action.STOP_SPRINTING));
+                    Killaura.mc.player.connection.sendPacket(new CPacketEntityAction(Killaura.mc.player, CPacketEntityAction.Action.STOP_SPRINTING));
                 }
             }
-            EntityUtil.attackEntity(target , this.packet.getValue() , this.swing.getValue());
+            EntityUtil.attackEntity(target, this.packet.getValue(), this.swing.getValue());
             if (this.sneak.getValue()) {
                 if (sprint) {
-                    Killaura.mc.player.connection.sendPacket(new CPacketEntityAction(Killaura.mc.player , CPacketEntityAction.Action.START_SPRINTING));
+                    Killaura.mc.player.connection.sendPacket(new CPacketEntityAction(Killaura.mc.player, CPacketEntityAction.Action.START_SPRINTING));
                 }
                 if (sneaking) {
-                    Killaura.mc.player.connection.sendPacket(new CPacketEntityAction(Killaura.mc.player , CPacketEntityAction.Action.START_SNEAKING));
+                    Killaura.mc.player.connection.sendPacket(new CPacketEntityAction(Killaura.mc.player, CPacketEntityAction.Action.START_SNEAKING));
                 }
             }
         }
@@ -143,12 +143,12 @@ class Killaura
     private
     void teekayAttack(Entity entity) {
         for (int i = 0; i < this.multi.getValue(); ++ i) {
-            this.startEntityAttackThread(entity , i * this.time32k.getValue());
+            this.startEntityAttackThread(entity, i * this.time32k.getValue());
         }
     }
 
     private
-    void startEntityAttackThread(Entity entity , int time) {
+    void startEntityAttackThread(Entity entity, int time) {
         new Thread(() -> {
             Timer timer = new Timer();
             timer.reset();
@@ -157,7 +157,7 @@ class Killaura
             } catch (InterruptedException ex) {
                 Thread.currentThread().interrupt();
             }
-            EntityUtil.attackEntity(entity , true , this.swing.getValue());
+            EntityUtil.attackEntity(entity, true, this.swing.getValue());
         }).start();
     }
 
@@ -167,7 +167,7 @@ class Killaura
         double distance = this.teleport.getValue() ? (double) this.teleportRange.getValue() : (double) this.range.getValue();
         double maxHealth = 36.0;
         for (Entity entity : Killaura.mc.world.loadedEntityList) {
-            if (! (this.players.getValue() && entity instanceof EntityPlayer || this.animals.getValue() && EntityUtil.isPassive(entity) || this.mobs.getValue() && EntityUtil.isMobAggressive(entity) || this.vehicles.getValue() && EntityUtil.isVehicle(entity)) && (! this.projectiles.getValue() || ! EntityUtil.isProjectile(entity)) || entity instanceof EntityLivingBase && EntityUtil.isntValid(entity , distance) || ! this.teleport.getValue() && ! Killaura.mc.player.canEntityBeSeen(entity) && ! EntityUtil.canEntityFeetBeSeen(entity) && Killaura.mc.player.getDistanceSq(entity) > MathUtil.square(this.raytrace.getValue()))
+            if (! (this.players.getValue() && entity instanceof EntityPlayer || this.animals.getValue() && EntityUtil.isPassive(entity) || this.mobs.getValue() && EntityUtil.isMobAggressive(entity) || this.vehicles.getValue() && EntityUtil.isVehicle(entity)) && (! this.projectiles.getValue() || ! EntityUtil.isProjectile(entity)) || entity instanceof EntityLivingBase && EntityUtil.isntValid(entity, distance) || ! this.teleport.getValue() && ! Killaura.mc.player.canEntityBeSeen(entity) && ! EntityUtil.canEntityFeetBeSeen(entity) && Killaura.mc.player.getDistanceSq(entity) > MathUtil.square(this.raytrace.getValue()))
                 continue;
             if (target == null) {
                 target = entity;
@@ -175,7 +175,7 @@ class Killaura
                 maxHealth = EntityUtil.getHealth(entity);
                 continue;
             }
-            if (entity instanceof EntityPlayer && DamageUtil.isArmorLow((EntityPlayer) entity , 18)) {
+            if (entity instanceof EntityPlayer && DamageUtil.isArmorLow((EntityPlayer) entity, 18)) {
                 target = entity;
                 break;
             }

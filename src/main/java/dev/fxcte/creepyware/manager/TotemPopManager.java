@@ -30,7 +30,7 @@ class TotemPopManager
                     playerNumber += character;
                     playerNumber *= 10;
                 }
-                Command.sendOverwriteMessage(this.pop(player) , playerNumber , this.notifications.totemNoti.getValue());
+                Command.sendOverwriteMessage(this.pop(player), playerNumber, this.notifications.totemNoti.getValue());
                 this.toAnnounce.remove(player);
                 this.notifications.totemAnnounce.reset();
                 break;
@@ -146,14 +146,14 @@ class TotemPopManager
                 playerNumber += character;
                 playerNumber *= 10;
             }
-            Command.sendOverwriteMessage(this.death1(player) , playerNumber , this.notifications.totemNoti.getValue());
+            Command.sendOverwriteMessage(this.death1(player), playerNumber, this.notifications.totemNoti.getValue());
             this.toAnnounce.remove(player);
         }
         this.resetPops(player);
     }
 
     public
-    void onLogout(EntityPlayer player , boolean clearOnLogout) {
+    void onLogout(EntityPlayer player, boolean clearOnLogout) {
         if (clearOnLogout) {
             this.resetPops(player);
         }
@@ -173,17 +173,17 @@ class TotemPopManager
 
     public
     void resetPops(EntityPlayer player) {
-        this.setTotemPops(player , 0);
+        this.setTotemPops(player, 0);
     }
 
     public
     void popTotem(EntityPlayer player) {
-        this.poplist.merge(player , 1 , Integer::sum);
+        this.poplist.merge(player, 1, Integer::sum);
     }
 
     public
-    void setTotemPops(EntityPlayer player , int amount) {
-        this.poplist.put(player , amount);
+    void setTotemPops(EntityPlayer player, int amount) {
+        this.poplist.put(player, amount);
     }
 
     public

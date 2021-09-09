@@ -10,7 +10,7 @@ class XrayCommand
         extends Command {
     public
     XrayCommand() {
-        super("xray" , new String[]{"<add/del>" , "<block>"});
+        super("xray", new String[]{"<add/del>", "<block>"});
     }
 
     @Override
@@ -45,7 +45,7 @@ class XrayCommand
                 XrayCommand.sendMessage("<XRay>\u00a7c Removed: " + blockName);
             } else if (addRemove.equalsIgnoreCase("add")) {
                 if (! module.shouldRender(blockName)) {
-                    module.register(new Setting <Object>(blockName , true , v -> module.showBlocks.getValue()));
+                    module.register(new Setting <Object>(blockName, true, v -> module.showBlocks.getValue()));
                     XrayCommand.sendMessage("<Xray> Added new Block: " + blockName);
                 }
             } else {

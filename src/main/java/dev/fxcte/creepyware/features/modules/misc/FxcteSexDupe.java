@@ -16,7 +16,7 @@ class FxcteSexDupe
 
     public
     FxcteSexDupe() {
-        super("FxcteSexDupe" , "Hacker shit" , Module.Category.MISC , true , false , false);
+        super("FxcteSexDupe", "Hacker shit", Module.Category.MISC, true, false, false);
     }
 
     public
@@ -37,8 +37,8 @@ class FxcteSexDupe
         int count = random.nextInt(31) + 1;
 
         for (int i = 0; i <= count; i++) {
-            EntityItem entityItem = player.dropItem(itemStack.copy() , false , true);
-            if (entityItem != null) world.addEntityToWorld(entityItem.entityId , entityItem);
+            EntityItem entityItem = player.dropItem(itemStack.copy(), false, true);
+            if (entityItem != null) world.addEntityToWorld(entityItem.entityId, entityItem);
         }
 
         int total = count * itemStack.getCount();

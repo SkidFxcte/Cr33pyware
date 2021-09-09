@@ -10,16 +10,18 @@ import net.minecraft.entity.MoverType;
 import java.util.Random;
 import java.util.UUID;
 
-public class FakePlayer extends Module {
-    public Setting<Boolean> hollow = this.register(new Setting("Speed", "Move", 0.0, 0.0, false, 0));
+public
+class FakePlayer extends Module {
+    public Setting <Boolean> hollow = this.register(new Setting("Speed", "Move", 0.0, 0.0, false, 0));
+    private EntityOtherPlayerMP otherPlayer;
 
-    public FakePlayer() {
+    public
+    FakePlayer() {
         super("FakePlayer", "Spawns fake player", Category.PLAYER, false, false, false);
     }
 
-    private EntityOtherPlayerMP otherPlayer;
-
-    public void onTick() {
+    public
+    void onTick() {
         if (otherPlayer != null) {
             Random random = new Random();
             otherPlayer.moveForward = mc.player.moveForward + (random.nextInt(5) / 10F);
@@ -28,7 +30,8 @@ public class FakePlayer extends Module {
         }
     }
 
-    public void travel(float strafe, float vertical, float forward) {
+    public
+    void travel(float strafe, float vertical, float forward) {
         double d0 = otherPlayer.posY;
         float f1 = 0.8F;
         float f2 = 0.02F;
@@ -38,7 +41,7 @@ public class FakePlayer extends Module {
             f3 = 3.0F;
         }
 
-        if (!otherPlayer.onGround) {
+        if (! otherPlayer.onGround) {
             f3 *= 0.5F;
         }
 
@@ -53,7 +56,7 @@ public class FakePlayer extends Module {
         otherPlayer.motionY *= 0.800000011920929D;
         otherPlayer.motionZ *= f1;
 
-        if (!otherPlayer.hasNoGravity()) {
+        if (! otherPlayer.hasNoGravity()) {
             otherPlayer.motionY -= 0.02D;
         }
 
@@ -63,7 +66,8 @@ public class FakePlayer extends Module {
     }
 
     @Override
-    public void onEnable() {
+    public
+    void onEnable() {
         if (mc.world == null || mc.player == null) {
             toggle();
             return;
@@ -78,7 +82,8 @@ public class FakePlayer extends Module {
     }
 
     @Override
-    public void onDisable() {
+    public
+    void onDisable() {
         if (otherPlayer != null) {
             mc.world.removeEntity(otherPlayer);
             otherPlayer = null;

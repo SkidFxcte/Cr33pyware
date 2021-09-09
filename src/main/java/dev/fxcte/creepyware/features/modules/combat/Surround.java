@@ -5,7 +5,6 @@ import dev.fxcte.creepyware.CreepyWare;
 import dev.fxcte.creepyware.features.command.Command;
 import dev.fxcte.creepyware.features.modules.Module;
 import dev.fxcte.creepyware.features.setting.Setting;
-import dev.fxcte.creepyware.util.Timer;
 import dev.fxcte.creepyware.util.*;
 import dev.fxcte.creepyware.util.creepywareutils.CreepyWareUtils;
 import net.minecraft.block.BlockEnderChest;
@@ -15,20 +14,24 @@ import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
 
-import java.util.*;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Set;
 
-public class Surround
+public
+class Surround
         extends Module {
     public static boolean isPlacing = false;
-    private final Setting<Integer> blocksPerTick = this.register(new Setting <> ("BlocksPerTick" , 12 , 1 , 20));
-    private final Setting<Integer> delay = this.register(new Setting <> ("Delay" , 0 , 0 , 250));
-    private final Setting<Boolean> noGhost = this.register(new Setting <> ("Speed" , "PacketPlace" , 0.0 , 0.0 , false , 0));
-    private final Setting<Boolean> center = this.register(new Setting <> ("Speed" , "TPCenter" , 0.0 , 0.0 , false , 0));
-    private final Setting<Boolean> rotate = this.register(new Setting <> ("Speed" , "Rotate" , 0.0 , 0.0 , true , 0));
+    private final Setting <Integer> blocksPerTick = this.register(new Setting <>("BlocksPerTick", 12, 1, 20));
+    private final Setting <Integer> delay = this.register(new Setting <>("Delay", 0, 0, 250));
+    private final Setting <Boolean> noGhost = this.register(new Setting <>("Speed", "PacketPlace", 0.0, 0.0, false, 0));
+    private final Setting <Boolean> center = this.register(new Setting <>("Speed", "TPCenter", 0.0, 0.0, false, 0));
+    private final Setting <Boolean> rotate = this.register(new Setting <>("Speed", "Rotate", 0.0, 0.0, true, 0));
     private final dev.fxcte.creepyware.util.Timer timer = new dev.fxcte.creepyware.util.Timer();
     private final dev.fxcte.creepyware.util.Timer retryTimer = new Timer();
-    private final Set<Vec3d> extendingBlocks = new HashSet <> ();
-    private final Map<BlockPos, Integer> retries = new HashMap <> ();
+    private final Set <Vec3d> extendingBlocks = new HashSet <>();
+    private final Map <BlockPos, Integer> retries = new HashMap <>();
     private int isSafe;
     private BlockPos startPos;
     private boolean didPlace = false;
@@ -37,21 +40,23 @@ public class Surround
     private boolean isSneaking;
     private int placements = 0;
     private int extenders = 1;
-    private int obbySlot = -1;
+    private int obbySlot = - 1;
     private boolean offHand = false;
 
-    public Surround() {
+    public
+    Surround() {
         super("Surround", "Surrounds you with Obsidian", Module.Category.COMBAT, true, false, false);
     }
 
     @Override
-    public void onEnable() {
+    public
+    void onEnable() {
         if (Surround.fullNullCheck()) {
             this.disable();
         }
         this.lastHotbarSlot = Surround.mc.player.inventory.currentItem;
         this.startPos = EntityUtil.getRoundedBlockPos(Surround.mc.player);
-        if (this.center.getValue ()) {
+        if (this.center.getValue()) {
             CreepyWare.positionManager.setPositionPacket((double) this.startPos.getX() + 0.5, this.startPos.getY(), (double) this.startPos.getZ() + 0.5, true, true, true);
         }
         this.retries.clear();
@@ -59,12 +64,14 @@ public class Surround
     }
 
     @Override
-    public void onTick() {
+    public
+    void onTick() {
         this.doFeetPlace();
     }
 
     @Override
-    public void onDisable() {
+    public
+    void onDisable() {
         if (Surround.nullCheck()) {
             return;
         }
@@ -73,7 +80,8 @@ public class Surround
     }
 
     @Override
-    public String getDisplayInfo() {
+    public
+    String getDisplayInfo() {
         switch (this.isSafe) {
             case 0: {
                 return ChatFormatting.RED + "Unsafe";
@@ -85,19 +93,18 @@ public class Surround
         return ChatFormatting.GREEN + "Safe";
     }
 
-    private void doFeetPlace() {
+    private
+    void doFeetPlace() {
         if (this.check()) {
             return;
         }
-        if (!CreepyWareUtils.isSafe(Surround.mc.player , 0, true)) {
+        if (! CreepyWareUtils.isSafe(Surround.mc.player, 0, true)) {
             this.isSafe = 0;
-            this.placeBlocks(Surround.mc.player.getPositionVector(), CreepyWareUtils.getUnsafeBlockArray(Surround.mc.player , 0, true), true, false, false);
-        }
-        else if (!CreepyWareUtils.isSafe(Surround.mc.player , -1, false)) {
+            this.placeBlocks(Surround.mc.player.getPositionVector(), CreepyWareUtils.getUnsafeBlockArray(Surround.mc.player, 0, true), true, false, false);
+        } else if (! CreepyWareUtils.isSafe(Surround.mc.player, - 1, false)) {
             this.isSafe = 1;
-            this.placeBlocks(Surround.mc.player.getPositionVector(), CreepyWareUtils.getUnsafeBlockArray(Surround.mc.player , -1, false), false, false, true);
-        }
-        else {
+            this.placeBlocks(Surround.mc.player.getPositionVector(), CreepyWareUtils.getUnsafeBlockArray(Surround.mc.player, - 1, false), false, false, true);
+        } else {
             this.isSafe = 3;
             if (Util.mc.world.getBlockState(EntityUtil.getRoundedBlockPos(Util.mc.player)).getBlock().equals(Blocks.ENDER_CHEST) && Util.mc.player.posY != EntityUtil.getRoundedBlockPos(Util.mc.player).getY()) {
                 this.placeBlocks(Surround.mc.player.getPositionVector(), CreepyWareUtils.getUnsafeBlockArray(Surround.mc.player, 1, false), false, false, true);
@@ -111,15 +118,15 @@ public class Surround
         }
     }
 
-    private void processExtendingBlocks() {
+    private
+    void processExtendingBlocks() {
         if (this.extendingBlocks.size() == 2 && this.extenders < 1) {
             Vec3d[] array = new Vec3d[2];
             int i = 0;
-            Iterator<Vec3d> iterator = this.extendingBlocks.iterator();
-            while (iterator.hasNext()) {
+            for (Vec3d extendingBlock : this.extendingBlocks) {
                 Vec3d vec3d;
-                array[i] = vec3d = iterator.next();
-                ++i;
+                array[i] = vec3d = extendingBlock;
+                ++ i;
             }
             int placementsBefore = this.placements;
             if (this.areClose(array) != null) {
@@ -133,12 +140,13 @@ public class Surround
         }
     }
 
-    private Vec3d areClose(Vec3d[] vec3ds) {
+    private
+    Vec3d areClose(Vec3d[] vec3ds) {
         int matches = 0;
         for (Vec3d vec3d : vec3ds) {
             for (Vec3d pos : CreepyWareUtils.getUnsafeBlockArray(Surround.mc.player, 0, true)) {
-                if (!vec3d.equals(pos)) continue;
-                ++matches;
+                if (! vec3d.equals(pos)) continue;
+                ++ matches;
             }
         }
         if (matches == 2) {
@@ -147,7 +155,8 @@ public class Surround
         return null;
     }
 
-    private boolean placeBlocks(Vec3d pos, Vec3d[] vec3ds, boolean hasHelpingBlocks, boolean isHelping, boolean isExtending) {
+    private
+    boolean placeBlocks(Vec3d pos, Vec3d[] vec3ds, boolean hasHelpingBlocks, boolean isHelping, boolean isExtending) {
         boolean gotHelp = true;
         block5:
         for (Vec3d vec3d : vec3ds) {
@@ -161,21 +170,22 @@ public class Surround
                         this.retryTimer.reset();
                         continue block5;
                     }
-                    if (CreepyWare.speedManager.getSpeedKpH() != 0.0 || isExtending || this.extenders >= 1) continue block5;
+                    if (CreepyWare.speedManager.getSpeedKpH() != 0.0 || isExtending || this.extenders >= 1)
+                        continue block5;
                     this.placeBlocks(Surround.mc.player.getPositionVector().add(vec3d), CreepyWareUtils.getUnsafeBlockArrayFromVec3d(Surround.mc.player.getPositionVector().add(vec3d), 0, true), hasHelpingBlocks, false, true);
                     this.extendingBlocks.add(vec3d);
-                    ++this.extenders;
+                    ++ this.extenders;
                     continue block5;
                 }
                 case 2: {
-                    if (!hasHelpingBlocks) continue block5;
+                    if (! hasHelpingBlocks) continue block5;
                     gotHelp = this.placeBlocks(pos, BlockUtil.getHelpingBlocks(vec3d), false, true, true);
                 }
                 case 3: {
                     if (gotHelp) {
                         this.placeBlock(position);
                     }
-                    if (!isHelping) continue block5;
+                    if (! isHelping) continue block5;
                     return true;
                 }
             }
@@ -183,13 +193,14 @@ public class Surround
         return false;
     }
 
-    private boolean check() {
+    private
+    boolean check() {
         if (Surround.nullCheck()) {
             return true;
         }
         int obbySlot = InventoryUtil.findHotbarBlock(BlockObsidian.class);
         int eChestSot = InventoryUtil.findHotbarBlock(BlockEnderChest.class);
-        if (obbySlot == -1 && eChestSot == -1) {
+        if (obbySlot == - 1 && eChestSot == - 1) {
             this.toggle();
         }
         this.offHand = InventoryUtil.isBlock(Surround.mc.player.getHeldItemOffhand().getItem(), BlockObsidian.class);
@@ -206,7 +217,7 @@ public class Surround
             this.retries.clear();
             this.retryTimer.reset();
         }
-        if (this.obbySlot == -1 && !this.offHand && echestSlot == -1) {
+        if (this.obbySlot == - 1 && ! this.offHand && echestSlot == - 1) {
             Command.sendMessage("<" + this.getDisplayName() + "> " + ChatFormatting.RED + "No Obsidian in hotbar disabling...");
             this.disable();
             return true;
@@ -215,29 +226,30 @@ public class Surround
         if (Surround.mc.player.inventory.currentItem != this.lastHotbarSlot && Surround.mc.player.inventory.currentItem != this.obbySlot && Surround.mc.player.inventory.currentItem != echestSlot) {
             this.lastHotbarSlot = Surround.mc.player.inventory.currentItem;
         }
-        if (!this.startPos.equals(EntityUtil.getRoundedBlockPos(Surround.mc.player))) {
+        if (! this.startPos.equals(EntityUtil.getRoundedBlockPos(Surround.mc.player))) {
             this.disable();
             return true;
         }
-        return !this.timer.passedMs(this.delay.getValue ());
+        return ! this.timer.passedMs(this.delay.getValue());
     }
 
-    private void placeBlock(BlockPos pos) {
+    private
+    void placeBlock(BlockPos pos) {
         if (this.placements < this.blocksPerTick.getValue()) {
             int originalSlot = Surround.mc.player.inventory.currentItem;
             int obbySlot = InventoryUtil.findHotbarBlock(BlockObsidian.class);
             int eChestSot = InventoryUtil.findHotbarBlock(BlockEnderChest.class);
-            if (obbySlot == -1 && eChestSot == -1) {
+            if (obbySlot == - 1 && eChestSot == - 1) {
                 this.toggle();
             }
             isPlacing = true;
-            Surround.mc.player.inventory.currentItem = obbySlot == -1 ? eChestSot : obbySlot;
+            Surround.mc.player.inventory.currentItem = obbySlot == - 1 ? eChestSot : obbySlot;
             Surround.mc.playerController.updateController();
             this.isSneaking = BlockUtil.placeBlock(pos, this.offHand ? EnumHand.OFF_HAND : EnumHand.MAIN_HAND, this.rotate.getValue(), this.noGhost.getValue(), this.isSneaking);
             Surround.mc.player.inventory.currentItem = originalSlot;
             Surround.mc.playerController.updateController();
             this.didPlace = true;
-            ++this.placements;
+            ++ this.placements;
         }
     }
 }

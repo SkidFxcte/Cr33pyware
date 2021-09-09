@@ -18,12 +18,12 @@ class DonatorItem implements Globals {
     private double ySpeed;
 
     public
-    DonatorItem(String name , int size , int width , int height , int canvasWidth , int canvasHeight) {
+    DonatorItem(String name, int size, int width, int height, int canvasWidth, int canvasHeight) {
         this.name = name;
         this.size = size;
 
-        this.x = MathUtil.random(20 , canvasWidth - 20);
-        this.y = MathUtil.random(20 , canvasHeight - 20);
+        this.x = MathUtil.random(20, canvasWidth - 20);
+        this.y = MathUtil.random(20, canvasHeight - 20);
 
         this.canvasWidth = canvasWidth;
         this.canvasHeight = canvasHeight;

@@ -15,50 +15,50 @@ import org.lwjgl.input.Mouse;
 public
 class SilentXP
         extends Module {
-    public Setting < Mode > mode = this.register ( new Setting <> ("Speed", "Mode" , 0.0, 0.0, Mode.MIDDLECLICK, 0) );
-    public Setting < Boolean > antiFriend = this.register ( new Setting <> ("Speed", "AntiFriend" , 0.0, 0.0, true, 0) );
-    public Setting < Bind > key = this.register ( new Setting <> ( "Key" , new Bind ( - 1 ) , v -> mode.getValue ( ) != Mode.MIDDLECLICK ) );
-    public Setting < Boolean > groundOnly = this.register ( new Setting <> ("Speed", "BelowHorizon" , 0.0, 0.0, false, 0) );
+    public Setting <Mode> mode = this.register(new Setting <>("Speed", "Mode", 0.0, 0.0, Mode.MIDDLECLICK, 0));
+    public Setting <Boolean> antiFriend = this.register(new Setting <>("Speed", "AntiFriend", 0.0, 0.0, true, 0));
+    public Setting <Bind> key = this.register(new Setting <>("Key", new Bind(- 1), v -> mode.getValue() != Mode.MIDDLECLICK));
+    public Setting <Boolean> groundOnly = this.register(new Setting <>("Speed", "BelowHorizon", 0.0, 0.0, false, 0));
     private boolean last;
     private boolean on;
 
     public
-    SilentXP ( ) {
-        super ( "SilentXP" , "Silent XP" , Module.Category.PLAYER , false , false , false );
+    SilentXP() {
+        super("SilentXP", "Silent XP", Module.Category.PLAYER, false, false, false);
     }
 
     @Override
     public
-    void onUpdate ( ) {
-        if ( SilentXP.fullNullCheck ( ) ) return;
-        switch (this.mode.getValue ( )) {
+    void onUpdate() {
+        if (SilentXP.fullNullCheck()) return;
+        switch (this.mode.getValue()) {
             case PRESS:
-                if ( this.key.getValue ( ).isDown ( ) )
-                    this.throwXP ( false );
+                if (this.key.getValue().isDown())
+                    this.throwXP(false);
                 break;
             case TOGGLE:
-                if ( toggled ( ) ) {
-                    this.throwXP ( false );
+                if (toggled()) {
+                    this.throwXP(false);
                 }
                 break;
             default:
-                if ( this.groundOnly.getValue ( ) && SilentXP.mc.player.rotationPitch < 0 ) return;
-                if ( Mouse.isButtonDown ( 2 ) )
-                    this.throwXP ( true );
+                if (this.groundOnly.getValue() && SilentXP.mc.player.rotationPitch < 0) return;
+                if (Mouse.isButtonDown(2))
+                    this.throwXP(true);
         }
     }
 
     private
-    boolean toggled ( ) {
-        if ( this.key.getValue ( ).getKey ( ) == - 1 )
+    boolean toggled() {
+        if (this.key.getValue().getKey() == - 1)
             return false;
-        if ( ! Keyboard.isKeyDown ( this.key.getValue ( ).getKey ( ) ) ) {
+        if (! Keyboard.isKeyDown(this.key.getValue().getKey())) {
             this.last = true;
-        } else if ( ( Keyboard.isKeyDown ( this.key.getValue ( ).getKey ( ) ) ) && this.last && ! this.on ) {
+        } else if ((Keyboard.isKeyDown(this.key.getValue().getKey())) && this.last && ! this.on) {
             this.last = false;
             this.on = true;
             return this.on;
-        } else if ( ( Keyboard.isKeyDown ( this.key.getValue ( ).getKey ( ) ) ) && this.last && this.on ) {
+        } else if ((Keyboard.isKeyDown(this.key.getValue().getKey())) && this.last && this.on) {
             this.last = false;
             this.on = false;
             return this.on;
@@ -67,21 +67,21 @@ class SilentXP
     }
 
     private
-    void throwXP ( boolean mcf ) {
+    void throwXP(boolean mcf) {
         boolean offhand;
         RayTraceResult result;
-        if ( mcf && this.antiFriend.getValue ( ) && ( result = SilentXP.mc.objectMouseOver ) != null && result.typeOfHit == RayTraceResult.Type.ENTITY && result.entityHit instanceof EntityPlayer )
+        if (mcf && this.antiFriend.getValue() && (result = SilentXP.mc.objectMouseOver) != null && result.typeOfHit == RayTraceResult.Type.ENTITY && result.entityHit instanceof EntityPlayer)
             return;
-        int xpSlot = InventoryUtil.findHotbarBlock ( ItemExpBottle.class );
-        offhand = SilentXP.mc.player.getHeldItemOffhand ( ).getItem ( ) == Items.EXPERIENCE_BOTTLE;
-        if ( xpSlot != - 1 || offhand ) {
+        int xpSlot = InventoryUtil.findHotbarBlock(ItemExpBottle.class);
+        offhand = SilentXP.mc.player.getHeldItemOffhand().getItem() == Items.EXPERIENCE_BOTTLE;
+        if (xpSlot != - 1 || offhand) {
             int oldslot = SilentXP.mc.player.inventory.currentItem;
-            if ( ! offhand ) {
-                InventoryUtil.switchToHotbarSlot ( xpSlot , false );
+            if (! offhand) {
+                InventoryUtil.switchToHotbarSlot(xpSlot, false);
             }
-            SilentXP.mc.playerController.processRightClick ( SilentXP.mc.player , SilentXP.mc.world , offhand ? EnumHand.OFF_HAND : EnumHand.MAIN_HAND );
-            if ( ! offhand ) {
-                InventoryUtil.switchToHotbarSlot ( oldslot , false );
+            SilentXP.mc.playerController.processRightClick(SilentXP.mc.player, SilentXP.mc.world, offhand ? EnumHand.OFF_HAND : EnumHand.MAIN_HAND);
+            if (! offhand) {
+                InventoryUtil.switchToHotbarSlot(oldslot, false);
             }
         }
     }

@@ -13,7 +13,7 @@ public
 class MixinVisGraph {
     @Inject (method = {"setOpaqueCube"}, at = {@At (value = "HEAD")}, cancellable = true)
     public
-    void setOpaqueCubeHook(BlockPos pos , CallbackInfo info) {
+    void setOpaqueCubeHook(BlockPos pos, CallbackInfo info) {
         try {
             if (XRay.getInstance().isOn()) {
                 info.cancel();

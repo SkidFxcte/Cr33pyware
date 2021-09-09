@@ -16,7 +16,7 @@ class MixinServerAddress {
         ServerModule module;
         int port;
         if (ip.equals(ServerModule.getInstance().ip.getValue()) && (port = (module = ServerModule.getInstance()).getPort()) != - 1) {
-            return new String[]{ServerModule.getInstance().ip.getValue() , Integer.toString(port)};
+            return new String[]{ServerModule.getInstance().ip.getValue(), Integer.toString(port)};
         }
         return IServerAddress.getServerAddress(ip);
     }

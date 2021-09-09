@@ -10,7 +10,7 @@ class PacketEvent
     private final Packet <?> packet;
 
     public
-    PacketEvent(int stage , Packet <?> packet) {
+    PacketEvent(int stage, Packet <?> packet) {
         super(stage);
         this.packet = packet;
     }
@@ -25,8 +25,8 @@ class PacketEvent
     class Send
             extends PacketEvent {
         public
-        Send(int stage , Packet <?> packet) {
-            super(stage , packet);
+        Send(int stage, Packet <?> packet) {
+            super(stage, packet);
         }
     }
 
@@ -35,8 +35,8 @@ class PacketEvent
     class Receive
             extends PacketEvent {
         public
-        Receive(int stage , Packet <?> packet) {
-            super(stage , packet);
+        Receive(int stage, Packet <?> packet) {
+            super(stage, packet);
         }
     }
 }

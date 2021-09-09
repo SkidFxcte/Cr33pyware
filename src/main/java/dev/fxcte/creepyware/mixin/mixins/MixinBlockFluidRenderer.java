@@ -16,7 +16,7 @@ public
 class MixinBlockFluidRenderer {
     @Inject (method = {"renderFluid"}, at = {@At (value = "HEAD")}, cancellable = true)
     public
-    void renderFluidHook(IBlockAccess blockAccess , IBlockState blockState , BlockPos blockPos , BufferBuilder bufferBuilder , CallbackInfoReturnable <Boolean> info) {
+    void renderFluidHook(IBlockAccess blockAccess, IBlockState blockState, BlockPos blockPos, BufferBuilder bufferBuilder, CallbackInfoReturnable <Boolean> info) {
         if (XRay.getInstance().isOn() && ! XRay.getInstance().shouldRender(blockState.getBlock())) {
             info.setReturnValue(false);
             info.cancel();

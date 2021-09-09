@@ -17,13 +17,13 @@ public
 class MixinGuiPlayerTabOverlay extends Gui {
     @Redirect (method = {"renderPlayerlist"}, at = @At (value = "INVOKE", target = "Ljava/util/List;subList(II)Ljava/util/List;"))
     public
-    List <NetworkPlayerInfo> subListHook(List <NetworkPlayerInfo> list , int fromIndex , int toIndex) {
-        return list.subList(fromIndex , ExtraTab.getINSTANCE().isEnabled() ? Math.min((ExtraTab.getINSTANCE()).size.getValue() , list.size()) : toIndex);
+    List <NetworkPlayerInfo> subListHook(List <NetworkPlayerInfo> list, int fromIndex, int toIndex) {
+        return list.subList(fromIndex, ExtraTab.getINSTANCE().isEnabled() ? Math.min((ExtraTab.getINSTANCE()).size.getValue(), list.size()) : toIndex);
     }
 
     @Inject (method = {"getPlayerName"}, at = {@At ("HEAD")}, cancellable = true)
     public
-    void getPlayerNameHook(NetworkPlayerInfo networkPlayerInfoIn , CallbackInfoReturnable <String> info) {
+    void getPlayerNameHook(NetworkPlayerInfo networkPlayerInfoIn, CallbackInfoReturnable <String> info) {
         if (ExtraTab.getINSTANCE().isEnabled())
             info.setReturnValue(ExtraTab.getPlayerName(networkPlayerInfoIn));
     }

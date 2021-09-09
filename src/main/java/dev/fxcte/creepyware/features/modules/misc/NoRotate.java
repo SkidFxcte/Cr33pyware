@@ -11,14 +11,14 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 public
 class NoRotate
         extends Module {
-    private final Setting <Integer> waitDelay = this.register(new Setting <>("Delay" , 2500 , 0 , 10000));
+    private final Setting <Integer> waitDelay = this.register(new Setting <>("Delay", 2500, 0, 10000));
     private final Timer timer = new Timer();
     private boolean cancelPackets = true;
     private boolean timerReset = false;
 
     public
     NoRotate() {
-        super("NoRotate" , "Dangerous to use might desync you." , Module.Category.MISC , true , false , false);
+        super("NoRotate", "Dangerous to use might desync you.", Module.Category.MISC, true, false, false);
     }
 
     @Override

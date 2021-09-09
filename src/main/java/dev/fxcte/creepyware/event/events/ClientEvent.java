@@ -13,7 +13,7 @@ class ClientEvent
     private Setting setting;
 
     public
-    ClientEvent(int stage , Feature feature) {
+    ClientEvent(int stage, Feature feature) {
         super(stage);
         this.feature = feature;
     }

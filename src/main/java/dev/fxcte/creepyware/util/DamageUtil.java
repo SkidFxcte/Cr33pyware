@@ -20,7 +20,7 @@ public
 class DamageUtil
         implements Util {
     public static
-    boolean isArmorLow(EntityPlayer player , int durability) {
+    boolean isArmorLow(EntityPlayer player, int durability) {
         for (ItemStack piece : player.inventory.armorInventory) {
             if (piece == null) {
                 return true;
@@ -72,13 +72,13 @@ class DamageUtil
     }
 
     public static
-    float calculateDamage(double posX , double posY , double posZ , Entity entity) {
+    float calculateDamage(double posX, double posY, double posZ, Entity entity) {
         float doubleExplosionSize = 12.0f;
-        double distancedsize = entity.getDistance(posX , posY , posZ) / (double) doubleExplosionSize;
-        Vec3d vec3d = new Vec3d(posX , posY , posZ);
+        double distancedsize = entity.getDistance(posX, posY, posZ) / (double) doubleExplosionSize;
+        Vec3d vec3d = new Vec3d(posX, posY, posZ);
         double blockDensity = 0.0;
         try {
-            blockDensity = entity.world.getBlockDensity(vec3d , entity.getEntityBoundingBox());
+            blockDensity = entity.world.getBlockDensity(vec3d, entity.getEntityBoundingBox());
         } catch (Exception exception) {
             // empty catch block
         }
@@ -86,33 +86,33 @@ class DamageUtil
         float damage = (int) ((v * v + v) / 2.0 * 7.0 * (double) doubleExplosionSize + 1.0);
         double finald = 1.0;
         if (entity instanceof EntityLivingBase) {
-            finald = DamageUtil.getBlastReduction((EntityLivingBase) entity , DamageUtil.getDamageMultiplied(damage) , new Explosion(DamageUtil.mc.world , null , posX , posY , posZ , 6.0f , false , true));
+            finald = DamageUtil.getBlastReduction((EntityLivingBase) entity, DamageUtil.getDamageMultiplied(damage), new Explosion(DamageUtil.mc.world, null, posX, posY, posZ, 6.0f, false, true));
         }
         return (float) finald;
     }
 
     public static
-    float getBlastReduction(EntityLivingBase entity , float damageI , Explosion explosion) {
+    float getBlastReduction(EntityLivingBase entity, float damageI, Explosion explosion) {
         float damage = damageI;
         if (entity instanceof EntityPlayer) {
             EntityPlayer ep = (EntityPlayer) entity;
             DamageSource ds = DamageSource.causeExplosionDamage(explosion);
-            damage = CombatRules.getDamageAfterAbsorb(damage , (float) ep.getTotalArmorValue() , (float) ep.getEntityAttribute(SharedMonsterAttributes.ARMOR_TOUGHNESS).getAttributeValue());
+            damage = CombatRules.getDamageAfterAbsorb(damage, (float) ep.getTotalArmorValue(), (float) ep.getEntityAttribute(SharedMonsterAttributes.ARMOR_TOUGHNESS).getAttributeValue());
             int k = 0;
             try {
-                k = EnchantmentHelper.getEnchantmentModifierDamage(ep.getArmorInventoryList() , ds);
+                k = EnchantmentHelper.getEnchantmentModifierDamage(ep.getArmorInventoryList(), ds);
             } catch (Exception exception) {
                 // empty catch block
             }
-            float f = MathHelper.clamp((float) k , 0.0f , 20.0f);
+            float f = MathHelper.clamp((float) k, 0.0f, 20.0f);
             damage *= 1.0f - f / 25.0f;
             if (entity.isPotionActive(MobEffects.RESISTANCE)) {
                 damage -= damage / 4.0f;
             }
-            damage = Math.max(damage , 0.0f);
+            damage = Math.max(damage, 0.0f);
             return damage;
         }
-        damage = CombatRules.getDamageAfterAbsorb(damage , (float) entity.getTotalArmorValue() , (float) entity.getEntityAttribute(SharedMonsterAttributes.ARMOR_TOUGHNESS).getAttributeValue());
+        damage = CombatRules.getDamageAfterAbsorb(damage, (float) entity.getTotalArmorValue(), (float) entity.getEntityAttribute(SharedMonsterAttributes.ARMOR_TOUGHNESS).getAttributeValue());
         return damage;
     }
 
@@ -123,13 +123,13 @@ class DamageUtil
     }
 
     public static
-    float calculateDamage(Entity crystal , Entity entity) {
-        return DamageUtil.calculateDamage(crystal.posX , crystal.posY , crystal.posZ , entity);
+    float calculateDamage(Entity crystal, Entity entity) {
+        return DamageUtil.calculateDamage(crystal.posX, crystal.posY, crystal.posZ, entity);
     }
 
     public static
-    float calculateDamage(BlockPos pos , Entity entity) {
-        return DamageUtil.calculateDamage((double) pos.getX() + 0.5 , pos.getY() + 1 , (double) pos.getZ() + 0.5 , entity);
+    float calculateDamage(BlockPos pos, Entity entity) {
+        return DamageUtil.calculateDamage((double) pos.getX() + 0.5, pos.getY() + 1, (double) pos.getZ() + 0.5, entity);
     }
 
     public static

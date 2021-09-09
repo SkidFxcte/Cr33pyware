@@ -8,12 +8,12 @@ public
 class Media
         extends Module {
     private static Media instance;
-    public final Setting <Boolean> changeOwn = this.register(new Setting <>("Speed" , "MyName" , 0.0 , 0.0 , true , 0));
-    public final Setting <String> ownName = this.register(new Setting <Object>("Name" , "Name here..." , v -> this.changeOwn.getValue()));
+    public final Setting <Boolean> changeOwn = this.register(new Setting <>("Speed", "MyName", 0.0, 0.0, true, 0));
+    public final Setting <String> ownName = this.register(new Setting <Object>("Name", "Name here...", v -> this.changeOwn.getValue()));
 
     public
     Media() {
-        super("Media" , "Helps with creating Media" , Module.Category.CLIENT , false , false , false);
+        super("Media", "Helps with creating Media", Module.Category.CLIENT, false, false, false);
         instance = this;
     }
 

@@ -18,7 +18,7 @@ class MixinKeyBinding {
     @Inject (method = {"isKeyDown"}, at = {@At (value = "RETURN")}, cancellable = true)
     private
     void isKeyDown(CallbackInfoReturnable <Boolean> info) {
-        KeyEvent event = new KeyEvent(0 , info.getReturnValue() , this.pressed);
+        KeyEvent event = new KeyEvent(0, info.getReturnValue(), this.pressed);
         MinecraftForge.EVENT_BUS.post(event);
         info.setReturnValue(event.info);
     }

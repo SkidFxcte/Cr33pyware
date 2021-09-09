@@ -19,7 +19,7 @@ class RenderEntityModelEvent
     public float scale;
 
     public
-    RenderEntityModelEvent(int stage , ModelBase modelBase , Entity entity , float limbSwing , float limbSwingAmount , float age , float headYaw , float headPitch , float scale) {
+    RenderEntityModelEvent(int stage, ModelBase modelBase, Entity entity, float limbSwing, float limbSwingAmount, float age, float headYaw, float headPitch, float scale) {
         super(stage);
         this.modelBase = modelBase;
         this.entity = entity;

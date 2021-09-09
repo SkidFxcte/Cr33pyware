@@ -26,7 +26,7 @@ class ConfigManager
     public boolean savingConfig;
 
     public static
-    void setValueFromJson(Feature feature , Setting setting , JsonElement element) {
+    void setValueFromJson(Feature feature, Setting setting, JsonElement element) {
         switch (setting.getType()) {
             case "Boolean": {
                 setting.setValue(element.getAsBoolean());
@@ -46,7 +46,7 @@ class ConfigManager
             }
             case "String": {
                 String str = element.getAsString();
-                setting.setValue(str.replace("_" , " "));
+                setting.setValue(str.replace("_", " "));
                 break;
             }
             case "Bind": {
@@ -69,13 +69,13 @@ class ConfigManager
     }
 
     private static
-    void loadFile(JsonObject input , Feature feature) {
+    void loadFile(JsonObject input, Feature feature) {
         for (Map.Entry entry : input.entrySet()) {
             String settingName = (String) entry.getKey();
             JsonElement element = (JsonElement) entry.getValue();
             if (feature instanceof FriendManager) {
                 try {
-                    CreepyWare.friendManager.addFriend(new FriendManager.Friend(element.getAsString() , UUID.fromString(settingName)));
+                    CreepyWare.friendManager.addFriend(new FriendManager.Friend(element.getAsString(), UUID.fromString(settingName)));
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -84,7 +84,7 @@ class ConfigManager
                 for (Setting setting : feature.getSettings()) {
                     if (! settingName.equals(setting.getName())) continue;
                     try {
-                        ConfigManager.setValueFromJson(feature , setting , element);
+                        ConfigManager.setValueFromJson(feature, setting, element);
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
@@ -93,7 +93,7 @@ class ConfigManager
                 if (settingFound) continue;
             }
             if (feature instanceof XRay) {
-                feature.register(new Setting <>(settingName , true , v -> ((XRay) feature).showBlocks.getValue()));
+                feature.register(new Setting <>(settingName, true, v -> ((XRay) feature).showBlocks.getValue()));
                 continue;
             }
         }
@@ -142,14 +142,14 @@ class ConfigManager
         try {
             if (currentConfig.exists()) {
                 FileWriter writer = new FileWriter(currentConfig);
-                String tempConfig = this.config.replaceAll("/" , "");
-                writer.write(tempConfig.replaceAll("creepyware" , ""));
+                String tempConfig = this.config.replaceAll("/", "");
+                writer.write(tempConfig.replaceAll("creepyware", ""));
                 writer.close();
             } else {
                 currentConfig.createNewFile();
                 FileWriter writer = new FileWriter(currentConfig);
-                String tempConfig = this.config.replaceAll("/" , "");
-                writer.write(tempConfig.replaceAll("creepyware" , ""));
+                String tempConfig = this.config.replaceAll("/", "");
+                writer.write(tempConfig.replaceAll("creepyware", ""));
                 writer.close();
             }
         } catch (Exception e) {
@@ -176,7 +176,7 @@ class ConfigManager
     }
 
     public
-    void resetConfig(boolean saveConfig , String name) {
+    void resetConfig(boolean saveConfig, String name) {
         for (Feature feature : this.features) {
             feature.reset();
         }
@@ -220,17 +220,17 @@ class ConfigManager
         if (! Files.exists(featurePath)) {
             return;
         }
-        this.loadPath(featurePath , feature);
+        this.loadPath(featurePath, feature);
     }
 
     private
-    void loadPath(Path path , Feature feature) throws IOException {
+    void loadPath(Path path, Feature feature) throws IOException {
         InputStream stream = Files.newInputStream(path);
         try {
-            ConfigManager.loadFile(new JsonParser().parse(new InputStreamReader(stream)).getAsJsonObject() , feature);
+            ConfigManager.loadFile(new JsonParser().parse(new InputStreamReader(stream)).getAsJsonObject(), feature);
         } catch (IllegalStateException e) {
             CreepyWare.LOGGER.error("Bad Config File for: " + feature.getName() + ". Resetting...");
-            ConfigManager.loadFile(new JsonObject() , feature);
+            ConfigManager.loadFile(new JsonObject(), feature);
         }
         stream.close();
     }
@@ -242,15 +242,15 @@ class ConfigManager
         for (Setting setting : feature.getSettings()) {
             if (setting.isEnumSetting()) {
                 EnumConverter converter = new EnumConverter(((Enum) setting.getValue()).getClass());
-                object.add(setting.getName() , converter.doForward((Enum) setting.getValue()));
+                object.add(setting.getName(), converter.doForward((Enum) setting.getValue()));
                 continue;
             }
             if (setting.isStringSetting()) {
                 String str = (String) setting.getValue();
-                setting.setValue(str.replace(" " , "_"));
+                setting.setValue(str.replace(" ", "_"));
             }
             try {
-                object.add(setting.getName() , jp.parse(setting.getValueAsString()));
+                object.add(setting.getName(), jp.parse(setting.getValueAsString()));
             } catch (Exception e) {
                 e.printStackTrace();
             }

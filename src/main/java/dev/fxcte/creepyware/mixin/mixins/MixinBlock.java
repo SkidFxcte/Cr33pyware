@@ -17,12 +17,12 @@ class MixinBlock {
     @Shadow
     @Deprecated
     public abstract
-    float getBlockHardness(IBlockState var1 , World var2 , BlockPos var3);
+    float getBlockHardness(IBlockState var1, World var2, BlockPos var3);
 
 
     @Inject (method = {"isFullCube"}, at = {@At (value = "HEAD")}, cancellable = true)
     public
-    void isFullCubeHook(IBlockState blockState , CallbackInfoReturnable <Boolean> info) {
+    void isFullCubeHook(IBlockState blockState, CallbackInfoReturnable <Boolean> info) {
         try {
             if (XRay.getInstance().isOn()) {
                 info.setReturnValue(XRay.getInstance().shouldRender(Block.class.cast(this)));

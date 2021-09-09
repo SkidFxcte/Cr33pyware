@@ -23,7 +23,7 @@ public
 class HoleManager
         extends Feature
         implements Runnable {
-    private static final BlockPos[] surroundOffset = BlockUtil.toBlockPos(EntityUtil.getOffsets(0 , true , true));
+    private static final BlockPos[] surroundOffset = BlockUtil.toBlockPos(EntityUtil.getOffsets(0, true, true));
     private final List <BlockPos> midSafety = new ArrayList <>();
     private final Timer syncTimer = new Timer();
     private final AtomicBoolean shouldInterrupt = new AtomicBoolean(false);
@@ -83,7 +83,7 @@ class HoleManager
     private
     ScheduledExecutorService getExecutor() {
         ScheduledExecutorService service = Executors.newSingleThreadScheduledExecutor();
-        service.scheduleAtFixedRate(this , 0L , Managers.getInstance().holeUpdates.getValue() , TimeUnit.MILLISECONDS);
+        service.scheduleAtFixedRate(this, 0L, Managers.getInstance().holeUpdates.getValue(), TimeUnit.MILLISECONDS);
         return service;
     }
 
@@ -134,9 +134,9 @@ class HoleManager
     List <BlockPos> calcHoles() {
         ArrayList <BlockPos> safeSpots = new ArrayList <>();
         this.midSafety.clear();
-        List <BlockPos> positions = BlockUtil.getSphere(EntityUtil.getPlayerPos(HoleManager.mc.player) , Managers.getInstance().holeRange.getValue() , Managers.getInstance().holeRange.getValue().intValue() , false , true , 0);
+        List <BlockPos> positions = BlockUtil.getSphere(EntityUtil.getPlayerPos(HoleManager.mc.player), Managers.getInstance().holeRange.getValue(), Managers.getInstance().holeRange.getValue().intValue(), false, true, 0);
         for (BlockPos pos : positions) {
-            if (! HoleManager.mc.world.getBlockState(pos).getBlock().equals(Blocks.AIR) || ! HoleManager.mc.world.getBlockState(pos.add(0 , 1 , 0)).getBlock().equals(Blocks.AIR) || ! HoleManager.mc.world.getBlockState(pos.add(0 , 2 , 0)).getBlock().equals(Blocks.AIR))
+            if (! HoleManager.mc.world.getBlockState(pos).getBlock().equals(Blocks.AIR) || ! HoleManager.mc.world.getBlockState(pos.add(0, 1, 0)).getBlock().equals(Blocks.AIR) || ! HoleManager.mc.world.getBlockState(pos.add(0, 2, 0)).getBlock().equals(Blocks.AIR))
                 continue;
             boolean isSafe = true;
             boolean midSafe = true;

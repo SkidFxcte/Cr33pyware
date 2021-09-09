@@ -18,24 +18,27 @@ import java.io.IOException;
 import java.util.Iterator;
 import java.util.Objects;
 
-public class StashLogger
+public
+class StashLogger
         extends Module {
-    private final Setting<Boolean> chests = this.register(new Setting <> ("Speed" , "Chests" , 0.0 , 0.0 , true , 0));
-    private final Setting<Integer> chestsValue = this.register(new Setting<Object>("ChestsValue", 4 , 1 , 30 , v -> this.chests.getValue()));
-    private final Setting<Boolean> Shulkers = this.register(new Setting <> ("Speed" , "Shulkers" , 0.0 , 0.0 , true , 0));
-    private final Setting<Integer> shulkersValue = this.register(new Setting<Object>("ShulkersValue", 4 , 1 , 30 , v -> this.Shulkers.getValue()));
-    private final Setting<Boolean> writeToFile = this.register(new Setting <> ("Speed" , "CoordsSaver" , 0.0 , 0.0 , true , 0));
+    final Iterator <NBTTagCompound> iterator;
+    private final Setting <Boolean> chests = this.register(new Setting <>("Speed", "Chests", 0.0, 0.0, true, 0));
+    private final Setting <Integer> chestsValue = this.register(new Setting <Object>("ChestsValue", 4, 1, 30, v -> this.chests.getValue()));
+    private final Setting <Boolean> Shulkers = this.register(new Setting <>("Speed", "Shulkers", 0.0, 0.0, true, 0));
+    private final Setting <Integer> shulkersValue = this.register(new Setting <Object>("ShulkersValue", 4, 1, 30, v -> this.Shulkers.getValue()));
+    private final Setting <Boolean> writeToFile = this.register(new Setting <>("Speed", "CoordsSaver", 0.0, 0.0, true, 0));
     File mainFolder;
-    final Iterator<NBTTagCompound> iterator;
 
-    public StashLogger() {
+    public
+    StashLogger() {
         super("StashLogger", "Logs stashes", Module.Category.MISC, true, false, false);
         this.mainFolder = new File(Minecraft.getMinecraft().gameDir + File.separator + "legacy");
         this.iterator = null;
     }
 
     @SubscribeEvent
-    public void onPacket(PacketEvent event) {
+    public
+    void onPacket(PacketEvent event) {
         if (StashLogger.nullCheck()) {
             return;
         }
@@ -45,12 +48,12 @@ public class StashLogger
             int shulkers = 0;
             for (NBTTagCompound l_Tag : l_Packet.getTileEntityTags()) {
                 String l_Id = l_Tag.getString("id");
-                if (l_Id.equals("minecraft:chest") && this.chests.getValue ()) {
-                    ++l_ChestsCount;
+                if (l_Id.equals("minecraft:chest") && this.chests.getValue()) {
+                    ++ l_ChestsCount;
                     continue;
                 }
-                if (!l_Id.equals("minecraft:shulker_box") || ! this.Shulkers.getValue ()) continue;
-                ++shulkers;
+                if (! l_Id.equals("minecraft:shulker_box") || ! this.Shulkers.getValue()) continue;
+                ++ shulkers;
             }
             if (l_ChestsCount >= this.chestsValue.getValue()) {
                 this.SendMessage(String.format("%s chests located at X: %s, Z: %s", l_ChestsCount, l_Packet.getChunkX() * 16, l_Packet.getChunkZ() * 16), true);
@@ -61,20 +64,20 @@ public class StashLogger
         }
     }
 
-    private void SendMessage(String message, boolean save) {
+    private
+    void SendMessage(String message, boolean save) {
         String server;
-        String string = server = Minecraft.getMinecraft().isSingleplayer() ? "singleplayer".toUpperCase() : Objects.requireNonNull (StashLogger.mc.getCurrentServerData ()).serverIP;
-        if (this.writeToFile.getValue () && save) {
+        String string = server = Minecraft.getMinecraft().isSingleplayer() ? "singleplayer".toUpperCase() : Objects.requireNonNull(StashLogger.mc.getCurrentServerData()).serverIP;
+        if (this.writeToFile.getValue() && save) {
             try {
                 FileWriter writer = new FileWriter(this.mainFolder + "/stashes.txt", true);
                 writer.write("[" + server + "]: " + message + "\n");
                 writer.close();
-            }
-            catch (IOException e) {
+            } catch (IOException e) {
                 e.printStackTrace();
             }
         }
-        mc.getSoundHandler().playSound(PositionedSoundRecord.getRecord(SoundEvents.ENTITY_EXPERIENCE_ORB_PICKUP , 1.0f , 1.0f));
+        mc.getSoundHandler().playSound(PositionedSoundRecord.getRecord(SoundEvents.ENTITY_EXPERIENCE_ORB_PICKUP, 1.0f, 1.0f));
         Command.sendMessage(ChatFormatting.GREEN + message);
     }
 }

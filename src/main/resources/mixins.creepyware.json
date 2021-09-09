@@ -48,8 +48,8 @@
     "accessors.IC00Handshake",
     "accessors.IContainer",
     "accessors.IEntityLivingBase",
+    "accessors.IMinecraft",
     "accessors.IServerAddress",
-    "accessors.ISPacketSetSlot",
-    "accessors.IMinecraft"
+    "accessors.ISPacketSetSlot"
   ]
 }

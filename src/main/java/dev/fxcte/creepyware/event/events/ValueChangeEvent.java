@@ -10,7 +10,7 @@ class ValueChangeEvent
     public Object value;
 
     public
-    ValueChangeEvent(Setting setting , Object value) {
+    ValueChangeEvent(Setting setting, Object value) {
         this.setting = setting;
         this.value = value;
     }

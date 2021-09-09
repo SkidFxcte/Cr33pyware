@@ -15,7 +15,7 @@ class ProcessRightClickBlockEvent
     public ItemStack stack;
 
     public
-    ProcessRightClickBlockEvent(BlockPos pos , EnumHand hand , ItemStack stack) {
+    ProcessRightClickBlockEvent(BlockPos pos, EnumHand hand, ItemStack stack) {
         this.pos = pos;
         this.hand = hand;
         this.stack = stack;

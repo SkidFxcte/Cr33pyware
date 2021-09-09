@@ -15,7 +15,7 @@ class FriendCommand
         extends Command {
     public
     FriendCommand() {
-        super("friend" , new String[]{"<add/del/name/clear>" , "<name>"});
+        super("friend", new String[]{"<add/del/name/clear>", "<name>"});
     }
 
     @Override

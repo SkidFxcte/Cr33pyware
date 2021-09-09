@@ -24,22 +24,22 @@ import org.lwjgl.input.Keyboard;
 public
 class NoSlowDown
         extends Module {
-    private static final KeyBinding[] keys = new KeyBinding[]{NoSlowDown.mc.gameSettings.keyBindForward , NoSlowDown.mc.gameSettings.keyBindBack , NoSlowDown.mc.gameSettings.keyBindLeft , NoSlowDown.mc.gameSettings.keyBindRight , NoSlowDown.mc.gameSettings.keyBindJump , NoSlowDown.mc.gameSettings.keyBindSprint};
+    private static final KeyBinding[] keys = new KeyBinding[]{NoSlowDown.mc.gameSettings.keyBindForward, NoSlowDown.mc.gameSettings.keyBindBack, NoSlowDown.mc.gameSettings.keyBindLeft, NoSlowDown.mc.gameSettings.keyBindRight, NoSlowDown.mc.gameSettings.keyBindJump, NoSlowDown.mc.gameSettings.keyBindSprint};
     private static NoSlowDown INSTANCE = new NoSlowDown();
-    public final Setting <Double> webHorizontalFactor = this.register(new Setting <>("WebHSpeed" , 2.0 , 0.0 , 100.0));
-    public final Setting <Double> webVerticalFactor = this.register(new Setting <>("WebVSpeed" , 2.0 , 0.0 , 100.0));
-    public Setting <Boolean> guiMove = this.register(new Setting <>("Speed" , "GuiMove" , 0.0 , 0.0 , true , 0));
-    public Setting <Boolean> noSlow = this.register(new Setting <>("Speed" , "NoSlow" , 0.0 , 0.0 , true , 0));
-    public Setting <Boolean> soulSand = this.register(new Setting <>("Speed" , "SoulSand" , 0.0 , 0.0 , true , 0));
-    public Setting <Boolean> strict = this.register(new Setting <>("Speed" , "Strict" , 0.0 , 0.0 , false , 0));
-    public Setting <Boolean> sneakPacket = this.register(new Setting <>("Speed" , "SneakPacket" , 0.0 , 0.0 , false , 0));
-    public Setting <Boolean> endPortal = this.register(new Setting <>("Speed" , "EndPortal" , 0.0 , 0.0 , false , 0));
-    public Setting <Boolean> webs = this.register(new Setting <>("Speed" , "Webs" , 0.0 , 0.0 , false , 0));
+    public final Setting <Double> webHorizontalFactor = this.register(new Setting <>("WebHSpeed", 2.0, 0.0, 100.0));
+    public final Setting <Double> webVerticalFactor = this.register(new Setting <>("WebVSpeed", 2.0, 0.0, 100.0));
+    public Setting <Boolean> guiMove = this.register(new Setting <>("Speed", "GuiMove", 0.0, 0.0, true, 0));
+    public Setting <Boolean> noSlow = this.register(new Setting <>("Speed", "NoSlow", 0.0, 0.0, true, 0));
+    public Setting <Boolean> soulSand = this.register(new Setting <>("Speed", "SoulSand", 0.0, 0.0, true, 0));
+    public Setting <Boolean> strict = this.register(new Setting <>("Speed", "Strict", 0.0, 0.0, false, 0));
+    public Setting <Boolean> sneakPacket = this.register(new Setting <>("Speed", "SneakPacket", 0.0, 0.0, false, 0));
+    public Setting <Boolean> endPortal = this.register(new Setting <>("Speed", "EndPortal", 0.0, 0.0, false, 0));
+    public Setting <Boolean> webs = this.register(new Setting <>("Speed", "Webs", 0.0, 0.0, false, 0));
     private boolean sneaking = false;
 
     public
     NoSlowDown() {
-        super("NoSlowDown" , "Prevents you from getting slowed down." , Module.Category.MOVEMENT , true , false , false);
+        super("NoSlowDown", "Prevents you from getting slowed down.", Module.Category.MOVEMENT, true, false, false);
         this.setInstance();
     }
 
@@ -62,12 +62,12 @@ class NoSlowDown
         if (this.guiMove.getValue()) {
             if (NoSlowDown.mc.currentScreen instanceof GuiOptions || NoSlowDown.mc.currentScreen instanceof GuiVideoSettings || NoSlowDown.mc.currentScreen instanceof GuiScreenOptionsSounds || NoSlowDown.mc.currentScreen instanceof GuiContainer || NoSlowDown.mc.currentScreen instanceof GuiIngameMenu) {
                 for (KeyBinding bind : keys) {
-                    KeyBinding.setKeyBindState(bind.getKeyCode() , Keyboard.isKeyDown(bind.getKeyCode()));
+                    KeyBinding.setKeyBindState(bind.getKeyCode(), Keyboard.isKeyDown(bind.getKeyCode()));
                 }
             } else if (NoSlowDown.mc.currentScreen == null) {
                 for (KeyBinding bind : keys) {
                     if (Keyboard.isKeyDown(bind.getKeyCode())) continue;
-                    KeyBinding.setKeyBindState(bind.getKeyCode() , false);
+                    KeyBinding.setKeyBindState(bind.getKeyCode(), false);
                 }
             }
         }
@@ -78,7 +78,7 @@ class NoSlowDown
         }
         Item item = NoSlowDown.mc.player.getActiveItemStack().getItem();
         if (this.sneaking && ! NoSlowDown.mc.player.isHandActive() && this.sneakPacket.getValue()) {
-            NoSlowDown.mc.player.connection.sendPacket(new CPacketEntityAction(NoSlowDown.mc.player , CPacketEntityAction.Action.STOP_SNEAKING));
+            NoSlowDown.mc.player.connection.sendPacket(new CPacketEntityAction(NoSlowDown.mc.player, CPacketEntityAction.Action.STOP_SNEAKING));
             this.sneaking = false;
         }
     }
@@ -88,7 +88,7 @@ class NoSlowDown
     void onUseItem(PlayerInteractEvent.RightClickItem event) {
         Item item = NoSlowDown.mc.player.getHeldItem(event.getHand()).getItem();
         if ((item instanceof ItemFood || item instanceof ItemBow || item instanceof ItemPotion && this.sneakPacket.getValue()) && ! this.sneaking) {
-            NoSlowDown.mc.player.connection.sendPacket(new CPacketEntityAction(NoSlowDown.mc.player , CPacketEntityAction.Action.START_SNEAKING));
+            NoSlowDown.mc.player.connection.sendPacket(new CPacketEntityAction(NoSlowDown.mc.player, CPacketEntityAction.Action.START_SNEAKING));
             this.sneaking = true;
         }
     }
@@ -114,7 +114,7 @@ class NoSlowDown
     public
     void onPacket(PacketEvent.Send event) {
         if (event.getPacket() instanceof CPacketPlayer && this.strict.getValue() && this.noSlow.getValue() && NoSlowDown.mc.player.isHandActive() && ! NoSlowDown.mc.player.isRiding()) {
-            NoSlowDown.mc.player.connection.sendPacket(new CPacketPlayerDigging(CPacketPlayerDigging.Action.ABORT_DESTROY_BLOCK , new BlockPos(Math.floor(NoSlowDown.mc.player.posX) , Math.floor(NoSlowDown.mc.player.posY) , Math.floor(NoSlowDown.mc.player.posZ)) , EnumFacing.DOWN));
+            NoSlowDown.mc.player.connection.sendPacket(new CPacketPlayerDigging(CPacketPlayerDigging.Action.ABORT_DESTROY_BLOCK, new BlockPos(Math.floor(NoSlowDown.mc.player.posX), Math.floor(NoSlowDown.mc.player.posY), Math.floor(NoSlowDown.mc.player.posZ)), EnumFacing.DOWN));
         }
     }
 }

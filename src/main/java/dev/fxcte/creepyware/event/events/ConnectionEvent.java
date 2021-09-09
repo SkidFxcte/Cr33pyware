@@ -13,7 +13,7 @@ class ConnectionEvent
     private final String name;
 
     public
-    ConnectionEvent(int stage , UUID uuid , String name) {
+    ConnectionEvent(int stage, UUID uuid, String name) {
         super(stage);
         this.uuid = uuid;
         this.name = name;
@@ -21,7 +21,7 @@ class ConnectionEvent
     }
 
     public
-    ConnectionEvent(int stage , EntityPlayer entity , UUID uuid , String name) {
+    ConnectionEvent(int stage, EntityPlayer entity, UUID uuid, String name) {
         super(stage);
         this.entity = entity;
         this.uuid = uuid;
