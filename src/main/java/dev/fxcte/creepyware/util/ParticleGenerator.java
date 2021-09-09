@@ -8,11 +8,11 @@ import java.util.Random;
 
 public class ParticleGenerator {
 
-    private final int count;
-    private final int width;
-    private final int height;
-    private final ArrayList<Particle> particles = new ArrayList();
-    private final Random random = new Random();
+    private int count;
+    private int width;
+    private int height;
+    private ArrayList<Particle> particles = new ArrayList();
+    private Random random = new Random();
     int state = 0;
     int a = 255;
     int r = 255;
@@ -50,13 +50,13 @@ public class ParticleGenerator {
         private int k;
         private float size;
         private boolean reset;
-        private final Random random = new Random();
+        private Random random = new Random();
 
         public Particle(int x, int y)
         {
             this.x = x;
             this.y = y;
-            this.size = genRandom(1.0F, 3.0F);
+            this.size = genRandom(1.0F, 4.0F);
         }
 
         public void draw(int mouseX, int mouseY)
@@ -73,8 +73,8 @@ public class ParticleGenerator {
 
             float distance = (float) Utils.distance(this.x + xx, this.y + yy, mouseX, mouseY);
 
-            if (distance < 50) {
-                float alpha1 = Math.min(1.0f, Math.min(1.0f, 1.0f - distance / 50));
+            if (distance < 80) {
+                float alpha1 = Math.min(1.0f, Math.min(1.0f, 1.0f - distance / 80));
 
                 GL11.glEnable(GL11.GL_LINE_SMOOTH);
                 GL11.glDisable(GL11.GL_DEPTH_TEST);
@@ -83,7 +83,7 @@ public class ParticleGenerator {
                 GL11.glDepthMask(false);
                 GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
                 GL11.glEnable(GL11.GL_BLEND);
-                GL11.glLineWidth(0.1F);
+                GL11.glLineWidth(0.5F);
                 GL11.glBegin(GL11.GL_LINES);
 
                 GL11.glVertex2f(this.x + xx, this.y + yy);
@@ -96,7 +96,7 @@ public class ParticleGenerator {
         {
             this.x = this.random.nextInt(ParticleGenerator.this.width);
             this.y = this.random.nextInt(ParticleGenerator.this.height);
-            this.size = genRandom(1.0F, 3.0F);
+            this.size = genRandom(1.0F, 4.0F);
         }
 
         public float genRandom(float min, float max)
