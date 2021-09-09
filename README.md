@@ -1,7 +1,7 @@
 # Cr33pyware
 
-A awesome client
-Creepy is best pvper
+Based client made by Naterrk#6969
+Cr33py is best pvper,coder, and the richest person ever. Cope nns.
 ## ClickGui
 
 <details>
