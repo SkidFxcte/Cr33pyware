@@ -3,7 +3,6 @@
 Client that using OyVey base, made by _Fxcte#9716, kurohere#0909 , SSLWasTaken 🐴#9123
 Cr33py is best pvper,coder, and the richest person ever. Cope nns.💀
 
-Credit : thanks perry for the rat 
 ## ClickGui
 
 <details>
@@ -17,8 +16,7 @@ Credit : thanks perry for the rat
 
 ### Devs
 
-
-> **MAIN DEV naterrk** : `edited the read me`
+> **Perry** : `Huge code cleanups.`
 >
 > **Fxcte** : `creator of this client`
 >
