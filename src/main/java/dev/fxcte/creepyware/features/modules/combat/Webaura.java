@@ -23,25 +23,25 @@ import java.util.List;
 public class Webaura
         extends Module {
     public static boolean isPlacing = false;
-    private final Setting<Boolean> server = this.register(new Setting<Boolean>("Speed", "Server", 0.0, 0.0, false, 0));
-    private final Setting<Integer> delay = this.register(new Setting<Integer>("Delay/Place", 50, 0, 250));
-    private final Setting<Integer> blocksPerPlace = this.register(new Setting<Integer>("Block/Place", 8, 1, 30));
-    private final Setting<Double> targetRange = this.register(new Setting<Double>("TargetRange", 10.0, 0.0, 20.0));
-    private final Setting<Double> range = this.register(new Setting<Double>("PlaceRange", 6.0, 0.0, 10.0));
-    private final Setting<TargetMode> targetMode = this.register(new Setting<TargetMode>("Speed", "Target", 0.0, 0.0, TargetMode.CLOSEST, 0));
-    private final Setting<InventoryUtil.Switch> switchMode = this.register(new Setting<InventoryUtil.Switch>("Speed", "Switch", 0.0, 0.0, InventoryUtil.Switch.NORMAL, 0));
-    private final Setting<Boolean> rotate = this.register(new Setting<Boolean>("Speed", "Rotate", 0.0, 0.0, true, 0));
-    private final Setting<Boolean> raytrace = this.register(new Setting<Boolean>("Speed", "Raytrace", 0.0, 0.0, false, 0));
-    private final Setting<Double> speed = this.register(new Setting<Double>("Speed", 30.0, 0.0, 30.0));
-    private final Setting<Boolean> upperBody = this.register(new Setting<Boolean>("Speed", "Upper", 0.0, 0.0, false, 0));
-    private final Setting<Boolean> lowerbody = this.register(new Setting<Boolean>("Speed", "Lower", 0.0, 0.0, true, 0));
-    private final Setting<Boolean> ylower = this.register(new Setting<Boolean>("Speed", "Y-1", 0.0, 0.0, false, 0));
-    private final Setting<Boolean> antiSelf = this.register(new Setting<Boolean>("Speed", "AntiSelf", 0.0, 0.0, false, 0));
-    private final Setting<Integer> eventMode = this.register(new Setting<Integer>("Updates", 3, 1, 3));
-    private final Setting<Boolean> freecam = this.register(new Setting<Boolean>("Speed", "Freecam", 0.0, 0.0, false, 0));
-    private final Setting<Boolean> info = this.register(new Setting<Boolean>("Speed", "Info", 0.0, 0.0, false, 0));
-    private final Setting<Boolean> disable = this.register(new Setting<Boolean>("Speed", "TSelfMove", 0.0, 0.0, false, 0));
-    private final Setting<Boolean> packet = this.register(new Setting<Boolean>("Speed", "Packet", 0.0, 0.0, false, 0));
+    private final Setting<Boolean> server = this.register(new Setting <> ("Speed" , "Server" , 0.0 , 0.0 , false , 0));
+    private final Setting<Integer> delay = this.register(new Setting <> ("Delay/Place" , 50 , 0 , 250));
+    private final Setting<Integer> blocksPerPlace = this.register(new Setting <> ("Block/Place" , 8 , 1 , 30));
+    private final Setting<Double> targetRange = this.register(new Setting <> ("TargetRange" , 10.0 , 0.0 , 20.0));
+    private final Setting<Double> range = this.register(new Setting <> ("PlaceRange" , 6.0 , 0.0 , 10.0));
+    private final Setting<TargetMode> targetMode = this.register(new Setting <> ("Speed" , "Target" , 0.0 , 0.0 , TargetMode.CLOSEST , 0));
+    private final Setting<InventoryUtil.Switch> switchMode = this.register(new Setting <> ("Speed" , "Switch" , 0.0 , 0.0 , InventoryUtil.Switch.NORMAL , 0));
+    private final Setting<Boolean> rotate = this.register(new Setting <> ("Speed" , "Rotate" , 0.0 , 0.0 , true , 0));
+    private final Setting<Boolean> raytrace = this.register(new Setting <> ("Speed" , "Raytrace" , 0.0 , 0.0 , false , 0));
+    private final Setting<Double> speed = this.register(new Setting <> ("Speed" , 30.0 , 0.0 , 30.0));
+    private final Setting<Boolean> upperBody = this.register(new Setting <> ("Speed" , "Upper" , 0.0 , 0.0 , false , 0));
+    private final Setting<Boolean> lowerbody = this.register(new Setting <> ("Speed" , "Lower" , 0.0 , 0.0 , true , 0));
+    private final Setting<Boolean> ylower = this.register(new Setting <> ("Speed" , "Y-1" , 0.0 , 0.0 , false , 0));
+    private final Setting<Boolean> antiSelf = this.register(new Setting <> ("Speed" , "AntiSelf" , 0.0 , 0.0 , false , 0));
+    private final Setting<Integer> eventMode = this.register(new Setting <> ("Updates" , 3 , 1 , 3));
+    private final Setting<Boolean> freecam = this.register(new Setting <> ("Speed" , "Freecam" , 0.0 , 0.0 , false , 0));
+    private final Setting<Boolean> info = this.register(new Setting <> ("Speed" , "Info" , 0.0 , 0.0 , false , 0));
+    private final Setting<Boolean> disable = this.register(new Setting <> ("Speed" , "TSelfMove" , 0.0 , 0.0 , false , 0));
+    private final Setting<Boolean> packet = this.register(new Setting <> ("Speed" , "Packet" , 0.0 , 0.0 , false , 0));
     private final Timer timer = new Timer();
     public EntityPlayer target;
     private boolean didPlace = false;
@@ -99,7 +99,7 @@ public class Webaura
 
     @Override
     public String getDisplayInfo() {
-        if (this.info.getValue().booleanValue() && this.target != null) {
+        if (this.info.getValue () && this.target != null) {
             return this.target.getName();
         }
         return null;
@@ -133,15 +133,15 @@ public class Webaura
     }
 
     private List<Vec3d> getPlacements() {
-        ArrayList<Vec3d> list = new ArrayList<Vec3d>();
+        ArrayList<Vec3d> list = new ArrayList <> ();
         Vec3d baseVec = this.target.getPositionVector();
-        if (this.ylower.getValue().booleanValue()) {
+        if (this.ylower.getValue ()) {
             list.add(baseVec.add(0.0, -1.0, 0.0));
         }
-        if (this.lowerbody.getValue().booleanValue()) {
+        if (this.lowerbody.getValue ()) {
             list.add(baseVec);
         }
-        if (this.upperBody.getValue().booleanValue()) {
+        if (this.upperBody.getValue ()) {
             list.add(baseVec.add(0.0, 1.0, 0.0));
         }
         return list;
@@ -153,7 +153,7 @@ public class Webaura
         for (Vec3d vec3d3 : list) {
             BlockPos position = new BlockPos(vec3d3);
             int placeability = BlockUtil.isPositionPlaceable(position, this.raytrace.getValue());
-            if (placeability != 3 && placeability != 1 || this.antiSelf.getValue().booleanValue() && MathUtil.areVec3dsAligned(Webaura.mc.player.getPositionVector(), vec3d3))
+            if (placeability != 3 && placeability != 1 || this.antiSelf.getValue () && MathUtil.areVec3dsAligned(Webaura.mc.player.getPositionVector(), vec3d3))
                 continue;
             this.placeBlock(position);
         }
@@ -167,13 +167,13 @@ public class Webaura
         if (this.isOff()) {
             return true;
         }
-        if (this.disable.getValue().booleanValue() && !this.startPos.equals(EntityUtil.getRoundedBlockPos(Webaura.mc.player))) {
+        if (this.disable.getValue () && !this.startPos.equals(EntityUtil.getRoundedBlockPos(Webaura.mc.player))) {
             this.disable();
             return true;
         }
         if (obbySlot == -1) {
             if (this.switchMode.getValue() != InventoryUtil.Switch.NONE) {
-                if (this.info.getValue().booleanValue()) {
+                if (this.info.getValue ()) {
                     Command.sendMessage("<" + this.getDisplayName() + "> " + "\u00a7c" + "You are out of Webs.");
                 }
                 this.disable();
@@ -186,14 +186,14 @@ public class Webaura
         this.switchItem(true);
         this.isSneaking = EntityUtil.stopSneaking(this.isSneaking);
         this.target = this.getTarget(this.targetRange.getValue(), this.targetMode.getValue() == TargetMode.UNTRAPPED);
-        return this.target == null || CreepyWare.moduleManager.isModuleEnabled("Freecam") && this.freecam.getValue() == false || !this.timer.passedMs(this.delay.getValue().intValue()) || this.switchMode.getValue() == InventoryUtil.Switch.NONE && Webaura.mc.player.inventory.currentItem != InventoryUtil.findHotbarBlock(BlockWeb.class);
+        return this.target == null || CreepyWare.moduleManager.isModuleEnabled("Freecam") && this.freecam.getValue() == false || !this.timer.passedMs(this.delay.getValue ()) || this.switchMode.getValue() == InventoryUtil.Switch.NONE && Webaura.mc.player.inventory.currentItem != InventoryUtil.findHotbarBlock(BlockWeb.class);
     }
 
     private EntityPlayer getTarget(double range, boolean trapped) {
         EntityPlayer target = null;
         double distance = Math.pow(range, 2.0) + 1.0;
         for (EntityPlayer player : Webaura.mc.world.playerEntities) {
-            if (EntityUtil.isntValid(player, range) || trapped && player.isInWeb || EntityUtil.getRoundedBlockPos(Webaura.mc.player).equals(EntityUtil.getRoundedBlockPos(player)) && this.antiSelf.getValue().booleanValue() || CreepyWare.speedManager.getPlayerSpeed(player) > this.speed.getValue())
+            if (EntityUtil.isntValid(player, range) || trapped && player.isInWeb || EntityUtil.getRoundedBlockPos(Webaura.mc.player).equals(EntityUtil.getRoundedBlockPos(player)) && this.antiSelf.getValue () || CreepyWare.speedManager.getPlayerSpeed(player) > this.speed.getValue())
                 continue;
             if (target == null) {
                 target = player;

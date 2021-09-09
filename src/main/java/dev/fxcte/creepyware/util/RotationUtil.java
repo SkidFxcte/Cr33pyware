@@ -126,12 +126,12 @@ public class RotationUtil
         if (angle < -270.0f) {
             return true;
         }
-        float fov = (ClickGui.getInstance().customFov.getValue() != false ? ClickGui.getInstance().fov.getValue().floatValue() : mc.gameSettings.fovSetting) / 2.0f;
+        float fov = (ClickGui.getInstance().customFov.getValue() != false ? ClickGui.getInstance ().fov.getValue () : mc.gameSettings.fovSetting) / 2.0f;
         return angle < fov + 10.0f && angle > -fov - 10.0f;
     }
 
     public static float getFov() {
-        return ClickGui.getInstance().customFov.getValue() != false ? ClickGui.getInstance().fov.getValue().floatValue() : mc.gameSettings.fovSetting;
+        return ClickGui.getInstance().customFov.getValue() != false ? ClickGui.getInstance ().fov.getValue () : mc.gameSettings.fovSetting;
     }
 
     public static float getHalvedfov() {

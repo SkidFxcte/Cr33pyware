@@ -48,7 +48,7 @@ public class CustomFont
         String text = Media.getInstance().isOn() && Media.getInstance().changeOwn.getValue() != false ? textIn.replace(Media.getPlayerName(), Media.getInstance().ownName.getValue()) : textIn;
         double x = xI;
         double y = yI;
-        if (FontMod.getInstance().isOn() && !FontMod.getInstance().shadow.getValue().booleanValue() && shadow) {
+        if (FontMod.getInstance().isOn() && ! FontMod.getInstance ().shadow.getValue () && shadow) {
             x -= 0.5;
             y -= 0.5;
         }
@@ -232,7 +232,7 @@ public class CustomFont
     }
 
     public List<String> wrapWords(String text, double width) {
-        ArrayList<String> finalWords = new ArrayList<String>();
+        ArrayList<String> finalWords = new ArrayList <> ();
         if ((double) this.getStringWidth(text) > width) {
             String[] words = text.split(" ");
             String currentWord = "";
@@ -268,7 +268,7 @@ public class CustomFont
     }
 
     public List<String> formatString(String string, double width) {
-        ArrayList<String> finalWords = new ArrayList<String>();
+        ArrayList<String> finalWords = new ArrayList <> ();
         String currentWord = "";
         char lastColorCode = '\uffff';
         char[] chars = string.toCharArray();

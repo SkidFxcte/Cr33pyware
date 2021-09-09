@@ -3,10 +3,8 @@ package dev.fxcte.creepyware.util;
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.Minecraft;
-import net.minecraft.entity.Entity;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
-import net.minecraft.network.Packet;
 import net.minecraft.network.play.client.CPacketEntityAction;
 import net.minecraft.network.play.client.CPacketHeldItemChange;
 import net.minecraft.network.play.client.CPacketPlayer;
@@ -16,7 +14,6 @@ import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
-import net.minecraft.util.math.Vec3i;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -34,10 +31,10 @@ public class BurrowUtil implements Util
         }
         final BlockPos neighbour = pos.offset(side);
         final EnumFacing opposite = side.getOpposite();
-        final Vec3d hitVec = new Vec3d((Vec3i)neighbour).add(0.5, 0.5, 0.5).add(new Vec3d(opposite.getDirectionVec()).scale(0.5));
+        final Vec3d hitVec = new Vec3d(neighbour).add(0.5, 0.5, 0.5).add(new Vec3d(opposite.getDirectionVec()).scale(0.5));
         final Block neighbourBlock = BurrowUtil.mc.world.getBlockState(neighbour).getBlock();
         if (!BurrowUtil.mc.player.isSneaking()) {
-            BurrowUtil.mc.player.connection.sendPacket((Packet)new CPacketEntityAction((Entity)BurrowUtil.mc.player, CPacketEntityAction.Action.START_SNEAKING));
+            BurrowUtil.mc.player.connection.sendPacket(new CPacketEntityAction(BurrowUtil.mc.player , CPacketEntityAction.Action.START_SNEAKING));
             BurrowUtil.mc.player.setSneaking(true);
             sneaking = true;
         }
@@ -51,7 +48,7 @@ public class BurrowUtil implements Util
     }
 
     public static List<EnumFacing> getPossibleSides(final BlockPos pos) {
-        final List<EnumFacing> facings = new ArrayList<EnumFacing>();
+        final List<EnumFacing> facings = new ArrayList <> ();
         for (final EnumFacing side : EnumFacing.values()) {
             final BlockPos neighbour = pos.offset(side);
             if (BurrowUtil.mc.world.getBlockState(neighbour).getBlock().canCollideCheck(BurrowUtil.mc.world.getBlockState(neighbour), false)) {
@@ -90,7 +87,7 @@ public class BurrowUtil implements Util
 
     public static void faceVector(final Vec3d vec, final boolean normalizeAngle) {
         final float[] rotations = getLegitRotations(vec);
-        BurrowUtil.mc.player.connection.sendPacket((Packet)new CPacketPlayer.Rotation(rotations[0], normalizeAngle ? ((float)MathHelper.normalizeAngle((int)rotations[1], 360)) : rotations[1], BurrowUtil.mc.player.onGround));
+        BurrowUtil.mc.player.connection.sendPacket(new CPacketPlayer.Rotation(rotations[0], normalizeAngle ? ((float)MathHelper.normalizeAngle((int)rotations[1], 360)) : rotations[1], BurrowUtil.mc.player.onGround));
     }
 
     public static void rightClickBlock(final BlockPos pos, final Vec3d vec, final EnumHand hand, final EnumFacing direction, final boolean packet) {
@@ -98,7 +95,7 @@ public class BurrowUtil implements Util
             final float f = (float)(vec.x - pos.getX());
             final float f2 = (float)(vec.y - pos.getY());
             final float f3 = (float)(vec.z - pos.getZ());
-            BurrowUtil.mc.player.connection.sendPacket((Packet)new CPacketPlayerTryUseItemOnBlock(pos, direction, hand, f, f2, f3));
+            BurrowUtil.mc.player.connection.sendPacket(new CPacketPlayerTryUseItemOnBlock(pos, direction, hand, f, f2, f3));
         }
         else {
             BurrowUtil.mc.playerController.processRightClickBlock(BurrowUtil.mc.player, BurrowUtil.mc.world, pos, direction, vec, hand);
@@ -126,7 +123,7 @@ public class BurrowUtil implements Util
     }
 
     public static void switchToSlot(final int slot) {
-        BurrowUtil.mc.player.connection.sendPacket((Packet)new CPacketHeldItemChange(slot));
+        BurrowUtil.mc.player.connection.sendPacket(new CPacketHeldItemChange(slot));
         BurrowUtil.mc.player.inventory.currentItem = slot;
         BurrowUtil.mc.playerController.updateController();
     }

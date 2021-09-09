@@ -8,8 +8,6 @@ import dev.fxcte.creepyware.features.modules.Module;
 import dev.fxcte.creepyware.features.modules.client.*;
 import dev.fxcte.creepyware.features.modules.combat.*;
 import dev.fxcte.creepyware.features.modules.misc.*;
-import dev.fxcte.creepyware.features.modules.misc.FriendSettings;
-import dev.fxcte.creepyware.features.modules.client.ModuleTools;
 import dev.fxcte.creepyware.features.modules.movement.*;
 import dev.fxcte.creepyware.features.modules.player.*;
 import dev.fxcte.creepyware.features.modules.render.*;
@@ -25,9 +23,9 @@ import java.util.stream.Collectors;
 public class ModuleManager
         extends Feature {
     public ArrayList<Module> modules = new ArrayList();
-    public List<Module> sortedModules = new ArrayList<Module>();
-    public List<Module> alphabeticallySortedModules = new ArrayList<Module>();
-    public Map<Module, Color> moduleColorMap = new HashMap<Module, Color>();
+    public List<Module> sortedModules = new ArrayList <> ();
+    public List<Module> alphabeticallySortedModules = new ArrayList <> ();
+    public Map<Module, Color> moduleColorMap = new HashMap <> ();
 
     public void init() {
         //if you have free time help me sort it :^)//
@@ -265,7 +263,7 @@ public class ModuleManager
     }
 
     public ArrayList<Module> getEnabledModules() {
-        ArrayList<Module> enabledModules = new ArrayList<Module>();
+        ArrayList<Module> enabledModules = new ArrayList <> ();
         for (Module module : this.modules) {
             if (!module.isEnabled() && !module.isSliding()) continue;
             enabledModules.add(module);
@@ -274,7 +272,7 @@ public class ModuleManager
     }
 
     public ArrayList<Module> getModulesByCategory(Module.Category category) {
-        ArrayList<Module> modulesCategory = new ArrayList<Module>();
+        ArrayList<Module> modulesCategory = new ArrayList <> ();
         this.modules.forEach(module -> {
             if (module.getCategory() == category) {
                 modulesCategory.add(module);
@@ -347,7 +345,7 @@ public class ModuleManager
     }
 
     public List<Module> getAnimationModules(Module.Category category) {
-        ArrayList<Module> animationModules = new ArrayList<Module>();
+        ArrayList<Module> animationModules = new ArrayList <> ();
         for (Module module : this.getEnabledModules()) {
             if (module.getCategory() != category || module.isDisabled() || !module.isSliding() || !module.isDrawn())
                 continue;

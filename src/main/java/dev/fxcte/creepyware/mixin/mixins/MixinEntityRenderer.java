@@ -1,24 +1,17 @@
 package dev.fxcte.creepyware.mixin.mixins;
 
-import com.google.common.base.Predicate;
-import java.util.ArrayList;
-import java.util.List;
-import javax.annotation.Nullable;
 import dev.fxcte.creepyware.features.modules.client.Notifications;
 import dev.fxcte.creepyware.features.modules.render.CameraClip;
 import dev.fxcte.creepyware.features.modules.render.NoRender;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.EntityPlayerSP;
-import net.minecraft.client.multiplayer.WorldClient;
 import net.minecraft.client.renderer.ActiveRenderInfo;
 import net.minecraft.client.renderer.EntityRenderer;
 import net.minecraft.entity.Entity;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
-import net.minecraft.item.ItemPickaxe;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.world.World;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
@@ -43,7 +36,7 @@ public abstract class MixinEntityRenderer {
 
     @Inject(method={"renderItemActivation"}, at={@At(value="HEAD")}, cancellable=true)
     public void renderItemActivationHook(CallbackInfo info) {
-        if (this.itemActivationItem != null && NoRender.getInstance().isOn() && NoRender.getInstance().totemPops.getValue().booleanValue() && this.itemActivationItem.getItem() == Items.TOTEM_OF_UNDYING) {
+        if (this.itemActivationItem != null && NoRender.getInstance().isOn() && NoRender.getInstance ().totemPops.getValue () && this.itemActivationItem.getItem() == Items.TOTEM_OF_UNDYING) {
             info.cancel();
         }
     }
@@ -66,7 +59,7 @@ public abstract class MixinEntityRenderer {
                 }
                 catch (Exception e) {
                     e.printStackTrace();
-                    if (!Notifications.getInstance().isOn() || !Notifications.getInstance().crash.getValue().booleanValue()) break block3;
+                    if (!Notifications.getInstance().isOn() || ! Notifications.getInstance ().crash.getValue ()) break block3;
                     Notifications.displayCrash(e);
                 }
             }
@@ -76,7 +69,7 @@ public abstract class MixinEntityRenderer {
 
     @Redirect(method={"setupCameraTransform"}, at=@At(value="FIELD", target="Lnet/minecraft/client/entity/EntityPlayerSP;prevTimeInPortal:F"))
     public float prevTimeInPortalHook(EntityPlayerSP entityPlayerSP) {
-        if (NoRender.getInstance().isOn() && NoRender.getInstance().nausea.getValue().booleanValue()) {
+        if (NoRender.getInstance().isOn() && NoRender.getInstance ().nausea.getValue ()) {
             return -3.4028235E38f;
         }
         return entityPlayerSP.prevTimeInPortal;
@@ -94,12 +87,12 @@ public abstract class MixinEntityRenderer {
         if (NoRender.getInstance().isOn() && NoRender.getInstance().fog.getValue() == NoRender.Fog.AIR) {
             return Blocks.AIR.defaultBlockState;
         }
-        return ActiveRenderInfo.getBlockStateAtEntityViewpoint((World)worldIn, (Entity)entityIn, (float)p_186703_2_);
+        return ActiveRenderInfo.getBlockStateAtEntityViewpoint(worldIn , entityIn , p_186703_2_);
     }
 
     @Inject(method={"hurtCameraEffect"}, at={@At(value="HEAD")}, cancellable=true)
     public void hurtCameraEffectHook(float ticks, CallbackInfo info) {
-        if (NoRender.getInstance().isOn() && NoRender.getInstance().hurtcam.getValue().booleanValue()) {
+        if (NoRender.getInstance().isOn() && NoRender.getInstance ().hurtcam.getValue ()) {
             info.cancel();
         }
     }

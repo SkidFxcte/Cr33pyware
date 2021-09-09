@@ -22,14 +22,14 @@ import java.util.Map;
 public class AutoTrap
         extends Module {
     public static boolean isPlacing = false;
-    private final Setting<Integer> delay = this.register(new Setting<Integer>("Delay", 50, 0, 250));
-    private final Setting<Integer> blocksPerPlace = this.register(new Setting<Integer>("BlocksPerTick", 8, 1, 30));
-    private final Setting<Boolean> rotate = this.register(new Setting<Boolean>("Speed", "Rotate", 0.0, 0.0, true, 0));
-    private final Setting<Boolean> raytrace = this.register(new Setting<Boolean>("Speed", "Raytrace", 0.0, 0.0, false, 0));
-    private final Setting<Boolean> antiScaffold = this.register(new Setting<Boolean>("Speed", "AntiScaffold", 0.0, 0.0, false, 0));
-    private final Setting<Boolean> antiStep = this.register(new Setting<Boolean>("Speed", "AntiStep", 0.0, 0.0, false, 0));
+    private final Setting<Integer> delay = this.register(new Setting <> ("Delay" , 50 , 0 , 250));
+    private final Setting<Integer> blocksPerPlace = this.register(new Setting <> ("BlocksPerTick" , 8 , 1 , 30));
+    private final Setting<Boolean> rotate = this.register(new Setting <> ("Speed" , "Rotate" , 0.0 , 0.0 , true , 0));
+    private final Setting<Boolean> raytrace = this.register(new Setting <> ("Speed" , "Raytrace" , 0.0 , 0.0 , false , 0));
+    private final Setting<Boolean> antiScaffold = this.register(new Setting <> ("Speed" , "AntiScaffold" , 0.0 , 0.0 , false , 0));
+    private final Setting<Boolean> antiStep = this.register(new Setting <> ("Speed" , "AntiStep" , 0.0 , 0.0 , false , 0));
     private final Timer timer = new Timer();
-    private final Map<BlockPos, Integer> retries = new HashMap<BlockPos, Integer>();
+    private final Map<BlockPos, Integer> retries = new HashMap <> ();
     private final Timer retryTimer = new Timer();
     public EntityPlayer target;
     private boolean didPlace = false;
@@ -139,7 +139,7 @@ public class AutoTrap
         }
         this.isSneaking = EntityUtil.stopSneaking(this.isSneaking);
         this.target = this.getTarget(10.0, true);
-        return this.target == null || !this.timer.passedMs(this.delay.getValue().intValue());
+        return this.target == null || !this.timer.passedMs(this.delay.getValue ());
     }
 
     private EntityPlayer getTarget(double range, boolean trapped) {

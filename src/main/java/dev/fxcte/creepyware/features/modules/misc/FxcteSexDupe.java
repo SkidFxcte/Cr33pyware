@@ -20,7 +20,6 @@ public class FxcteSexDupe
     public void onEnable() {
         EntityPlayerSP player = mc.player;
         WorldClient world = mc.world;
-        ;
 
         if (player == null || mc.world == null) return;
 

@@ -34,22 +34,22 @@
     "MixinNetHandlerPlayClient",
     "MixinNetworkManager",
     "MixinPlayerControllerMP",
-    "MixinRenderEntityItem",
     "MixinRender",
     "MixinRenderEnderCrystal",
+    "MixinRenderEntityItem",
+    "MixinRenderer",
     "MixinRenderGlobal",
     "MixinRenderItem",
-    "MixinRenderEntityItem",
     "MixinRenderLivingBase",
     "MixinRenderPlayer",
     "MixinServerAddress",
     "MixinVisGraph",
     "MixinWorld",
-    "MixinRenderer",
     "accessors.IC00Handshake",
     "accessors.IContainer",
     "accessors.IEntityLivingBase",
     "accessors.IServerAddress",
-    "accessors.ISPacketSetSlot"
+    "accessors.ISPacketSetSlot",
+    "accessors.IMinecraft"
   ]
 }

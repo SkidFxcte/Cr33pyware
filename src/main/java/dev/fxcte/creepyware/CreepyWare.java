@@ -2,7 +2,6 @@ package dev.fxcte.creepyware;
 
 import dev.fxcte.creepyware.features.gui.custom.GuiCustomMainScreen;
 import dev.fxcte.creepyware.features.modules.misc.RPC;
-import dev.fxcte.creepyware.manager.HWIDManager;
 import dev.fxcte.creepyware.manager.*;
 import dev.fxcte.creepyware.util.IconUtils;
 import dev.fxcte.creepyware.util.TitleUtils;
@@ -159,12 +158,12 @@ public class CreepyWare {
     public static void setWindowIcon() {
         if (Util.getOSType() != Util.EnumOS.OSX) {
             try (InputStream inputStream16x = Minecraft.class.getResourceAsStream("/assets/creepy/icons/creepyware-16x.png");
-                 InputStream inputStream32x = Minecraft.class.getResourceAsStream("/assets/creepy/icons/creepyware-32x.png");){
+                 InputStream inputStream32x = Minecraft.class.getResourceAsStream("/assets/creepy/icons/creepyware-32x.png")){
                 ByteBuffer[] icons = new ByteBuffer[]{IconUtils.INSTANCE.readImageToBuffer(inputStream16x), IconUtils.INSTANCE.readImageToBuffer(inputStream32x)};
-                Display.setIcon((ByteBuffer[])icons);
+                Display.setIcon(icons);
             }
             catch (Exception e) {
-                LOGGER.error("Couldn't set Windows Icon", (Throwable)e);
+                LOGGER.error("Couldn't set Windows Icon", e);
             }
         }
     }
@@ -178,7 +177,7 @@ public class CreepyWare {
         HWIDManager.hwidCheck();
         this.setWindowsIcon();
         customMainScreen = new GuiCustomMainScreen();
-        MinecraftForge.EVENT_BUS.register((Object)new TitleUtils());
+        MinecraftForge.EVENT_BUS.register(new TitleUtils());
         CreepyWare.load();
     }
 }

@@ -14,7 +14,10 @@ import net.minecraft.inventory.Slot;
 import net.minecraft.item.*;
 import net.minecraft.network.play.client.CPacketHeldItemChange;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public class InventoryUtil
@@ -108,7 +111,7 @@ public class InventoryUtil
     }
 
     public static List<Integer> findEmptySlots(boolean withXCarry) {
-        ArrayList<Integer> outPut = new ArrayList<Integer>();
+        ArrayList<Integer> outPut = new ArrayList <> ();
         for (Map.Entry<Integer, ItemStack> entry : InventoryUtil.getInventoryAndHotbarSlots().entrySet()) {
             if (!entry.getValue().isEmpty && entry.getValue().getItem() != Items.AIR) continue;
             outPut.add(entry.getKey());
@@ -160,7 +163,7 @@ public class InventoryUtil
     }
 
     public static List<Integer> getItemInventory(Item item) {
-        ArrayList<Integer> ints = new ArrayList<Integer>();
+        ArrayList<Integer> ints = new ArrayList <> ();
         for (int i = 9; i < 36; ++i) {
             Item target = InventoryUtil.mc.player.inventory.getStackInSlot(i).getItem();
             if (!(item instanceof ItemBlock) || !((ItemBlock)item).getBlock().equals(item)) continue;
@@ -194,7 +197,7 @@ public class InventoryUtil
     }
 
     private static Map<Integer, ItemStack> getInventorySlots(int currentI, int last) {
-        HashMap<Integer, ItemStack> fullInventorySlots = new HashMap<Integer, ItemStack>();
+        HashMap<Integer, ItemStack> fullInventorySlots = new HashMap <> ();
         for (int current = currentI; current <= last; ++current) {
             fullInventorySlots.put(current, mc.player.inventoryContainer.getInventory().get(current));
         }
@@ -202,7 +205,7 @@ public class InventoryUtil
     }
 
     private static Map<Integer, ItemStack> fuckYou3arthqu4kev2(int currentI, int last) {
-        HashMap<Integer, ItemStack> fullInventorySlots = new HashMap<Integer, ItemStack>();
+        HashMap<Integer, ItemStack> fullInventorySlots = new HashMap <> ();
         for (int current = currentI; current <= last; ++current) {
             fullInventorySlots.put(current, mc.player.openContainer.getInventory().get(current));
         }

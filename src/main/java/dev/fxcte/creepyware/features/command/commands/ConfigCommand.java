@@ -6,6 +6,7 @@ import dev.fxcte.creepyware.features.command.Command;
 import java.io.File;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 public class ConfigCommand
@@ -24,7 +25,7 @@ public class ConfigCommand
             if ("list".equals(commands[0])) {
                 String configs = "Configs: ";
                 File file = new File("creepyware/");
-                List<File> directories = Arrays.stream(file.listFiles()).filter(File::isDirectory).filter(f -> !f.getName().equals("util")).collect(Collectors.toList());
+                List<File> directories = Arrays.stream(Objects.requireNonNull (file.listFiles ())).filter(File::isDirectory).filter(f -> !f.getName().equals("util")).collect(Collectors.toList());
                 StringBuilder builder = new StringBuilder(configs);
                 for (File file1 : directories) {
                     builder.append(file1.getName() + ", ");

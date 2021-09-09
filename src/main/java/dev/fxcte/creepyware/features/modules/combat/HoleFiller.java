@@ -27,32 +27,32 @@ import java.util.Map;
 public class HoleFiller
         extends Module {
     private static HoleFiller INSTANCE = new HoleFiller();
-    private final Setting<Boolean> server = this.register(new Setting<Boolean>("Speed", "Server", 0.0, 0.0, false, 0));
-    private final Setting<Double> range = this.register(new Setting<Double>("PlaceRange", 6.0, 0.0, 10.0));
-    private final Setting<Integer> delay = this.register(new Setting<Integer>("Delay/Place", 50, 0, 250));
-    private final Setting<Integer> blocksPerTick = this.register(new Setting<Integer>("Block/Place", 8, 1, 20));
-    private final Setting<Boolean> rotate = this.register(new Setting<Boolean>("Speed", "Rotate", 0.0, 0.0, true, 0));
-    private final Setting<Boolean> raytrace = this.register(new Setting<Boolean>("Speed", "Raytrace", 0.0, 0.0, false, 0));
-    private final Setting<Boolean> disable = this.register(new Setting<Boolean>("Speed", "Disable", 0.0, 0.0, true, 0));
-    private final Setting<Integer> disableTime = this.register(new Setting<Integer>("Ms/Disable", 200, 1, 250));
-    private final Setting<Boolean> offhand = this.register(new Setting<Boolean>("Speed", "OffHand", 0.0, 0.0, true, 0));
-    private final Setting<InventoryUtil.Switch> switchMode = this.register(new Setting<InventoryUtil.Switch>("Speed", "Switch", 0.0, 0.0, InventoryUtil.Switch.NORMAL, 0));
-    private final Setting<Boolean> onlySafe = this.register(new Setting<Object>("OnlySafe", Boolean.valueOf(true), v -> this.offhand.getValue()));
-    private final Setting<Boolean> webSelf = this.register(new Setting<Boolean>("Speed", "SelfWeb", 0.0, 0.0, false, 0));
-    private final Setting<Boolean> highWeb = this.register(new Setting<Boolean>("Speed", "HighWeb", 0.0, 0.0, false, 0));
-    private final Setting<Boolean> freecam = this.register(new Setting<Boolean>("Speed", "Freecam", 0.0, 0.0, false, 0));
-    private final Setting<Boolean> midSafeHoles = this.register(new Setting<Boolean>("Speed", "MidSafe", 0.0, 0.0, false, 0));
-    private final Setting<Boolean> packet = this.register(new Setting<Boolean>("Speed", "Packet", 0.0, 0.0, false, 0));
-    private final Setting<Boolean> onGroundCheck = this.register(new Setting<Boolean>("Speed", "OnGroundCheck", 0.0, 0.0, false, 0));
+    private final Setting<Boolean> server = this.register(new Setting <> ("Speed" , "Server" , 0.0 , 0.0 , false , 0));
+    private final Setting<Double> range = this.register(new Setting <> ("PlaceRange" , 6.0 , 0.0 , 10.0));
+    private final Setting<Integer> delay = this.register(new Setting <> ("Delay/Place" , 50 , 0 , 250));
+    private final Setting<Integer> blocksPerTick = this.register(new Setting <> ("Block/Place" , 8 , 1 , 20));
+    private final Setting<Boolean> rotate = this.register(new Setting <> ("Speed" , "Rotate" , 0.0 , 0.0 , true , 0));
+    private final Setting<Boolean> raytrace = this.register(new Setting <> ("Speed" , "Raytrace" , 0.0 , 0.0 , false , 0));
+    private final Setting<Boolean> disable = this.register(new Setting <> ("Speed" , "Disable" , 0.0 , 0.0 , true , 0));
+    private final Setting<Integer> disableTime = this.register(new Setting <> ("Ms/Disable" , 200 , 1 , 250));
+    private final Setting<Boolean> offhand = this.register(new Setting <> ("Speed" , "OffHand" , 0.0 , 0.0 , true , 0));
+    private final Setting<InventoryUtil.Switch> switchMode = this.register(new Setting <> ("Speed" , "Switch" , 0.0 , 0.0 , InventoryUtil.Switch.NORMAL , 0));
+    private final Setting<Boolean> onlySafe = this.register(new Setting<Object>("OnlySafe", Boolean.TRUE , v -> this.offhand.getValue()));
+    private final Setting<Boolean> webSelf = this.register(new Setting <> ("Speed" , "SelfWeb" , 0.0 , 0.0 , false , 0));
+    private final Setting<Boolean> highWeb = this.register(new Setting <> ("Speed" , "HighWeb" , 0.0 , 0.0 , false , 0));
+    private final Setting<Boolean> freecam = this.register(new Setting <> ("Speed" , "Freecam" , 0.0 , 0.0 , false , 0));
+    private final Setting<Boolean> midSafeHoles = this.register(new Setting <> ("Speed" , "MidSafe" , 0.0 , 0.0 , false , 0));
+    private final Setting<Boolean> packet = this.register(new Setting <> ("Speed" , "Packet" , 0.0 , 0.0 , false , 0));
+    private final Setting<Boolean> onGroundCheck = this.register(new Setting <> ("Speed" , "OnGroundCheck" , 0.0 , 0.0 , false , 0));
     private final Timer offTimer = new Timer();
     private final Timer timer = new Timer();
-    private final Map<BlockPos, Integer> retries = new HashMap<BlockPos, Integer>();
+    private final Map<BlockPos, Integer> retries = new HashMap <> ();
     private final Timer retryTimer = new Timer();
-    public Setting<Mode> mode = this.register(new Setting<Mode>("Speed", "Mode", 0.0, 0.0, Mode.OBSIDIAN, 0));
-    public Setting<PlaceMode> placeMode = this.register(new Setting<PlaceMode>("Speed", "PlaceMode", 0.0, 0.0, PlaceMode.ALL, 0));
-    private final Setting<Double> smartRange = this.register(new Setting<Object>("SmartRange", Double.valueOf(6.0), Double.valueOf(0.0), Double.valueOf(10.0), v -> this.placeMode.getValue() == PlaceMode.SMART));
-    public Setting<Bind> obbyBind = this.register(new Setting<Bind>("Speed", "Obsidian", 0.0, 0.0, new Bind(-1), 0));
-    public Setting<Bind> webBind = this.register(new Setting<Bind>("Speed", "Webs", 0.0, 0.0, new Bind(-1), 0));
+    public Setting<Mode> mode = this.register(new Setting <> ("Speed" , "Mode" , 0.0 , 0.0 , Mode.OBSIDIAN , 0));
+    public Setting<PlaceMode> placeMode = this.register(new Setting <> ("Speed" , "PlaceMode" , 0.0 , 0.0 , PlaceMode.ALL , 0));
+    private final Setting<Double> smartRange = this.register(new Setting<Object>("SmartRange", 6.0 , 0.0 , 10.0 , v -> this.placeMode.getValue() == PlaceMode.SMART));
+    public Setting<Bind> obbyBind = this.register(new Setting <> ("Speed" , "Obsidian" , 0.0 , 0.0 , new Bind (- 1) , 0));
+    public Setting<Bind> webBind = this.register(new Setting <> ("Speed" , "Webs" , 0.0 , 0.0 , new Bind (- 1) , 0));
     public Mode currentMode = Mode.OBSIDIAN;
     private boolean accessedViaBind = false;
     private int targetSlot = -1;
@@ -90,7 +90,7 @@ public class HoleFiller
         if (HoleFiller.fullNullCheck()) {
             this.disable();
         }
-        if (!HoleFiller.mc.player.onGround && this.onGroundCheck.getValue().booleanValue()) {
+        if (!HoleFiller.mc.player.onGround && this.onGroundCheck.getValue ()) {
             return;
         }
         if (this.shouldServer()) {
@@ -105,7 +105,7 @@ public class HoleFiller
         Offhand module = CreepyWare.moduleManager.getModuleByClass(Offhand.class);
         this.offhandMode = module.mode;
         this.offhandMode2 = module.currentMode;
-        if (this.offhand.getValue().booleanValue() && (EntityUtil.isSafe(HoleFiller.mc.player) || !this.onlySafe.getValue().booleanValue())) {
+        if (this.offhand.getValue () && (EntityUtil.isSafe(HoleFiller.mc.player) || ! this.onlySafe.getValue ())) {
             if (module.type.getValue() == Offhand.Type.NEW) {
                 if (this.currentMode == Mode.WEBS) {
                     module.setSwapToTotem(false);
@@ -131,21 +131,21 @@ public class HoleFiller
 
     @Override
     public void onTick() {
-        if (this.isOn() && (this.blocksPerTick.getValue() != 1 || !this.rotate.getValue().booleanValue())) {
+        if (this.isOn() && (this.blocksPerTick.getValue() != 1 || ! this.rotate.getValue ())) {
             this.doHoleFill();
         }
     }
 
     @SubscribeEvent
     public void onUpdateWalkingPlayer(UpdateWalkingPlayerEvent event) {
-        if (this.isOn() && event.getStage() == 0 && this.blocksPerTick.getValue() == 1 && this.rotate.getValue().booleanValue()) {
+        if (this.isOn() && event.getStage() == 0 && this.blocksPerTick.getValue() == 1 && this.rotate.getValue ()) {
             this.doHoleFill();
         }
     }
 
     @Override
     public void onDisable() {
-        if (this.offhand.getValue().booleanValue()) {
+        if (this.offhand.getValue ()) {
             CreepyWare.moduleManager.getModuleByClass(Offhand.class).setMode(this.offhandMode);
             CreepyWare.moduleManager.getModuleByClass(Offhand.class).setMode(this.offhandMode2);
         }
@@ -186,23 +186,23 @@ public class HoleFiller
             this.placeBlock(pos);
             this.placeHighWeb = false;
         }
-        if (this.midSafeHoles.getValue().booleanValue()) {
+        if (this.midSafeHoles.getValue ()) {
             object = CreepyWare.holeManager.getMidSafety();
             synchronized (object) {
-                targets = new ArrayList<BlockPos>(CreepyWare.holeManager.getMidSafety());
+                targets = new ArrayList <> (CreepyWare.holeManager.getMidSafety ());
             }
         }
         object = CreepyWare.holeManager.getHoles();
         synchronized (object) {
-            targets = new ArrayList<BlockPos>(CreepyWare.holeManager.getHoles());
+            targets = new ArrayList <> (CreepyWare.holeManager.getHoles ());
         }
         for (BlockPos position : targets) {
             int placeability;
             if (HoleFiller.mc.player.getDistanceSq(position) > MathUtil.square(this.range.getValue()) || this.placeMode.getValue() == PlaceMode.SMART && !this.isPlayerInRange(position))
                 continue;
             if (position.equals(new BlockPos(HoleFiller.mc.player.getPositionVector()))) {
-                if (this.currentMode != Mode.WEBS || !this.webSelf.getValue().booleanValue()) continue;
-                if (this.highWeb.getValue().booleanValue()) {
+                if (this.currentMode != Mode.WEBS || ! this.webSelf.getValue ()) continue;
+                if (this.highWeb.getValue ()) {
                     this.placeHighWeb = true;
                 }
             }
@@ -236,7 +236,7 @@ public class HoleFiller
     }
 
     private boolean check() {
-        if (HoleFiller.fullNullCheck() || this.disable.getValue().booleanValue() && this.offTimer.passedMs(this.disableTime.getValue().intValue())) {
+        if (HoleFiller.fullNullCheck() || this.disable.getValue () && this.offTimer.passedMs(this.disableTime.getValue ())) {
             this.disable();
             return true;
         }
@@ -244,7 +244,7 @@ public class HoleFiller
             this.lastHotbarSlot = HoleFiller.mc.player.inventory.currentItem;
         }
         this.switchItem(true);
-        if (!this.freecam.getValue().booleanValue() && CreepyWare.moduleManager.isModuleEnabled(Freecam.class)) {
+        if (! this.freecam.getValue () && CreepyWare.moduleManager.isModuleEnabled(Freecam.class)) {
             return true;
         }
         this.blocksThisTick = 0;
@@ -265,21 +265,21 @@ public class HoleFiller
                 break;
             }
         }
-        if (this.onlySafe.getValue().booleanValue() && !EntityUtil.isSafe(HoleFiller.mc.player)) {
+        if (this.onlySafe.getValue () && !EntityUtil.isSafe(HoleFiller.mc.player)) {
             this.disable();
             return true;
         }
-        if (!this.hasOffhand && this.targetSlot == -1 && (!this.offhand.getValue().booleanValue() || !EntityUtil.isSafe(HoleFiller.mc.player) && this.onlySafe.getValue().booleanValue())) {
+        if (!this.hasOffhand && this.targetSlot == -1 && (! this.offhand.getValue () || !EntityUtil.isSafe(HoleFiller.mc.player) && this.onlySafe.getValue ())) {
             return true;
         }
-        if (this.offhand.getValue().booleanValue() && !this.hasOffhand) {
+        if (this.offhand.getValue () && !this.hasOffhand) {
             return true;
         }
-        return !this.timer.passedMs(this.delay.getValue().intValue());
+        return !this.timer.passedMs(this.delay.getValue ());
     }
 
     private boolean switchItem(boolean back) {
-        if (this.offhand.getValue().booleanValue()) {
+        if (this.offhand.getValue ()) {
             return true;
         }
         boolean[] value = InventoryUtil.switchItem(back, this.lastHotbarSlot, this.switchedItem, this.switchMode.getValue(), this.currentMode == Mode.WEBS ? BlockWeb.class : BlockObsidian.class);

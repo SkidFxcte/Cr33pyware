@@ -6,7 +6,6 @@ import dev.fxcte.creepyware.event.events.PacketEvent;
 import dev.fxcte.creepyware.event.events.Render3DEvent;
 import dev.fxcte.creepyware.features.modules.Module;
 import dev.fxcte.creepyware.features.setting.Setting;
-import dev.fxcte.creepyware.util.Timer;
 import dev.fxcte.creepyware.util.*;
 import net.minecraft.block.BlockEndPortalFrame;
 import net.minecraft.block.state.IBlockState;

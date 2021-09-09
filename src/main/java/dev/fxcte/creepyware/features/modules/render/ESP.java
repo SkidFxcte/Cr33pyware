@@ -25,25 +25,25 @@ import java.awt.*;
 public class ESP
         extends Module {
     private static ESP INSTANCE = new ESP();
-    private final Setting<Mode> mode = this.register(new Setting<Mode>("Speed", "Mode", 0.0, 0.0, Mode.OUTLINE, 0));
-    private final Setting<Boolean> colorSync = this.register(new Setting<Boolean>("Speed", "Sync", 0.0, 0.0, false, 0));
-    private final Setting<Boolean> players = this.register(new Setting<Boolean>("Speed", "Players", 0.0, 0.0, true, 0));
-    private final Setting<Boolean> animals = this.register(new Setting<Boolean>("Speed", "Animals", 0.0, 0.0, false, 0));
-    private final Setting<Boolean> mobs = this.register(new Setting<Boolean>("Speed", "Mobs", 0.0, 0.0, false, 0));
-    private final Setting<Boolean> items = this.register(new Setting<Boolean>("Speed", "Items", 0.0, 0.0, false, 0));
-    private final Setting<Boolean> xporbs = this.register(new Setting<Boolean>("Speed", "XpOrbs", 0.0, 0.0, false, 0));
-    private final Setting<Boolean> xpbottles = this.register(new Setting<Boolean>("Speed", "XpBottles", 0.0, 0.0, false, 0));
-    private final Setting<Boolean> pearl = this.register(new Setting<Boolean>("Speed", "Pearls", 0.0, 0.0, false, 0));
-    private final Setting<Integer> red = this.register(new Setting<Integer>("Red", 255, 0, 255));
-    private final Setting<Integer> green = this.register(new Setting<Integer>("Green", 255, 0, 255));
-    private final Setting<Integer> blue = this.register(new Setting<Integer>("Blue", 255, 0, 255));
-    private final Setting<Integer> boxAlpha = this.register(new Setting<Integer>("BoxAlpha", 120, 0, 255));
-    private final Setting<Integer> alpha = this.register(new Setting<Integer>("Alpha", 255, 0, 255));
-    private final Setting<Float> lineWidth = this.register(new Setting<Float>("LineWidth", Float.valueOf(2.0f), Float.valueOf(0.1f), Float.valueOf(5.0f)));
-    private final Setting<Boolean> colorFriends = this.register(new Setting<Boolean>("Speed", "Friends", 0.0, 0.0, true, 0));
-    private final Setting<Boolean> self = this.register(new Setting<Boolean>("Speed", "Self", 0.0, 0.0, true, 0));
-    private final Setting<Boolean> onTop = this.register(new Setting<Boolean>("Speed", "onTop", 0.0, 0.0, true, 0));
-    private final Setting<Boolean> invisibles = this.register(new Setting<Boolean>("Speed", "Invisibles", 0.0, 0.0, false, 0));
+    private final Setting<Mode> mode = this.register(new Setting <> ("Speed" , "Mode" , 0.0 , 0.0 , Mode.OUTLINE , 0));
+    private final Setting<Boolean> colorSync = this.register(new Setting <> ("Speed" , "Sync" , 0.0 , 0.0 , false , 0));
+    private final Setting<Boolean> players = this.register(new Setting <> ("Speed" , "Players" , 0.0 , 0.0 , true , 0));
+    private final Setting<Boolean> animals = this.register(new Setting <> ("Speed" , "Animals" , 0.0 , 0.0 , false , 0));
+    private final Setting<Boolean> mobs = this.register(new Setting <> ("Speed" , "Mobs" , 0.0 , 0.0 , false , 0));
+    private final Setting<Boolean> items = this.register(new Setting <> ("Speed" , "Items" , 0.0 , 0.0 , false , 0));
+    private final Setting<Boolean> xporbs = this.register(new Setting <> ("Speed" , "XpOrbs" , 0.0 , 0.0 , false , 0));
+    private final Setting<Boolean> xpbottles = this.register(new Setting <> ("Speed" , "XpBottles" , 0.0 , 0.0 , false , 0));
+    private final Setting<Boolean> pearl = this.register(new Setting <> ("Speed" , "Pearls" , 0.0 , 0.0 , false , 0));
+    private final Setting<Integer> red = this.register(new Setting <> ("Red" , 255 , 0 , 255));
+    private final Setting<Integer> green = this.register(new Setting <> ("Green" , 255 , 0 , 255));
+    private final Setting<Integer> blue = this.register(new Setting <> ("Blue" , 255 , 0 , 255));
+    private final Setting<Integer> boxAlpha = this.register(new Setting <> ("BoxAlpha" , 120 , 0 , 255));
+    private final Setting<Integer> alpha = this.register(new Setting <> ("Alpha" , 255 , 0 , 255));
+    private final Setting<Float> lineWidth = this.register(new Setting <> ("LineWidth" , 2.0f , 0.1f , 5.0f));
+    private final Setting<Boolean> colorFriends = this.register(new Setting <> ("Speed" , "Friends" , 0.0 , 0.0 , true , 0));
+    private final Setting<Boolean> self = this.register(new Setting <> ("Speed" , "Self" , 0.0 , 0.0 , true , 0));
+    private final Setting<Boolean> onTop = this.register(new Setting <> ("Speed" , "onTop" , 0.0 , 0.0 , true , 0));
+    private final Setting<Boolean> invisibles = this.register(new Setting <> ("Speed" , "Invisibles" , 0.0 , 0.0 , false , 0));
 
     public ESP() {
         super("ESP", "Renders a nice ESP.", Module.Category.RENDER, false, false, false);
@@ -66,7 +66,7 @@ public class ESP
         AxisAlignedBB bb;
         Vec3d interp;
         int i;
-        if (this.items.getValue().booleanValue()) {
+        if (this.items.getValue ()) {
             i = 0;
             for (Entity entity : ESP.mc.world.loadedEntityList) {
                 if (!(entity instanceof EntityItem) || !(ESP.mc.player.getDistanceSq(entity) < 2500.0)) continue;
@@ -81,7 +81,7 @@ public class ESP
                 GL11.glEnable(2848);
                 GL11.glHint(3154, 4354);
                 GL11.glLineWidth(1.0f);
-                RenderGlobal.renderFilledBox(bb, this.colorSync.getValue() != false ? (float) Colors.INSTANCE.getCurrentColor().getRed() / 255.0f : (float) this.red.getValue().intValue() / 255.0f, this.colorSync.getValue() != false ? (float) Colors.INSTANCE.getCurrentColor().getGreen() / 255.0f : (float) this.green.getValue().intValue() / 255.0f, this.colorSync.getValue() != false ? (float) Colors.INSTANCE.getCurrentColor().getBlue() / 255.0f : (float) this.blue.getValue().intValue() / 255.0f, this.colorSync.getValue() != false ? (float) Colors.INSTANCE.getCurrentColor().getAlpha() : (float) this.boxAlpha.getValue().intValue() / 255.0f);
+                RenderGlobal.renderFilledBox(bb, this.colorSync.getValue() != false ? (float) Colors.INSTANCE.getCurrentColor().getRed() / 255.0f : (float) this.red.getValue () / 255.0f, this.colorSync.getValue() != false ? (float) Colors.INSTANCE.getCurrentColor().getGreen() / 255.0f : (float) this.green.getValue () / 255.0f, this.colorSync.getValue() != false ? (float) Colors.INSTANCE.getCurrentColor().getBlue() / 255.0f : (float) this.blue.getValue () / 255.0f, this.colorSync.getValue() != false ? (float) Colors.INSTANCE.getCurrentColor().getAlpha() : (float) this.boxAlpha.getValue () / 255.0f);
                 GL11.glDisable(2848);
                 GlStateManager.depthMask(true);
                 GlStateManager.enableDepth();
@@ -93,7 +93,7 @@ public class ESP
                 break;
             }
         }
-        if (this.xporbs.getValue().booleanValue()) {
+        if (this.xporbs.getValue ()) {
             i = 0;
             for (Entity entity : ESP.mc.world.loadedEntityList) {
                 if (!(entity instanceof EntityXPOrb) || !(ESP.mc.player.getDistanceSq(entity) < 2500.0)) continue;
@@ -108,7 +108,7 @@ public class ESP
                 GL11.glEnable(2848);
                 GL11.glHint(3154, 4354);
                 GL11.glLineWidth(1.0f);
-                RenderGlobal.renderFilledBox(bb, this.colorSync.getValue() != false ? (float) Colors.INSTANCE.getCurrentColor().getRed() / 255.0f : (float) this.red.getValue().intValue() / 255.0f, this.colorSync.getValue() != false ? (float) Colors.INSTANCE.getCurrentColor().getGreen() / 255.0f : (float) this.green.getValue().intValue() / 255.0f, this.colorSync.getValue() != false ? (float) Colors.INSTANCE.getCurrentColor().getBlue() / 255.0f : (float) this.blue.getValue().intValue() / 255.0f, this.colorSync.getValue() != false ? (float) Colors.INSTANCE.getCurrentColor().getAlpha() / 255.0f : (float) this.boxAlpha.getValue().intValue() / 255.0f);
+                RenderGlobal.renderFilledBox(bb, this.colorSync.getValue() != false ? (float) Colors.INSTANCE.getCurrentColor().getRed() / 255.0f : (float) this.red.getValue () / 255.0f, this.colorSync.getValue() != false ? (float) Colors.INSTANCE.getCurrentColor().getGreen() / 255.0f : (float) this.green.getValue () / 255.0f, this.colorSync.getValue() != false ? (float) Colors.INSTANCE.getCurrentColor().getBlue() / 255.0f : (float) this.blue.getValue () / 255.0f, this.colorSync.getValue() != false ? (float) Colors.INSTANCE.getCurrentColor().getAlpha() / 255.0f : (float) this.boxAlpha.getValue () / 255.0f);
                 GL11.glDisable(2848);
                 GlStateManager.depthMask(true);
                 GlStateManager.enableDepth();
@@ -120,7 +120,7 @@ public class ESP
                 break;
             }
         }
-        if (this.pearl.getValue().booleanValue()) {
+        if (this.pearl.getValue ()) {
             i = 0;
             for (Entity entity : ESP.mc.world.loadedEntityList) {
                 if (!(entity instanceof EntityEnderPearl) || !(ESP.mc.player.getDistanceSq(entity) < 2500.0)) continue;
@@ -135,7 +135,7 @@ public class ESP
                 GL11.glEnable(2848);
                 GL11.glHint(3154, 4354);
                 GL11.glLineWidth(1.0f);
-                RenderGlobal.renderFilledBox(bb, this.colorSync.getValue() != false ? (float) Colors.INSTANCE.getCurrentColor().getRed() / 255.0f : (float) this.red.getValue().intValue() / 255.0f, this.colorSync.getValue() != false ? (float) Colors.INSTANCE.getCurrentColor().getGreen() / 255.0f : (float) this.green.getValue().intValue() / 255.0f, this.colorSync.getValue() != false ? (float) Colors.INSTANCE.getCurrentColor().getBlue() / 255.0f : (float) this.blue.getValue().intValue() / 255.0f, this.colorSync.getValue() != false ? (float) Colors.INSTANCE.getCurrentColor().getAlpha() / 255.0f : (float) this.boxAlpha.getValue().intValue() / 255.0f);
+                RenderGlobal.renderFilledBox(bb, this.colorSync.getValue() != false ? (float) Colors.INSTANCE.getCurrentColor().getRed() / 255.0f : (float) this.red.getValue () / 255.0f, this.colorSync.getValue() != false ? (float) Colors.INSTANCE.getCurrentColor().getGreen() / 255.0f : (float) this.green.getValue () / 255.0f, this.colorSync.getValue() != false ? (float) Colors.INSTANCE.getCurrentColor().getBlue() / 255.0f : (float) this.blue.getValue () / 255.0f, this.colorSync.getValue() != false ? (float) Colors.INSTANCE.getCurrentColor().getAlpha() / 255.0f : (float) this.boxAlpha.getValue () / 255.0f);
                 GL11.glDisable(2848);
                 GlStateManager.depthMask(true);
                 GlStateManager.enableDepth();
@@ -147,7 +147,7 @@ public class ESP
                 break;
             }
         }
-        if (this.xpbottles.getValue().booleanValue()) {
+        if (this.xpbottles.getValue ()) {
             i = 0;
             for (Entity entity : ESP.mc.world.loadedEntityList) {
                 if (!(entity instanceof EntityExpBottle) || !(ESP.mc.player.getDistanceSq(entity) < 2500.0)) continue;
@@ -162,7 +162,7 @@ public class ESP
                 GL11.glEnable(2848);
                 GL11.glHint(3154, 4354);
                 GL11.glLineWidth(1.0f);
-                RenderGlobal.renderFilledBox(bb, this.colorSync.getValue() != false ? (float) Colors.INSTANCE.getCurrentColor().getRed() / 255.0f : (float) this.red.getValue().intValue() / 255.0f, this.colorSync.getValue() != false ? (float) Colors.INSTANCE.getCurrentColor().getGreen() / 255.0f : (float) this.green.getValue().intValue() / 255.0f, this.colorSync.getValue() != false ? (float) Colors.INSTANCE.getCurrentColor().getBlue() / 255.0f : (float) this.blue.getValue().intValue() / 255.0f, this.colorSync.getValue() != false ? (float) Colors.INSTANCE.getCurrentColor().getAlpha() / 255.0f : (float) this.boxAlpha.getValue().intValue() / 255.0f);
+                RenderGlobal.renderFilledBox(bb, this.colorSync.getValue() != false ? (float) Colors.INSTANCE.getCurrentColor().getRed() / 255.0f : (float) this.red.getValue () / 255.0f, this.colorSync.getValue() != false ? (float) Colors.INSTANCE.getCurrentColor().getGreen() / 255.0f : (float) this.green.getValue () / 255.0f, this.colorSync.getValue() != false ? (float) Colors.INSTANCE.getCurrentColor().getBlue() / 255.0f : (float) this.blue.getValue () / 255.0f, this.colorSync.getValue() != false ? (float) Colors.INSTANCE.getCurrentColor().getAlpha() / 255.0f : (float) this.boxAlpha.getValue () / 255.0f);
                 GL11.glDisable(2848);
                 GlStateManager.depthMask(true);
                 GlStateManager.enableDepth();
@@ -177,7 +177,7 @@ public class ESP
     }
 
     public void onRenderModel(RenderEntityModelEvent event) {
-        if (event.getStage() != 0 || event.entity == null || event.entity.isInvisible() && this.invisibles.getValue() == false || this.self.getValue() == false && event.entity.equals(ESP.mc.player) || this.players.getValue() == false && event.entity instanceof EntityPlayer || this.animals.getValue() == false && EntityUtil.isPassive(event.entity) || !this.mobs.getValue().booleanValue() && !EntityUtil.isPassive(event.entity) && !(event.entity instanceof EntityPlayer)) {
+        if (event.getStage() != 0 || event.entity == null || event.entity.isInvisible() && this.invisibles.getValue() == false || this.self.getValue() == false && event.entity.equals(ESP.mc.player) || this.players.getValue() == false && event.entity instanceof EntityPlayer || this.animals.getValue() == false && EntityUtil.isPassive(event.entity) || ! this.mobs.getValue () && !EntityUtil.isPassive(event.entity) && !(event.entity instanceof EntityPlayer)) {
             return;
         }
         Color color = this.colorSync.getValue() != false ? Colors.INSTANCE.getCurrentColor() : EntityUtil.getColor(event.entity, this.red.getValue(), this.green.getValue(), this.blue.getValue(), this.alpha.getValue(), this.colorFriends.getValue());
@@ -185,20 +185,20 @@ public class ESP
         ESP.mc.gameSettings.fancyGraphics = false;
         float gamma = ESP.mc.gameSettings.gammaSetting;
         ESP.mc.gameSettings.gammaSetting = 10000.0f;
-        if (!(!this.onTop.getValue().booleanValue() || Chams.getInstance().isEnabled() && Chams.getInstance().colored.getValue().booleanValue())) {
+        if (!(! this.onTop.getValue () || Chams.getInstance().isEnabled() && Chams.getInstance ().colored.getValue ())) {
             event.modelBase.render(event.entity, event.limbSwing, event.limbSwingAmount, event.age, event.headYaw, event.headPitch, event.scale);
         }
         if (this.mode.getValue() == Mode.OUTLINE) {
-            RenderUtil.renderOne(this.lineWidth.getValue().floatValue());
+            RenderUtil.renderOne(this.lineWidth.getValue ());
             event.modelBase.render(event.entity, event.limbSwing, event.limbSwingAmount, event.age, event.headYaw, event.headPitch, event.scale);
-            GlStateManager.glLineWidth(this.lineWidth.getValue().floatValue());
+            GlStateManager.glLineWidth(this.lineWidth.getValue ());
             RenderUtil.renderTwo();
             event.modelBase.render(event.entity, event.limbSwing, event.limbSwingAmount, event.age, event.headYaw, event.headPitch, event.scale);
-            GlStateManager.glLineWidth(this.lineWidth.getValue().floatValue());
+            GlStateManager.glLineWidth(this.lineWidth.getValue ());
             RenderUtil.renderThree();
             RenderUtil.renderFour(color);
             event.modelBase.render(event.entity, event.limbSwing, event.limbSwingAmount, event.age, event.headYaw, event.headPitch, event.scale);
-            GlStateManager.glLineWidth(this.lineWidth.getValue().floatValue());
+            GlStateManager.glLineWidth(this.lineWidth.getValue ());
             RenderUtil.renderFive();
         } else {
             GL11.glPushMatrix();
@@ -215,12 +215,12 @@ public class ESP
             GL11.glEnable(3042);
             GlStateManager.blendFunc(770, 771);
             GlStateManager.color((float) color.getRed() / 255.0f, (float) color.getGreen() / 255.0f, (float) color.getBlue() / 255.0f, (float) color.getAlpha() / 255.0f);
-            GlStateManager.glLineWidth(this.lineWidth.getValue().floatValue());
+            GlStateManager.glLineWidth(this.lineWidth.getValue ());
             event.modelBase.render(event.entity, event.limbSwing, event.limbSwingAmount, event.age, event.headYaw, event.headPitch, event.scale);
             GL11.glPopAttrib();
             GL11.glPopMatrix();
         }
-        if (!(this.onTop.getValue().booleanValue() || Chams.getInstance().isEnabled() && Chams.getInstance().colored.getValue().booleanValue())) {
+        if (!(this.onTop.getValue () || Chams.getInstance().isEnabled() && Chams.getInstance ().colored.getValue ())) {
             event.modelBase.render(event.entity, event.limbSwing, event.limbSwingAmount, event.age, event.headYaw, event.headPitch, event.scale);
         }
         try {

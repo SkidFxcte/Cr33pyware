@@ -54,7 +54,7 @@ public class SpeedManager
             this.didJumpLastTick = false;
             this.lastJumpSpeed = 0.0;
         }
-        if (Managers.getInstance().speed.getValue().booleanValue()) {
+        if (Managers.getInstance ().speed.getValue ()) {
             this.updatePlayers();
         }
     }

@@ -1,13 +1,13 @@
 package dev.fxcte.creepyware.features.modules.render;
 
-import org.lwjgl.util.glu.Cylinder;
-import org.lwjgl.util.glu.Sphere;
 import dev.fxcte.creepyware.event.events.Render3DEvent;
 import dev.fxcte.creepyware.features.modules.Module;
 import dev.fxcte.creepyware.features.setting.Setting;
 import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.entity.player.EntityPlayer;
 import org.lwjgl.opengl.GL11;
+import org.lwjgl.util.glu.Cylinder;
+import org.lwjgl.util.glu.Sphere;
 
 
 
@@ -20,7 +20,7 @@ public class PenisESP
         super("PenisESP", "caution:ur pp is small", Module.Category.RENDER, false, false, false);
     }
 
-    private final Setting<Float> penisSize = this.register(new Setting<Object>("PenisSize", Float.valueOf(1.5f), Float.valueOf(0.1f), Float.valueOf(5.0f)));
+    private final Setting<Float> penisSize = this.register(new Setting<Object>("PenisSize", 1.5f , 0.1f , 5.0f));
     @Override
     public void onRender3D(Render3DEvent event) {
         for (final Object o : mc.world.loadedEntityList) {

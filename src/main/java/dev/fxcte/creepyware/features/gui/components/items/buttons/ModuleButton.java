@@ -7,15 +7,12 @@ import dev.fxcte.creepyware.features.modules.Module;
 import dev.fxcte.creepyware.features.modules.client.ClickGui;
 import dev.fxcte.creepyware.features.setting.Bind;
 import dev.fxcte.creepyware.features.setting.Setting;
-import dev.fxcte.creepyware.util.RenderUtil;
 import dev.fxcte.creepyware.util.Util;
 import net.minecraft.client.audio.PositionedSoundRecord;
 import net.minecraft.init.SoundEvents;
 import net.minecraft.util.ResourceLocation;
-import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.GL11;
 
-import javax.vecmath.AxisAngle4f;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -23,7 +20,7 @@ public class ModuleButton
         extends Button {
     private final Module module;
     private final ResourceLocation logo = new ResourceLocation("textures/gear.png");
-    private List<Item> items = new ArrayList<Item>();
+    private List<Item> items = new ArrayList <> ();
     private boolean subOpen;
 
     public ModuleButton(Module module) {
@@ -49,7 +46,7 @@ public class ModuleButton
     }
 
     public void initSettings() {
-        ArrayList<Item> newItems = new ArrayList<Item>();
+        ArrayList<Item> newItems = new ArrayList <> ();
         if (!this.module.getSettings().isEmpty()) {
             for (Setting setting : this.module.getSettings()) {
                 if (setting.getValue() instanceof Boolean && !setting.getName().equals("Enabled")) {
@@ -80,9 +77,9 @@ public class ModuleButton
         super.drawScreen(mouseX, mouseY, partialTicks);
         if (!this.items.isEmpty()) {
             ClickGui gui = CreepyWare.moduleManager.getModuleByClass(ClickGui.class);
-            CreepyWare.textManager.drawStringWithShadow(gui.openCloseChange.getValue().booleanValue() ? (this.subOpen ? gui.close.getValue() : gui.open.getValue()) : gui.moduleButton.getValue(), this.x - 1.5f + (float) this.width - 7.4f, this.y - 2.0f - (float) CreepyWareGui.getClickGui().getTextOffset(), -1);
+            CreepyWare.textManager.drawStringWithShadow(gui.openCloseChange.getValue () ? (this.subOpen ? gui.close.getValue() : gui.open.getValue()) : gui.moduleButton.getValue(), this.x - 1.5f + (float) this.width - 7.4f, this.y - 2.0f - (float) CreepyWareGui.getClickGui().getTextOffset(), -1);
         }
-            if (ClickGui.getInstance().gear.getValue().booleanValue()) {
+            if (ClickGui.getInstance ().gear.getValue ()) {
                 mc.getTextureManager().bindTexture(this.logo);
                 ModuleButton.drawCompleteImage(this.x - 1.5f + (float) this.width - 7.4f, this.y - 2.2f - (float) CreepyWareGui.getClickGui().getTextOffset(), 9, 9);
             }

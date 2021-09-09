@@ -23,16 +23,16 @@ public class ServerModule
     private static ServerModule instance;
     private final AtomicBoolean connected = new AtomicBoolean(false);
     private final Timer pingTimer = new Timer();
-    private final List<Long> pingList = new ArrayList<Long>();
-    public Setting<String> ip = this.register(new Setting<String>("Speed", "PhobosIP", 0.0, 0.0, "0.0.0.0.0", 0));
-    public Setting<String> port = this.register(new Setting<String>("Speed", "Port", 0.0, 0.0, "0", 0).setRenderName(true));
-    public Setting<String> serverIP = this.register(new Setting<String>("Speed", "ServerIP", 0.0, 0.0, "AnarchyHvH.eu", 0));
-    public Setting<Boolean> noFML = this.register(new Setting<Boolean>("Speed", "RemoveFML", 0.0, 0.0, false, 0));
-    public Setting<Boolean> getName = this.register(new Setting<Boolean>("Speed", "GetName", 0.0, 0.0, false, 0));
-    public Setting<Boolean> average = this.register(new Setting<Boolean>("Speed", "Average", 0.0, 0.0, false, 0));
-    public Setting<Boolean> clear = this.register(new Setting<Boolean>("Speed", "ClearPings", 0.0, 0.0, false, 0));
-    public Setting<Boolean> oneWay = this.register(new Setting<Boolean>("Speed", "OneWay", 0.0, 0.0, false, 0));
-    public Setting<Integer> delay = this.register(new Setting<Integer>("KeepAlives", 10, 1, 50));
+    private final List<Long> pingList = new ArrayList <> ();
+    public Setting<String> ip = this.register(new Setting <> ("Speed" , "PhobosIP" , 0.0 , 0.0 , "0.0.0.0.0" , 0));
+    public Setting<String> port = this.register(new Setting <> ("Speed" , "Port" , 0.0 , 0.0 , "0" , 0).setRenderName(true));
+    public Setting<String> serverIP = this.register(new Setting <> ("Speed" , "ServerIP" , 0.0 , 0.0 , "AnarchyHvH.eu" , 0));
+    public Setting<Boolean> noFML = this.register(new Setting <> ("Speed" , "RemoveFML" , 0.0 , 0.0 , false , 0));
+    public Setting<Boolean> getName = this.register(new Setting <> ("Speed" , "GetName" , 0.0 , 0.0 , false , 0));
+    public Setting<Boolean> average = this.register(new Setting <> ("Speed" , "Average" , 0.0 , 0.0 , false , 0));
+    public Setting<Boolean> clear = this.register(new Setting <> ("Speed" , "ClearPings" , 0.0 , 0.0 , false , 0));
+    public Setting<Boolean> oneWay = this.register(new Setting <> ("Speed" , "OneWay" , 0.0 , 0.0 , false , 0));
+    public Setting<Integer> delay = this.register(new Setting <> ("KeepAlives" , 10 , 1 , 50));
     private long currentPing = 0L;
     private long serverPing = 0L;
     private StringBuffer name = null;
@@ -86,7 +86,7 @@ public class ServerModule
     @Override
     public void onTick() {
         if (Util.mc.getConnection() != null && this.isConnected()) {
-            if (this.getName.getValue().booleanValue()) {
+            if (this.getName.getValue ()) {
                 Util.mc.getConnection().sendPacket(new CPacketChatMessage("@Servername"));
                 this.getName.setValue(false);
             }
@@ -97,7 +97,7 @@ public class ServerModule
                 Util.mc.getConnection().sendPacket(new CPacketKeepAlive(100L));
                 this.pingTimer.reset();
             }
-            if (this.clear.getValue().booleanValue()) {
+            if (this.clear.getValue ()) {
                 this.pingList.clear();
             }
         }
@@ -137,7 +137,7 @@ public class ServerModule
     }
 
     private long getAveragePing() {
-        if (!this.average.getValue().booleanValue() || this.pingList.isEmpty()) {
+        if (! this.average.getValue () || this.pingList.isEmpty()) {
             return this.currentPing;
         }
         int full = 0;

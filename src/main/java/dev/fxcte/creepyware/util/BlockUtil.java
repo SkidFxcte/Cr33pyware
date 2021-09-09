@@ -13,12 +13,14 @@ import net.minecraft.entity.item.EntityXPOrb;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
-import net.minecraft.network.Packet;
 import net.minecraft.network.play.client.*;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.NonNullList;
-import net.minecraft.util.math.*;
+import net.minecraft.util.math.AxisAlignedBB;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.RayTraceResult;
+import net.minecraft.util.math.Vec3d;
 
 import java.util.*;
 import java.util.concurrent.atomic.AtomicBoolean;
@@ -38,7 +40,7 @@ public class BlockUtil
 
     public static void faceVectorPacketInstant(Vec3d var0) {
         float[] var1 = RotationUtil.getLegitRotations(var0);
-        Wrapper.getPlayer().connection.sendPacket((Packet) new CPacketPlayer.Rotation(var1[0], var1[1], Wrapper.getPlayer().onGround));
+        Objects.requireNonNull (Wrapper.getPlayer ()).connection.sendPacket(new CPacketPlayer.Rotation(var1[0], var1[1], Wrapper.getPlayer().onGround));
     }
 
     public static EnumFacing getFacing(BlockPos pos) {
@@ -55,7 +57,7 @@ public class BlockUtil
     }
 
     public static List<EnumFacing> getPossibleSides(BlockPos pos) {
-        ArrayList<EnumFacing> facings = new ArrayList<EnumFacing>();
+        ArrayList<EnumFacing> facings = new ArrayList <> ();
         if (mc.world == null || pos == null) {
             return facings;
         }
@@ -227,7 +229,7 @@ public class BlockUtil
     }
 
     public static List<BlockPos> getSphere(BlockPos pos, float r, int h, boolean hollow, boolean sphere, int plus_y) {
-        ArrayList<BlockPos> circleblocks = new ArrayList<BlockPos>();
+        ArrayList<BlockPos> circleblocks = new ArrayList <> ();
         int cx = pos.getX();
         int cy = pos.getY();
         int cz = pos.getZ();
@@ -255,7 +257,7 @@ public class BlockUtil
     }
 
     public static List<BlockPos> getDisc(BlockPos pos, float r) {
-        ArrayList<BlockPos> circleblocks = new ArrayList<BlockPos>();
+        ArrayList<BlockPos> circleblocks = new ArrayList <> ();
         int cx = pos.getX();
         int cy = pos.getY();
         int cz = pos.getZ();

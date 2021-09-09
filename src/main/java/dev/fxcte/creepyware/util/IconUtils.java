@@ -1,11 +1,11 @@
 package dev.fxcte.creepyware.util;
 
+import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.ByteBuffer;
 import java.util.Arrays;
-import javax.imageio.ImageIO;
 
 public class IconUtils {
     public static final IconUtils INSTANCE = new IconUtils();

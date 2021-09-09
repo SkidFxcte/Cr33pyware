@@ -10,8 +10,8 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
 public class Fullbright
         extends Module {
-    public Setting<Mode> mode = this.register(new Setting<Mode>("Speed", "Mode", 0.0, 0.0, Mode.GAMMA, 0));
-    public Setting<Boolean> effects = this.register(new Setting<Boolean>("Speed", "Effects", 0.0, 0.0, false, 0));
+    public Setting<Mode> mode = this.register(new Setting <> ("Speed" , "Mode" , 0.0 , 0.0 , Mode.GAMMA , 0));
+    public Setting<Boolean> effects = this.register(new Setting <> ("Speed" , "Effects" , 0.0 , 0.0 , false , 0));
     private float previousSetting = 1.0f;
 
     public Fullbright() {
@@ -43,7 +43,7 @@ public class Fullbright
 
     @SubscribeEvent
     public void onPacketReceive(PacketEvent.Receive event) {
-        if (event.getStage() == 0 && event.getPacket() instanceof SPacketEntityEffect && this.effects.getValue().booleanValue()) {
+        if (event.getStage() == 0 && event.getPacket() instanceof SPacketEntityEffect && this.effects.getValue ()) {
             SPacketEntityEffect packet = event.getPacket();
             if (Fullbright.mc.player != null && packet.getEntityId() == Fullbright.mc.player.getEntityId() && (packet.getEffectId() == 9 || packet.getEffectId() == 15)) {
                 event.setCanceled(true);

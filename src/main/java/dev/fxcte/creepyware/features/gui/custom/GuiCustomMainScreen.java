@@ -72,13 +72,13 @@ public class GuiCustomMainScreen
 
     public void mouseClicked(int mouseX, int mouseY, int mouseButton) {
         if (GuiCustomMainScreen.isHovered(this.x, this.y + 20, CreepyWare.textManager.getStringWidth("Singleplayer"), CreepyWare.textManager.getFontHeight(), mouseX, mouseY)) {
-            this.mc.displayGuiScreen(new GuiWorldSelection(this));
+            mc.displayGuiScreen(new GuiWorldSelection(this));
         } else if (GuiCustomMainScreen.isHovered(this.x, this.y + 44, CreepyWare.textManager.getStringWidth("TheGang"), CreepyWare.textManager.getFontHeight(), mouseX, mouseY)) {
-            this.mc.displayGuiScreen(new GuiMultiplayer(this));
+            mc.displayGuiScreen(new GuiMultiplayer(this));
         } else if (GuiCustomMainScreen.isHovered(this.x, this.y + 66, CreepyWare.textManager.getStringWidth("settings"), CreepyWare.textManager.getFontHeight(), mouseX, mouseY)) {
-            this.mc.displayGuiScreen(new GuiOptions(this, this.mc.gameSettings));
+            mc.displayGuiScreen(new GuiOptions(this, mc.gameSettings));
         } else if (GuiCustomMainScreen.isHovered(this.x, this.y + 132, CreepyWare.textManager.getStringWidth("EzLog"), CreepyWare.textManager.getFontHeight(), mouseX, mouseY)) {
-                this.mc.shutdown();
+                mc.shutdown();
         } else if (GuiCustomMainScreen.isHovered(this.x, this.y + 88, CreepyWare.textManager.getStringWidth("discord"), CreepyWare.textManager.getFontHeight(), mouseX, mouseY)) {
             try {
                 if (Desktop.isDesktopSupported() && Desktop.getDesktop().isSupported(Desktop.Action.BROWSE)) {
@@ -96,7 +96,7 @@ public class GuiCustomMainScreen
         this.y = this.height / 4 + 48;
         GlStateManager.enableTexture2D();
         GlStateManager.disableBlend();
-        this.mc.getTextureManager().bindTexture(this.resourceLocation);
+        mc.getTextureManager().bindTexture(this.resourceLocation);
         GuiCustomMainScreen.drawCompleteImage(-16.0f + this.xOffset, -9.0f + this.yOffset, this.width + 32, this.height + 18);
         particleGenerator.drawParticles(mouseX, mouseY);
         CreepyWare.textManager.drawStringBig("Cr33pyW4re", (float) this.x, (float) this.y - 20, Color.white.getRGB(), true);

@@ -15,7 +15,7 @@ public class TitleUtils {
     public void onTick(TickEvent.ClientTickEvent event) {
         ++this.ticks;
         if (this.ticks % 17 == 0) {
-            Display.setTitle((String)this.bruh1.substring(0, this.bruh1.length() - this.bruh));
+            Display.setTitle(this.bruh1.substring(0, this.bruh1.length() - this.bruh));
             if (this.bruh == this.bruh1.length() && this.breakTimer != 0 || this.bruh == 0 && this.breakTimer != 0) {
                 ++this.breakTimer;
                 return;

@@ -18,10 +18,10 @@ import java.util.concurrent.ConcurrentHashMap;
 public class PopChams
         extends Module {
     public static PopChams INSTANCE = new PopChams();
-    public Setting<Integer> red = this.register(new Setting<Object>("Red", Integer.valueOf(0), Integer.valueOf(0), Integer.valueOf(255)));
-    public Setting<Integer> green = this.register(new Setting<Object>("Green", Integer.valueOf(255), Integer.valueOf(0), Integer.valueOf(255)));
-    public Setting<Integer> blue = this.register(new Setting<Object>("Blue", Integer.valueOf(0), Integer.valueOf(0), Integer.valueOf(255)));
-    public Setting<Integer> alpha = this.register(new Setting<Integer>("Alpha", 255, 0, 255));
+    public Setting<Integer> red = this.register(new Setting<Object>("Red", 0 , 0 , 255));
+    public Setting<Integer> green = this.register(new Setting<Object>("Green", 255 , 0 , 255));
+    public Setting<Integer> blue = this.register(new Setting<Object>("Blue", 0 , 0 , 255));
+    public Setting<Integer> alpha = this.register(new Setting <> ("Alpha" , 255 , 0 , 255));
 
     public PopChams() {
         super("PopChams", "1 original module from kambing", Module.Category.RENDER, false, false, false);

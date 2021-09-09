@@ -7,7 +7,7 @@ import dev.fxcte.creepyware.features.setting.Setting;
 import dev.fxcte.creepyware.util.ColorUtil;
 import dev.fxcte.creepyware.util.RenderUtil;
 import dev.fxcte.creepyware.util.Timer;
-import dev.fxcte.creepyware.util.*;
+import dev.fxcte.creepyware.util.Util;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.client.renderer.BufferBuilder;
 import net.minecraft.client.renderer.GlStateManager;
@@ -35,6 +35,7 @@ import org.lwjgl.input.Keyboard;
 
 import java.awt.*;
 import java.util.Map;
+import java.util.Objects;
 import java.util.concurrent.ConcurrentHashMap;
 
 public class ToolTips
@@ -42,26 +43,26 @@ public class ToolTips
     private static final ResourceLocation MAP = new ResourceLocation("textures/map/map_background.png");
     private static final ResourceLocation SHULKER_GUI_TEXTURE = new ResourceLocation("textures/gui/container/shulker_box.png");
     private static ToolTips INSTANCE = new ToolTips();
-    public Setting<Boolean> maps = this.register(new Setting<Boolean>("Speed", "Maps", 0.0, 0.0, true, 0));
-    public Setting<Boolean> shulkers = this.register(new Setting<Boolean>("Speed", "ShulkerViewer", 0.0, 0.0, true, 0));
-    public Setting<Bind> peek = this.register(new Setting<Bind>("Speed", "Peek", 0.0, 0.0, new Bind(-1), 0));
-    public Setting<Boolean> shulkerSpy = this.register(new Setting<Boolean>("Speed", "ShulkerSpy", 0.0, 0.0, true, 0));
-    public Setting<Boolean> render = this.register(new Setting<Object>("Render", Boolean.valueOf(true), v -> this.shulkerSpy.getValue()));
-    public Setting<Boolean> own = this.register(new Setting<Object>("OwnShulker", Boolean.valueOf(true), v -> this.shulkerSpy.getValue()));
-    public Setting<Integer> cooldown = this.register(new Setting<Object>("ShowForS", Integer.valueOf(2), Integer.valueOf(0), Integer.valueOf(5), v -> this.shulkerSpy.getValue()));
-    public Setting<Boolean> textColor = this.register(new Setting<Object>("TextColor", Boolean.valueOf(false), v -> this.shulkers.getValue()));
-    private final Setting<Integer> red = this.register(new Setting<Object>("Red", Integer.valueOf(255), Integer.valueOf(0), Integer.valueOf(255), v -> this.textColor.getValue()));
-    private final Setting<Integer> green = this.register(new Setting<Object>("Green", Integer.valueOf(0), Integer.valueOf(0), Integer.valueOf(255), v -> this.textColor.getValue()));
-    private final Setting<Integer> blue = this.register(new Setting<Object>("Blue", Integer.valueOf(0), Integer.valueOf(0), Integer.valueOf(255), v -> this.textColor.getValue()));
-    private final Setting<Integer> alpha = this.register(new Setting<Object>("Alpha", Integer.valueOf(255), Integer.valueOf(0), Integer.valueOf(255), v -> this.textColor.getValue()));
-    public Setting<Boolean> offsets = this.register(new Setting<Boolean>("Speed", "Offsets", 0.0, 0.0, false, 0));
-    private final Setting<Integer> yPerPlayer = this.register(new Setting<Object>("Y/Player", Integer.valueOf(18), v -> this.offsets.getValue()));
-    private final Setting<Integer> xOffset = this.register(new Setting<Object>("XOffset", Integer.valueOf(4), v -> this.offsets.getValue()));
-    private final Setting<Integer> yOffset = this.register(new Setting<Object>("YOffset", Integer.valueOf(2), v -> this.offsets.getValue()));
-    private final Setting<Integer> trOffset = this.register(new Setting<Object>("TROffset", Integer.valueOf(2), v -> this.offsets.getValue()));
-    public Setting<Integer> invH = this.register(new Setting<Object>("InvH", Integer.valueOf(3), v -> this.offsets.getValue()));
-    public Map<EntityPlayer, ItemStack> spiedPlayers = new ConcurrentHashMap<EntityPlayer, ItemStack>();
-    public Map<EntityPlayer, Timer> playerTimers = new ConcurrentHashMap<EntityPlayer, Timer>();
+    public Setting<Boolean> maps = this.register(new Setting <> ("Speed" , "Maps" , 0.0 , 0.0 , true , 0));
+    public Setting<Boolean> shulkers = this.register(new Setting <> ("Speed" , "ShulkerViewer" , 0.0 , 0.0 , true , 0));
+    public Setting<Bind> peek = this.register(new Setting <> ("Speed" , "Peek" , 0.0 , 0.0 , new Bind (- 1) , 0));
+    public Setting<Boolean> shulkerSpy = this.register(new Setting <> ("Speed" , "ShulkerSpy" , 0.0 , 0.0 , true , 0));
+    public Setting<Boolean> render = this.register(new Setting<Object>("Render", Boolean.TRUE , v -> this.shulkerSpy.getValue()));
+    public Setting<Boolean> own = this.register(new Setting<Object>("OwnShulker", Boolean.TRUE , v -> this.shulkerSpy.getValue()));
+    public Setting<Integer> cooldown = this.register(new Setting<Object>("ShowForS", 2 , 0 , 5 , v -> this.shulkerSpy.getValue()));
+    public Setting<Boolean> textColor = this.register(new Setting<Object>("TextColor", Boolean.FALSE , v -> this.shulkers.getValue()));
+    private final Setting<Integer> red = this.register(new Setting<Object>("Red", 255 , 0 , 255 , v -> this.textColor.getValue()));
+    private final Setting<Integer> green = this.register(new Setting<Object>("Green", 0 , 0 , 255 , v -> this.textColor.getValue()));
+    private final Setting<Integer> blue = this.register(new Setting<Object>("Blue", 0 , 0 , 255 , v -> this.textColor.getValue()));
+    private final Setting<Integer> alpha = this.register(new Setting<Object>("Alpha", 255 , 0 , 255 , v -> this.textColor.getValue()));
+    public Setting<Boolean> offsets = this.register(new Setting <> ("Speed" , "Offsets" , 0.0 , 0.0 , false , 0));
+    private final Setting<Integer> yPerPlayer = this.register(new Setting<Object>("Y/Player", 18 , v -> this.offsets.getValue()));
+    private final Setting<Integer> xOffset = this.register(new Setting<Object>("XOffset", 4 , v -> this.offsets.getValue()));
+    private final Setting<Integer> yOffset = this.register(new Setting<Object>("YOffset", 2 , v -> this.offsets.getValue()));
+    private final Setting<Integer> trOffset = this.register(new Setting<Object>("TROffset", 2 , v -> this.offsets.getValue()));
+    public Setting<Integer> invH = this.register(new Setting<Object>("InvH", 3 , v -> this.offsets.getValue()));
+    public Map<EntityPlayer, ItemStack> spiedPlayers = new ConcurrentHashMap <> ();
+    public Map<EntityPlayer, Timer> playerTimers = new ConcurrentHashMap <> ();
     private int textRadarY = 0;
 
     public ToolTips() {
@@ -83,7 +84,7 @@ public class ToolTips
             ItemShulkerBox shulker = (ItemShulkerBox) item;
             entityBox.blockType = shulker.getBlock();
             entityBox.setWorld(ToolTips.mc.world);
-            ItemStackHelper.loadAllItems(stack.getTagCompound().getCompoundTag("BlockEntityTag"), entityBox.items);
+            ItemStackHelper.loadAllItems(Objects.requireNonNull (stack.getTagCompound ()).getCompoundTag("BlockEntityTag"), entityBox.items);
             entityBox.readFromNBT(stack.getTagCompound().getCompoundTag("BlockEntityTag"));
             entityBox.setCustomName(name == null ? stack.getDisplayName() : name);
             new Thread(() -> {
@@ -107,14 +108,14 @@ public class ToolTips
     public void onUpdate() {
         ItemStack stack;
         Slot slot;
-        if (ToolTips.fullNullCheck() || !this.shulkerSpy.getValue().booleanValue()) {
+        if (ToolTips.fullNullCheck() || ! this.shulkerSpy.getValue ()) {
             return;
         }
         if (this.peek.getValue().getKey() != -1 && ToolTips.mc.currentScreen instanceof GuiContainer && Keyboard.isKeyDown(this.peek.getValue().getKey()) && (slot = ((GuiContainer) ToolTips.mc.currentScreen).getSlotUnderMouse()) != null && (stack = slot.getStack()) != null && stack.getItem() instanceof ItemShulkerBox) {
             ToolTips.displayInv(stack, null);
         }
         for (EntityPlayer player : ToolTips.mc.world.playerEntities) {
-            if (player == null || player.getHeldItemMainhand() == null || !(player.getHeldItemMainhand().getItem() instanceof ItemShulkerBox) || !this.own.getValue().booleanValue() && ToolTips.mc.player.equals(player))
+            if (player == null || player.getHeldItemMainhand() == null || !(player.getHeldItemMainhand().getItem() instanceof ItemShulkerBox) || ! this.own.getValue () && ToolTips.mc.player.equals(player))
                 continue;
             ItemStack stack2 = player.getHeldItemMainhand();
             this.spiedPlayers.put(player, stack2);
@@ -123,7 +124,7 @@ public class ToolTips
 
     @Override
     public void onRender2D(Render2DEvent event) {
-        if (ToolTips.fullNullCheck() || !this.shulkerSpy.getValue().booleanValue() || !this.render.getValue().booleanValue()) {
+        if (ToolTips.fullNullCheck() || ! this.shulkerSpy.getValue () || ! this.render.getValue ()) {
             return;
         }
         int x = -4 + this.xOffset.getValue();
@@ -138,7 +139,7 @@ public class ToolTips
                     Timer timer = new Timer();
                     timer.reset();
                     this.playerTimers.put(player, timer);
-                } else if (playerTimer.passedS(this.cooldown.getValue().intValue())) {
+                } else if (playerTimer.passedS(this.cooldown.getValue ())) {
                     continue;
                 }
             } else if (player.getHeldItemMainhand().getItem() instanceof ItemShulkerBox && (playerTimer = this.playerTimers.get(player)) != null) {
@@ -162,7 +163,7 @@ public class ToolTips
     @SubscribeEvent
     public void renderTooltip(RenderTooltipEvent.PostText event) {
         MapData mapData;
-        if (this.maps.getValue().booleanValue() && !event.getStack().isEmpty() && event.getStack().getItem() instanceof ItemMap && (mapData = Items.FILLED_MAP.getMapData(event.getStack(), ToolTips.mc.world)) != null) {
+        if (this.maps.getValue () && !event.getStack().isEmpty() && event.getStack().getItem() instanceof ItemMap && (mapData = Items.FILLED_MAP.getMapData(event.getStack(), ToolTips.mc.world)) != null) {
             GlStateManager.pushMatrix();
             GlStateManager.color(1.0f, 1.0f, 1.0f);
             RenderHelper.disableStandardItemLighting();
@@ -201,7 +202,7 @@ public class ToolTips
             RenderUtil.drawTexturedRect(x, y + 16 + 54, 0, 160, 176, 8, 500);
             GlStateManager.disableDepth();
             Color color = new Color(0, 0, 0, 255);
-            if (this.textColor.getValue().booleanValue()) {
+            if (this.textColor.getValue ()) {
                 color = new Color(this.red.getValue(), this.green.getValue(), this.blue.getValue(), this.alpha.getValue());
             }
             this.renderer.drawStringWithShadow(name == null ? stack.getDisplayName() : name, x + 8, y + 6, ColorUtil.toRGBA(color));

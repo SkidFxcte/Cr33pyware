@@ -4,7 +4,7 @@ buildscript {
         jcenter()
         maven {
             name = 'forge'
-            url = 'http://files.minecraftforge.net/maven'
+            url = 'https://files.minecraftforge.net/maven'
         }
         maven {
             name = 'SpongePowered'
@@ -24,7 +24,7 @@ apply plugin: 'org.spongepowered.mixin'
 apply plugin: 'com.github.johnrengelman.shadow'
 
 version project.modVersion
-group project.modGroup //http://maven.apache.org/guides/mini/guide-naming-conventions.html
+group project.modGroup //https://maven.apache.org/guides/mini/guide-naming-conventions.html
 
 sourceCompatibility = targetCompatibility = '1.8'
 compileJava {
@@ -56,10 +56,7 @@ dependencies {
         exclude module: 'gson'
         exclude module: 'commons-io'
     }
-    
     compile 'club.minnced:java-discord-rpc:2.0.2'
-    //compile 'com.googlecode.json-simple:json-simple:1.1.1'
-    
 }
 
 
@@ -88,8 +85,7 @@ shadowJar {
         include(dependency('com.googlecode.json-simple:json-simple:1.1.1'))
         include(dependency('org.spongepowered:mixin'))
     }
-    exclude 'dummyThing'
-    exclude 'LICENSE.txt'
+    exclude 'dummyThing', 'LICENSE.txt', 'org/**/*.html', 'META-INF/maven/**'
     classifier = 'release'
 }
 

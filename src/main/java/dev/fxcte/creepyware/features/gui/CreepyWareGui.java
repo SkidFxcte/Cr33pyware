@@ -35,7 +35,7 @@ public class CreepyWareGui
     }
 
     public static CreepyWareGui getClickGui() {
-        return CreepyWareGui.getInstance();
+        return getInstance();
     }
 
     private void setInstance() {

@@ -1,6 +1,5 @@
 package dev.fxcte.creepyware.util;
 
-import dev.fxcte.creepyware.features.modules.client.ClickGui;
 import org.lwjgl.opengl.GL11;
 
 import java.awt.*;
@@ -54,7 +53,7 @@ public class ColorUtil {
     }
 
     private ArrayList<ColorName> initColorList() {
-        ArrayList<ColorName> colorList = new ArrayList<ColorName>();
+        ArrayList<ColorName> colorList = new ArrayList <> ();
         colorList.add(new ColorName("AliceBlue", 240, 248, 255));
         colorList.add(new ColorName("AntiqueWhite", 250, 235, 215));
         colorList.add(new ColorName("Aqua", 0, 255, 255));

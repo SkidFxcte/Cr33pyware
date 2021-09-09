@@ -1,7 +1,6 @@
 package dev.fxcte.creepyware.features.modules.combat;
 
 import com.mojang.authlib.GameProfile;
-import io.netty.util.internal.ConcurrentSet;
 import dev.fxcte.creepyware.CreepyWare;
 import dev.fxcte.creepyware.event.events.ClientEvent;
 import dev.fxcte.creepyware.event.events.PacketEvent;
@@ -15,6 +14,7 @@ import dev.fxcte.creepyware.features.setting.Bind;
 import dev.fxcte.creepyware.features.setting.Setting;
 import dev.fxcte.creepyware.util.Timer;
 import dev.fxcte.creepyware.util.*;
+import io.netty.util.internal.ConcurrentSet;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.entity.EntityOtherPlayerMP;
 import net.minecraft.entity.Entity;

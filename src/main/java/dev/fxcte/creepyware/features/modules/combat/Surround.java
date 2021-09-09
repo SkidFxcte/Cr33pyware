@@ -10,7 +10,6 @@ import dev.fxcte.creepyware.util.*;
 import dev.fxcte.creepyware.util.creepywareutils.CreepyWareUtils;
 import net.minecraft.block.BlockEnderChest;
 import net.minecraft.block.BlockObsidian;
-import net.minecraft.entity.Entity;
 import net.minecraft.init.Blocks;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.BlockPos;
@@ -21,15 +20,15 @@ import java.util.*;
 public class Surround
         extends Module {
     public static boolean isPlacing = false;
-    private final Setting<Integer> blocksPerTick = this.register(new Setting<Integer>("BlocksPerTick", 12, 1, 20));
-    private final Setting<Integer> delay = this.register(new Setting<Integer>("Delay", 0, 0, 250));
-    private final Setting<Boolean> noGhost = this.register(new Setting<Boolean>("Speed", "PacketPlace", 0.0, 0.0, false, 0));
-    private final Setting<Boolean> center = this.register(new Setting<Boolean>("Speed", "TPCenter", 0.0, 0.0, false, 0));
-    private final Setting<Boolean> rotate = this.register(new Setting<Boolean>("Speed", "Rotate", 0.0, 0.0, true, 0));
+    private final Setting<Integer> blocksPerTick = this.register(new Setting <> ("BlocksPerTick" , 12 , 1 , 20));
+    private final Setting<Integer> delay = this.register(new Setting <> ("Delay" , 0 , 0 , 250));
+    private final Setting<Boolean> noGhost = this.register(new Setting <> ("Speed" , "PacketPlace" , 0.0 , 0.0 , false , 0));
+    private final Setting<Boolean> center = this.register(new Setting <> ("Speed" , "TPCenter" , 0.0 , 0.0 , false , 0));
+    private final Setting<Boolean> rotate = this.register(new Setting <> ("Speed" , "Rotate" , 0.0 , 0.0 , true , 0));
     private final dev.fxcte.creepyware.util.Timer timer = new dev.fxcte.creepyware.util.Timer();
     private final dev.fxcte.creepyware.util.Timer retryTimer = new Timer();
-    private final Set<Vec3d> extendingBlocks = new HashSet<Vec3d>();
-    private final Map<BlockPos, Integer> retries = new HashMap<BlockPos, Integer>();
+    private final Set<Vec3d> extendingBlocks = new HashSet <> ();
+    private final Map<BlockPos, Integer> retries = new HashMap <> ();
     private int isSafe;
     private BlockPos startPos;
     private boolean didPlace = false;
@@ -52,7 +51,7 @@ public class Surround
         }
         this.lastHotbarSlot = Surround.mc.player.inventory.currentItem;
         this.startPos = EntityUtil.getRoundedBlockPos(Surround.mc.player);
-        if (this.center.getValue().booleanValue()) {
+        if (this.center.getValue ()) {
             CreepyWare.positionManager.setPositionPacket((double) this.startPos.getX() + 0.5, this.startPos.getY(), (double) this.startPos.getZ() + 0.5, true, true, true);
         }
         this.retries.clear();
@@ -90,13 +89,13 @@ public class Surround
         if (this.check()) {
             return;
         }
-        if (!CreepyWareUtils.isSafe((Entity)Surround.mc.player, 0, true)) {
+        if (!CreepyWareUtils.isSafe(Surround.mc.player , 0, true)) {
             this.isSafe = 0;
-            this.placeBlocks(Surround.mc.player.getPositionVector(), CreepyWareUtils.getUnsafeBlockArray((Entity)Surround.mc.player, 0, true), true, false, false);
+            this.placeBlocks(Surround.mc.player.getPositionVector(), CreepyWareUtils.getUnsafeBlockArray(Surround.mc.player , 0, true), true, false, false);
         }
-        else if (!CreepyWareUtils.isSafe((Entity)Surround.mc.player, -1, false)) {
+        else if (!CreepyWareUtils.isSafe(Surround.mc.player , -1, false)) {
             this.isSafe = 1;
-            this.placeBlocks(Surround.mc.player.getPositionVector(), CreepyWareUtils.getUnsafeBlockArray((Entity)Surround.mc.player, -1, false), false, false, true);
+            this.placeBlocks(Surround.mc.player.getPositionVector(), CreepyWareUtils.getUnsafeBlockArray(Surround.mc.player , -1, false), false, false, true);
         }
         else {
             this.isSafe = 3;
@@ -220,7 +219,7 @@ public class Surround
             this.disable();
             return true;
         }
-        return !this.timer.passedMs(this.delay.getValue().intValue());
+        return !this.timer.passedMs(this.delay.getValue ());
     }
 
     private void placeBlock(BlockPos pos) {

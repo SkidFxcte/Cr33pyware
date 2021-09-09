@@ -10,7 +10,7 @@ import net.minecraft.scoreboard.ScorePlayerTeam;
 public class ExtraTab
         extends Module {
     private static ExtraTab INSTANCE = new ExtraTab();
-    public Setting<Integer> size = this.register(new Setting<Integer>("Size", 250, 1, 1000));
+    public Setting<Integer> size = this.register(new Setting <> ("Size" , 250 , 1 , 1000));
 
     public ExtraTab() {
         super("ExtraTab", "Extends Tab.", Module.Category.MISC, false, false, false);

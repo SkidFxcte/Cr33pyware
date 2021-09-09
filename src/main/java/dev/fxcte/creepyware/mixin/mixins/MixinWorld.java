@@ -1,7 +1,6 @@
 package dev.fxcte.creepyware.mixin.mixins;
 
 import com.google.common.base.Predicate;
-import java.util.List;
 import dev.fxcte.creepyware.event.events.PushEvent;
 import dev.fxcte.creepyware.features.modules.misc.Tracker;
 import dev.fxcte.creepyware.features.modules.render.NoRender;
@@ -12,13 +11,14 @@ import net.minecraft.world.EnumSkyBlock;
 import net.minecraft.world.World;
 import net.minecraft.world.chunk.Chunk;
 import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.fml.common.eventhandler.Event;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.Redirect;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
+
+import java.util.List;
 
 @Mixin(value={World.class})
 public class MixinWorld {
@@ -48,7 +48,7 @@ public class MixinWorld {
     @Redirect(method={"handleMaterialAcceleration"}, at=@At(value="INVOKE", target="Lnet/minecraft/entity/Entity;isPushedByWater()Z"))
     public boolean isPushedbyWaterHook(Entity entity) {
         PushEvent event = new PushEvent(2, entity);
-        MinecraftForge.EVENT_BUS.post((Event)event);
+        MinecraftForge.EVENT_BUS.post(event);
         return entity.isPushedByWater() && !event.isCanceled();
     }
 }

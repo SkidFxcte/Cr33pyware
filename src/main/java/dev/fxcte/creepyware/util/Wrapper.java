@@ -1,10 +1,11 @@
 package dev.fxcte.creepyware.util;
 
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.entity.EntityPlayerSP;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.multiplayer.WorldClient;
+
 import javax.annotation.Nullable;
-import net.minecraft.client.entity.EntityPlayerSP;
-import net.minecraft.client.Minecraft;
 
 public class Wrapper
 {

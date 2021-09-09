@@ -49,9 +49,9 @@ public class FakePlayer extends Module {
 
         otherPlayer.moveRelative(strafe, vertical, forward, f2);
         otherPlayer.move(MoverType.SELF, otherPlayer.motionX, otherPlayer.motionY, otherPlayer.motionZ);
-        otherPlayer.motionX *= (double) f1;
+        otherPlayer.motionX *= f1;
         otherPlayer.motionY *= 0.800000011920929D;
-        otherPlayer.motionZ *= (double) f1;
+        otherPlayer.motionZ *= f1;
 
         if (!otherPlayer.hasNoGravity()) {
             otherPlayer.motionY -= 0.02D;

@@ -173,7 +173,7 @@ class Setting<T> {
     }
 
     public void setEnumValue(String value) {
-        for (Enum e : (Enum[]) ((Enum) this.value).getClass().getEnumConstants()) {
+        for (Enum e : ((Enum) this.value).getClass().getEnumConstants()) {
             if (!e.name().equalsIgnoreCase(value)) continue;
             this.value = (T) e;
         }

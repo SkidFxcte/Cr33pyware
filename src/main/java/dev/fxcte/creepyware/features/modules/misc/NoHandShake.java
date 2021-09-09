@@ -1,8 +1,8 @@
 package dev.fxcte.creepyware.features.modules.misc;
 
-import io.netty.buffer.Unpooled;
 import dev.fxcte.creepyware.event.events.PacketEvent;
 import dev.fxcte.creepyware.features.modules.Module;
+import io.netty.buffer.Unpooled;
 import net.minecraft.network.PacketBuffer;
 import net.minecraft.network.play.client.CPacketCustomPayload;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;

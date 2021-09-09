@@ -63,7 +63,7 @@ public class EventManager
             CreepyWare.safetyManager.onUpdate();
             CreepyWare.moduleManager.onUpdate();
             CreepyWare.timerManager.update();
-            if (this.timer.passedMs(Managers.getInstance().moduleListUpdates.getValue().intValue())) {
+            if (this.timer.passedMs(Managers.getInstance ().moduleListUpdates.getValue ())) {
                 CreepyWare.moduleManager.sortModules(true);
                 CreepyWare.moduleManager.alphabeticallySortModules();
                 this.timer.reset();

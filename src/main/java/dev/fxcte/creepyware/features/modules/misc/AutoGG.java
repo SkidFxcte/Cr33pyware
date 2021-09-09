@@ -17,23 +17,20 @@ import net.minecraftforge.event.entity.player.AttackEntityEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
 import java.io.File;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.Random;
+import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 
 public class AutoGG
         extends Module {
     private static final String path = "creepyware/autogg.txt";
-    private final Setting<Boolean> onOwnDeath = this.register(new Setting<Boolean>("Speed", "OwnDeath", 0.0, 0.0, false, 0));
-    private final Setting<Boolean> greentext = this.register(new Setting<Boolean>("Speed", "Greentext", 0.0, 0.0, false, 0));
-    private final Setting<Boolean> loadFiles = this.register(new Setting<Boolean>("Speed", "LoadFiles", 0.0, 0.0, false, 0));
-    private final Setting<Integer> targetResetTimer = this.register(new Setting<Integer>("Reset", 30, 0, 90));
-    private final Setting<Integer> delay = this.register(new Setting<Integer>("Delay", 10, 0, 30));
-    private final Setting<Boolean> test = this.register(new Setting<Boolean>("Speed", "Test", 0.0, 0.0, false, 0));
-    public Map<EntityPlayer, Integer> targets = new ConcurrentHashMap<EntityPlayer, Integer>();
-    public List<String> messages = new ArrayList<String>();
+    private final Setting<Boolean> onOwnDeath = this.register(new Setting <> ("Speed" , "OwnDeath" , 0.0 , 0.0 , false , 0));
+    private final Setting<Boolean> greentext = this.register(new Setting <> ("Speed" , "Greentext" , 0.0 , 0.0 , false , 0));
+    private final Setting<Boolean> loadFiles = this.register(new Setting <> ("Speed" , "LoadFiles" , 0.0 , 0.0 , false , 0));
+    private final Setting<Integer> targetResetTimer = this.register(new Setting <> ("Reset" , 30 , 0 , 90));
+    private final Setting<Integer> delay = this.register(new Setting <> ("Delay" , 10 , 0 , 30));
+    private final Setting<Boolean> test = this.register(new Setting <> ("Speed" , "Test" , 0.0 , 0.0 , false , 0));
+    public Map<EntityPlayer, Integer> targets = new ConcurrentHashMap <> ();
+    public List<String> messages = new ArrayList <> ();
     public EntityPlayer cauraTarget;
     private final Timer timer = new Timer();
     private final Timer cooldownTimer = new Timer();
@@ -60,7 +57,7 @@ public class AutoGG
 
     @Override
     public void onTick() {
-        if (this.loadFiles.getValue().booleanValue()) {
+        if (this.loadFiles.getValue ()) {
             this.loadMessages();
             Command.sendMessage("<AutoGG> Loaded messages.");
             this.loadFiles.setValue(false);
@@ -68,14 +65,14 @@ public class AutoGG
         if (AutoCrystal.target != null && this.cauraTarget != AutoCrystal.target) {
             this.cauraTarget = AutoCrystal.target;
         }
-        if (this.test.getValue().booleanValue()) {
+        if (this.test.getValue ()) {
             this.announceDeath(AutoGG.mc.player);
             this.test.setValue(false);
         }
         if (!this.cooldown) {
             this.cooldownTimer.reset();
         }
-        if (this.cooldownTimer.passedS(this.delay.getValue().intValue()) && this.cooldown) {
+        if (this.cooldownTimer.passedS(this.delay.getValue ()) && this.cooldown) {
             this.cooldown = false;
             this.cooldownTimer.reset();
         }
@@ -101,7 +98,7 @@ public class AutoGG
             this.announceDeath(event.player);
             this.cooldown = true;
         }
-        if (event.player == AutoGG.mc.player && this.onOwnDeath.getValue().booleanValue()) {
+        if (event.player == AutoGG.mc.player && this.onOwnDeath.getValue ()) {
             this.announceDeath(event.player);
             this.cooldown = true;
         }
@@ -117,7 +114,7 @@ public class AutoGG
     @SubscribeEvent
     public void onSendAttackPacket(PacketEvent.Send event) {
         CPacketUseEntity packet;
-        if (event.getPacket() instanceof CPacketUseEntity && (packet = event.getPacket()).getAction() == CPacketUseEntity.Action.ATTACK && packet.getEntityFromWorld(AutoGG.mc.world) instanceof EntityPlayer && !CreepyWare.friendManager.isFriend((EntityPlayer) packet.getEntityFromWorld(AutoGG.mc.world))) {
+        if (event.getPacket() instanceof CPacketUseEntity && (packet = event.getPacket()).getAction() == CPacketUseEntity.Action.ATTACK && packet.getEntityFromWorld(AutoGG.mc.world) instanceof EntityPlayer && !CreepyWare.friendManager.isFriend((EntityPlayer) Objects.requireNonNull (packet.getEntityFromWorld (AutoGG.mc.world)))) {
             this.targets.put((EntityPlayer) packet.getEntityFromWorld(AutoGG.mc.world), 0);
         }
     }
