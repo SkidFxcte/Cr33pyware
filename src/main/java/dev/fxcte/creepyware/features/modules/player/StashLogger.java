@@ -32,7 +32,7 @@ class StashLogger
     public
     StashLogger() {
         super("StashLogger", "Logs stashes", Module.Category.MISC, true, false, false);
-        this.mainFolder = new File(Minecraft.getMinecraft().gameDir + File.separator + "legacy");
+        this.mainFolder = new File(Minecraft.getMinecraft().gameDir + File.separator + "Cr33pyWare");
         this.iterator = null;
     }
 
