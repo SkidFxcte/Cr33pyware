@@ -18,7 +18,7 @@ Cr33py is best pvper,coder, and the richest person ever. Cope nns.💀
 
 
 
-> **Perry** : `Huge code cleanups.`
+> **Perry** : `Huge code cleanups (and the creator of all the main modules since all skidded from me).`
 >
 > **Fxcte** : `creator of this client`
 >
