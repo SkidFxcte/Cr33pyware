@@ -6,21 +6,22 @@ import org.lwjgl.opengl.GL11;
 import java.util.ArrayList;
 import java.util.Random;
 
-public class ParticleGenerator {
+public
+class ParticleGenerator {
 
-    private int count;
-    private int width;
-    private int height;
-    private ArrayList<Particle> particles = new ArrayList();
-    private Random random = new Random();
+    private final int count;
+    private final int width;
+    private final int height;
+    private final ArrayList <Particle> particles = new ArrayList();
+    private final Random random = new Random();
     int state = 0;
     int a = 255;
     int r = 255;
     int g = 0;
     int b = 0;
 
-    public ParticleGenerator(int count, int width, int height)
-    {
+    public
+    ParticleGenerator(int count, int width, int height) {
         this.count = count;
         this.width = width;
         this.height = height;
@@ -29,12 +30,10 @@ public class ParticleGenerator {
         }
     }
 
-    public void drawParticles(int mouseX, int mouseY)
-    {
-        for (Particle p : this.particles)
-        {
-            if (p.reset)
-            {
+    public
+    void drawParticles(int mouseX, int mouseY) {
+        for (Particle p : this.particles) {
+            if (p.reset) {
                 p.resetPosSize();
                 p.reset = false;
             }
@@ -43,31 +42,31 @@ public class ParticleGenerator {
         }
     }
 
-    public class Particle
-    {
+    public
+    class Particle {
+        private final Random random = new Random();
         private int x;
         private int y;
         private int k;
         private float size;
         private boolean reset;
-        private Random random = new Random();
 
-        public Particle(int x, int y)
-        {
+        public
+        Particle(int x, int y) {
             this.x = x;
             this.y = y;
             this.size = genRandom(1.0F, 4.0F);
         }
 
-        public void draw(int mouseX, int mouseY)
-        {
+        public
+        void draw(int mouseX, int mouseY) {
             if (this.size <= 0.0F) {
                 this.reset = true;
             }
             this.size -= 0.05F;
             this.k += 1;
-            int xx = (int)(MathHelper.cos(0.1F * (this.x + this.k)) * 10.0F);
-            int yy = (int)(MathHelper.cos(0.1F * (this.y + this.k)) * 10.0F);
+            int xx = (int) (MathHelper.cos(0.1F * (this.x + this.k)) * 10.0F);
+            int yy = (int) (MathHelper.cos(0.1F * (this.y + this.k)) * 10.0F);
             Utils.drawBorderedCircle(this.x + xx, this.y + yy, this.size, 0, 553648127);
 
 
@@ -92,16 +91,16 @@ public class ParticleGenerator {
             }
         }
 
-        public void resetPosSize()
-        {
+        public
+        void resetPosSize() {
             this.x = this.random.nextInt(ParticleGenerator.this.width);
             this.y = this.random.nextInt(ParticleGenerator.this.height);
             this.size = genRandom(1.0F, 4.0F);
         }
 
-        public float genRandom(float min, float max)
-        {
-            return (float)(min + Math.random() * (max - min + 1.0F));
+        public
+        float genRandom(float min, float max) {
+            return (float) (min + Math.random() * (max - min + 1.0F));
         }
     }
 }
