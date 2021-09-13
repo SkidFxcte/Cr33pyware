@@ -28,7 +28,7 @@ Cr33py is best pvper,coder, and the richest person ever. Cope nns.💀
 >
 > **sslll** : `make this client better at all`
 >
->**zapped** : `do random shit`
+>**zapped** : `hot femboy who does stuff sometimes`
 >
 > **lyric** : `pro skidder`
 > 
