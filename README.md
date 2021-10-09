@@ -7,7 +7,7 @@ im trying to rember 💠  here is the buildable src code and latest jar **
 ## Questions
 
 ### Is this a rat?
-#### uh no
+#### uh no, and if you don't believe us just check it yourself moron
 
 ### Will it update it future?
 #### no it won't. This is discontinued 
