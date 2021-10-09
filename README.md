@@ -1,8 +1,8 @@
 # Cr33pyware
 
 ## This is official Cr33pyware's Repo
-uh this becomes public now due to it was leaked a few weeks ago (or a month) i forgor 💀
-Here is the buildable source code + lastest release jar.
+**uh i made this public now because it got leaked a few weeks ago (or a month) i forgor 💀  and 
+im trying to rember 💠  here is the buildable src code and latest jar
 
 ## Questions
 
