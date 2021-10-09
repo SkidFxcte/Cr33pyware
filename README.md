@@ -11,3 +11,10 @@ Here is the buildable source code + lastest release jar.
 
 ### Will it update it future?
 #### no it won't. This is discontinued 
+
+
+##### Main Developers
+` _Fxcte `
+` Kuro_Here `
+` Faxhax ` 
+` SSLWasTaken `
